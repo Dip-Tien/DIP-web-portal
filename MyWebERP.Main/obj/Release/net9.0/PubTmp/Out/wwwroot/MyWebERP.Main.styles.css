@@ -1,0 +1,870 @@
+/* _content/MyWebERP.Main/Components/Layout/Drawer.razor.rz.scp.css */
+[b-6d27fnqwn4] .navigation-drawer {
+    --dxbl-drawer-panel-footer-justify-content: center;
+    height: 100vh;
+    max-height: 100%;
+}
+
+[b-6d27fnqwn4] .panel-open:not(.mobile) .menu-button {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    [b-6d27fnqwn4] .panel-open:not(.mobile) .menu-button {
+        display: inline-flex;
+    }
+
+    .mobile-drawer-closed .shading-copy[b-6d27fnqwn4] {
+        display: none;
+        visibility: hidden;
+    }
+
+    [b-6d27fnqwn4] .shading-copy {
+        background-color: var(--dxbl-drawer-content-shading-bg);
+        height: 100%;
+        position: absolute;
+        transition: opacity ease var(--dxbl-drawer-animation-duration);
+        visibility: visible;
+        width: 100%;
+        z-index: 99;
+        opacity: var(--dxbl-drawer-content-shading-opacity);
+    }
+
+    [b-6d27fnqwn4] .panel-open .shading-copy {
+        opacity: 0;
+        visibility: unset;
+        height: unset;
+    }
+}
+/* _content/MyWebERP.Main/Components/Layout/MainLayout.razor.rz.scp.css */
+.page[b-2cg7h37pg3] {
+    height: 100%;
+    font-family: var(--bs-font-sans-serif);
+    /*21/6/2025 - xử lý tràn ngang ở đt thực*/
+    overflow-x: hidden;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+.drawer[b-2cg7h37pg3],
+.drawer-body[b-2cg7h37pg3],
+.drawer-target[b-2cg7h37pg3] {
+    max-width: 100vw;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
+.main-body-wrapper[b-2cg7h37pg3] {
+    max-width: 100vw;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
+[b-2cg7h37pg3] .navigation-drawer > .dxbl-drawer-panel {
+    background-image: linear-gradient(180deg, var(--bs-primary) 0%, var(--bs-black) 150%);
+}
+
+[b-2cg7h37pg3] .dxbl-drawer .dxbl-drawer-content {
+    height: 100vh;
+    overflow: auto;
+}
+
+[b-2cg7h37pg3] .dxbl-drawer > .dxbl-drawer-panel .dxbl-drawer-header {
+    border-bottom: none;
+    padding: 2rem 1rem;
+    padding-left:1.3rem; /*13/7/25: khi thu nhỏ menu (desktop) icon menu hơi lệch bên phải -> chỉnh cho vào giữa*/
+}
+
+[b-2cg7h37pg3] .dxbl-drawer-panel .dxbl-drawer-header .navigation-drawer-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.navigation-drawer-header-mini[b-2cg7h37pg3] {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+[b-2cg7h37pg3] .dxbl-drawer > .dxbl-drawer-panel > .dxbl-drawer-body {
+    --dxbl-drawer-panel-body-padding-x: 0;
+    --dxbl-drawer-panel-body-padding-y: 1rem;
+}
+
+[b-2cg7h37pg3] .dxbl-drawer > .dxbl-drawer-panel .dxbl-drawer-footer {
+    --dxbl-drawer-panel-footer-justify-content: center;
+    border-top: none;
+    padding-bottom: 1.5rem;
+}
+
+[b-2cg7h37pg3] .content {
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+[b-2cg7h37pg3] .icon {
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    mask-position: center center;
+    -webkit-mask-mask-position: center center;
+    width: 1rem;
+    height: 1rem;
+    background-repeat: no-repeat;
+    background-color: var(--dxbl-btn-color);
+}
+
+[b-2cg7h37pg3] .icon-back {
+    -webkit-mask-image: url("images/back.svg");
+    mask-image: url("images/back.svg");
+}
+
+[b-2cg7h37pg3] .icon-close {
+    -webkit-mask-image: url("images/close.svg");
+    mask-image: url("images/close.svg");
+}
+
+[b-2cg7h37pg3] .icon-menu {
+    -webkit-mask-image: url("images/menu.svg");
+    mask-image: url("images/menu.svg");
+}
+
+[b-2cg7h37pg3] .icon-log-in {
+    -webkit-mask-image: url("images/account/log-in.svg");
+    mask-image: url("images/account/log-in.svg");
+}
+
+[b-2cg7h37pg3] .icon-log-out {
+    -webkit-mask-image: url("images/account/log-out.svg");
+    mask-image: url("images/account/log-out.svg");
+}
+
+[b-2cg7h37pg3] .icon-user {
+    -webkit-mask-image: url("images/account/user.svg");
+    mask-image: url("images/account/user.svg");
+}
+
+[b-2cg7h37pg3] .docs-icon {
+    mask-image: url("images/doc.svg");
+    -webkit-mask-image: url("images/doc.svg");
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    background-color: var(--dxbl-btn-color);
+}
+
+[b-2cg7h37pg3] .my-home-icon {
+    mask-image: url("images/home.svg");
+    -webkit-mask-image: url("images/home.svg");
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    background-color: var(--dxbl-btn-color);
+}
+
+[b-2cg7h37pg3] .demos-icon {
+    mask-image: url("images/demos.svg");
+    -webkit-mask-image: url("images/demos.svg");
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    background-color: var(--dxbl-btn-color);
+}
+
+[b-2cg7h37pg3] .footer-button:hover .demos-icon {
+    background-color: var(--dxbl-btn-hover-color);
+}
+
+[b-2cg7h37pg3] .footer-button:hover .docs-icon {
+    background-color: var(--dxbl-btn-hover-color);
+}
+
+[b-2cg7h37pg3] .menu-button:hover .icon {
+    background-color: var(--dxbl-btn-hover-color);
+}
+
+[b-2cg7h37pg3] .menu-button-nav:hover .icon {
+    background-color: var(--dxbl-btn-hover-color);
+}
+
+.panel-open .menu-button[b-2cg7h37pg3] {
+    display: inline-flex;
+}
+
+.menu-button-nav[b-2cg7h37pg3] {
+    background-image: url("images/close.svg");
+    width: 1.875rem;
+    height: 1.875rem;
+}
+
+/* Cũ khi xem mobile khoảng cách trên quá lớn*/
+/* Chuyển sagn bên PageHeaderMobile chứ để đây nó không hiệu lực.*/
+/*.nav-buttons-container {
+    display: flex;
+    gap: 10px;
+    padding: 2rem 1rem;
+}*/
+
+/*.nav-buttons-container {
+    display: flex;
+    gap: 10px;
+    padding: 0.5rem 1rem;
+}*/
+
+/*Cho màu chủ đạo vào header*/
+/**************************/
+
+    .nav-buttons-container[b-2cg7h37pg3]  .menubutton-float-end {
+        margin-left: auto;
+    }
+
+    .nav-buttons-container[b-2cg7h37pg3]  .dxbl-btn-icon-only {
+        --dxbl-btn-padding-x: 0.75rem;
+        --dxbl-btn-padding-y: 0.25rem;
+    }
+
+[b-2cg7h37pg3] .navigation-drawer > .dxbl-drawer-panel {
+    display: flex;
+}
+
+[b-2cg7h37pg3] .navigation-drawer.mobile > .dxbl-drawer-panel {
+    display: none;
+}
+
+[b-2cg7h37pg3] .navigation-drawer.mobile > .dxbl-drawer-shading {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    [b-2cg7h37pg3] .navigation-drawer > .dxbl-drawer-panel {
+        display: none;
+    }
+
+    [b-2cg7h37pg3] .navigation-drawer.mobile > .dxbl-drawer-panel {
+        display: flex;
+    }
+
+    [b-2cg7h37pg3] .navigation-drawer.mobile > .dxbl-drawer-shading {
+        display: block;
+    }
+}
+
+.layout-root[b-2cg7h37pg3] {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-body-wrapper[b-2cg7h37pg3] {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.page-content[b-2cg7h37pg3] {
+    flex-grow: 1;
+}
+
+.footer[b-2cg7h37pg3] {
+    padding: 10px 0;
+    border-top: 1px solid #ddd;
+    background-color: #f8f9fa;
+    font-size: 0.875rem;
+}
+
+
+/* _content/MyWebERP.Main/Components/Layout/MainLayoutMobile.razor.rz.scp.css */
+.page[b-wackjfx8re] {
+    height: 100%;
+    font-family: var(--bs-font-sans-serif);
+    /*21/6/2025 - xử lý tràn ngang ở đt thực*/
+    overflow-x: hidden;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+.drawer[b-wackjfx8re],
+.drawer-body[b-wackjfx8re],
+.drawer-target[b-wackjfx8re] {
+    max-width: 100vw;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
+.main-body-wrapper[b-wackjfx8re] {
+    max-width: 100vw;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
+/*Xử lý khi cò footer nhưng đang lỗi nếu chứa dữ liệu dài*/
+/*.main-body-wrapper {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.main-scroll-area {
+    max-height: calc(100vh - 70px);
+    overflow-y: auto;
+    padding-bottom: 70px;
+}*/
+
+
+[b-wackjfx8re] .navigation-drawer > .dxbl-drawer-panel {
+    background-image: linear-gradient(180deg, var(--bs-primary) 0%, var(--bs-black) 150%);
+}
+
+[b-wackjfx8re] .dxbl-drawer .dxbl-drawer-content {
+    height: 100vh;
+    overflow: auto;
+}
+
+[b-wackjfx8re] .dxbl-drawer > .dxbl-drawer-panel .dxbl-drawer-header {
+    border-bottom: none;
+    padding: 2rem 1rem;
+}
+
+[b-wackjfx8re] .dxbl-drawer-panel .dxbl-drawer-header .navigation-drawer-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.navigation-drawer-header-mini[b-wackjfx8re] {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+[b-wackjfx8re] .dxbl-drawer > .dxbl-drawer-panel > .dxbl-drawer-body {
+    --dxbl-drawer-panel-body-padding-x: 0;
+    --dxbl-drawer-panel-body-padding-y: 1rem;
+}
+
+[b-wackjfx8re] .dxbl-drawer > .dxbl-drawer-panel .dxbl-drawer-footer {
+    --dxbl-drawer-panel-footer-justify-content: center;
+    border-top: none;
+    padding-bottom: 1.5rem;
+}
+
+[b-wackjfx8re] .content {
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+[b-wackjfx8re] .icon {
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    mask-position: center center;
+    -webkit-mask-mask-position: center center;
+    width: 1rem;
+    height: 1rem;
+    background-repeat: no-repeat;
+    background-color: var(--dxbl-btn-color);
+}
+
+[b-wackjfx8re] .icon-back {
+    -webkit-mask-image: url("images/back.svg");
+    mask-image: url("images/back.svg");
+}
+
+[b-wackjfx8re] .icon-close {
+    -webkit-mask-image: url("images/close.svg");
+    mask-image: url("images/close.svg");
+}
+
+[b-wackjfx8re] .icon-menu {
+    -webkit-mask-image: url("images/menu.svg");
+    mask-image: url("images/menu.svg");
+}
+
+[b-wackjfx8re] .icon-log-in {
+    -webkit-mask-image: url("images/account/log-in.svg");
+    mask-image: url("images/account/log-in.svg");
+}
+
+[b-wackjfx8re] .icon-log-out {
+    -webkit-mask-image: url("images/account/log-out.svg");
+    mask-image: url("images/account/log-out.svg");
+}
+
+[b-wackjfx8re] .icon-user {
+    -webkit-mask-image: url("images/account/user.svg");
+    mask-image: url("images/account/user.svg");
+}
+
+[b-wackjfx8re] .docs-icon {
+    mask-image: url("images/doc.svg");
+    -webkit-mask-image: url("images/doc.svg");
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    background-color: var(--dxbl-btn-color);
+}
+
+[b-wackjfx8re] .my-home-icon {
+    mask-image: url("images/home.svg");
+    -webkit-mask-image: url("images/home.svg");
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    background-color: var(--dxbl-btn-color);
+}
+
+[b-wackjfx8re] .demos-icon {
+    mask-image: url("images/demos.svg");
+    -webkit-mask-image: url("images/demos.svg");
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    background-color: var(--dxbl-btn-color);
+}
+
+[b-wackjfx8re] .footer-button:hover .demos-icon {
+    background-color: var(--dxbl-btn-hover-color);
+}
+
+[b-wackjfx8re] .footer-button:hover .docs-icon {
+    background-color: var(--dxbl-btn-hover-color);
+}
+
+[b-wackjfx8re] .menu-button:hover .icon {
+    background-color: var(--dxbl-btn-hover-color);
+}
+
+[b-wackjfx8re] .menu-button-nav:hover .icon {
+    background-color: var(--dxbl-btn-hover-color);
+}
+
+.panel-open .menu-button[b-wackjfx8re] {
+    display: inline-flex;
+}
+
+.menu-button-nav[b-wackjfx8re] {
+    background-image: url("images/close.svg");
+    width: 1.875rem;
+    height: 1.875rem;
+}
+
+/* Cũ khi xem mobile khoảng cách trên quá lớn*/
+/* Chuyển sagn bên PageHeaderMobile chứ để đây nó không hiệu lực.*/
+/*.nav-buttons-container {
+    display: flex;
+    gap: 10px;
+    padding: 2rem 1rem;
+}*/
+
+/*.nav-buttons-container {
+    display: flex;
+    gap: 10px;
+    padding: 0.5rem 1rem;
+}*/
+
+/*Cho màu chủ đạo vào header*/
+/**************************/
+
+    .nav-buttons-container[b-wackjfx8re]  .menubutton-float-end {
+        margin-left: auto;
+    }
+
+    .nav-buttons-container[b-wackjfx8re]  .dxbl-btn-icon-only {
+        --dxbl-btn-padding-x: 0.75rem;
+        --dxbl-btn-padding-y: 0.25rem;
+    }
+
+[b-wackjfx8re] .navigation-drawer > .dxbl-drawer-panel {
+    display: flex;
+}
+
+[b-wackjfx8re] .navigation-drawer.mobile > .dxbl-drawer-panel {
+    display: none;
+}
+
+[b-wackjfx8re] .navigation-drawer.mobile > .dxbl-drawer-shading {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    [b-wackjfx8re] .navigation-drawer > .dxbl-drawer-panel {
+        display: none;
+    }
+
+    [b-wackjfx8re] .navigation-drawer.mobile > .dxbl-drawer-panel {
+        display: flex;
+    }
+
+    [b-wackjfx8re] .navigation-drawer.mobile > .dxbl-drawer-shading {
+        display: block;
+    }
+}
+
+.layout-root[b-wackjfx8re] {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-body-wrapper[b-wackjfx8re] {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.page-content[b-wackjfx8re] {
+    flex-grow: 1;
+}
+
+.footer[b-wackjfx8re] {
+    padding: 10px 0;
+    border-top: 1px solid #ddd;
+    background-color: #f8f9fa;
+    font-size: 0.875rem;
+}
+
+.mobile-footer-nav[b-wackjfx8re] {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: white;
+    border-top: 1px solid #ccc;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 1050; /* cao hơn Drawer */
+}
+
+    .mobile-footer-nav .nav-item[b-wackjfx8re] {
+        flex: 1;
+        text-align: center;
+        text-decoration: none;
+        color: #555;
+        font-size: 12px;
+    }
+
+        .mobile-footer-nav .nav-item.active[b-wackjfx8re] {
+            color: #007bff;
+        }
+
+        .mobile-footer-nav .nav-item i[b-wackjfx8re] {
+            font-size: 20px;
+            display: block;
+        }
+
+/* _content/MyWebERP.Main/Components/Layout/NavMenu.razor.rz.scp.css */
+#sidebar[b-vjlbsj4oji] {
+    min-width: 15rem;
+    max-width: 15rem;
+    transition: transform 0.1s ease-out;
+    height: 100%;
+    max-height: 100%;
+    display: block;
+    background: inherit;
+}
+
+.logo[b-vjlbsj4oji] {
+    text-align: center;
+}
+
+[b-vjlbsj4oji] .menu.display-mobile {
+    margin-bottom: 2rem;
+}
+
+[b-vjlbsj4oji] .menu.display-iam {
+    margin-bottom: 2rem;
+}
+
+[b-vjlbsj4oji] .menu {
+    background-color: inherit;
+}
+
+    [b-vjlbsj4oji] .menu .dxbl-menu-item-list {
+        gap: 0.5rem;
+    }
+
+[b-vjlbsj4oji] .menu-item {
+    color: var(--bs-white);
+}
+
+[b-vjlbsj4oji] .icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-left: 0.1rem; /*Cũ = 0.5 icon hơi lệch bên phải khi thu nhỏ*/
+}
+
+[b-vjlbsj4oji] .home-icon {
+    background-image: url("images/home.svg");
+}
+
+[b-vjlbsj4oji] .weather-icon {
+    background-image: url("images/weather.svg");
+}
+
+[b-vjlbsj4oji] .counter-icon {
+    background-image: url("images/counter.svg");
+}
+
+[b-vjlbsj4oji] .settings-icon {
+    background-image: url("images/account/settings.svg");
+}
+
+[b-vjlbsj4oji] .log-in-icon {
+    background-image: url("images/account/log-in.svg");
+}
+
+[b-vjlbsj4oji] .log-out-icon {
+    background-image: url("images/account/log-out.svg");
+}
+
+[b-vjlbsj4oji] .user-icon {
+    background-image: url("images/account/user.svg");
+}
+
+@media (max-width: 768px) {
+    #sidebar[b-vjlbsj4oji] {
+        min-width: inherit;
+        max-width: inherit;
+        display: block;
+    }
+
+    .logo[b-vjlbsj4oji] {
+        text-align: inherit;
+    }
+}
+/* _content/MyWebERP.Main/Components/Layout/TreeViewMenu.razor.rz.scp.css */
+#sidebar[b-8pc2ul155q] {
+    min-width: 15rem;
+    max-width: 15rem;
+    transition: transform 0.1s ease-out;
+    height: 100%;
+    max-height: 100%;
+    display: block;
+    background: inherit;
+}
+
+.logo[b-8pc2ul155q] {
+    text-align: center;
+}
+
+[b-8pc2ul155q] .menu.display-mobile {
+    margin-bottom: 2rem;
+}
+
+[b-8pc2ul155q] .menu.display-iam {
+    margin-bottom: 2rem;
+}
+
+[b-8pc2ul155q] .menu {
+    background-color: inherit;
+}
+
+    [b-8pc2ul155q] .menu .dxbl-menu-item-list {
+        gap: 0.5rem;
+    }
+
+[b-8pc2ul155q] .menu-item {
+    color: var(--bs-white);
+}
+
+[b-8pc2ul155q] .icon {
+    width: 1rem;
+    height: 1rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-left: 0.5rem;
+}
+
+[b-8pc2ul155q] .home-icon {
+    background-image: url("images/home.svg");
+}
+
+[b-8pc2ul155q] .weather-icon {
+    background-image: url("images/weather.svg");
+}
+
+[b-8pc2ul155q] .counter-icon {
+    background-image: url("images/counter.svg");
+}
+
+[b-8pc2ul155q] .settings-icon {
+    background-image: url("images/account/settings.svg");
+}
+
+[b-8pc2ul155q] .log-in-icon {
+    background-image: url("images/account/log-in.svg");
+}
+
+[b-8pc2ul155q] .log-out-icon {
+    background-image: url("images/account/log-out.svg");
+}
+
+[b-8pc2ul155q] .user-icon {
+    background-image: url("images/account/user.svg");
+}
+
+@media (max-width: 768px) {
+    #sidebar[b-8pc2ul155q] {
+        min-width: inherit;
+        max-width: inherit;
+        display: block;
+    }
+
+    .logo[b-8pc2ul155q] {
+        text-align: inherit;
+    }
+}
+/* _content/MyWebERP.Main/Components/Pages/ApartmentDiagram.razor.rz.scp.css */
+/*.tooltip-div {
+    position: absolute;
+    z-index: 1000;
+    background-color: white;
+    border: 1px solid gray;
+    border-radius: 6px;
+    padding: 5px;
+    font-size: 12px;
+    pointer-events: none;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+}
+*/
+
+.tooltip-div[b-1zx29s0hzw] {
+    position: fixed; /* phải là fixed */
+    z-index: 9999;
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 6px;
+    border-radius: 6px;
+    pointer-events: none;
+}
+/* _content/MyWebERP.Main/Components/Pages/ApartmentDiagramOld.razor.rz.scp.css */
+.floor-block[b-bbv8olk8hg] {
+    padding: 8px;
+    background: #f9f9f9;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.apartment[b-bbv8olk8hg] {
+    fill: #90caf9;
+    stroke: #1976d2;
+    stroke-width: 2;
+    cursor: pointer;
+    transition: fill 0.2s;
+}
+
+    .apartment:hover[b-bbv8olk8hg] {
+        fill: #64b5f6;
+    }
+
+    .apartment.selected[b-bbv8olk8hg] {
+        fill: #ffcc80;
+        stroke: #f57c00;
+    }
+/* _content/MyWebERP.Main/Components/Pages/Counter.razor.rz.scp.css */
+.counter-block[b-jkdgq2hnkm] {
+    display: flex;
+    padding: 2.5rem 1.5rem 1.5rem 1.5rem;
+    flex-direction: column;
+    border-radius: 1rem;
+    gap: 1.5rem;
+    justify-content: center;
+    align-items: center;
+    width: 16.875rem;
+    height: 17rem;
+    position: relative;
+}
+
+    .counter-block .counter-content[b-jkdgq2hnkm] {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .counter-block .counter-count[b-jkdgq2hnkm] {
+        font-size: 7.5rem;
+        font-weight: 400;
+        line-height: 7.75rem;
+    }
+
+    .counter-block .counter-block-back[b-jkdgq2hnkm] {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--bs-body-color);
+        opacity: 0.05;
+        border-radius: 1rem;
+        z-index: -2;
+    }
+/* _content/MyWebERP.Main/Components/Pages/Index.razor.rz.scp.css */
+[b-k00sy5908r] .welcome-gridlayout {
+    margin: auto;
+    width: auto;
+    height: auto;
+}
+
+[b-k00sy5908r] .welcome-gridlayout .dxbl-gridlayout-root {
+    align-content: center;
+    justify-content: center;
+}
+
+[b-k00sy5908r] .title {
+    text-align: center;
+}
+
+[b-k00sy5908r] .welcome-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+[b-k00sy5908r] .welcome-card {
+    width: 26.25rem;
+    height: 15rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -2px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.2s;
+    border-radius: 1rem;
+    color: var(--bs-link-color-rgb);
+    gap: 1.5rem;
+    text-decoration: none;
+    position: relative;
+}
+
+    [b-k00sy5908r] .welcome-card:hover {
+        box-shadow: 0px 20px 25px -5px rgba(0, 0, 0, 0.1), 0px 8px 10px -6px rgba(0, 0, 0, 0.1);
+    }
+
+    [b-k00sy5908r] .welcome-card .welcome-card-img {
+        width: 6.5rem;
+        height: 6.5rem;
+    }
+
+    [b-k00sy5908r] .welcome-card .welcome-card-text {
+        font-size: 1.75rem;
+        font-weight: 600;
+        letter-spacing: 0em;
+        text-align: center;
+        text-decoration: unset;
+    }
+
+    [b-k00sy5908r] .icon-fill {
+        fill: var(--bs-primary);
+    }
+
+    [b-k00sy5908r] .welcome-card .welcome-card-back {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--bs-body-color);
+        opacity: 0.05;
+        border-radius: 1rem;
+        z-index: -2;
+    }

@@ -1,0 +1,121 @@
+﻿@typeparam TItem
+
+@* @inject IJSRuntime JS *@
+@* Chưa dùng được vì để ở ngoài thế này có báo lỗi js gốc gì đó nên tạm chưa dùng *@
+
+<div class="d-flex align-items-center gap-2">
+    <DxTextBox ReadOnly="true"
+               Text="@SelectedDisplay"
+               CssClass="selected-display-box"
+               style="width:250px">
+        <Buttons>
+            <DxEditorButton IconCssClass="oi oi-magnifying-glass"
+                            Click="@OpenPopup"
+                            Position="EditorButtonPosition.Right" />
+        </Buttons>
+    </DxTextBox>
+</div>
+
+<DxPopup Visible="@IsPopupVisible"
+         Width="500px"
+         ShowCloseButton="true"
+         ShowHeader="true"
+         ShowFooter="true"
+         HeaderText="Select items"
+         VisibleChanged="@OnPopupVisibleChanged">
+
+         
+<DxTreeView @ref="treeView"
+                    Data="@TreeItems"
+                    CheckAllVisible="true"
+                    CheckMode="TreeViewCheckMode.Multiple"
+                    CheckAllText="Chọn hết"
+                    CheckedChanged="@OnCheckedChanged">
+            <DataMappings>
+                <DxTreeViewDataMapping Text="Text"
+                                       Key="Key"
+                                       ParentKey="ParentKey">
+                </DxTreeViewDataMapping>
+            </DataMappings>
+        </DxTreeView>
+
+    <div class="mt-2" style="text-align:right;">
+        <DxButton Text="Xác nhận" Click="@ConfirmSelection" />
+        <DxButton Text="Hủy" Click="@CancelSelection" />
+    </div>
+
+         @* <FooterTemplate>
+
+         </FooterTemplate> *@
+
+</DxPopup>
+
+@code {
+    DxTreeView treeView;
+
+    [Parameter] public List<TItem> Items { get; set; } = new();
+    [Parameter] public string KeyFieldName { get; set; } = "Id";
+    [Parameter] public string ParentKeyFieldName { get; set; } = "ParentId";
+    [Parameter] public Func<TItem, string> TextSelector { get; set; }
+    [Parameter] public EventCallback<List<TItem>> SelectedChanged { get; set; }
+
+    private bool IsPopupVisible { get; set; }
+    private List<TItem> SelectedItems { get; set; } = new();
+    private string SelectedDisplay => string.Join(", ", SelectedItems.Select(TextSelector));
+
+    private void OpenPopup() => IsPopupVisible = true;
+
+    private async Task OnPopupVisibleChanged(bool visible)
+    {
+        IsPopupVisible = visible;
+        if (!visible)
+            await SelectedChanged.InvokeAsync(SelectedItems);
+    }
+
+    private void OnCheckedChanged(TreeViewCheckedChangedEventArgs e)
+    {
+        SelectedItems = e.CheckedItems
+            .OfType<DevExpress.Blazor.Navigation.Internal.TreeViewItemModel>()
+            .Select(x => x.Data)
+            .OfType<TreeItemWrapper>()
+            .Select(x => x.Original)
+            .ToList();
+    }
+
+    private List<TreeItemWrapper> TreeItems =>
+        Items.Select(item => new TreeItemWrapper
+            {
+                Key = GetPropertyValue(item, KeyFieldName),
+                ParentKey = GetPropertyValue(item, ParentKeyFieldName),
+                Text = TextSelector(item),
+                Original = item
+            }).ToList();
+
+    private object? GetPropertyValue(object obj, string propertyName)
+        => obj.GetType().GetProperty(propertyName)?.GetValue(obj);
+
+    void ConfirmSelection()
+    {
+        //SelectedDisplay = string.Join(", ", CheckedNodes.Select(x => x.Name));
+        IsPopupVisible = false;
+    }
+
+    void CancelSelection()
+    {
+        IsPopupVisible = false;
+    }
+
+    private void ExpandAllTreeNodes()
+    {
+        //treeView.ExpandAll();
+    }
+
+    private class TreeItemWrapper
+    {
+        public object Key { get; set; }
+        public object? ParentKey { get; set; }
+        public string Text { get; set; }
+        public TItem Original { get; set; }
+    }
+
+}

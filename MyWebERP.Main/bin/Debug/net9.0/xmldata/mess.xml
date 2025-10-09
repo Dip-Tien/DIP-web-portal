@@ -1,0 +1,3060 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+icon:
+	0	: None
+	16	: Error, Hand, Stop
+	32	: Question
+	48	: Warning, Exclamation
+	64	: Asterisk, Infomation
+-->
+<!-- 
+buttons
+        OK = 0
+        OKCancel = 1
+        AbortRetryIgnore = 2
+        YesNoCancel = 3
+        YesNo = 4
+        RetryCancel = 5
+-->
+<!--Cac thong bao lay theo he thong SysMessages cua Sql server tu 0-21695-->
+<ManPack.Messages>
+  <Message Id="2627">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã đã có!</Description>
+    <Languages>
+      <en-US>Code exists!</en-US>
+      <vi-VN>Trùng mã</vi-VN>
+    </Languages>
+  </Message>
+  <Message Id="70010">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đơn vị tính đã sử dụng trong bảng thông tin tính giá fifo</Description>
+  </Message>
+  <Message Id="70011">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đơn vị tính đã sử dụng trong bảng giá mua</Description>
+  </Message>
+  <Message Id="70012">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đơn vị tính đã sử dụng trong bảng giá bán</Description>
+  </Message>
+  <Message Id="70013">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đơn vị tính đã sử dụng trong phiếu nhập điều chuyển chi nhánh</Description>
+  </Message>
+  <Message Id="70014">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đơn vị tính đã sử dụng trong phiếu xuất điều chuyển chi nhánh</Description>
+  </Message>
+  <Message Id="70015">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đơn vị tính đã sử dụng trong phiếu điều chuyển kho</Description>
+  </Message>
+  <Message Id="70016">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đơn vị tính đã sử dụng trong phiếu yêu cầu vật tư/hàng hóa từ chi nhánh</Description>
+  </Message>
+  <Message Id="70017">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đơn vị tính đã sử dụng trong đơn đặt mua hàng</Description>
+  </Message>
+  <Message Id="70018">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đơn vị tính đã sử dụng trong phiếu nhập mua</Description>
+  </Message>
+  <Message Id="70019">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đơn vị tính đã sử dụng trong phiếu xuất trả nhà cung cấp</Description>
+  </Message>
+  <Message Id="70020">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đơn vị tính đã sử dụng trong phiếu bán lẻ</Description>
+  </Message>
+  <Message Id="70021">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đơn vị tính đã sử dụng trong phiếu nhập hàng bán bị trả lại</Description>
+  </Message>
+  <Message Id="70022">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đơn vị tính đã sử dụng trong phiếu bán lẻ</Description>
+  </Message>
+  <Message Id="70023">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã nhóm vật tư/hàng hóa đã được sử dụng trong bảng liên kết các nhóm vật tư/hàng hóa</Description>
+  </Message>
+  <Message Id="70024">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã nhóm vật tư/hàng hóa đã được sử dụng trong bảng vật tư/hàng hóa</Description>
+  </Message>
+  <Message Id="70025">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã nhóm vật tư/hàng hóa đã được sử dụng trong bảng các chương trình khuyến mại</Description>
+  </Message>
+  <Message Id="70026">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã vị trí đã được sử dụng trong bảng chi phí đầu kỳ</Description>
+  </Message>
+  <Message Id="70027">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã vị trí đã được sử dụng trong bảng tồn kho đầu kỳ</Description>
+  </Message>
+  <Message Id="70028">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã vị trí đã được sử dụng trong bảng mã vạch</Description>
+  </Message>
+  <Message Id="70029">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã vị trí đã được sử dụng trong phiếu nhập điều chuyển chi nhánh</Description>
+  </Message>
+  <Message Id="70030">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã vị trí đã được sử dụng trong phiếu xuất điều chuyển chi nhánh</Description>
+  </Message>
+  <Message Id="70031">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã vị trí đã được sử dụng trong phiếu điều chuyển kho</Description>
+  </Message>
+  <Message Id="70032">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã vị trí đã được sử dụng trong phiếu điều chuyển kho</Description>
+  </Message>
+  <Message Id="70033">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã vị trí đã được sử dụng trong yêu cầu vật tư/hàng hóa của chi nhánh</Description>
+  </Message>
+  <Message Id="70034">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã vị trí đã được sử dụng trong đơn đặt mua hàng</Description>
+  </Message>
+  <Message Id="70035">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã vị trí đã được sử dụng trong phiếu nhập mua</Description>
+  </Message>
+  <Message Id="70036">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã vị trí đã được sử dụng trong phiếu xuất trả lại nhà cung cấp</Description>
+  </Message>
+  <Message Id="70037">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã vị trí đã được sử dụng trong phiếu bán hàng</Description>
+  </Message>
+  <Message Id="70038">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã vị trí đã được sử dụng trong phiếu nhập hàng bán bị trả lại</Description>
+  </Message>
+  <Message Id="70039">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã vị trí đã được sử dụng trong phiếu bán hàng</Description>
+  </Message>
+  <Message Id="70040">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã hàng hóa/vật tư đã sử dụng trong bảng các chương trình khuyến mại</Description>
+  </Message>
+  <Message Id="70041">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã lô đã được sử dụng trong bảng chi phí đầu kỳ</Description>
+  </Message>
+  <Message Id="70042">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã lô đã được sử dụng trong bảng tồn kho đầu kỳ</Description>
+  </Message>
+  <Message Id="70043">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã lô đã được sử dụng trong phiếu nhập điều chuyển chi nhánh</Description>
+  </Message>
+  <Message Id="70044">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã lô đã được sử dụng trong phiếu xuất điều chuyển chi nhánh</Description>
+  </Message>
+  <Message Id="70045">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã lô đã được sử dụng trong phiếu điều chuyển kho</Description>
+  </Message>
+  <Message Id="70046">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã lô đã được sử dụng trong phiếu yêu cầu từ chi nhánh</Description>
+  </Message>
+  <Message Id="70047">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã lô đã được sử dụng trong đơn đặt mua hàng</Description>
+  </Message>
+  <Message Id="70048">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã lô đã được sử dụng trong phiếu nhập mua</Description>
+  </Message>
+  <Message Id="70048">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã lô đã được sử dụng trong phiếu xuất trả lại nhà cung cấp</Description>
+  </Message>
+  <Message Id="70049">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã lô đã được sử dụng trong phiếu bán hàng</Description>
+  </Message>
+  <Message Id="70050">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã lô đã được sử dụng trong phiếu nhập hàng bán bị trả lại</Description>
+  </Message>
+  <Message Id="70051">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã lô đã được sử dụng trong phiếu bán hàng</Description>
+  </Message>
+  <Message Id="70053">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã vạch đã sử dụng trong bảng chi phí đầu kỳ</Description>
+  </Message>
+  <Message Id="70054">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã vạch đã sử dụng trong bảng tính giá fifo</Description>
+  </Message>
+  <Message Id="70055">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã vạch đã sử dụng trong bảng tồn kho đầu kỳ</Description>
+  </Message>
+  <Message Id="70056">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã vạch đã sử dụng trong bảng các chương trình khuyến mại</Description>
+  </Message>
+  <Message Id="70057">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã vạch đã sử dụng trong bảng định mức</Description>
+  </Message>
+  <Message Id="70058">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã vạch đã sử dụng trong bảng định mức</Description>
+  </Message>
+  <Message Id="70059">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Có mã vạch không cho phép số lượng lớn hơn 1.</Description>
+  </Message>
+  <Message Id="70060">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã vạch đã sử dụng trong bảng giá mua</Description>
+  </Message>
+  <Message Id="70061">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã vạch đã sử dụng trong bảng giá bán</Description>
+  </Message>
+  <Message Id="70062">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã vạch đã sử dụng trong phiếu nhập điều chuyển chi nhánh</Description>
+  </Message>
+  <Message Id="70063">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã vạch đã sử dụng trong xuất điều chuyển chi nhánh</Description>
+  </Message>
+  <Message Id="70064">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã vạch đã sử dụng trong phiếu điều chuyển kho</Description>
+  </Message>
+  <Message Id="70065">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã vạch đã sử dụng trong phiếu yêu cầu của chi nhánh</Description>
+  </Message>
+  <Message Id="70066">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã vạch đã sử dụng trong đơn đặt mua hàng</Description>
+  </Message>
+  <Message Id="70067">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã vạch đã sử dụng trong phiếu xuất trả lại nhà cung cấp</Description>
+  </Message>
+  <Message Id="70068">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã vạch đã sử dụng trong phiếu bán hàng</Description>
+  </Message>
+  <Message Id="70069">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã vạch đã sử dụng trong phiếu nhập hàng bán bị trả lại</Description>
+  </Message>
+  <Message Id="70070">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã vạch đã sử dụng trong phiếu bán hàng</Description>
+  </Message>
+  <Message Id="70071">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã kho đã sử dụng trong nhật ký tính giá fifo</Description>
+  </Message>
+  <Message Id="70072">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã kho đã sử dụng trong bảng chi phí đầu kỳ</Description>
+  </Message>
+  <Message Id="70073">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã kho đã sử dụng trong thông tin tính giá fifo</Description>
+  </Message>
+  <Message Id="70074">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã kho đã sử dụng trong bảng tồn kho đầu kỳ</Description>
+  </Message>
+  <Message Id="70075">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã kho đã sử dụng trong bảng mã vạch</Description>
+  </Message>
+  <Message Id="70076">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã kho đã sử dụng trong phiếu nhập hàng từ chi nhánh khác</Description>
+  </Message>
+  <Message Id="70077">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã kho đã sử dụng trong phiếu xuất hàng cho chi nhánh khác</Description>
+  </Message>
+  <Message Id="70078">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã kho đã sử dụng trong phiếu điều chuyển kho</Description>
+  </Message>
+  <Message Id="70079">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã kho đã sử dụng trong phiếu điều chuyển kho</Description>
+  </Message>
+  <Message Id="70080">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã kho đã sử dụng trong phiếu yêu cầu từ chi nhánh</Description>
+  </Message>
+  <Message Id="70081">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã kho đã sử dụng trong đơn đặt mua hàng</Description>
+  </Message>
+  <Message Id="70082">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã kho đã sử dụng trong phiếu nhập mua</Description>
+  </Message>
+  <Message Id="70083">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã kho đã sử dụng trong phiếu xuất trả lại nhà cung cấp</Description>
+  </Message>
+  <Message Id="70084">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã kho đã sử dụng trong phiếu bán hàng</Description>
+  </Message>
+  <Message Id="70085">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã kho đã sử dụng trong phiếu nhập hàng bán bị trả lại</Description>
+  </Message>
+  <Message Id="70086">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã kho đã sử dụng trong phiếu bán hàng</Description>
+  </Message>
+  <Message Id="70089">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã khách hàng đã sử dụng trong bảng thẻ KH thân thiết</Description>
+  </Message>
+  <Message Id="70090">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã khách hàng đã sử dụng trong danh mục hợp đồng</Description>
+  </Message>
+  <Message Id="70091">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã khách hàng đã sử dụng trong bảng các chương trình khuyến mại</Description>
+  </Message>
+  <Message Id="70092">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã khách hàng đã sử dụng trong bảng giá mua hàng</Description>
+  </Message>
+  <Message Id="70093">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã khách hàng đã sử dụng trong bảng giá bán hàng</Description>
+  </Message>
+  <Message Id="70094">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã khách hàng đã sử dụng trong phiếu chi phí nhập hàng từ chi nhánh khác</Description>
+  </Message>
+  <Message Id="70095">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã khách hàng đã sử dụng trong phiếu nhập hàng từ chi nhánh khác</Description>
+  </Message>
+  <Message Id="70096">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã khách hàng đã sử dụng trong phiếu chi phí xuất hàng cho chi nhánh khác</Description>
+  </Message>
+  <Message Id="70097">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã khách hàng đã sử dụng trong phiếu xuất hàng cho chi nhánh khác</Description>
+  </Message>
+  <Message Id="70098">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã khách hàng đã sử dụng trong phiếu điều chuyền kho</Description>
+  </Message>
+  <Message Id="70099">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã khách hàng đã sử dụng trong phiếu yêu cầu hàng hóa/vật tư của chi nhánh</Description>
+  </Message>
+  <Message Id="70100">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã khách hàng đã sử dụng trong đơn đặt mua hàng</Description>
+  </Message>
+  <Message Id="70101">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã khách hàng đã sử dụng trong phiếu chi phí mua hàng</Description>
+  </Message>
+  <Message Id="70102">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã khách hàng đã sử dụng trong phiếu nhập mua hàng</Description>
+  </Message>
+  <Message Id="70103">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã khách hàng đã sử dụng trong phiếu xuất trả lại nhà cung cấp</Description>
+  </Message>
+  <Message Id="70104">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã khách hàng đã sử dụng trong phiếu chi phí bán hàng</Description>
+  </Message>
+  <Message Id="70105">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã khách hàng đã sử dụng trong phiếu bán hàng</Description>
+  </Message>
+  <Message Id="70106">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã khách hàng đã sử dụng trong phiếu nhập hàng bán bị trả lại</Description>
+  </Message>
+  <Message Id="70107">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã khách hàng đã sử dụng trong phiếu bán hàng</Description>
+  </Message>
+  <Message Id="70109">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Nhóm khách đã sử dụng trong bảng khách hàng</Description>
+  </Message>
+  <Message Id="70110">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Nhóm khách đã sử dụng trong bảng chương trình khuyến mại</Description>
+  </Message>
+  <Message Id="70111">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Nhóm khách đã sử dụng trong bảng giá mua hàng</Description>
+  </Message>
+  <Message Id="70112">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Nhóm khách đã sử dụng trong bảng giá bán hàng</Description>
+  </Message>
+  <Message Id="70113">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Điều khoản thanh toán đã sử dụng trong phiếu chi phí nhập hàng từ chi nhánh khác</Description>
+  </Message>
+  <Message Id="70114">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Điều khoản thanh toán đã sử dụng trong phiếu chi phí xuất hàng đi chi nhánh khác</Description>
+  </Message>
+  <Message Id="70115">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Điều khoản thanh toán đã sử dụng trong đơn đặt mua hàng</Description>
+  </Message>
+  <Message Id="70116">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Điều khoản thanh toán đã sử dụng trong phiếu chi phí mua hàng</Description>
+  </Message>
+  <Message Id="70117">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Điều khoản thanh toán đã sử dụng trong phiếu nhập mua hàng</Description>
+  </Message>
+  <Message Id="70118">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Điều khoản thanh toán đã sử dụng trong phiếu xuất trả lại nhà cung cấp</Description>
+  </Message>
+  <Message Id="70119">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Điều khoản thanh toán đã sử dụng trong chi phí bán hàng</Description>
+  </Message>
+  <Message Id="70120">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Điều khoản thanh toán đã sử dụng trong phiếu bán hàng</Description>
+  </Message>
+  <Message Id="70121">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã chi phí đã sử dụng trong bảng chi phí đầu kỳ</Description>
+  </Message>
+  <Message Id="70123">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã chi phí đã sử dụng trong bảng chi phí nhập hàng từ chi nhánh khác</Description>
+  </Message>
+  <Message Id="70124">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã chi phí đã sử dụng trong phiếu nhập hàng từ chi nhánh khác</Description>
+  </Message>
+  <Message Id="70125">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã chi phí đã sử dụng trong chi phí xuất hàng cho chi nhánh khác</Description>
+  </Message>
+  <Message Id="70126">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã chi phí đã sử dụng trong phiếu xuất hàng cho chi nhánh khác</Description>
+  </Message>
+  <Message Id="70127">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã chi phí đã sử dụng trong phiếu điều chuyển kho</Description>
+  </Message>
+  <Message Id="70128">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã chi phí đã sử dụng trong phiếu yêu cầu hàng hóa/vật tư của chi nhánh</Description>
+  </Message>
+  <Message Id="70129">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã chi phí đã sử dụng trong đơn đặt mua hàng</Description>
+  </Message>
+  <Message Id="70130">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã chi phí đã sử dụng trong phiếu chi phí mua hàng</Description>
+  </Message>
+  <Message Id="70131">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã chi phí đã sử dụng trong phiếu nhập mua hàng</Description>
+  </Message>
+  <Message Id="70132">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã chi phí đã sử dụng trong phiếu xuất trả nhà cung cấp</Description>
+  </Message>
+  <Message Id="70133">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã chi phí đã sử dụng trong phiếu chi phí bán hàng</Description>
+  </Message>
+  <Message Id="70134">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã chi phí đã sử dụng trong phiếu bán hàng</Description>
+  </Message>
+  <Message Id="70135">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã chi phí đã sử dụng trong phiếu bán hàng</Description>
+  </Message>
+  <Message Id="70136">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Trường tùy chọn đã có danh mục sử dụng</Description>
+  </Message>
+  <Message Id="70137">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Trường tùy chọn đã có chứng từ sử dụng</Description>
+  </Message>
+  <Message Id="70138">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Trường tùy chọn đã có chứng từ sử dụng</Description>
+  </Message>
+  <Message Id="70140">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Ngoại tệ đã sử dụng trong danh mục khách hàng (giới hạn công nợ)</Description>
+  </Message>
+  <Message Id="70141">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Ngoại tệ đã sử dụng trong danh mục thẻ thanh toán</Description>
+  </Message>
+  <Message Id="70142">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Ngoại tệ đã sử dụng trong nhật ký tính giá fifo</Description>
+  </Message>
+  <Message Id="70143">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Ngoại tệ đã sử dụng trong bảng chi phí đầu kỳ</Description>
+  </Message>
+  <Message Id="70144">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Ngoại tệ đã sử dụng trong bảng thông tin tính giá fifo</Description>
+  </Message>
+  <Message Id="70145">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Ngoại tệ đã sử dụng trong tồn kho đầu kỳ</Description>
+  </Message>
+  <Message Id="70146">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Ngoại tệ đã sử dụng trong danh mục tài khoản</Description>
+  </Message>
+  <Message Id="70147">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Ngoại tệ đã sử dụng trong danh mục các màn hình chứng từ</Description>
+  </Message>
+  <Message Id="70148">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Ngoại tệ đã sử dụng trong danh mục hợp đồng</Description>
+  </Message>
+  <Message Id="70149">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Ngoại tệ đã sử dụng trong danh mục chi phí</Description>
+  </Message>
+  <Message Id="70150">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Ngoại tệ đã sử dụng trong danh mục hàng hóa/vật tư</Description>
+  </Message>
+  <Message Id="70151">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Ngoại tệ đã sử dụng trong danh mục hàng hóa/vật tư</Description>
+  </Message>
+  <Message Id="70152">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Ngoại tệ đã sử dụng trong bảng giá mua</Description>
+  </Message>
+  <Message Id="70153">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Ngoại tệ đã sử dụng trong bảng giá bán</Description>
+  </Message>
+  <Message Id="70154">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Ngoại tệ đã sử dụng trong danh mục mã vạch</Description>
+  </Message>
+  <Message Id="70155">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Ngoại tệ đã sử dụng trong danh mục mã vạch</Description>
+  </Message>
+  <Message Id="70156">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Ngoại tệ đã sử dụng trong phiếu chi phí nhập hàng từ chi nhánh khác</Description>
+  </Message>
+  <Message Id="70157">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Ngoại tệ đã sử dụng trong phiếu nhập hàng từ chi nhánh khác</Description>
+  </Message>
+  <Message Id="70158">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Ngoại tệ đã sử dụng trong phiếu chi phí xuất hàng đi chi nhánh khác</Description>
+  </Message>
+  <Message Id="70159">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Ngoại tệ đã sử dụng trong phiếu xuất hàng đi chi nhánh khác</Description>
+  </Message>
+  <Message Id="70160">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Ngoại tệ đã sử dụng trong phiếu điều chuyển kho</Description>
+  </Message>
+  <Message Id="70161">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Ngoại tệ đã sử dụng trong phiếu đề nghị hàng hóa/vật tư chi nhánh</Description>
+  </Message>
+  <Message Id="70162">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Ngoại tệ đã sử dụng trong đơn đặt mua hàng</Description>
+  </Message>
+  <Message Id="70163">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Ngoại tệ đã sử dụng trong phiếu chi phí mua hàng</Description>
+  </Message>
+  <Message Id="70164">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Ngoại tệ đã sử dụng trong phiếu nhập mua hàng</Description>
+  </Message>
+  <Message Id="70165">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Ngoại tệ đã sử dụng trong phiếu xuất trả lại nhà cung cấp</Description>
+  </Message>
+  <Message Id="70166">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Ngoại tệ đã sử dụng trong phiếu chi phí bán hàng</Description>
+  </Message>
+  <Message Id="70167">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Ngoại tệ đã sử dụng trong phiếu bán hàng</Description>
+  </Message>
+  <Message Id="70168">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Ngoại tệ đã sử dụng trong phiếu nhập hàng bán bị trả lại</Description>
+  </Message>
+  <Message Id="70169">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Ngoại tệ đã sử dụng trong phiếu bán hàng</Description>
+  </Message>
+  <Message Id="70170">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Thẻ đã sử dụng trong phiếu bán hàng</Description>
+  </Message>
+  <Message Id="70171">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Thẻ đã sử dụng trong phiếu nhập hàng bán bị trả lại</Description>
+  </Message>
+  <Message Id="70172">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Hợp đồng đã sử dụng trong phiếu chi phí nhập hàng từ chi nhánh khác</Description>
+  </Message>
+  <Message Id="70173">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Hợp đồng đã sử dụng trong phiếu nhập hàng từ chi nhánh khác</Description>
+  </Message>
+  <Message Id="70174">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Hợp đồng đã sử dụng trong phiếu chi phí xuất hàng đi chi nhánh khác</Description>
+  </Message>
+  <Message Id="70175">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Hợp đồng đã sử dụng trong phiếu xuất hàng đi chi nhánh khác</Description>
+  </Message>
+  <Message Id="70176">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Hợp đồng đã sử dụng trong phiếu điều chuyển kho</Description>
+  </Message>
+  <Message Id="70177">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Hợp đồng đã sử dụng trong phiếu yêu cầu hàng hóa/vật tư chi nhánh khác</Description>
+  </Message>
+  <Message Id="70178">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Hợp đồng đã sử dụng trong đơn đặt mua hàng</Description>
+  </Message>
+  <Message Id="70179">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Hợp đồng đã sử dụng trong phiếu chi phí mua hàng</Description>
+  </Message>
+  <Message Id="70180">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Hợp đồng đã sử dụng trong phiếu nhập mua</Description>
+  </Message>
+  <Message Id="70181">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Hợp đồng đã sử dụng trong phiếu xuất trả lại nhà cung cấp</Description>
+  </Message>
+  <Message Id="70182">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Hợp đồng đã sử dụng trong phiếu chi phí bán hàng</Description>
+  </Message>
+  <Message Id="70183">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Hợp đồng đã sử dụng trong phiếu bán hàng</Description>
+  </Message>
+  <Message Id="70184">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Hợp đồng đã sử dụng trong phiếu nhập hàng bán bị trả lại</Description>
+  </Message>
+  <Message Id="70185">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Bộ phận đã sử dụng trong phiếu chi phí nhập hàng từ chi nhánh khác</Description>
+  </Message>
+  <Message Id="70186">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Bộ phận đã sử dụng trong phiếu nhập hàng từ chi nhánh khác</Description>
+  </Message>
+  <Message Id="70187">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Bộ phận đã sử dụng trong phiếu chi phí xuất hàng đi chi nhánh khác</Description>
+  </Message>
+  <Message Id="70188">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Bộ phận đã sử dụng trong phiếu xuất hàng đi chi nhánh khác</Description>
+  </Message>
+  <Message Id="70189">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Bộ phận đã sử dụng trong phiếu điều chuyển kho</Description>
+  </Message>
+  <Message Id="70190">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Bộ phận đã sử dụng trong phiếu đề nghị hàng hóa/vật tư chi nhánh khác</Description>
+  </Message>
+  <Message Id="70191">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Bộ phận đã sử dụng trong đơn đặt mua hàng</Description>
+  </Message>
+  <Message Id="70192">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Bộ phận đã sử dụng trong phiếu chi phí nhập mua hàng</Description>
+  </Message>
+  <Message Id="70193">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Bộ phận đã sử dụng trong phiếu nhập mua</Description>
+  </Message>
+  <Message Id="70194">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Bộ phận đã sử dụng trong phiếu xuất trả lại nhà cung cấp</Description>
+  </Message>
+  <Message Id="70195">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Bộ phận đã sử dụng trong phiếu chi phí bán hàng</Description>
+  </Message>
+  <Message Id="70196">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Bộ phận đã sử dụng trong phiếu bán hàng</Description>
+  </Message>
+  <Message Id="70197">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Bộ phận đã sử dụng trong phiếu nhập hàng bán bị trả lại</Description>
+  </Message>
+  <Message Id="70198">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Bộ phận đã sử dụng trong phiếu bán hàng</Description>
+  </Message>
+  <Message Id="70200">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Nhân viên đã sử dụng trong danh mục hợp đồng</Description>
+  </Message>
+  <Message Id="70201">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Nhân viên đã sử dụng trong phiếu bán hàng</Description>
+  </Message>
+  <Message Id="70202">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Nhân viên đã sử dụng trong phiếu nhập hàng bán bị trả lại</Description>
+  </Message>
+  <Message Id="70203">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Nhân viên đã sử dụng trong phiếu bán hàng</Description>
+  </Message>
+  <Message Id="70204">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Phương thức thanh toán đã sử dụng trong phiếu nhập hàng từ chi nhánh khác</Description>
+  </Message>
+  <Message Id="70205">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Phương thức thanh toán đã sử dụng trong phiếu xuất hàng đi chi nhánh khác</Description>
+  </Message>
+  <Message Id="70206">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Phương thức thanh toán đã sử dụng trong đơn đặt mua hàng</Description>
+  </Message>
+  <Message Id="70207">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Phương thức thanh toán đã sử dụng trong phiếu chi phí mua hàng</Description>
+  </Message>
+  <Message Id="70208">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Phương thức thanh toán đã sử dụng trong phiếu nhập mua hàng</Description>
+  </Message>
+  <Message Id="70209">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Phương thức thanh toán đã sử dụng trong phiếu chi phí bán hàng</Description>
+  </Message>
+  <Message Id="70210">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Phương thức thanh toán đã sử dụng trong phiếu bán hàng</Description>
+  </Message>
+  <Message Id="70211">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Vụ việc đã sử dụng trong phiếu chi phí nhập hàng từ chi nhánh khác</Description>
+  </Message>
+  <Message Id="70212">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Vụ việc đã sử dụng trong phiếu nhập hàng từ chi nhánh khác</Description>
+  </Message>
+  <Message Id="70213">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Vụ việc đã sử dụng trong phiếu chi phí xuất hàng đi chi nhánh khác</Description>
+  </Message>
+  <Message Id="70214">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Vụ việc đã sử dụng trong phiếu xuất hàng đi chi nhánh khác</Description>
+  </Message>
+  <Message Id="70215">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Vụ việc đã sử dụng trong phiếu điều chuyển kho</Description>
+  </Message>
+  <Message Id="70216">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Vụ việc đã sử dụng trong phiếu đề nghị hàng hóa/vật tư chi nhánh khác</Description>
+  </Message>
+  <Message Id="70217">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Vụ việc đã sử dụng trong đơn đặt mua hàng</Description>
+  </Message>
+  <Message Id="70218">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Vụ việc đã sử dụng trong phiếu chi phí mua hàng</Description>
+  </Message>
+  <Message Id="70219">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Vụ việc đã sử dụng trong phiếu nhập mua</Description>
+  </Message>
+  <Message Id="70221">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Vụ việc đã sử dụng trong phiếu chi phí bán hàng</Description>
+  </Message>
+  <Message Id="70222">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Vụ việc đã sử dụng trong phiếu bán hàng</Description>
+  </Message>
+  <Message Id="70223">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Vụ việc đã sử dụng trong phiếu nhập hàng bán bị trả lại</Description>
+  </Message>
+  <Message Id="70224">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Lĩnh vực hoạt động SXKD đã sử dụng trong phiếu chi phí nhập hàng từ chi nhánh khác</Description>
+  </Message>
+  <Message Id="70225">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Lĩnh vực hoạt động SXKD đã sử dụng trong phiếu nhập hàng từ chi nhánh khác</Description>
+  </Message>
+  <Message Id="70226">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Lĩnh vực hoạt động SXKD đã sử dụng trong phiếu chi phí xuất hàng đi chi nhánh khác</Description>
+  </Message>
+  <Message Id="70227">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Lĩnh vực hoạt động SXKD đã sử dụng trong phiếu xuất hàng đi chi nhánh khác</Description>
+  </Message>
+  <Message Id="70228">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Lĩnh vực hoạt động SXKD đã sử dụng trong phiếu điều chuyển kho</Description>
+  </Message>
+  <Message Id="70229">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Lĩnh vực hoạt động SXKD đã sử dụng trong phiếu đề nghị hàng hóa/vật tư chi nhánh khác</Description>
+  </Message>
+  <Message Id="70230">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Lĩnh vực hoạt động SXKD đã sử dụng trong đơn đặt mua hàng</Description>
+  </Message>
+  <Message Id="70231">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Lĩnh vực hoạt động SXKD đã sử dụng trong phiếu chi phí mua hàng</Description>
+  </Message>
+  <Message Id="70232">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Lĩnh vực hoạt động SXKD đã sử dụng trong phiếu nhập mua hàng</Description>
+  </Message>
+  <Message Id="70233">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Lĩnh vực hoạt động SXKD đã sử dụng trong phiếu xuất trả lại nhà cung cấp</Description>
+  </Message>
+  <Message Id="70234">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Lĩnh vực hoạt động SXKD đã sử dụng trong phiếu chi phí bán hàng</Description>
+  </Message>
+  <Message Id="70235">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Lĩnh vực hoạt động SXKD đã sử dụng trong phiếu bán hàng</Description>
+  </Message>
+  <Message Id="70236">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Lĩnh vực hoạt động SXKD đã sử dụng trong phiếu nhập hàng bán bị trả lại</Description>
+  </Message>
+  <Message Id="70237">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Lĩnh vực hoạt động SXKD đã sử dụng trong phiếu bán hàng</Description>
+  </Message>
+  <Message Id="70238">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Hạng mục công trình đã sử dụng trong phiếu chi phí nhập hàng từ kho khác</Description>
+  </Message>
+  <Message Id="70239">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Hạng mục công trình đã sử dụng trong phiếu nhập hàng từ kho khác</Description>
+  </Message>
+  <Message Id="70240">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Hạng mục công trình đã sử dụng trong phiếu chi phí xuất hàng từ kho khác</Description>
+  </Message>
+  <Message Id="70241">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Hạng mục công trình đã sử dụng trong phiếu xuất hàng từ kho khác</Description>
+  </Message>
+  <Message Id="70242">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Hạng mục công trình đã sử dụng trong phiếu điều chuyển kho</Description>
+  </Message>
+  <Message Id="70243">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Hạng mục công trình đã sử dụng trong phiếu yêu cầu hàng hóa/vật tư chi nhánh</Description>
+  </Message>
+  <Message Id="70244">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Hạng mục công trình đã sử dụng trong đơn đặt mua hàng</Description>
+  </Message>
+  <Message Id="70245">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Hạng mục công trình đã sử dụng trong phiếu chi phí mua hàng</Description>
+  </Message>
+  <Message Id="70246">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Hạng mục công trình đã sử dụng trong phiếu nhập mua hàng</Description>
+  </Message>
+  <Message Id="70247">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Hạng mục công trình đã sử dụng trong phiếu xuất trả lại nhà cung cấp</Description>
+  </Message>
+  <Message Id="70248">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Hạng mục công trình đã sử dụng trong phiếu chi phí bán hàng</Description>
+  </Message>
+  <Message Id="70249">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Hạng mục công trình đã sử dụng trong phiếu bán hàng</Description>
+  </Message>
+  <Message Id="70250">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Hạng mục công trình đã sử dụng trong phiếu nhập hàng bán bị trả lại</Description>
+  </Message>
+  <Message Id="70251">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Hạng mục công trình đã sử dụng trong phiếu bán hàng</Description>
+  </Message>
+  <Message Id="70252">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đã có phiếu xuất hàng</Description>
+  </Message>
+  <Message Id="70253">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đã có phiếu nhập hàng</Description>
+  </Message>
+  <Message Id="70254">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đơn hàng đã có phiếu nhập mua</Description>
+  </Message>
+  <Message Id="70255">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Phiếu nhập có phiếu chi phí</Description>
+  </Message>
+  <Message Id="70256">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Phiếu nhập có phiếu xuất trả lại</Description>
+  </Message>
+  <Message Id="70257">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Phiếu bán hàng có phiếu chi phí</Description>
+  </Message>
+  <Message Id="70258">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Phiếu bán hàng có phiếu nhập hàng trả lại</Description>
+  </Message>
+  <Message Id="70259">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Phiếu xuất chi nhánh đã có phiếu chi phí</Description>
+  </Message>
+  <Message Id="70260">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Phiếu nhập chi nhánh đã có phiếu chi phí</Description>
+  </Message>
+  <Message Id="70261">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Không tìm thấy node 'PageHeader' trong file báo cáo</Description>
+  </Message>
+  <Message Id="70262">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Không tìm thấy node 'PageFooter' trong file báo cáo</Description>
+  </Message>
+  <Message Id="70263">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Dữ liệu có trong phiếu/HĐ bán hàng nên không xóa được.</Description>
+  </Message>
+  <Message Id="70264">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Dữ liệu có trong phiếu xuất điều chuyển chi nhánh nên không xóa được.</Description>
+  </Message>
+  <Message Id="70265">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Dữ liệu có trong phiếu xuất trả nhà cung cấp nên không xóa được.</Description>
+  </Message>
+  <Message Id="70266">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Dữ liệu có trong phiếu nhập hàng từ VP/CN khác nên không xóa được.</Description>
+  </Message>
+  <Message Id="70267">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Dữ liệu có trong phiếu nhập mua nên không xóa được.</Description>
+  </Message>
+  <Message Id="70268">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Dữ liệu có trong phiếu nhập hàng bán bị trả lại nên không xóa được.</Description>
+  </Message>
+  <Message Id="70269">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Dữ liệu định mức nên không xóa được.</Description>
+  </Message>
+  <Message Id="70270">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Có phiếu nhập kho nên không xóa được.</Description>
+  </Message>
+  <Message Id="70271">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Có phiếu xuất kho nên không xóa được.</Description>
+  </Message>
+  <Message Id="70272">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Lô có sử dụng cho cuộn. Xin hãy xóa cuộn thuộc lô này trước.</Description>
+  </Message>
+  <Message Id="70273">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Dữ liệu có trong phiếu điều chuyển kho trực tiếp nên không xóa được.</Description>
+  </Message>
+  <Message Id="70274">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Dữ liệu có mã con nên không xóa được.</Description>
+  </Message>
+  <Message Id="70275">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Dữ liệu đã sử dụng trong danh mục hàng hóa/vật tư nên không xóa được.</Description>
+  </Message>
+  <Message Id="70276">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Dữ liệu đã sử dụng trong bảng mẫu báo cáo</Description>
+  </Message>
+  <Message Id="70277">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Dữ liệu đã sử dụng trong bảng mẫu báo cáo theo cty/đv</Description>
+  </Message>
+  <Message Id="70278">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Dữ liệu đã sử dụng trong bảng mẫu in chứng từ theo cty/đv</Description>
+  </Message>
+  <Message Id="70279">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đã có phiếu nhập nên không xóa được</Description>
+  </Message>
+  <Message Id="70280">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đã có đề nghị giao hàng nên không xóa được</Description>
+  </Message>
+  <Message Id="70281">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã đã sử dụng trong đơn hàng bán</Description>
+  </Message>
+  <Message Id="70282">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đã có phiếu chi/báo nợ nên không xóa được. Vui lòng xóa phiếu chi/báo nợ trước</Description>
+  </Message>
+  <Message Id="70283">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Có cơ hội/nhu cầu nên không xóa được. Vui lòng xóa hết cơ hội trước.</Description>
+  </Message>
+  <Message Id="70284">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Có lịch hẹn nên không xóa được. Vui lòng xóa lịch hẹn trước</Description>
+  </Message>
+  <Message Id="70285">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Không được để trống trạng thái hợp đồng</Description>
+  </Message>
+  <Message Id="70286">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Có dữ liệu trong bảng cài đặt dữ liệu.</Description>
+  </Message>
+  <Message Id="70287">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Có dữ liệu trong bảng nhật ký tính giá FIFO.</Description>
+  </Message>
+  <Message Id="70288">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Có dữ liệu trong phiếu chi/báo nợ.</Description>
+  </Message>
+  <Message Id="70289">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Có phiếu đề nghị thanh toán.</Description>
+  </Message>
+  <Message Id="70290">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Có emei chưa tạo.</Description>
+  </Message>
+  <Message Id="70291">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Có emei sản phẩm không có trong phiếu này.</Description>
+  </Message>
+  <Message Id="70292">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Có emei sai sản phẩm.</Description>
+  </Message>
+  <Message Id="70293">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Có emei đã sử dụng.</Description>
+  </Message>
+  <Message Id="70294">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Số lượng emei và số lượng sản phẩm không bằng nhau.</Description>
+  </Message>
+  <Message Id="70295">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Có báo giá nên không xóa được.</Description>
+  </Message>
+  <Message Id="70296">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đã có khấu hao.</Description>
+  </Message>
+  <Message Id="70297">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đã có khấu hao.</Description>
+  </Message>
+  <Message Id="70298">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Có dữ liệu trong phiếu thu/báo có.</Description>
+  </Message>
+  <Message Id="70299">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Có sản phẩm nên không xóa được.</Description>
+  </Message>
+  <Message Id="50000">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đã thực hiện thành công.</Description>
+    <Languages>
+      <en-US>Success</en-US>
+    </Languages>
+  </Message>
+  <Message Id="50001">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Có lỗi khi thực hiện</Description>
+    <Languages>
+      <en-US>Error</en-US>
+    </Languages>
+  </Message>
+  <Message Id="50003">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Không để trống trường này</Description>
+    <Languages>
+      <en-US>Field not allow empty</en-US>
+    </Languages>
+  </Message>
+  <Message Id="50004">
+    <Icon>32</Icon>
+    <Buttons>4</Buttons>
+    <Description>Bạn chắc chắn muốn xóa?</Description>
+    <Languages>
+      <en-US>Are you sure to delete?</en-US>
+    </Languages>
+  </Message>
+  <Message Id="50005">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Kiểu dữ liệu chưa đúng</Description>
+  </Message>
+  <Message Id="50006">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Không tìm thấy mã!</Description>
+  </Message>
+  <Message Id="50010">
+    <Icon>32</Icon>
+    <Buttons>4</Buttons>
+    <Description>Bạn có thật sự muốn hủy thao tác?</Description>
+  </Message>
+  <Message Id="50011">
+    <Icon>32</Icon>
+    <Buttons>4</Buttons>
+    <Description>Bạn có thật sự muốn thoát?</Description>
+  </Message>
+  <Message Id="50012">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Thực hiện thành công nhưng bạn chưa được phân quyền xem chi tết. Liên hệ với quản trị để biết thêm chi tiết?</Description>
+  </Message>
+  <Message Id="50013">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Thực hiện thành công nhưng Công ty này chưa được phân quyền xem chi tết. Liên hệ với quản trị để biết thêm chi tiết?</Description>
+  </Message>
+  <Message Id="50014">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Tên đăng nhập hoặc mật khẩu không đúng.</Description>
+  </Message>
+  <Message Id="50015">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã công ty/đơn vị cài đặt không đúng. Xin hãy cài đặt lại mã cty/đơn vị.</Description>
+  </Message>
+  <Message Id="50016">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Có dữ liệu. Không xóa được.</Description>
+  </Message>
+  <Message Id="50501">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mỗi menu phải có ít nhất 1 MenuTitle nên bạn không thể xóa</Description>
+  </Message>
+  <Message Id="50502">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Xin lỗi, bạn không có quyền thực hiện chức năng này</Description>
+  </Message>
+  <Message Id="50503">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Xin lỗi, bạn không có quyền xóa dòng này</Description>
+  </Message>
+  <Message Id="50504">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Xin lỗi, bạn không có quyền sửa dòng này</Description>
+  </Message>
+  <Message Id="50505">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Thực hiện thành công</Description>
+  </Message>
+  <Message Id="50506">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Thực hiện thành công, bạn phải khởi động lại chương trình để thay đổi có hiệu lực.</Description>
+  </Message>
+  <Message Id="50507">
+    <Icon>32</Icon>
+    <Buttons>4</Buttons>
+    <Description>Bạn muốn hủy dữ liệu cũ?</Description>
+  </Message>
+  <Message Id="50510">
+    <Icon>16</Icon>
+    <Buttons>0</Buttons>
+    <Description>Xin lỗi, đã có dữ liệu liên quan, không xóa được.</Description>
+  </Message>
+  <Message Id="50511">
+    <Icon>16</Icon>
+    <Buttons>0</Buttons>
+    <Description>Lỗi khởi tạo màn hình.</Description>
+  </Message>
+  <Message Id="50512">
+    <Icon>16</Icon>
+    <Buttons>0</Buttons>
+    <Description>Chưa có thông tin Cty/ĐV hoặc tài khoản sử dụng không có quyền truy cập vào Cty/ĐV nào.</Description>
+  </Message>
+  <Message Id="50513">
+    <Icon>16</Icon>
+    <Buttons>0</Buttons>
+    <Description>Cài đặt MenuId không đúng hoặc tài khoản không có quyền truy cập menu này.</Description>
+  </Message>
+  <Message Id="50514">
+    <Icon>16</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã không đúng. Xin hãy gửi thông tin máy cho nhà cung cấp để lấy mã.</Description>
+  </Message>
+  <Message Id="50515">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Tên đã có.</Description>
+  </Message>
+  <Message Id="50516">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mỗi username chỉ được gán cho 1 nhân viên. Username này đã gán cho nhân viên khác.</Description>
+  </Message>
+  <Message Id="50517">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã cha không được trùng với mã của chính nó.</Description>
+  </Message>
+  <Message Id="50518">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Chức năng này chỉ dùng cho admin. Bạn không phải là admin.</Description>
+  </Message>
+  <Message Id="50519">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Tham số này đã có dữ liệu trong danh mục sản phẩm/vật tư nên không xóa hoặc đổi kiểu dữ liệu được.</Description>
+  </Message>
+  <Message Id="50520">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã chi tiết không được trùng với mã của chính nó.</Description>
+  </Message>
+  <Message Id="50521">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Có đơn vị tính trùng nhau.</Description>
+  </Message>
+  <Message Id="50522">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Có đơn vị tính trùng nhau.</Description>
+  </Message>
+  <Message Id="50523">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Có chi tiết trùng nhau.</Description>
+  </Message>
+  <Message Id="50524">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Có tùy chọn trùng nhau.</Description>
+  </Message>
+  <Message Id="50525">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Có nhóm trùng nhau.</Description>
+  </Message>
+  <Message Id="50526">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Có nhóm 2 trùng nhau.</Description>
+  </Message>
+  <Message Id="50527">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Quy cách đã có giá trị nên không xóa được.</Description>
+  </Message>
+  <Message Id="50528">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Giá trị đã được gán cho mã vạch nên không xóa được.</Description>
+  </Message>
+  <Message Id="50529">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Kho đã được gán trong danh mục sản phẩm/vật tư nên không xóa được.</Description>
+  </Message>
+  <Message Id="50530">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Kho đã được gán vị trí nên không xóa được.</Description>
+  </Message>
+  <Message Id="50531">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Vị trí đã được gán trong danh mục sản phẩm/vật tư nên không xóa được.</Description>
+  </Message>
+  <Message Id="50532">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>ĐVT đã được sử dụng trong danh mục sản phẩm/vật tư nên không xóa được.</Description>
+  </Message>
+  <Message Id="50533">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>ĐVT đã được sử dụng trong định mức sản phẩm/vật tư nên không xóa được.</Description>
+  </Message>
+  <Message Id="50534">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>ĐVT đã được sử dụng trong định mức mã vạch nên không xóa được.</Description>
+  </Message>
+  <Message Id="50535">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>ĐVT đã được sử dụng trong danh mục mã vạch nên không xóa được.</Description>
+  </Message>
+  <Message Id="50536">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>ĐVT đã được sử dụng trong danh mục ĐVT của sản phẩm/vật tư nên không xóa được.</Description>
+  </Message>
+  <Message Id="50537">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đã có form này rồi.</Description>
+  </Message>
+  <Message Id="50538">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Sản phẩm/vật tư đã có mã vạch nên không xóa được.</Description>
+  </Message>
+  <Message Id="50539">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã vạch chi tiết trùng nhau.</Description>
+  </Message>
+  <Message Id="50540">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã vạch chi tiết trùng với mã vạch chính.</Description>
+  </Message>
+  <Message Id="50541">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Sản phẩm/vật tư đã có mã vạch nên không tạo mã sp thành mã vạch được</Description>
+  </Message>
+  <Message Id="50542">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Cấu trúc quy cách này đã có. Xin hãy kiểm tra kỹ lại.</Description>
+  </Message>
+  <Message Id="50543">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Điều khoản thanh toán này đã được gán cho KH/NCC.</Description>
+  </Message>
+  <Message Id="50544">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Nhóm đã có trong chi tiết</Description>
+  </Message>
+  <Message Id="50545">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Số lượng sau phải lớn hơn số lượng trước.</Description>
+  </Message>
+  <Message Id="50546">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Không tìm thấy thông tin chứng từ chính. Xin hãy lưu thông tin chính trước thông tin chi tiết.</Description>
+  </Message>
+  <Message Id="50547">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Chưa có thông tin chứng từ.</Description>
+  </Message>
+  <Message Id="50548">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Chưa có thông tin phân hệ hoặc thông tin chứng từ.</Description>
+  </Message>
+  <Message Id="50549">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Trùng số chứng từ.</Description>
+  </Message>
+  <Message Id="50550">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Ngày đã khóa sổ.</Description>
+  </Message>
+  <Message Id="50551">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Chưa nhập chi tiết chứng từ.</Description>
+  </Message>
+  <Message Id="50552">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Chưa nhập lượng.</Description>
+  </Message>
+  <Message Id="50553">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Chưa nhập giá.</Description>
+  </Message>
+  <Message Id="50554">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Không để trống cả tiền và số lượng.</Description>
+  </Message>
+  <Message Id="50555">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Bạn có chắc chắn để số lượng = 0?.</Description>
+  </Message>
+  <Message Id="50556">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Bạn có chắc chắn để tiền = 0?.</Description>
+  </Message>
+  <Message Id="50557">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Không tìm thấy file báo cáo '{0}'</Description>
+  </Message>
+  <Message Id="50558">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Không kết nối được máy chủ hoặc chưa khai báo kết nối</Description>
+  </Message>
+  <Message Id="50559">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Xin lỗi, bạn chưa chọn mẫu in</Description>
+  </Message>
+  <Message Id="50560">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Xin lỗi, chưa cài đặt hoặc cài đặt sai mã kho bán lẻ. Hãy vào khai báo tham số hệ thống phân hệ bán hàng để cài đặt cho tham số 'Mã kho bán lẻ mặc định'</Description>
+  </Message>
+  <Message Id="50561">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Số phiếu bán lẻ không được để trống</Description>
+  </Message>
+  <Message Id="50562">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Phiếu bán lẻ không có mã vạch này.</Description>
+  </Message>
+  <Message Id="50563">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Tồn phiếu bán không đủ.</Description>
+  </Message>
+  <Message Id="50564">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Số lượng phiếu nhập không đủ. Có thể đã có phiếu xuất trả lại khác theo phiếu nhập này.</Description>
+  </Message>
+  <Message Id="50565">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Không được để trống số phiếu nhập</Description>
+  </Message>
+  <Message Id="50566">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Số phiếu nhập '{0}' không có hoặc phiếu nhập này không có mã '{1}'</Description>
+  </Message>
+  <Message Id="50567">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Tổng số lượng xuất trả của mã '{0}' lớn hơn số lượng phiếu nhập '{1}'''.</Description>
+  </Message>
+  <Message Id="50568">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Số lượng tồn kho không đủ</Description>
+  </Message>
+  <Message Id="50569">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Không có mã vạch nào được chọn</Description>
+  </Message>
+  <Message Id="50570">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Không có dữ liệu để lưu</Description>
+  </Message>
+  <Message Id="50571">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đã lưu thành công. Hãy tắt màn hình '{0}' rồi thực hiện lại để load phần mới cập nhật</Description>
+  </Message>
+  <Message Id="50572">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Bạn không có quyền thu thiếu tiền hàng</Description>
+  </Message>
+  <Message Id="50573">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Số hợp đồng đã có</Description>
+  </Message>
+  <Message Id="50574">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đối với user không phải admin thì bạn phải gán vào 1 công ty</Description>
+  </Message>
+  <Message Id="50575">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Bạn không có quyền tạo/sửa/xóa admin</Description>
+  </Message>
+  <Message Id="50576">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Bạn không có quyền sửa tài khoản của người khác</Description>
+  </Message>
+  <Message Id="50577">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Bạn không phải quản trị của Công ty này</Description>
+  </Message>
+  <Message Id="50578">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Bảng này đã có</Description>
+  </Message>
+  <Message Id="50579">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Quyền truy cập này đã có</Description>
+  </Message>
+  <Message Id="50580">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Không cần phân quyền cho quản trị hệ thống</Description>
+  </Message>
+  <Message Id="50581">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã cha không được trùng với chính nó</Description>
+  </Message>
+  <Message Id="50582">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>File này đã có trong báo cáo</Description>
+  </Message>
+  <Message Id="50583">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Xóa nút con trước.</Description>
+  </Message>
+  <Message Id="50584">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Ông phải thêm nhóm trước xong mới thêm báo cáo hehe.</Description>
+  </Message>
+  <Message Id="50585">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Ông phải thêm báo cáo trước xong mới thêm file hehe.</Description>
+  </Message>
+  <Message Id="50586">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Không có báo cáo nào được chọn.</Description>
+  </Message>
+  <Message Id="50587">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Không có mẫu in nào được chọn.</Description>
+  </Message>
+  <Message Id="50588">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Bạn không có quyền thực hiện chức năng này trên mẫu báo cáo này.</Description>
+  </Message>
+  <Message Id="50589">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Có tên báo cáo trùng nhau.</Description>
+  </Message>
+  <Message Id="50590">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Chưa khai báo mẫu in.</Description>
+  </Message>
+  <Message Id="50591">
+    <Icon>32</Icon>
+    <Buttons>4</Buttons>
+    <Description>Đã có số liệu phân bổ. Bạn có chắc muốn phân bổ lại?</Description>
+  </Message>
+  <Message Id="50592">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Tiền chi phí và tiền phân bổ không bằng nhau. Xin hãy kiểm tra lại</Description>
+  </Message>
+  <Message Id="50593">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Phải nhập tên hàng hóa/vật tư ảo</Description>
+  </Message>
+  <Message Id="50594">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Command đã có</Description>
+  </Message>
+  <Message Id="50595">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã đã có phiếu nhập nên không xóa được</Description>
+  </Message>
+  <Message Id="50596">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Lỗi khi lưu các trường tùy chọn. Chưa lưu được.</Description>
+  </Message>
+  <Message Id="50597">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Lỗi khi lưu các bảng tùy chọn. Chưa lưu được.</Description>
+  </Message>
+  <Message Id="50651">
+    <Icon>16</Icon>
+    <Buttons>0</Buttons>
+    <Description>Username bắt đầu bằng ký tự số, không hợp lệ với tag của xml.</Description>
+  </Message>
+  <Message Id="50652">
+    <Icon>16</Icon>
+    <Buttons>0</Buttons>
+    <Description>Tổng thanh toán trên chi tiết khác tổng thanh toán chung.</Description>
+  </Message>
+  <Message Id="50653">
+    <Icon>16</Icon>
+    <Buttons>0</Buttons>
+    <Description>Tổng thanh toán VNĐ trên chi tiết khác tổng thanh toán chung.</Description>
+  </Message>
+  <Message Id="50654">
+    <Icon>16</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã giá đã sử dụng trong danh mục giá bán.</Description>
+  </Message>
+  <Message Id="50655">
+    <Icon>16</Icon>
+    <Buttons>0</Buttons>
+    <Description>Phải nhập thông tin khách hàng trước.</Description>
+  </Message>
+  <Message Id="50656">
+    <Icon>16</Icon>
+    <Buttons>0</Buttons>
+    <Description>Tiền thanh toán không hợp lệ.</Description>
+  </Message>
+  <Message Id="50657">
+    <Icon>16</Icon>
+    <Buttons>0</Buttons>
+    <Description>Chưa khai báo (hoặc khai báo sai) mã hình thức thanh toán trong tham số chứng từ nên chưa thực hiện được.</Description>
+  </Message>
+  <Message Id="50658">
+    <Icon>16</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đã có kế hoạch của kỳ này</Description>
+  </Message>
+  <Message Id="50659">
+    <Icon>16</Icon>
+    <Buttons>0</Buttons>
+    <Description>Có chi tiết nên không xóa được</Description>
+  </Message>
+  <Message Id="50660">
+    <Icon>16</Icon>
+    <Buttons>0</Buttons>
+    <Description>Kế hoạch phải theo kế hoạch hoặc doanh thu. Không được để trống cả hai</Description>
+  </Message>
+  <Message Id="50661">
+    <Icon>16</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đã chi tiền nên không xóa được</Description>
+  </Message>
+  <Message Id="50662">
+    <Icon>16</Icon>
+    <Buttons>0</Buttons>
+    <Description>Số tiền mới nhỏ hơn số tiền đã chi nên không hợp lệ. Hãy sửa số tiền chi trước.</Description>
+  </Message>
+  <Message Id="50663">
+    <Icon>16</Icon>
+    <Buttons>0</Buttons>
+    <Description>Phải gán trường hoặc bảng tùy chọn</Description>
+  </Message>
+  <Message Id="50664">
+    <Icon>16</Icon>
+    <Buttons>0</Buttons>
+    <Description>Phải chọn các giá trị sử dụng cho bảng tùy chọn</Description>
+  </Message>
+  <Message Id="50665">
+    <Icon>16</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã cha và con trùng nhau</Description>
+  </Message>
+  <Message Id="50666">
+    <Icon>16</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã quy cách cha có nhóm hàng hóa/vật tư trung với nhóm sử dụng của quy cách này nên không hợp lệ. Xin hãy kiểm tra lại.</Description>
+  </Message>
+  <Message Id="50667">
+    <Icon>32</Icon>
+    <Buttons>0</Buttons>
+    <Description>Bạn thật sự muốn đóng chương trình?</Description>
+  </Message>
+  <Message Id="50668">
+    <Icon>16</Icon>
+    <Buttons>0</Buttons>
+    <Description>Chưa lấy tham số chứng từ</Description>
+  </Message>
+  <Message Id="50669">
+    <Icon>32</Icon>
+    <Buttons>3</Buttons>
+    <Description>Bạn có muốn ghi đè số liệu cũ không?</Description>
+  </Message>
+  <Message Id="50670">
+    <Icon>32</Icon>
+    <Buttons>3</Buttons>
+    <Description>Xin vui lòng nhập mã lô của cuộn</Description>
+  </Message>
+  <Message Id="50671">
+    <Icon>32</Icon>
+    <Buttons>0</Buttons>
+    <Description>Có mã cuộn đã tồn tại</Description>
+  </Message>
+  <Message Id="50672">
+    <Icon>32</Icon>
+    <Buttons>4</Buttons>
+    <Description>Bạn có muốn thêm dòng mới không?</Description>
+  </Message>
+  <Message Id="50673">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Có tài khoản con nên không xóa được.</Description>
+  </Message>
+  <Message Id="50674">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Chưa khai báo DATA_CODE cho menu.</Description>
+  </Message>
+  <Message Id="50675">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Chưa có thông tin Data (DataInfo = null).</Description>
+  </Message>
+  <Message Id="50676">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Chưa khai báo tên file excel mẫu.</Description>
+  </Message>
+  <Message Id="50677">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Chưa khai báo thông số xuất excel.</Description>
+  </Message>
+  <Message Id="50678">
+    <Icon>32</Icon>
+    <Buttons>4</Buttons>
+    <Description>Có node con. Có tiếp tục xóa không?</Description>
+  </Message>
+  <Message Id="50679">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Chiến dịch đang gửi. Vui lòng dừng chiến dịch trước khi muốn thực hiện việc khác.</Description>
+  </Message>
+  <Message Id="50680">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Số điện thoại đã có.</Description>
+  </Message>
+  <Message Id="50681">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Email đã có.</Description>
+  </Message>
+  <Message Id="50682">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã số thuế đã có.</Description>
+  </Message>
+  <Message Id="50683">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Số chứng minh/hộ chiếu thư đã có.</Description>
+  </Message>
+  <Message Id="50684">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Địa chỉ trang web đã có.</Description>
+  </Message>
+  <Message Id="50685">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Khách hàng này đã có thẻ. Vui lòng kiểm tra lại.</Description>
+  </Message>
+  <Message Id="50686">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Xin vui lòng nhập 'Tên đăng nhập' hoặc 'Vai trò'/'Quyền truy cập'</Description>
+  </Message>
+  <Message Id="50687">
+    <Icon>32</Icon>
+    <Buttons>4</Buttons>
+    <Description>Thẻ này chưa phát hành. Quý khách có muốn phát hành luôn không?</Description>
+  </Message>
+  <Message Id="50688">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Xin vui lòng nhập 'Nhân viên' hoặc 'Nhóm nhân viên'</Description>
+  </Message>
+  <Message Id="50689">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã vạch (barcode) không có trong sổ bảo hành</Description>
+  </Message>
+  <Message Id="50690">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã vạch (barcode) đã hết hạn bảo hành</Description>
+  </Message>
+  <Message Id="50691">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Vui lòng chọn dòng (nhấn vào đầu dòng để chọn dòng, giữ SHIFT để chọn nhiều dòng)</Description>
+  </Message>
+  <Message Id="50692">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Không có nhân viên nào được chọn</Description>
+  </Message>
+  <Message Id="50693">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Không có sản phẩm nào được chọn</Description>
+  </Message>
+  <Message Id="50694">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Số CMT/Hộ chiếu đã có</Description>
+  </Message>
+  <Message Id="50695">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Dòng dữ liệu chính đang ở trạng thái MỚI thoặc SỬA. Vui lòng lưu dữ liệu chính trước.</Description>
+  </Message>
+  <Message Id="50696">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Biểu mẫu đã được sử dụng.</Description>
+  </Message>
+  <Message Id="50697">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Các đơn hàng phải chung 1 khách hàng.</Description>
+  </Message>
+  <Message Id="50698">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Cả 2 bill đều phải có thực đơn thì mới tách được bàn.</Description>
+  </Message>
+  <Message Id="50699">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Bàn đang đóng nên không thể thực hiện thao tác này.</Description>
+  </Message>
+  <Message Id="50700">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Bàn đang mở nên không thể thực hiện thao tác này.</Description>
+  </Message>
+  <Message Id="50701">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Chưa có bàn nào được chọn.</Description>
+  </Message>
+  <Message Id="50702">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Chưa có sản phẩm nào được chọn hoặc đã thực hiện hết.</Description>
+  </Message>
+  <Message Id="50703">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Thẻ này hiện tại đang có bàn mở nên không thể mở cho bàn khác.</Description>
+  </Message>
+  <Message Id="50704">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Vui lòng chọn nhân viên hoặc nhóm nhân viên.</Description>
+  </Message>
+  <Message Id="50705">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đã có phiếu thu.</Description>
+  </Message>
+  <Message Id="50706">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đã có phiếu chi.</Description>
+  </Message>
+  <Message Id="50707">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đã có đơn hàng.</Description>
+    <Languages>
+      <en-US>Have order...</en-US>
+    </Languages>
+  </Message>
+  <Message Id="50708">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đã có phiếu xuất.</Description>
+  </Message>
+  <Message Id="50709">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đã có hóa đơn.</Description>
+  </Message>
+  <Message Id="50710">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đã có phiếu kế toán.</Description>
+  </Message>
+  <Message Id="50711">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đã có cơ hội.</Description>
+  </Message>
+  <Message Id="50712">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đã có hợp đồng.</Description>
+  </Message>
+  <Message Id="50713">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đã có phiếu nhập hàng bán bị trả lại.</Description>
+  </Message>
+  <Message Id="50714">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đã có phiếu xuất trả nhà cung cấp.</Description>
+  </Message>
+  <Message Id="50715">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đã có phiếu nhập mua hàng.</Description>
+  </Message>
+  <Message Id="50716">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Hợp đồng đã thanh toán hết.</Description>
+  </Message>
+  <Message Id="50717">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Hợp đồng đã hoàn thành.</Description>
+  </Message>
+  <Message Id="50718">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã/tên mới không được trùng với Mã/tên cũ.</Description>
+  </Message>
+  <Message Id="50719">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Chưa nhập chi tiết.</Description>
+  </Message>
+  <Message Id="50720">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Chưa nhập lịch thanh toán.</Description>
+  </Message>
+  <Message Id="50721">
+    <Icon>32</Icon>
+    <Buttons>4</Buttons>
+    <Description>Đã tải xong, bạn có muốn mở file không?</Description>
+  </Message>
+  <Message Id="50722">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Không có dữ liệu được chọn</Description>
+  </Message>
+  <Message Id="50723">
+    <Icon>32</Icon>
+    <Buttons>4</Buttons>
+    <Description>Đã thực hiện xong, bạn có muốn mở file không?</Description>
+  </Message>
+  <Message Id="50724">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đã tạo KH</Description>
+  </Message>
+  <Message Id="50725">
+    <Icon>32</Icon>
+    <Buttons>4</Buttons>
+    <Description>Bạn có chắc chắn muốn chuyển không?</Description>
+  </Message>
+  <Message Id="50726">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Vượt quá hạn mức cho phép.</Description>
+  </Message>
+  <Message Id="50727">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Số lượng của phiếu xuất và hóa đơn không khớp nhau.</Description>
+  </Message>
+  <Message Id="50728">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Thời gian chồng với thời gian khác.</Description>
+  </Message>
+  <Message Id="50729">
+    <Icon>32</Icon>
+    <Buttons>4</Buttons>
+    <Description>Bạn có chắc chắn muốn copy các chi tiết này không?</Description>
+  </Message>
+  <Message Id="50730">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Thời gian bắt đầu và kết thúc của lịch hẹn phải khác nhau.</Description>
+  </Message>
+  <Message Id="50731">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Thời gian bắt đầu cảnh báo đã qua.</Description>
+  </Message>
+  <Message Id="50732">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Có mã nhân viên bị trùng. Xin vui lòng kiểm tra lại.</Description>
+  </Message>
+  <Message Id="50733">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Ngày này đã có. Xin vui lòng kiểm tra lại.</Description>
+  </Message>
+  <Message Id="50734">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Báo giá chưa được duyệt nên chưa được in.</Description>
+  </Message>
+  <Message Id="50735">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã vạch của Sản phẩm/vật tư này không cho phép số lượng lớn hơn 1.</Description>
+  </Message>
+  <Message Id="50736">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Tài liệu đã duyêt, không được sửa/xóa nữa.</Description>
+  </Message>
+  <Message Id="50737">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Nguồn và đích phải khác nhau.</Description>
+  </Message>
+  <Message Id="50738">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Bạn phải nhập mật khẩu cũ.</Description>
+  </Message>
+  <Message Id="50739">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mật khẩu cũ không đúng.</Description>
+  </Message>
+  <Message Id="50740">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Số lượng đã hết.</Description>
+  </Message>
+  <Message Id="50741">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Dòng này cố định, không được xóa vì liên quan đến cài đặt. Liên hệ HiểuND để hỗ trợ.</Description>
+  </Message>
+  <Message Id="50742">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Dòng này cố định, không được sửa mã, tên vì liên quan đến cài đặt. Liên hệ HiểuND để hỗ trợ.</Description>
+  </Message>
+  <Message Id="50743">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Trạng thái đơn hàng này không cho phép thực hiện.</Description>
+  </Message>
+  <Message Id="50744">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Không đủ điều kiện thực hiện.</Description>
+  </Message>
+  <Message Id="50745">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đơn hàng của phiếu này có trạng thái không được phép xóa phiếu.</Description>
+  </Message>
+  <Message Id="50746">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Chưa đăng nhập hệ thống.</Description>
+  </Message>
+  <Message Id="50747">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Không tìm chấy phiếu cần xử lý. Có thể phiếu gốc đã bị xóa. Vui lòng kiểm tra lại.</Description>
+  </Message>
+  <Message Id="50748">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đã thực hiện xong.</Description>
+  </Message>
+  <Message Id="50749">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Xin vui lòng chọn chứng từ.</Description>
+  </Message>
+  <Message Id="50750">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đơn hàng đã duyệt/xác nhận.</Description>
+  </Message>
+  <Message Id="50751">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Khách hàng này đã tồn tại trong hệ thống. Không thể thêm.</Description>
+  </Message>
+  <Message Id="50752">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Xin vui lòng chọn dữ liệu cần xử lý.</Description>
+  </Message>
+  <Message Id="50753">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Chứng từ đã hoặc đang chờ duyệt nên không sửa được.</Description>
+  </Message>
+  <Message Id="50754">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Chứng từ đã duyệt nên không sửa được.</Description>
+  </Message>
+  <Message Id="50755">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Năm bạn chọn không có tài khoản.</Description>
+  </Message>
+  <Message Id="50756">
+    <Icon>32</Icon>
+    <Buttons>4</Buttons>
+    <Description>Bạn có chắc muốn hủy?</Description>
+  </Message>
+  <Message Id="50757">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đây là công ty tổng, không được xóa.</Description>
+  </Message>
+  <Message Id="50758">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Có chi nhánh con nên không xóa được. Phải xóa các chi nhánh trước.</Description>
+  </Message>
+  <Message Id="50759">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đang cập nhật. Xin vui lòng chờ giây lát.</Description>
+  </Message>
+  <Message Id="50760">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Chưa nhập chi phí.</Description>
+  </Message>
+  <Message Id="50761">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Chưa chọn phiếu để phân bổ.</Description>
+  </Message>
+  <Message Id="50762">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Hóa đơn đã in.</Description>
+  </Message>
+  <Message Id="50763">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Xin lỗi, đây là đơn hàng được phân bổ, phải phân bổ lại chứ không được sửa.</Description>
+  </Message>
+  <Message Id="50764">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Xin lỗi, Đơn hàng đã được phân bổ nên không được sửa/xóa.</Description>
+  </Message>
+  <Message Id="50765">
+    <Icon>32</Icon>
+    <Buttons>4</Buttons>
+    <Description>Bạn có muốn in hàng loạt không?</Description>
+  </Message>
+  <Message Id="50766">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Chưa có dữ liệu được chọn.</Description>
+  </Message>
+  <Message Id="50767">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Không có dữ liệu.</Description>
+  </Message>
+  <Message Id="50768">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Chưa có loại tiền. Hãy khai báo danh sách loại tiền trước.</Description>
+  </Message>
+  <Message Id="50769">
+    <Icon>32</Icon>
+    <Buttons>4</Buttons>
+    <Description>Bạn có chắc chắn muốn phát hành hóa đơn không?</Description>
+  </Message>
+  <Message Id="50770">
+    <Icon>32</Icon>
+    <Buttons>4</Buttons>
+    <Description>Bạn có chắc chắn muốn tạo mã hàng loạt không?</Description>
+  </Message>
+  <Message Id="50771">
+    <Icon>32</Icon>
+    <Buttons>4</Buttons>
+    <Description>Bạn có chắc chắn muốn xóa hàng loạt không?</Description>
+  </Message>
+  <Message Id="50772">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đang thực hiện, xin vui lòng chờ...</Description>
+  </Message>
+  <Message Id="50773">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đã có voucher, không được phép dùng thêm voucher trên phiếu này</Description>
+  </Message>
+  <Message Id="50774">
+    <Icon>32</Icon>
+    <Buttons>4</Buttons>
+    <Description>Bạn có chắc chắn duyệt không?</Description>
+  </Message>
+  <Message Id="50775">
+    <Icon>32</Icon>
+    <Buttons>4</Buttons>
+    <Description>Bạn có chắc chắn không duyệt không?</Description>
+  </Message>
+  <Message Id="50776">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Dữ liệu không hợp lệ.</Description>
+  </Message>
+  <Message Id="50777">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đơn hàng đã giao xong.</Description>
+  </Message>
+  <Message Id="50778">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Phiếu chưa được phép in.</Description>
+  </Message>
+  <Message Id="50779">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Chứng từ đã ghi sổ.</Description>
+  </Message>
+  <Message Id="50780">
+    <Icon>32</Icon>
+    <Buttons>4</Buttons>
+    <Description>Bạn có chắc chắn xóa ghi sổ?</Description>
+  </Message>
+  <Message Id="50781">
+    <Icon>32</Icon>
+    <Buttons>4</Buttons>
+    <Description>Năm chứng từ khác năm làm việc. Bạn có chắc chắn muốn ghi không?</Description>
+  </Message>
+  <Message Id="50782">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Năm chứng từ khác năm làm việc - không hợp lệ.</Description>
+  </Message>
+  <Message Id="50783">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Imei/mã vạch đã có trong kho.</Description>
+  </Message>
+  <Message Id="50784">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Có Imei/mã vạch đã xuất kho nên không xóa/sửa được.</Description>
+  </Message>
+  <Message Id="50785">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Không tạo được Barcode/Imei. Xin vui lòng kiểm tra lại cài đặt sản phẩm.</Description>
+  </Message>
+  <Message Id="50786">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Xin lỗi. Bạn chỉ được chọn 1 đơn/phiếu.</Description>
+  </Message>
+  <Message Id="50787">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Khách hàng chưa có thẻ</Description>
+  </Message>
+  <Message Id="50788">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Xin lỗi, vượt quá hạn mức nợ. Nếu cho phép vượt hạn mức nợ thì chọn 'Cho vượt hạn mức nợ'</Description>
+  </Message>
+  <Message Id="50789">
+    <Icon>32</Icon>
+    <Buttons>4</Buttons>
+    <Description>Bạn có chắc chắn muốn gộp dữ liệu này không?</Description>
+  </Message>
+  <Message Id="50790">
+    <Icon>32</Icon>
+    <Buttons>4</Buttons>
+    <Description>Bạn có chắc chắn muốn tập hợp lại số liệu?</Description>
+  </Message>
+  <Message Id="50791">
+    <Icon>32</Icon>
+    <Buttons>4</Buttons>
+    <Description>Bạn có chắc chắn muốn đăng nhập lại không?</Description>
+  </Message>
+  <Message Id="50792">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đã lấy file thành công. Xin nhấn Lưu để lưu dữ liệu</Description>
+  </Message>
+  <Message Id="50793">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Hệ thống đang import, xin vui lòng dừng tiến trình trước khi đóng</Description>
+  </Message>
+  <Message Id="50794">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Hệ thống đang lưu dữ liệu, xin vui lòng dừng tiến trình trước khi đóng</Description>
+  </Message>
+  <Message Id="50795">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đã ngưng tiến trình.</Description>
+  </Message>
+  <Message Id="50796">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Hệ thống đang chạy tiến trình import. Xin vui lòng chờ</Description>
+  </Message>
+  <Message Id="50797">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Hệ thống đang chạy tiến trình lưu. Xin vui lòng chờ</Description>
+  </Message>
+  <Message Id="50798">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Hệ thống đang chạy tiến trình. Xin vui lòng ngưng tiến trình trước.</Description>
+  </Message>
+  <Message Id="50799">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Khách hàng đã khóa nên không thực hiện được.</Description>
+  </Message>
+  <Message Id="50800">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Chưa có thông tin tài khoản vnpost.</Description>
+  </Message>
+  <Message Id="50801">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Không lấy được token từ vnpost.</Description>
+  </Message>
+  <Message Id="50802">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Ngày thôi khấu hao phải lớn hơn ngày bắt đầu khấu hao.</Description>
+  </Message>
+  <Message Id="50803">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Ngày ghi nhận giá trị còn lại phải lớn hơn hoặc bằng ngày bắt đầu khấu hao.</Description>
+  </Message>
+  <Message Id="50804">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Không tìm thấy thông tin khách hàng.</Description>
+  </Message>
+  <Message Id="50805">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Vui lòng chọn khách hàng.</Description>
+  </Message>
+  <Message Id="50806">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Tài sản đã giảm, không giảm được nữa.</Description>
+  </Message>
+  <Message Id="50807">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Tài sản đã ngưng khấu hao, không ngưng được nữa.</Description>
+  </Message>
+  <Message Id="50808">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đang nạp dữ liệu, xin vui lòng chờ.</Description>
+  </Message>
+  <Message Id="50809">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Thuế suất đã có.</Description>
+  </Message>
+  <Message Id="50810">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Số liệu đã xóa nên không được sửa.</Description>
+  </Message>
+  <Message Id="50811">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Công cụ dụng cụ đã có khấu hao nên không thể xóa.</Description>
+  </Message>
+  <Message Id="50812">
+    <Icon>32</Icon>
+    <Buttons>4</Buttons>
+    <Description>Đã thực hiện thành công. Quý khách có muốn tải file PDF về máy tính khống?</Description>
+  </Message>
+  <Message Id="50813">
+    <Icon>32</Icon>
+    <Buttons>4</Buttons>
+    <Description>Dữ liệu đã có thay đổi, bạn có chắc chắn muốn thực hiện?</Description>
+  </Message>
+  <Message Id="50814">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Xin vui lòng chọn dòng để sao chép</Description>
+  </Message>
+  <Message Id="50815">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đang ở chế độ xem, xin vui lòng bấm "Sửa"</Description>
+  </Message>
+  <Message Id="50816">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Phải gửi vận chuyển trước khi xử lý</Description>
+  </Message>
+  <Message Id="50817">
+    <Icon>32</Icon>
+    <Buttons>4</Buttons>
+    <Description>Quý khách có chắc chắn muốn mở bán?</Description>
+  </Message>
+  <Message Id="50818">
+    <Icon>32</Icon>
+    <Buttons>4</Buttons>
+    <Description>Quý khách có chắc chắn muốn ngường bán?</Description>
+  </Message>
+  <Message Id="50819">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Số nhà, đường, quận/huyện này đã có, xin vui lòng kiểm tra lại</Description>
+  </Message>
+  <Message Id="50820">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Trạng thái phiếu không được xóa.</Description>
+  </Message>
+  <Message Id="50821">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đơn hàng có phiếu xuất kho, không được sửa.</Description>
+  </Message>
+  <Message Id="50822">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đơn hàng đã phân bổ, không được sửa.</Description>
+  </Message>
+  <Message Id="50823">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Trạng thái này không cho phép thực hiện nghiệp vụ này.</Description>
+  </Message>
+  <Message Id="50824">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đơn/Phiếu này đã hết nợ.</Description>
+  </Message>
+  <Message Id="50825">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Chưa khai báo thông tin API.</Description>
+  </Message>
+  <Message Id="50826">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Tài khoản không có số điện thoại nên không đồng bộ được.</Description>
+  </Message>
+  <Message Id="50827">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Khách hàng đã bị khóa, xin vui lòng mở khóa trước khi thực hiện chức năng này.</Description>
+  </Message>
+  <Message Id="50828">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Khách hàng không có Số điện thoại. Vui lòng bổ sung Số điện thoại trước khi thực hiện chức năng này.</Description>
+  </Message>
+  <Message Id="50829">
+    <Icon>32</Icon>
+    <Buttons>4</Buttons>
+    <Description>Đơn vị ghi số liệu khác với Đơn vị làm việc. Bạn có chắc chắn muốn ghi số liệu không?</Description>
+  </Message>
+  <Message Id="50830">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Dữ liệu dùng chung cho hệ thống nên không được thực hiện thao tác này.</Description>
+  </Message>
+  <Message Id="50831">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Dữ liệu này không phải của quý khách nên không thực hiện được thao tác này.</Description>
+  </Message>
+  <Message Id="60000">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Xin vui lòng nhập '{0}'</Description>
+  </Message>
+  <Message Id="60001">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Không tìm thấy {0}</Description>
+  </Message>
+  <Message Id="60002">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Mã vạch '{0}' quá dài. Hãy cắt bớt hoặc sử dụng số để mã vạch ngắn hơn</Description>
+  </Message>
+  <Message Id="60003">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Không tìm thấy file {0}</Description>
+  </Message>
+  <Message Id="60004">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Phải có '{0}' hoặc '{1}'</Description>
+  </Message>
+  <Message Id="60005">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Có lỗi tại '{0}'. Xin hãy xem nhật ký lỗi để biết chi tiết</Description>
+  </Message>
+  <Message Id="60006">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>'{0}' phải nằm trong năm làm việc</Description>
+  </Message>
+  <Message Id="60007">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đơn hàng '{0}' nên không được sửa {1}</Description>
+  </Message>
+  <Message Id="60008">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Không tìm thấy {0} '{1}'</Description>
+  </Message>
+  <Message Id="60009">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Chưa nhập {0}</Description>
+  </Message>
+  <Message Id="60010">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>Không cho phép {0} âm</Description>
+  </Message>
+  <Message Id="60011">
+    <Icon>0</Icon>
+    <Buttons>0</Buttons>
+    <Description>'{0}' phải nhỏ hơn hoặc bằng '{1}'</Description>
+  </Message>
+  <Message Id="60012">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đã chi tiền nên không sửa được {0}</Description>
+  </Message>
+  <Message Id="60013">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>{0} đã được in rồi</Description>
+  </Message>
+  <Message Id="60014">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Dung lượng file quá lớn. Vui lòng chọn file có dung lượng nhỏ hơn hoặc bằng {0}kb</Description>
+  </Message>
+  <Message Id="60015">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Xin vui lòng chọn '{0}'</Description>
+  </Message>
+  <Message Id="60016">
+    <Icon>32</Icon>
+    <Buttons>4</Buttons>
+    <Description>Chương trình đang gửi chiến dịch '{0}'. Bạn có chắc muốn dừng không?</Description>
+  </Message>
+  <Message Id="60017">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Vui lòng lưu {0}</Description>
+  </Message>
+  <Message Id="60018">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Bảng dữ liệu không chứa cột '{0}'. Vui lòng liên hệ với nhân viên kỹ thuật.</Description>
+  </Message>
+  <Message Id="60019">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Năm {0} chưa có tài khoản.</Description>
+  </Message>
+  <Message Id="60020">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>{0} đã có.</Description>
+  </Message>
+  <Message Id="60021">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>{0} '{1}' đã có.</Description>
+  </Message>
+  <Message Id="60022">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Không tìm thấy '{0}' '{1}'. Vui lòng kiểm tra lại.</Description>
+  </Message>
+  <Message Id="60023">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Giá trị mặc định '{0}' không nằm trong danh sách giá trị cho phép '{1}'.</Description>
+  </Message>
+  <Message Id="60024">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Chưa nhập bảng '{0}'.</Description>
+  </Message>
+  <Message Id="60025">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đã lấy {0} dòng / tổng {1} dòng</Description>
+  </Message>
+  <Message Id="60026">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đã lưu {0} dòng / tổng {1} dòng</Description>
+  </Message>
+  <Message Id="60027">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Đã xóa {0} dòng / tổng {1} dòng</Description>
+  </Message>
+  <Message Id="60028">
+    <Icon>48</Icon>
+    <Buttons>0</Buttons>
+    <Description>Vui lòng chọn {0}</Description>
+  </Message>
+  <Message Id="60029">
+    <Icon>32</Icon>
+    <Buttons>4</Buttons>
+    <Description>Không tìm thấy {0} '{1}'. Bạn có muốn tạo mới {0} không?</Description>
+  </Message>
+  <Message Id="60030">
+    <Icon>32</Icon>
+    <Buttons>4</Buttons>
+    <Description>Không có {0} để sửa. Bạn có muốn tạo mới {0} không?</Description>
+  </Message>
+</ManPack.Messages>

@@ -1,0 +1,86 @@
+﻿@* @page "/workinginfo" *@
+@using Microsoft.AspNetCore.Components.Authorization @*  Có lệnh này mới dùng được @context *@
+@using Blazored.LocalStorage;
+@using MyWebERP.Model;
+@using MyWebERP.Data;
+
+@inherits LayoutComponentBase
+
+@* @inject NavigationManager NavigationManager *@
+@inject ILocalStorageService LocalStorageService
+@inject AppStateManager AppState;
+
+<CascadingAuthenticationState>
+    <AuthorizeView>
+        <Authorized>
+            @* <div class="row w-100" style="border:dashed"> *@
+
+            
+                <div class="col-4">
+                    <a href="/">@* <img class="logo" src="images/logo.svg" /> *@My BMS</a>@CurrentMenuItem?.PathTitle
+                </div>
+
+                <div class="col-3">
+                    Xin chào,
+
+                    <a href="/login" title="Đăng nhập lại">@User?.display_name</a>
+                    <a href="/logout">Đăng xuất</a>
+
+                </div>
+                <div class="col-2">
+                    Năm làm việc:
+                    <a href="/selectyear" title="Chọn năm làm việc">@Year</a>
+                </div>
+                <div class="col-3">
+                    Đơn vị: 
+                    <a href="/selectcompany" title="Chọn chi nhánh làm việc">@Company?.CompanyName</a>
+                </div>
+            @* </div> *@
+        </Authorized>
+        <NotAuthorized>
+            <NavLink href="/login" class="button-link">
+                <DxButton RenderStyle="@ButtonRenderStyle.Dark" Text="Login" RenderStyleMode="@ButtonRenderStyleMode.Text" CssClass="menu-button"></DxButton>
+            </NavLink>
+        </NotAuthorized>
+    </AuthorizeView>
+</CascadingAuthenticationState>
+
+@code {
+
+
+    [Parameter]
+    public LoginResultModel? User { get; set; }
+    [Parameter]
+    public int? Year { get; set; }
+    [Parameter]
+    public Model.CompanyItem? Company { get; set; }
+
+    [Parameter] public Model.MenuItem CurrentMenuItem { get; set; }
+
+    [Parameter]
+    public EventCallback<LoginResultModel?> UserChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<int?> YearChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<Model.CompanyItem?> CompanyChanged { get; set; }
+
+    // protected string CurrentPath
+    // {
+    //     get
+    //     {
+    //         if (CurrentMenuItem == null) return "";
+
+    //         return CurrentMenuItem.PathTitle;
+    //     }
+    // }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        User = await LocalStorageService.GetItemAsync<LoginResultModel?>(LocalStorageName.USER);
+        Year = await LocalStorageService.GetItemAsync<int?>(LocalStorageName.YEAR);
+        Company = await LocalStorageService.GetItemAsync<Model.CompanyItem?>(LocalStorageName.COMPANY);
+        CurrentMenuItem = AppState.CurrentMenuItem;
+    }
+}

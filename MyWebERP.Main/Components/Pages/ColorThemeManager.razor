@@ -1,0 +1,85 @@
+@page "/color-theme/{CompanyMenuId}"
+
+@using MyWebERP.Services
+@using MyWebERP.Model
+
+@inject IJSRuntime JS
+
+@* Chọn màu chủ đạo, màu chữ, ...... Chỉ lưu store cho cá nhân*@
+
+<h5>🎨 Tùy chỉnh giao diện</h5>
+<div class="row row-cols-1 row-cols-md-2 g-2">
+    @foreach (var item in ThemeColors)
+    {
+        <div class="col d-flex align-items-center gap-2">
+            <label class="form-label m-0" style="width: 120px;">@item.label</label>
+            <input type="color" value="@item.color" @oninput="e => UpdateColor(item, e)" />
+        </div>
+    }
+</div>
+
+<div class="mt-3">
+    <button class="btn btn-outline-secondary" @onclick="ResetTheme">🔄 Khôi phục mặc định</button>
+</div>
+
+@code {
+    [Parameter] public string CompanyMenuId { get; set; }
+
+    class ThemeColorItem
+    {
+        public string label { get; set; } = "";
+        public string css_var { get; set; } = "";
+        public string default_color { get; set; } = "";
+        public string color { get; set; } = "";
+    }
+
+    private List<ThemeColorItem> ThemeColors = new()
+    {
+        new() { label = "Primary", css_var = "--bs-primary", default_color = "#0d6efd" },
+        new() { label = "Secondary", css_var = "--bs-secondary", default_color = "#6c757d" },
+        new() { label = "Success", css_var = "--bs-success", default_color = "#198754" },
+        new() { label = "Warning", css_var = "--bs-warning", default_color = "#ffc107" },
+        new() { label = "Danger", css_var = "--bs-danger", default_color = "#dc3545" },
+        new() { label = "Background", css_var = "--bs-body-bg", default_color = "#ffffff" },
+        new() { label = "Text", css_var = "--bs-body-color", default_color = "#212529" },
+    };
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            foreach (var item in ThemeColors)
+            {
+                var default_color = await JS.InvokeAsync<string>("getCssVarDefault", item.css_var);
+
+                if (String.IsNullOrEmpty(default_color))
+                {
+                    item.default_color = default_color;
+                }
+
+                var color = await JS.InvokeAsync<string>("getColorVarFromStorage", item.css_var);
+                item.color = color ?? item.default_color;
+
+                await JS.InvokeVoidAsync("setCssVar", item.css_var, item.color);
+            }
+
+            StateHasChanged();
+        }
+    }
+
+    private async Task UpdateColor(ThemeColorItem item, ChangeEventArgs e)
+    {
+        item.color = e.Value?.ToString() ?? item.default_color;
+        await JS.InvokeVoidAsync("setCssVar", item.css_var, item.color);
+    }
+
+    private async Task ResetTheme()
+    {
+        foreach (var item in ThemeColors)
+        {
+            item.color = item.default_color;
+            await JS.InvokeVoidAsync("setCssVar", item.css_var, item.default_color);
+        }
+    }
+}

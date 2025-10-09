@@ -1,0 +1,184 @@
+﻿@* @page "/report/sorptthdtthang/{CompanyMenuId}" *@
+
+@using MyWebERP.Model
+@using MyWebERP.Data
+@using System.Dynamic
+@using MyWebERP.Base.Components.Pages
+
+@inherits ReportComponentChartBase<BieuDoTHDTThangModel>
+
+    <DxLayoutBreakpoint DeviceSize="DeviceSize.XSmall" @bind-IsActive="@isXSmallScreen" />
+
+<div class="row" style="width:100%">
+    <DxToolbar ItemRenderStyleMode="ToolbarRenderStyleMode.Plain">
+
+        @* <DxToolbarItem CssClass="grid-toolbar-company-main-chart">
+            <Template Context="toolbar_item_context">
+
+                <div class="d-flex align-items-center gap-2">
+                    <DxTextBox ReadOnly="true"
+                               CssClass="selected-display-box"
+                               Text="@ListCompanyNameSelected">
+                        <Buttons>
+                            <DxEditorButton Click="@CompanySelectShow"
+                                            IconCssClass="oi oi-magnifying-glass"
+                                            Position="EditorButtonPosition.Right" />
+                        </Buttons>
+                    </DxTextBox>
+                </div>
+            </Template>
+        </DxToolbarItem> *@
+        <DxToolbarItem CssClass="grid-toolbar-period">
+            <Template Context="toolbar_item_context">
+                <DxComboBox Data="@ListPeriod"
+                            TextFieldName="@nameof(PeriodItem.PeriodName)"
+                            KeyFieldName="@nameof(PeriodItem.PeriodCode)"
+                            @bind-Value="@SelectedPeriodItem"
+                            SelectedItemChanged="@((PeriodItem item) => SelectedPeriodChanged(item))"
+                            InputId="cbPeriod" />
+            </Template>
+        </DxToolbarItem>
+        <DxToolbarItem CssClass="grid-toolbar-date">
+            <Template Context="toolbar_item_context">
+                <DxDateEdit @bind-Date="@Date1"
+                            DisplayFormat="dd/MM/yyyy"
+                            Format="dd/MM/yyyy"
+                            Mask="dd/MM/yyyy"
+                            InputId="deDate1">
+                    <DxDateTimeMaskProperties CaretMode="@MaskCaretMode.Advancing" UpdateNextSectionOnCycleChange="true" />
+                </DxDateEdit>
+
+            </Template>
+        </DxToolbarItem>
+        <DxToolbarItem CssClass="grid-toolbar-date">
+            <Template Context="toolbar_item_context">
+                <DxDateEdit @bind-Date="@Date2"
+                            DisplayFormat="dd/MM/yyyy"
+                            Mask="dd/MM/yyyy"
+                            Format="dd/MM/yyyy"
+                            InputId="deDate2">
+                    <DxDateTimeMaskProperties CaretMode="@MaskCaretMode.Advancing" UpdateNextSectionOnCycleChange="true" />
+                </DxDateEdit>
+            </Template>
+        </DxToolbarItem>
+
+        <DxToolbarItem Text="Nạp" Click="RefreshItem_Click" IconCssClass="grid-toolbar-refresh" />
+    </DxToolbar>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        Tổng cộng: @TotalAmount.ToString("N0")
+    </div>
+</div>
+<DxChart T="BieuDoTHDTThangModel" Height="35vh"
+         Data="@Data" @ref="Chart" CssClass="main-dashboard-chart">
+
+    @* <DxChartValueAxis>
+        <DxChartValueAxis>
+            <DxChartAxisTitle Text="Triệu đồng" />
+        </DxChartValueAxis>
+    </DxChartValueAxis> *@
+    <DxChartBarSeries Name="@Title"
+                      T="BieuDoTHDTThangModel"
+                      TArgument="string"
+                      TValue="decimal"
+                      ArgumentField="x => x.m_cap"
+                      ValueField="x => x.amount" />
+    @foreach (var item in Data)
+    {
+        <DxChartAnnotation Argument="@item.m_cap"
+                           Value="@item.amount"
+                           Text="@FormatTooltipValue(item.amount)"
+                           Type="ChartAnnotationType.Text" />
+    }
+
+    <DxChartTooltip Enabled="@(!isXSmallScreen)"
+                    Position="RelativePosition.Outside">
+        <div style="margin: 0.75rem">
+            <div class="fw-bold">@context.Point.Argument</div>
+            <div>@($"{context.Point.Value:N0}")</div>
+        </div>
+    </DxChartTooltip>
+</DxChart>
+
+
+ @*Động chưa được*@
+@* <DynamicChartGeneric TItem="BieuDoTHDTThangModel"
+                     Data="@Data"
+                     ArgumentField="m_cap"
+                     ValueFields="@valueFields"
+                     ChartType="ChartType.Bar" />
+
+@code
+{
+    string[] valueFields = new[] { "total_amount_fc2"};
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+} *@
+
+@code
+{
+    decimal TotalAmount { get; set; } = 0;
+    string Title { get; set; }
+
+    protected override async Task SetDefaultPeriod()
+    {
+        SelectedPeriodItem = ListPeriod.FirstOrDefault(x => x.PeriodCode == "NAM");
+        await SetDate(SelectedPeriodItem);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        if (String.IsNullOrEmpty(CompanyId))
+        {
+            return;
+        }
+
+        ListCompanyIdSelected = this.CompanyId;
+
+        await DataAsync();
+    }
+
+    protected override async Task DataAsync()
+    {
+        await base.DataAsync();
+
+        Title = $"LÃI: {TotalAmount.ToString("#,###")}";
+    }
+
+    protected override void DeserializeResult(APIResultModel result)
+    {
+        APIResultModel _result = result;
+
+        BieuDoTHDTThangResultModel _resultData = Newtonsoft.Json.JsonConvert.DeserializeObject<BieuDoTHDTThangResultModel>(_result.Data.ToString());
+
+        TotalAmount = _resultData.total_amount;
+
+        if (_resultData.count_of_items > 0)
+        {
+            // Data = MyWebERP.Data.MyLib.ConvertListJObjectToListExpando(array);
+            Data = Newtonsoft.Json.JsonConvert.DeserializeObject<List<BieuDoTHDTThangModel>>(_resultData.data_details.ToString());
+        }
+    }
+
+    private string FormatTooltipValue(object value)
+    {
+        if (value is decimal dec)
+        {
+            if (dec >= 1_000_000_000)
+                return $"{Math.Round(dec / 1_000_000_000M, 1)} tỷ";
+            else if (dec >= 1_000_000)
+                return $"{Math.Round(dec / 1_000_000M, 1)} triệu";
+            else
+                return $"{dec:N0}";
+        }
+
+        return value?.ToString() ?? "";
+    }
+}

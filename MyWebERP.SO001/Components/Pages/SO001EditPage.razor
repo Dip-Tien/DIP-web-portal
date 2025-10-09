@@ -1,0 +1,353 @@
+﻿@page "/listso001edit/{CompanyMenuId}/{EditDataId}"
+
+@using Blazored.LocalStorage;
+@using Model;
+@using Data;
+@using MyWebERP.Customer.Components.Pages;
+@using MyWebERP.SKU.Components.Pages;
+@using MyWebERP.Base.Components.Pages
+
+@inherits SO001EditBase //MyVoucherEditFormBase1
+
+<DxLayoutBreakpoint DeviceSize="DeviceSize.XSmall" @bind-IsActive="@isXSmallScreenX" />
+
+<EditForm Model="@editItem" OnValidSubmit="@FormSubmitted" id="@FormId" Context="EditFormContext">
+    <DataAnnotationsValidator />
+    <DxFormLayout CssClass="100">
+        <DxSplitter CssClass="edit-voucher-splitter" Orientation="Orientation.Vertical">
+            <Panes>
+                <DxSplitterPane Size="40%" AllowCollapse="true" >
+                    <div class="row">
+                        <div class="col-6">
+                            <DxFormLayoutItem Caption="Mã khách:" ColSpanMd="12">
+                                <DxComboBox Data="@ListCustomer"
+                                @bind-Value=@editItem.customer_id
+                                SearchMode="@ListSearchMode.AutoSearch"
+                                SearchFilterCondition="@ListSearchFilterCondition.Contains"
+                                NullText="Chọn khách hàng (F4 để xổ danh sách. Mũi tên xuống để chọn từ trên xuống)"
+                                @ref="cboCustomerCode"
+                                CssClass="enter-nav my-combobox"
+                                SelectedItemChanged="@((CustomerLookupModel arg)=>SelectCustomerChanged(arg, editItem))"
+                                TextFieldName="@nameof(CustomerLookupModel.customer_code)"
+                                ValueFieldName="@nameof(CustomerLookupModel.customer_id)">
+                                    <Columns>
+                                        <DxListEditorColumn FieldName="@nameof(CustomerLookupModel.customer_code)" Caption="Mã khách" Width="120" />
+                                        <DxListEditorColumn FieldName="@nameof(CustomerLookupModel.customer_name)" Caption="Tên khách" Width="200" />
+                                        <DxListEditorColumn FieldName="@nameof(CustomerLookupModel.tel)" Caption="SĐT" Width="120" />
+                                    </Columns>
+                                    <Buttons>
+                                        @if (CheckLookupAddNew("CUST_LOOKUP_W") == true)
+                                        {
+                                            <DxEditorButton IconCssClass="toolbar-new"
+                                            Tooltip="Thêm khách hàng"
+                                            Click="@(_ => OnCustomerAddButtonClick())" />
+                                        }
+                                        @if (CheckLookupEdit("CUST_LOOKUP_W") == true)
+                                        {
+                                            <DxEditorButton IconCssClass="toolbar-edit"
+                                            Tooltip="Thêm khách hàng"
+                                            Click="@(_ => OnCustomerEditButtonClick())" />
+                                        }
+                                    </Buttons>
+
+                                </DxComboBox>
+                            </DxFormLayoutItem>
+                            <DxFormLayoutItem Caption="Tên khách khách:" ColSpanMd="12">
+                                <DxTextBox @bind-Text="@editItem.customer_name" ReadOnly="true" CssClass="enter-nav" />
+                            </DxFormLayoutItem>
+                            <DxFormLayoutItem Caption="Ghi chú:" ColSpanMd="12">
+                                <DxTextBox @bind-Text="@editItem.comment" CssClass="enter-nav" />
+                            </DxFormLayoutItem>
+
+                        </div>
+                        <div class="col-6">
+                            <DxFormLayoutItem Caption="Ngày CT:" ColSpanMd="12">
+                                <DxDateEdit @bind-Date="@editItem.voucher_date"
+                                CssClass="enter-nav"
+                                DisplayFormat="dd/MM/yyyy"
+                                Format="dd/MM/yyyy"
+                                Mask="dd/MM/yyyy"
+                                InputId="deDate1">
+                                    <DxDateTimeMaskProperties CaretMode="@MaskCaretMode.Advancing" UpdateNextSectionOnCycleChange="true" />
+                                    @* Phải có Mask thì caretmode mới chạy*@
+                                </DxDateEdit>
+                            </DxFormLayoutItem>
+                            <DxFormLayoutItem Caption="Số CT:" ColSpanMd="12">
+                                <DxTextBox @bind-Text="@editItem.voucher_no"
+                                CssClass="enter-nav">
+                                    <Buttons>
+                                        <DxEditorButton IconCssClass="grid-toolbar-new"
+                                        Tooltip="Tự động tạo mã mới"
+                                        Click="@(_ => OnNewVoucherNoButtonClick())" />
+                                    </Buttons>
+                                </DxTextBox>
+                            </DxFormLayoutItem>
+
+                            <DxFormLayoutItem Caption="Mã NT:" ColSpanMd="12">
+                                <DxComboBox Data="@ListCurrency"
+                                @bind-Value=@editItem.currency_id
+                                SearchMode="@ListSearchMode.AutoSearch"
+                                SearchFilterCondition="@ListSearchFilterCondition.Contains"
+                                NullText="Chọn ngoại tệ"
+                                CssClass="enter-nav my-combobox"
+                                SelectedItemChanged="@((CurrencyLookupModel arg)=>SelectCurrencyChanged(arg, editItem))"
+                                TextFieldName="@nameof(CurrencyLookupModel.currency_code)"
+                                ValueFieldName="@nameof(CurrencyLookupModel.currency_id)">
+                                </DxComboBox>
+                            </DxFormLayoutItem>
+                            <DxFormLayoutItem Caption="Tỷ giá NT" ColSpanMd="12">
+                                <DxSpinEdit @bind-Value=@editItem.currency_rate ReadOnly="@CurrencyIsBase" DisplayFormat="{0:N2}" CssClass="my-spin enter-nav input">
+
+                                </DxSpinEdit>
+                            </DxFormLayoutItem>
+                        </div>
+                    </div>
+                </DxSplitterPane>
+                <DxSplitterPane AllowCollapse="true">
+                    <DxGrid @ref="GridDetail"
+                    Data="@editItem.details"
+                    CssClass="default-grid"
+                    KeyFieldName="@nameof(SO001DetailModel.voucher_detail_id)"
+                    FooterDisplayMode="GridFooterDisplayMode.Always"
+                    EditModelSaving="GridDetail_EditModelSaving"
+                    CustomizeElement="GridDetail_CustomizeElement"
+                    EditMode="GridEditMode.EditCell"
+                    ValidationEnabled="true"
+                    TextWrapEnabled="false"
+                    VirtualScrollingEnabled="true"
+                    ShowFilterRow="true"
+                    FocusedRowEnabled="true"
+                    HighlightRowOnHover="true">
+                        @* <ToolbarTemplate> chả có tác dụng gì
+                            <DxToolbar ItemRenderStyleMode="ToolbarRenderStyleMode.Plain">
+                                <DxToolbarItem Text="Thêm dòng" Click="OnNewDetailButtonClick" IconCssClass="grid-toolbar-new" Enabled="true" />
+                                <DxToolbarItem Text="Xóa dòng" Click="OnDeleteDetailButtonClick" IconCssClass="grid-toolbar-delete" Enabled="true" />
+                                <DxToolbarItem Text="Hủy hết thay đổi" Click="DetailRevert_Click" IconCssClass="grid-toolbar-cancel" Enabled="DetailBatchItemsEnabled" />
+                            </DxToolbar>
+                        </ToolbarTemplate> *@
+                        <ToolbarTemplate>
+                            <DxToolbar Title="F2 để thêm chi tiết mới. Phím mũi tên để di chuyển giữa các ô. Enter để bắt đầu nhập ô đang chọn">
+
+                            </DxToolbar>
+                        </ToolbarTemplate>
+                        <Columns>
+
+                            <DxGridDataColumn Width="15"
+                            TextAlignment="GridTextAlignment.Center"
+                            ReadOnly="true"
+                            FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never" AllowSort="false">
+                                <CellDisplayTemplate>@(context.VisibleIndex + 1)</CellDisplayTemplate>
+                            </DxGridDataColumn>
+
+                            <DxGridCommandColumn Width="30px">
+                                <HeaderTemplate>
+                                    <DxButton IconCssClass="grid-icon grid-icon-add"
+                                    RenderStyle="ButtonRenderStyle.Link"
+                                    aria-label="Add"
+                                    tabindex="-1"
+                                    Click="@(() => OnNewDetailButtonClick())" />
+                                </HeaderTemplate>
+                                <CellDisplayTemplate>
+                                    <div class="grid-cell-align-center">
+                                        <DxButton IconCssClass="toolbar-delete"
+                                        CssClass="grid-delete-btn"
+                                        RenderStyle="ButtonRenderStyle.Link"
+                                        aria-label="Delete"
+                                        tabindex="-1"
+                                        Click="@(() => OnDeleteDetailCommandButtonClick(context.DataItem))" />
+                                    </div>
+                                </CellDisplayTemplate>
+                                <CellEditTemplate>
+                                    <div class="grid-cell-align-center">
+                                        <DxButton Enabled="false"
+                                        CssClass="grid-disabled-button"
+                                        IconCssClass="grid-icon grid-icon-delete"
+                                        aria-label="Delete"
+                                        tabindex="-1"
+                                        RenderStyle="ButtonRenderStyle.Link" />
+                                    </div>
+                                </CellEditTemplate>
+                            </DxGridCommandColumn>
+
+                            <DxGridDataColumn FieldName="sku" Caption="Mã VT/SP" Width="170" AllowSort="false">
+
+                                <CellEditTemplate>
+                                    @{
+                                        var editModel = (SO001DetailModel)context.EditModel;
+
+                                        void OnSKU0AddButtonClick()
+                                        {
+                                            editDetailItem = editModel;
+                                            SKU0EditPopupVisible = true;
+                                            SKU0EditFormStatus = EditFormStatus.NEW;
+                                            SelectedSkuId = "";
+                                        }
+
+                                        void OnSKU0EditButtonClick()
+                                        {
+                                            editDetailItem = editModel;
+                                            SKU0EditPopupVisible = true;
+                                            SKU0EditFormStatus = EditFormStatus.EDIT;
+                                            SelectedSkuId = editModel.sku_id;
+                                        }
+                                    }
+                                    <DxComboBox Data="@ListSKU0"
+                                    ValueFieldName="sku_id" 
+                                    TextFieldName="sku"
+                                    NullText="Chọn vật tư (F4 để xổ danh sách. Mũi tên xuống để chọn từ trên xuống)"
+                                    CssClass="enter-nav my-combobox"
+                                    SearchMode="@ListSearchMode.AutoSearch"
+                                    SearchFilterCondition="@ListSearchFilterCondition.Contains"
+
+                                    @bind-Value = "@editModel.sku_id"
+                                    SelectedItemChanged="@((SKU0LookupModel arg) => SelectSKU0Changed(arg, editModel))"
+                                    >
+                                        <Columns>
+                                            <DxListEditorColumn FieldName="@nameof(SKU0LookupModel.sku)" Caption="Mã" Width="100px" />
+                                            <DxListEditorColumn FieldName="@nameof(SKU0LookupModel.sku_name)" Caption="Tên" Width="150px" />
+                                            <DxListEditorColumn FieldName="@nameof(SKU0LookupModel.sku_description)" Caption="Mô tả" Width="300px" />
+                                        </Columns>
+                                        <Buttons>
+                                            @if (CheckLookupAddNew("SKU0_LOOKUP_W") == true)
+                                            {
+                                                <DxEditorButton IconCssClass="toolbar-new"
+                                                Tooltip="Thêm vật tư"
+                                                Click="@(_ => OnSKU0AddButtonClick())" />
+                                            }
+
+                                            @if (CheckLookupEdit("SKU0_LOOKUP_W") == true)
+                                            {
+                                                <DxEditorButton IconCssClass="toolbar-edit"
+                                                Tooltip="Sửa vật tư"
+                                                Click="@(_ => OnSKU0EditButtonClick())" />
+                                            }
+                                        </Buttons>
+                                    </DxComboBox>
+                                </CellEditTemplate>
+                            </DxGridDataColumn>
+
+                            <DxGridDataColumn FieldName="@nameof(SO001DetailModel.product_name)" Width="150" Caption="Tên VT/SP" ReadOnly="true" AllowSort="false" />
+                            <DxGridDataColumn FieldName="@nameof(SO001DetailModel.unit_name)" Width="80" Caption="ĐVT" ReadOnly="true" AllowSort="false" >
+                            </DxGridDataColumn>
+                            @* <DxGridDataColumn FieldName="@nameof(SO001DetailModel.voucher_detail_id)" Width="100" Caption="ID" /> *@
+                            <DxGridDataColumn FieldName="@nameof(SO001DetailModel.quantity)" Width="80" Caption="SL" TextAlignment="GridTextAlignment.Right" DisplayFormat="N2" AllowSort="false">
+
+                                <CellEditTemplate>
+                                    @{
+                                        var editModel = (SO001DetailModel)context.EditModel;
+
+                                        async Task OnValueChanged(decimal newValue)
+                                        {
+                                            editModel.quantity = newValue;
+                                            await DetailQuantityOrPriceChange(editModel);
+                                        }
+                                    }
+                                    <DxSpinEdit Value="editModel.quantity" Mask="N2" ValueExpression="@(() => editModel.quantity)" ValueChanged="@((decimal newValue) => OnValueChanged(newValue))">
+
+                                    </DxSpinEdit>
+                                </CellEditTemplate>
+
+                            </DxGridDataColumn>
+                            <DxGridDataColumn FieldName="@nameof(SO001DetailModel.price_fc)" Width="120" Caption="Đơn giá" TextAlignment="GridTextAlignment.Right" DisplayFormat="N2" AllowSort="false">
+                                <CellEditTemplate>
+                                    @{
+                                        var editModel = (SO001DetailModel)context.EditModel;
+
+                                        async Task OnValueChanged(decimal newValue)
+                                        {
+                                            editModel.price_fc = newValue;
+                                            await DetailQuantityOrPriceChange(editModel);
+                                        }
+                                    }
+                                    <DxSpinEdit Value="editModel.price_fc" ValueExpression="@(() => editModel.price_fc)" ValueChanged="@((decimal newValue) => OnValueChanged(newValue))" Mask="N2" AllowSort="false">
+
+                                    </DxSpinEdit>
+                                </CellEditTemplate>
+                            </DxGridDataColumn>
+                            <DxGridDataColumn FieldName="@nameof(SO001DetailModel.amount_fc)" Width="140" Caption="Tiền hàng" TextAlignment="GridTextAlignment.Right" DisplayFormat="N2" ReadOnly="true" AllowSort="false">
+
+                            </DxGridDataColumn>
+                            <DxGridDataColumn FieldName=@nameof(SO001DetailModel.discount_rate) Width="80" Caption="% CK" TextAlignment="GridTextAlignment.Right" AllowSort="false">
+                                <CellEditTemplate>
+                                    @{
+                                        var editModel = (SO001DetailModel)context.EditModel;
+
+                                        async Task OnValueChanged(decimal newValue)
+                                        {
+                                            editModel.discount_rate = newValue;
+                                            await DetailDiscountRateChage(editModel);
+                                        }
+                                    }
+                                    <DxSpinEdit Value="editModel.discount_rate" ValueExpression="@(() => editModel.discount_rate)" 
+                                    ValueChanged="@((decimal newValue) => OnValueChanged(newValue))" Mask="P" DisplayFormat="P">
+                                    </DxSpinEdit>
+                                </CellEditTemplate>
+                            </DxGridDataColumn>
+                            <DxGridDataColumn FieldName=@nameof(SO001DetailModel.discount_amount_fc) Width="100" Caption="Tiền CK" TextAlignment="GridTextAlignment.Right" AllowSort="false">
+                                <CellEditTemplate>
+                                    @{
+                                        var editModel = (SO001DetailModel)context.EditModel;
+
+                                        async Task OnValueChanged(decimal newValue)
+                                        {
+                                            editModel.discount_amount_fc = newValue;
+                                            await DetailDiscountAmountChage(editModel);
+                                        }
+                                    }
+                                    <DxSpinEdit Value="editModel.discount_amount_fc" ValueExpression="@(() => editModel.discount_amount_fc)" ValueChanged="@((decimal newValue) => OnValueChanged(newValue))" Mask="N2" DisplayFormat="N2">
+
+                                    </DxSpinEdit>
+                                </CellEditTemplate>
+                            </DxGridDataColumn>
+                            <DxGridDataColumn FieldName=@nameof(SO001DetailModel.total_amount_fc) Width="140" Caption="Tổng tiền" TextAlignment="GridTextAlignment.Right" DisplayFormat="N2" ReadOnly="true" AllowSort="false">
+
+                            </DxGridDataColumn>
+                            <DxGridDataColumn FieldName="@nameof(SO001DetailModel.comment)" Width="200" Caption="Ghi chú" AllowSort="false" />
+
+
+                        </Columns>
+                        <TotalSummary>
+                            <DxGridSummaryItem SummaryType="GridSummaryItemType.Count" FieldName="@nameof(SO001DetailModel.sku_id)" DisplayText="{0:N0} dòng" />
+                            <DxGridSummaryItem SummaryType="GridSummaryItemType.Sum" FieldName="@nameof(SO001DetailModel.quantity)" DisplayText="{0:N2}" />
+                            <DxGridSummaryItem SummaryType="GridSummaryItemType.Sum" FieldName="@nameof(SO001DetailModel.amount_fc)" DisplayText="{0:N0}" />
+                            <DxGridSummaryItem SummaryType="GridSummaryItemType.Sum" FieldName="@nameof(SO001DetailModel.discount_amount_fc)" DisplayText="{0:N0}" />
+                            <DxGridSummaryItem SummaryType="GridSummaryItemType.Sum" FieldName="@nameof(SO001DetailModel.total_amount_fc)" DisplayText="{0:N0}" />
+                        </TotalSummary>
+
+                    </DxGrid>
+                </DxSplitterPane>
+            </Panes>
+        </DxSplitter>
+
+    </DxFormLayout>
+</EditForm>
+
+@if (ListLookup != null && ListLookup.FirstOrDefault(x => x.sp_code == "CUST_LOOKUP_W") != null)
+{
+    LookupItem lookupCust = ListLookup.FirstOrDefault(x => x.sp_code == "CUST_LOOKUP_W");
+    MenuItem menuItemCust = new MenuItem(lookupCust);
+
+    <CustEditPopup @bind-Visible="@CustomerEditPopupVisible"
+    CompanyId="@CompanyId"
+    EditDataId="@editItem?.customer_id"
+    LocalStorageService="@LocalStorageService"
+    MenuItem="@menuItemCust"
+    DataService="@DataService"
+    FormStatus="@CustomerEditFormStatus"
+    PopupClosed="@OnCustomerSubmit" />
+}
+
+@if (ListLookup != null && ListLookup.FirstOrDefault(x => x.sp_code == "SKU0_LOOKUP_W") != null)
+{
+    LookupItem lookupSKU0 = ListLookup.FirstOrDefault(x => x.sp_code == "SKU0_LOOKUP_W");
+    MenuItem menuItemSku0 = new MenuItem(lookupSKU0);
+
+    <SKU0EditPopup @bind-Visible="@SKU0EditPopupVisible"
+    CompanyId="@CompanyId"
+    EditDataId="@SelectedSkuId"
+                   MenuItem="@menuItemSku0"
+    LocalStorageService="@LocalStorageService"
+    DataService="@DataService"
+    FormStatus="@SKU0EditFormStatus"
+    PopupClosed="@OnSKU0Submit" />
+}

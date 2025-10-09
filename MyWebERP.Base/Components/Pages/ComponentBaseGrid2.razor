@@ -1,0 +1,94 @@
+﻿@* Có chọn cty/chi nhánh, kỳ *@
+@using Model;
+@using DevExpress.Blazor;
+@using MyWebERP.Data;
+
+@inherits ComponentBaseGrid1
+
+@code {
+    protected List<Model.CompanyItem>? ListCompany;
+    protected List<Model.PeriodItem>? ListPeriod;
+    protected Model.PeriodItem? SelectedPeriodItem;
+    protected DateTime Date1;
+    protected DateTime Date2;
+    // protected DxTreeView tvCompany;
+
+    /// <summary>
+    /// Phải là object thì dropdownbox nó mới nhận
+    /// </summary>
+    //protected object ListCompanySelected { get; set; }
+    protected string ListCompanyNameSelected { get; set; } = "";
+    protected string ListCompanyIdSelected { get; set; } = "";
+    protected List<CompanyItem>? ListCompanySelected;
+    //protected bool CompanySelectAllChecked;
+    protected bool CompanySelectPopupVisible { get; set; } = false;
+
+    protected DxTreeView? treeViewCompany;
+
+    protected override async Task InitCfg()
+    {
+        await base.InitCfg();
+
+        ListCompany = await DataService.GetCompany4MenuFilter(CompanyId, CompanyMenuId);
+
+        ListPeriod = await DataService.PeriodLookup("111111");
+        SelectedPeriodItem = ListPeriod.FirstOrDefault(x => x.PeriodCode == $"T{DateTime.Now.Month.ToString()}");
+        await SetDate(SelectedPeriodItem);
+
+        // ListCompanySelected = ListCompany;
+        // ListCompanyIdSelected = String.Join(",", ListCompany.Select(x => x.CompanyId).ToList());
+
+        ListCompanySelected = ListCompany.Where(x => x.CompanyId == CompanyId).ToList();
+        ListCompanyIdSelected = CompanyId;
+        ListCompanyNameSelected = ListCompany.FirstOrDefault(x => x.CompanyId == CompanyId).CompanyName;
+    }
+
+    protected async Task SelectedPeriodChanged(Model.PeriodItem periodItem)
+    {
+        await SetDate(periodItem);
+    }
+
+    protected async Task SetDate(Model.PeriodItem periodItem)
+    {
+        int _iYear = await LocalStorageService.GetItemAsync<int>(LocalStorageName.YEAR);
+        DateTime _dtmNow = DateTime.Now;
+        DateTime _dtmWorking = new DateTime(_iYear, _dtmNow.Month, _dtmNow.Day);
+        SelectedPeriodItem = periodItem;
+
+        MyLib.GetDataFromPeriod(periodItem, _iYear, _dtmWorking, ref Date1, ref Date2);
+    }
+
+    protected void CompanyConfirmSelection()
+    {
+        // Hiển thị tên node đã chọn
+        ListCompanyIdSelected = string.Join(",", ListCompanySelected.Select(x => x.CompanyId));
+        ListCompanyNameSelected = string.Join(", ", ListCompanySelected.Select(x => x.CompanyName));
+        CompanySelectPopupVisible = false;
+    }
+
+    protected void CompanyCancelSelection()
+    {
+        CompanySelectPopupVisible = false;
+    }
+
+    protected void OnCompanyCheckedNodesChanged(TreeViewCheckedChangedEventArgs e)
+    {
+        ListCompanySelected = e.CheckedItems
+            .OfType<DevExpress.Blazor.Navigation.Internal.TreeViewItemModel>()
+            .Select(x => x.Data)
+            .OfType<CompanyItem>()
+            .ToList();
+    }
+
+    protected void OnCompanySelectPopupShown()
+    {
+        // Simulate "Popup Shown" event
+        treeViewCompany.ExpandAll();  // Or any other logic        
+        treeViewCompany.SetNodesChecked(x => ListCompanySelected.Contains(x.DataItem), true);
+    }
+
+    protected void CompanySelectShow()
+    {
+        CompanySelectPopupVisible = true;
+    }
+}

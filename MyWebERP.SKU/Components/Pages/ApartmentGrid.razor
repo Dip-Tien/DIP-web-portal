@@ -1,0 +1,181 @@
+﻿@using Microsoft.JSInterop
+@using MyWebERP.Model;
+@using MyWebERP.Lib;
+
+<style>
+    .apartment-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .apartment-row {
+        display: grid;
+        grid-auto-flow: column;
+        gap: 6px;
+    }
+
+    .apartment-cell {
+        width: 60px;
+        height: 40px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+        cursor: pointer;
+        color: #fff;
+    }
+
+        .apartment-cell:hover {
+            transform: scale(1.07);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+        }
+
+    /* Ô trống hoàn toàn (không record) */
+    .apartment-empty {
+        background-color: transparent !important; /* trùng màu nền */
+        border: none !important;
+        cursor: default !important;
+        pointer-events: none !important; /* bỏ hover/click */
+        box-shadow: none !important;
+        transition: none !important;
+    }
+
+    .apartment-header-cell {
+        font-weight: bold;
+        font-size: 13px;
+        color: #333;
+        user-select: none;
+    }
+
+</style>
+
+@* <div class="apartment-grid">
+    @for (int r = 1; r <= MaxRow; r++)
+    {
+        <div class="apartment-row">
+            @for (int c = 1; c <= MaxCol; c++)
+            {
+                var apt = Apartments.FirstOrDefault(a => a.row == r && a.col == c);
+
+                if (apt != null)
+                {
+                    <div class="apartment-cell"
+                         style="background-color:@GetCellColor(apt);"
+                         @onclick="() => OnApartmentClicked?.Invoke(apt)"
+                         @onmouseenter="async (e) => { if (HasTooltip?.Invoke(apt) == true) await ShowTooltipCallback?.Invoke(e, apt); }"
+                         @onmouseleave="(e) => { if (HasTooltip?.Invoke(apt) == true) HideTooltipCallback?.Invoke(e); }">
+                        @(string.IsNullOrEmpty(apt.display_barcode) ? "-" : apt.display_barcode)
+                    </div>
+                }
+                else
+                {
+                    <div class="apartment-cell apartment-empty"></div>
+                }
+            }
+        </div>
+    }
+</div> *@
+
+<div class="apartment-grid-container"
+     style="transform:scale(@Scale); transform-origin: top left;">
+    <div class="apartment-grid"
+         style="display:grid;
+                grid-template-columns: repeat(@MaxCol, @(CellWidth)px);
+                grid-template-rows: repeat(@(MaxRow + 1), @(CellHeight)px);
+                gap:@Gap}px;">
+        @* Header cột *@
+        @for (int c = 1; c <= MaxCol; c++)
+        {
+            <div class="apartment-header-cell"
+                 style="width:@(CellWidth)px;
+                            height:@(CellHeight)px;
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
+                            background-color:#f0f0f0;
+                            border:1px solid #ddd;">
+                Cột @c
+            </div>
+        }
+
+        @* Các căn hộ *@
+        @foreach (var apt in Apartments)
+        {
+            var row = apt.row + 1; // +1 vì có dòng header
+            var col = apt.col;
+            bool hasData = !string.IsNullOrEmpty(apt.display_barcode);
+
+            if (hasData)
+            {
+                <div class="apartment-cell"
+                     style="grid-row:@row; grid-column:@col;
+                                    width:@(CellWidth)px;
+                                    height:@(CellHeight)px;
+                                    background-color:@(CM.IntColor2HtmlColor(apt.color));
+                                    border-radius:6px;
+                                    display:flex;
+                                    align-items:center;
+                                    justify-content:center;
+                                    cursor:pointer;"
+                     @onclick="() => OnApartmentClicked?.Invoke(apt)"
+                     @onmouseenter="async (e) => { if (HasTooltip?.Invoke(apt) == true) await ShowTooltipCallback?.Invoke(e, apt); }"
+                     @onmouseleave="(e) => { if (HasTooltip?.Invoke(apt) == true) HideTooltipCallback?.Invoke(e); }">
+                    @apt.display_barcode
+                </div>
+            }
+            else
+            {
+                <div class="apartment-empty-cell"
+                     style="grid-row:@row; grid-column:@col;
+                                    width:@(CellWidth)px;
+                                    height:@(CellHeight)px;">
+                </div>
+            }
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public List<SKU001Model> Apartments { get; set; } = new();
+
+    // [Parameter] public int MaxPerRow { get; set; } = 20;
+    // [Parameter] public int MobileMaxPerRow { get; set; } = 8;
+    // [Parameter] public int CellWidth { get; set; } = 60;
+    // [Parameter] public int MobileCellWidth { get; set; } = 40;
+    // [Parameter] public int CellHeight { get; set; } = 50;
+    // [Parameter] public int MobileCellHeight { get; set; } = 40;
+    // [Parameter] public int Gap { get; set; } = 6;
+
+    [Parameter] public int CellWidth { get; set; } = 60;
+    [Parameter] public int CellHeight { get; set; } = 50;
+    [Parameter] public int Gap { get; set; } = 6;
+
+    // [Parameter] public bool IsMobile { get; set; }
+
+    [Parameter] public Func<SKU001Model, bool> HasTooltip { get; set; }
+    [Parameter] public Func<MouseEventArgs, SKU001Model, Task> ShowTooltipCallback { get; set; }
+    [Parameter] public Action<MouseEventArgs> HideTooltipCallback { get; set; }
+    [Parameter] public Action<SKU001Model> OnApartmentClicked { get; set; }
+
+    private int MaxRow => Apartments.Any() ? Apartments.Max(a => a.row) : 0;
+    private int MaxCol => Apartments.Any() ? Apartments.Max(a => a.col) : 0;
+    private int EffectiveCellWidth => CellWidth;
+    private int EffectiveCellHeight => CellHeight;
+
+    // zoom được truyền từ component cha
+    [Parameter] public double Scale { get; set; } = 1.0;
+
+    // event callback để cha điều khiển zoom
+    [Parameter] public EventCallback OnZoomIn { get; set; }
+    [Parameter] public EventCallback OnZoomOut { get; set; }
+
+    // private int EffectiveMaxPerRow => IsMobile ? MobileMaxPerRow : MaxPerRow;
+    // private int EffectiveCellWidth => IsMobile ? MobileCellWidth : CellWidth;
+    // private int EffectiveCellHeight => IsMobile ? MobileCellHeight : CellHeight;
+
+    
+}

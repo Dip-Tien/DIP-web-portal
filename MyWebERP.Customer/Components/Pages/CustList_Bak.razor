@@ -1,0 +1,577 @@
+﻿@page "/listcustomer_bak/{CompanyMenuId}"
+
+@using Blazored.LocalStorage;
+@using MyWebERP.Data;
+@using MyWebERP.Services;
+@using MyWebERP.Model;
+@using System.Dynamic;
+@using DevExpress.Blazor
+@using MyWebERP.Base.Components.Pages
+@using Newtonsoft.Json;
+@using Newtonsoft.Json.Linq;
+
+@inherits ComponentBaseGrid1
+
+<DxLayoutBreakpoint DeviceSize="DeviceSize.XSmall" @bind-IsActive="@isXSmallScreen" />
+@* 
+<DxToolbar CssClass="mb-2 bg-light border rounded p-2">     *@
+<div class="dock-header toolbar-box-tight">
+    <DxToolbar ItemRenderStyleMode="ToolbarRenderStyleMode.Contained" CssClass="toolbar-inner">
+        <!-- Bên trái: nút chức năng -->
+
+        <DxToolbarItem Text="@Language["Thêm"]" IconCssClass="bi bi-plus-lg" CssClass="tb-add" BeginGroup="true" Click="@NewItem_Click" />
+
+        <DxToolbarItem Text="@Language["Sửa"]" IconCssClass="bi bi-pencil-square" CssClass="tb-edit" BeginGroup="true" Click="@EditItem_Click" />
+        <DxToolbarItem Text="@Language["Xóa"]" IconCssClass="bi bi-trash" CssClass="tb-delete" BeginGroup="true" Click="@DeleteItem_Click" />
+
+        <DxToolbarItem Text="@Language["Lọc"]" Alignment="ToolbarItemAlignment.Right" IconCssClass="bi bi-funnel"
+                       CssClass="tb-filter" BeginGroup="true" />
+        <DxToolbarItem Text="@Language["Nạp"]" Alignment="ToolbarItemAlignment.Right" IconCssClass="bi bi-arrow-clockwise"
+                       CssClass="tb-refresh" BeginGroup="true" Click="@RefreshItem_Click" />
+        <!-- nút trang trước -->
+        <DxToolbarItem Alignment="ToolbarItemAlignment.Right" IconCssClass="bi bi-chevron-left"
+                       CssClass="tb-page-prev" BeginGroup="true" Click="@(e => SelectPageNoChanged(pageNo - 1))" />
+        <DxToolbarItem Text=@($"{@Language["Trang"]} {pageNo}") Alignment="ToolbarItemAlignment.Right" IconCssClass="bi chevron-left"
+                       CssClass="tb-page-curent" />
+        <!-- nút trang kế -->
+        <DxToolbarItem Alignment="ToolbarItemAlignment.Right" IconCssClass="bi bi-chevron-right"
+                       CssClass="tb-page-next" BeginGroup="true" Click="@(e => SelectPageNoChanged(pageNo + 1))" />
+        <DxToolbarItem Text=@($"/ {pageCountText}") Alignment="ToolbarItemAlignment.Right" IconCssClass="bi chevron-left"
+                       CssClass="tb-page-total" />
+
+        <DxToolbarItem Alignment="ToolbarItemAlignment.Right" Context="itemPageSizes">
+            <div class="d-flex align-items-center gap-1">
+                <select style="width:90px; height:var(--dxbl-toolbar-height); font-size:0.875rem;"
+                        @bind="pageSize">
+                    @foreach (var size in PageSizes)
+                    {
+                        <option value="@size">@size.ToString("N0")</option>
+                    }
+                </select>
+            </div>
+        </DxToolbarItem>
+
+    </DxToolbar>
+</div>
+
+@if(isXSmallScreen)
+{
+        <CustCardViewMobileGrouped Data="Data"></CustCardViewMobileGrouped>
+
+}
+else
+{
+@* <div style="flex: 1 1 auto; overflow: hidden;"> *@
+<div class="dock-body">
+    
+    <DxSplitter CssClass="main-splitter" Orientation="Orientation.Vertical">
+        <Panes>
+            <DxSplitterPane Size="60%" AllowCollapse="true" CssClass="default-splitter-pane">
+                
+                    
+                    <DxGrid @ref="Grid" 
+                    Data="@Data"
+                    KeyFieldName="@nameof(CustomerModel.customer_id)"
+                    ColumnResizeMode="GridColumnResizeMode.ColumnsContainer"
+                    FooterDisplayMode="GridFooterDisplayMode.Never"
+                    CustomizeElement="Grid_CustomizeElement"
+                        CssClass="default-grid"
+                    VirtualScrollingEnabled="true"    
+                    TextWrapEnabled="true"
+                    FocusedRowEnabled="true"
+                    HighlightRowOnHover="true"
+                    FocusedRowChanged="Grid_FocusedRowChanged"
+                    ShowFilterRow="true"
+                    FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Always"
+                    ShowAllRows="true"
+                    ValidationEnabled="true"
+                                ColumnCaptionAlignment="GridTextAlignment.Center"
+                                
+                            DetailRowDisplayMode="@GridDetailRowDisplayMode"
+                    SearchText="@GridSearchText">
+                        <Columns>
+                                <!-- Số thứ tự -->
+                                <DxGridDataColumn Width="40"
+                                                  TextAlignment="GridTextAlignment.Center"
+                                                  AllowSort="false"
+                                                  FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never">
+                                                                <HeaderCaptionTemplate>
+                                        <div style="text-align:center">#</div>
+                                    </HeaderCaptionTemplate>
+                                    <CellDisplayTemplate>@(context.VisibleIndex + 1)</CellDisplayTemplate>
+                                </DxGridDataColumn>
+
+                                <!-- Mã khách -->
+                        <DxGridDataColumn FieldName="customer_code" Width="@(isXSmallScreen ? "20%" : "100px")" FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never">
+                                    <HeaderCaptionTemplate>
+                                        <i class="bi bi-upc me-1" title="@Language["Mã khách hàng"]"></i>
+                                        <span class="d-none d-sm-inline">@Language["Mã khách"]</span>
+                                    </HeaderCaptionTemplate>
+                                </DxGridDataColumn>
+
+                                <!-- Tên khách + Địa chỉ -->
+                                <DxGridDataColumn FieldName="customer_name_full_address" Width="@(isXSmallScreen?"80%":"300px")"
+                                          FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never">
+                                    <HeaderCaptionTemplate>
+                                        <div>
+                                            <i class="bi bi-person me-1" title="@Language["Tên khách, địa chỉ"]"></i>
+                                            <i class="bi bi-geo-alt text-danger me-1" title="@Language["Địa chỉ"]"></i>
+                                             <span class="d-none d-sm-inline">@Language["Khách hàng"]</span>
+                                        </div>
+                                         @* <div>
+                                            <i class="bi bi-geo-alt text-danger me-1" title="Địa chỉ"></i>
+                                            <span class="d-none d-sm-inline">Địa chỉ</span>
+                                         </div> *@
+                                    </HeaderCaptionTemplate>
+                                    <CellDisplayTemplate Context="cell">
+                                        @* <div class="fw-bold">@cell.Value</div> *@
+                                        <div class="fw-bold">@cell.Grid.GetRowValue(cell.VisibleIndex, "customer_name")</div>
+                                        @* <div class="d-flex flex-column small text-muted">
+                                            <a href="tel:@cell.Grid.GetRowValue(cell.VisibleIndex, "tel")"
+                                               class="text-decoration-none text-primary">
+                                                <i class="bi bi-telephone me-1"></i>
+                                                @cell.Grid.GetRowValue(cell.VisibleIndex, "tel")
+                                            </a>
+                                            <a href="mailto:@cell.Grid.GetRowValue(cell.VisibleIndex, "email")"
+                                               class="text-decoration-none text-secondary">
+                                                <i class="bi bi-envelope me-1"></i>
+                                                @cell.Grid.GetRowValue(cell.VisibleIndex, "email")
+                                            </a>
+                                        </div> *@
+                                        <div class="small text-muted">
+                                            <i class="bi bi-geo-alt text-danger me-1"></i>
+                                            @{
+                                                var fullAddress = Convert.ToString(cell.Grid.GetRowValue(cell.VisibleIndex, "full_address"));
+                                            }
+                                            @(!string.IsNullOrWhiteSpace(fullAddress) ? fullAddress : @Language["Chưa cập nhật"])
+                                        </div>
+                                    </CellDisplayTemplate>
+                                </DxGridDataColumn>
+
+                                <DxGridDataColumn FieldName="tel_email" Width="170" Visible=@(!isXSmallScreen)
+                                    FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never">
+                                    <HeaderCaptionTemplate>
+                                        @* <i class="bi bi-geo-alt" title="Điện thoại, email"></i> *@
+                                        @* <i class="bi bi-telephone me-1"></i>
+                                        <i class="bi bi-envelope me-1"></i> *@
+                                        <i class="bi bi-person-vcard"></i>
+                                        <span class="d-none d-sm-inline">@Language["Liên hệ"]</span>
+                                    </HeaderCaptionTemplate>
+                                    <CellDisplayTemplate Context="cell">
+                                        <div class="fw-bold">
+                                            <i class="bi bi-telephone me-1"></i>
+                                            @cell.Grid.GetRowValue(cell.VisibleIndex, "tel")
+                                            @* <a href="tel:@cell.Value"
+                                               class="text-decoration-none text-primary">
+                                                <i class="bi bi-telephone me-1"></i>
+                                                @cell.Value
+                                            </a>  *@ @* Đoạn này là click vào để gọi chưa dùng *@                                   
+                                        </div>
+                                        <div class="small text-muted">
+                                            @* <a href="mailto:@cell.Grid.GetRowValue(cell.VisibleIndex, "email")"
+                                               class="text-decoration-none text-secondary">
+                                                <i class="bi bi-envelope me-1"></i>
+                                                @cell.Grid.GetRowValue(cell.VisibleIndex, "email")
+                                            </a> bấm vào để gửi mail - chưa dùng *@
+
+                                            <i class="bi bi-envelope me-1"></i>
+                                            @cell.Grid.GetRowValue(cell.VisibleIndex, "email")
+                                        </div>
+                                    </CellDisplayTemplate>
+                                </DxGridDataColumn>
+
+                                <!-- Xưng hô + Giới tính -->
+                        <DxGridDataColumn FieldName="vocative" Width="120" Visible=@(!isXSmallScreen)
+                                          FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never">
+                                                                <HeaderCaptionTemplate>
+                                        <i class="bi bi-person" title="@Language["Xưng hô, giới tính"]"></i>
+                                        <span class="d-none d-sm-inline">@Language["Xưng hô, giới tính"]</span>
+                                        @* <span class="d-none d-sm-inline">
+                                            Xưng hô<br />Giới tính
+                                        </span> *@
+                                    </HeaderCaptionTemplate>
+                                    <CellDisplayTemplate Context="cell">
+                                        <div>
+                                            <i class="bi bi-person-circle me-1"></i>@cell.Value
+                                        </div>
+                                        <div class="small text-muted">
+                                            @{
+                                                var gender = Convert.ToString(cell.Grid.GetRowValue(cell.VisibleIndex, "gender"));
+                                            }
+                                            @if (gender == "Nam" | gender == "Male")
+                                            {
+                                                <span><i class="bi bi-gender-male text-primary me-1"></i>@Language["Nam"]</span>
+                                            }
+                                            else if (gender == "Nữ" | gender=="Female")
+                                            {
+                                                <span><i class="bi bi-gender-female text-danger me-1"></i>@Language["Nữ"]</span>
+                                            }
+                                            else
+                                            {
+                                                <span><i class="bi bi-gender-ambiguous me-1"></i>@Language["Khác"]</span>
+                                            }
+                                        </div>
+                                    </CellDisplayTemplate>
+                                </DxGridDataColumn>
+
+                                <!-- Cá nhân / Tổ chức -->
+                        <DxGridDataColumn FieldName="is_personal" Width="100" Visible=@(!isXSmallScreen)
+                                    TextAlignment="GridTextAlignment.Left"
+                                          FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never">
+                                    <HeaderCaptionTemplate>
+                                        <i class="bi bi-person-lines-fill" title="@Language["Loại khách hàng"]"></i>
+                                        <span class="d-none d-sm-inline">@Language["Phân loại"]</span>
+                                    </HeaderCaptionTemplate>
+                                    <CellDisplayTemplate Context="cell">
+                                        @if (Convert.ToBoolean(cell.Value))
+                                        {
+                                            <span><i class="bi bi-person-check text-success me-1"></i>@Language["Cá nhân"]</span>
+                                        }
+                                        else
+                                        {
+                                            <span><i class="bi bi-buildings text-info me-1"></i>@Language["Tổ chức"]</span>
+                                        }
+                                    </CellDisplayTemplate>
+                                </DxGridDataColumn>
+
+                                <!-- Nhóm khách -->
+                        <DxGridDataColumn FieldName="cust_category_name" Width="150px" Visible=@(!isXSmallScreen)>
+                                                                <HeaderCaptionTemplate>
+                                        <i class="bi bi-people" title="@Language["Nhóm khách hàng"]"></i>
+                                        <span class="d-none d-sm-inline">@Language["Nhóm khách"]</span>
+                                    </HeaderCaptionTemplate>
+                                    <CellDisplayTemplate Context="cell">
+                                        @* <i class="bi bi-people me-1"></i> *@
+                                        @cell.Value
+                                    </CellDisplayTemplate>
+                                </DxGridDataColumn>
+
+                                <!-- Ghi chú -->
+                        <DxGridDataColumn FieldName="comment" MinWidth="150" Visible=@(!isXSmallScreen)
+                            FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never">
+                                                                <HeaderCaptionTemplate>
+                                        <i class="bi bi-journal-text" title="@Language["Ghi chú"]"></i>
+                                        <span class="d-none d-sm-inline">@Language["Ghi chú"]</span>
+                                    </HeaderCaptionTemplate>
+                                    <CellDisplayTemplate Context="cell">
+                                        @* <i class="bi bi-journal-text me-1"></i> *@
+                                        @cell.Value
+                                    </CellDisplayTemplate>
+                                </DxGridDataColumn>
+
+                                <!-- Trạng thái -->
+                        <DxGridDataColumn FieldName="inactive" Width="100px" Visible=@(!isXSmallScreen)
+                            FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never">
+                                    <HeaderCaptionTemplate>
+                                        <i class="bi bi-power" title="@Language["Trạng thái sử dụng"]"></i>
+                                        <span class="d-none d-sm-inline">@Language["Trạng thái"]</span>
+                                    </HeaderCaptionTemplate>
+                                    <CellDisplayTemplate Context="cell">
+                                        @if (Convert.ToBoolean(cell.Value))
+                                        {
+                                            <span class="text-danger"><i class="bi bi-slash-circle me-1"></i>@Language["Không SD"]</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-success"><i class="bi bi-check-circle me-1"></i>@Language["Đang SD"]</span>
+                                        }
+                                    </CellDisplayTemplate>
+                                </DxGridDataColumn>
+
+                                <!-- Người tạo / Ngày tạo -->
+                        <DxGridDataColumn FieldName="created_by_display_name" Width="150" Visible=@(!isXSmallScreen)
+                            FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never">
+                                                                <HeaderCaptionTemplate>
+                                        <i class="bi bi-person-badge" title="@Language["Người tạo / Ngày tạo"]"></i>
+                                        <span class="d-none d-sm-inline">@Language["Tạo"]</span>
+                                    </HeaderCaptionTemplate>
+                                    <CellDisplayTemplate Context="cell">
+                                        <div>
+                                            <i class="bi bi-person-badge me-1"></i>@cell.Value
+                                        </div>
+                                        <div class="small text-muted">
+                                            <i class="bi bi-calendar3 me-1"></i>@cell.Grid.GetRowValue(cell.VisibleIndex, "created_on_date")
+                                        </div>
+                                    </CellDisplayTemplate>
+                                </DxGridDataColumn>
+
+                                <!-- Người sửa / Ngày sửa -->
+                        <DxGridDataColumn FieldName="last_modified_by_display_name" Width="150" Visible=@(!isXSmallScreen)
+                            FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never">
+                                                                <HeaderCaptionTemplate>
+                                        <i class="bi bi-person-fill-gear" title="@Language["Người sửa / Ngày sửa"]"></i>
+                                        <span class="d-none d-sm-inline">@Language["Cập nhật"]</span>
+                                    </HeaderCaptionTemplate>
+                                    <CellDisplayTemplate Context="cell">
+                                        <div>
+                                            <i class="bi bi-person-fill-gear me-1"></i>@cell.Value
+                                        </div>
+                                        <div class="small text-muted">
+                                            <i class="bi bi-calendar-event me-1"></i>@cell.Grid.GetRowValue(cell.VisibleIndex, "last_modified_on_date")
+                                        </div>
+                                    </CellDisplayTemplate>
+                                </DxGridDataColumn>
+                        </Columns>
+                        <TotalSummary>
+                        <DxGridSummaryItem SummaryType="GridSummaryItemType.Count" FieldName="@nameof(CustomerModel.customer_code)" DisplayText="@($"{0:N0} {@Language["dòng"]}")" Visible=@(!isXSmallScreen) />
+                        </TotalSummary>
+
+                        <DetailRowTemplate>
+                            @{
+                            var item = (CustomerModel)context.DataItem;
+
+                                // <div class="row">
+                                //     <div class="col-3 grid-detail-label">Tỉnh/tp: </div>
+                                //     <div class="col">@header.province_name</div>
+                                // </div>
+                                // <div class="row">
+                                //     <div class="col-3 grid-detail-label">Quận/huyện: </div>
+                                //     <div class="col">@header.district_name</div>
+                                // </div>
+                                // <div class="row">
+                                //     <div class="col-3 grid-detail-label">Xã/phường: </div>
+                                //     <div class="col">@header.ward_name</div>
+                                // </div>
+
+                                // <div class="row">
+                                //     <div class="col-3 grid-detail-label">Địa chỉ: </div>
+                                //     <div class="col">@header.address1</div>
+                                // </div>
+
+                            <div class="p-2">
+                                <!-- Thông tin liên hệ -->
+                                <div class="small mb-1">
+                                    <i class="bi bi-telephone me-1"></i>@item.tel <br />
+                                    <i class="bi bi-envelope me-1"></i>@item.email
+                                </div>
+
+                                <!-- Địa chỉ -->
+                                <div class="small mb-1">
+                                    <i class="bi bi-geo-alt text-danger me-1"></i>@item.full_address
+                                </div>
+
+                                <!-- Phân loại -->
+                                <div class="small mb-1">
+                                    @if (item.is_personal == 1)
+                                    {
+                                        <i class="bi bi-person-check text-success me-1"></i>
+                                        @Language["Cá nhân"]
+                                    }
+                                    else
+                                    {
+                                        <i class="bi bi-buildings text-info me-1"></i>
+                                        @Language["Tổ chức"]
+                                    }
+                                </div>
+
+                                <!-- Nhóm khách -->
+                                <div class="small mb-1">
+                                    <i class="bi bi-people me-1"></i>@item.cust_category_name
+                                </div>
+
+                                <!-- Trạng thái -->
+                                <div class="small mb-1">
+                                    @if (item.inactive == 1)
+                                    {
+                                        <i class="bi bi-slash-circle text-danger me-1"></i>
+                                        @Language["Không SD"]
+                                    }
+                                    else
+                                    {
+                                        <i class="bi bi-check-circle text-success me-1"></i>
+                                        @Language["Đang SD"]
+                                    }
+                                </div>
+
+                                <!-- Người tạo / Cập nhật -->
+                                <div class="small text-muted">
+                                    <i class="bi bi-person-badge me-1"></i>@item.created_by_display_name
+                                    <i class="bi bi-calendar3 ms-2 me-1"></i>@item.created_on_date
+                                </div>
+                                <div class="small text-muted">
+                                    <i class="bi bi-person-fill-gear me-1"></i>@item.last_modified_by_display_name
+                                    <i class="bi bi-calendar-event ms-2 me-1"></i>@item.last_modified_on_date
+                                </div>
+                            </div>
+                            }
+                        </DetailRowTemplate>
+
+
+                    <EmptyDataAreaTemplate>
+                        @* Không hiển thị gì, hoặc hiển thị custom text *@
+                        <div style="height:0;">@Language["Không có dữ liệu"]</div>
+                        @* Hoặc muốn custom thông báo: <span>Chưa có dữ liệu</span> *@
+                    </EmptyDataAreaTemplate>
+                    </DxGrid>                    
+            </DxSplitterPane>
+
+            @* Phải có CssClass = "detail-pane" để fill, không bị tràn trang*@
+            <DxSplitterPane AllowCollapse="true" CssClass="detail-pane">
+                @if (menuItem != null && menuItem.Tabs.Count > 0)
+                {
+                    MenuItem mnuContact = menuItem.Tabs.FirstOrDefault(x => x.DataCode == "CUST_CONTACT");
+                    MenuItem mnuSO001 = menuItem.Tabs.FirstOrDefault(x => x.DataCode == "SO001");
+
+                    <DxTabs @bind-ActiveTabIndex="@ActiveTabIndex">
+                        @if(mnuContact != null)
+                        {                    
+                            <DxTabPage Text="Liên hệ">
+                                <div class="detail-tabpage">
+                                    @* Phải có div này để fill đầy và không bị tràn trang *@
+                                    <CustListContact CustomerId="@FocusedDataId" MenuItem="@mnuContact"></CustListContact>
+                                </div>
+                            </DxTabPage>
+                        }
+
+                        @if (mnuSO001 != null)
+                        {
+                            <DxTabPage Text="Lịch sử đơn hàng">
+                                <CustListSO001 CustomerId="@FocusedDataId" MenuItem="@mnuSO001"></CustListSO001>
+                            </DxTabPage>
+                        }
+                    </DxTabs>
+                }
+            </DxSplitterPane>
+        </Panes>
+    </DxSplitter>
+</div>
+}
+<DxWindow @ref=windowRef
+AllowResize="true"
+ShowCloseButton="true"
+CloseOnEscape="true"
+HeaderText="@MyHeaderErrorMessage"
+FooterText="Footer"
+ShowFooter="true"
+Width="max(25vw, 250px)"
+MinWidth="300"
+MinHeight="200"
+MaxWidth="800"
+MaxHeight="500">
+    <BodyContentTemplate>
+        <div style="color:red">@MyErrorMessage</div>
+    </BodyContentTemplate>
+    <FooterContentTemplate>
+        <DxButton CssClass="popup-button my-1 ms-2"
+        RenderStyle="ButtonRenderStyle.Primary" Text="OK" Click="@context.CloseCallback" />
+    </FooterContentTemplate>
+</DxWindow>
+
+@if (menuItem != null)
+{
+    <CustEditPopup @bind-Visible="@EditFormVisible"
+    CompanyId="@CompanyId"
+    EditDataId="@FocusedDataId"
+                   MenuItem="@menuItem"
+    LocalStorageService="@LocalStorageService"
+    DataService="@DataService"
+    FormStatus="@EditFormStatus"
+    PopupClosed="@OnCustomerSubmit" />
+}
+
+@* @if (ListLookup != null && ListLookup.FirstOrDefault(x => x.sp_code == "CUST_CATE_LOOKUP_W") != null)
+{
+    LookupItem lookupCustCate = ListLookup.FirstOrDefault(x => x.sp_code == "CUST_CATE_LOOKUP_W");
+    <CustCategoryEditPopup @bind-Visible="@CustCategoryEditPopupVisible"
+                           CompanyId="@CompanyId"
+                           EditDataId="@EditItem?.cust_category_id"
+                           DataCode="@lookupCustCate?.data_code"
+                           IdColumnName="@lookupCustCate?.id_column_name"
+                           FetSingleAPICode="@lookupCustCate?.fet_single_data_code"
+                           InsAPICode="@lookupCustCate?.ins_data_code"
+                           UpdAPICode="@lookupCustCate?.upd_data_code"
+                           LocalStorageService="@LocalStorageService"
+                           DataService="@DataService"
+                           FormStatus="@CustCategoryEditFormStatus"
+                           PopupClosed="@OnCustCategorySubmit" />
+} *@
+
+
+@code {
+
+
+    // List<int> PageSizes = new List<int>(new int[] { 100, 500, 1000 });
+    // List<int> Pages = new List<int>(new int[] { 1 });
+    // int pageSize = 100;
+    // int pageNo = 1;
+    // int pageCount = 0;
+    // string pageCountText = "1 trang (0 dòng)";
+    int ActiveTabIndex { get; set; } = 0;
+    Boolean CustCategoryEditPopupVisible{ get; set; }
+    EditFormStatus CustCategoryEditFormStatus{ get; set; }
+
+    CustomerModel selectedModel;
+
+    List<CustomerModel> Data { get; set; }
+
+    protected override async Task DataAsync()
+    {
+        // string _sParam = "{\"company_id\":\"" + CompanyId + "\",\"data_code\":\"" + menuItem.DataCode + "\", \"page_size\":" + pageSize.ToString() + ", \"page_number\":" + pageNo + "}";
+        // APIResultDataModel resultData = await DataService.GetData(_sParam, menuItem.FetDataCode);
+
+        dynamic dParam = new System.Dynamic.ExpandoObject();
+        dParam.company_id = CompanyId;
+        dParam.data_code = menuItem.DataCode;
+        dParam.page_size = pageSize;
+        dParam.page_number = pageNo;
+
+        APIResultDataModel resultData = await DataService.GetDataSimple(dParam, menuItem.FetDataCode);
+        int _iRowCount = 0;
+
+        if (resultData != null)
+        {
+            _iRowCount = resultData.count_of_items;
+
+            if (_iRowCount > 0)
+            {
+                // JToken token = resultData.data_details as JToken;
+                // Data = token.ToObject<List<CustomerModel>>();
+
+                Data = System.Text.Json.JsonSerializer.Deserialize<List<CustomerModel>>(resultData.data_details.ToString());
+            }
+        }
+        else
+        {
+            Data = new();
+        }
+
+        this.SetPageInfo(_iRowCount);
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected override async Task EditItem_Click()
+    {
+        if (Grid.GetFocusedDataItem() != null)
+        {
+            FocusedDataId = ((CustomerModel)Grid.GetFocusedDataItem()).customer_id;
+        }
+
+        await base.EditItem_Click();
+    }
+
+    protected override async Task Grid_FocusedRowChanged(GridFocusedRowChangedEventArgs args)
+    {
+        await base.Grid_FocusedRowChanged(args);
+        if(Data == null)
+        {
+            FocusedDataId = "";
+            return;
+        }
+
+        selectedModel = Data[args.VisibleIndex];
+        if (selectedModel == null)
+        {
+            FocusedDataId = "";
+        }
+        else
+        {
+            FocusedDataId = selectedModel.customer_id;
+        }
+    }
+
+    async Task OnCustomerSubmit(CustomerModel customer)
+    {
+        // Nạp lại
+        await DataAsync();
+    }    
+}

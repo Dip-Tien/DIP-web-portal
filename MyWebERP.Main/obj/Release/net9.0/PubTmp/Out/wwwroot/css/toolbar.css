@@ -1,0 +1,293 @@
+﻿/*BeginHide*/
+.toolbar-refresh,
+.toolbar-new,
+.toolbar-delete,
+.toolbar-edit,
+.toolbar-print,
+/*.toolbar-save,
+.toolbar-cancel,*/
+/*.toolbar-icon-chevron-right,
+.toolbar-icon-chevron-left,*/
+.toolbar-export {
+    background-size: contain;
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+    background-position: center center;
+    background-color: currentColor;
+    height: 16px;
+    width: 16px;
+    opacity: 0.7;
+}
+
+.toolbar-refresh {
+    -webkit-mask-image: url("../images/icons/refresh.svg");
+    mask-image: url("../images/icons/refresh.svg");
+}
+
+.toolbar-new {
+    -webkit-mask-image: url("../images/icons/add.svg");
+    mask-image: url("../images/icons/add.svg");
+}
+
+.toolbar-delete {
+    -webkit-mask-image: url("../images/icons/delete.svg");
+    mask-image: url("../images/icons/delete.svg");
+}
+
+.toolbar-edit {
+    -webkit-mask-image: url("../images/icons/edit.svg");
+    mask-image: url("../images/icons/edit.svg");
+}
+
+/*Lên hình nhỏ quá*/
+.toolbar-save {
+    -webkit-mask-image: url("../images/icons/save.svg");
+    mask-image: url("../images/icons/save.svg");
+}
+
+.toolbar-export {
+    -webkit-mask-image: url("../images/icons/export.svg");
+    mask-image: url("../images/icons/export.svg");
+}
+
+.toolbar-print {
+    -webkit-mask-image: url("../images/icons/ribbon/fluent/print.svg");
+    mask-image: url("../images/icons/ribbon/fluent/print.svg");
+}
+
+
+/* Tự làm lại nhìn thanh thoát hơn */
+/* Base style */
+.tb {
+     /*Đây là em GPT cho 
+      display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 12px;
+        font-size: 14px;
+        font-weight: 500;
+        border-radius: 6px;
+        cursor: pointer;
+        border: 1px solid transparent;
+        transition: all 0.15s ease-in-out;
+        line-height: 1.4; */
+
+     /*Đây là lấy từ DX */
+    width: var(--dxbl-image-width);
+    height: var(--dxbl-image-height);
+    background-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    mask-size: contain;
+    background-position: center center;
+    background-color: currentColor;
+    opacity: var( --dxbl-icon-opacity);
+}
+
+
+ /*=== Contained === */
+.tb-contained.tb-primary {
+    background-color: var(--bs-primary);
+    color: var(--bs-body-color);
+}
+
+.tb-contained.tb-secondary {
+    background-color: var(--bs-secondary);
+    color: var(--bs-body-color);
+}
+
+    .tb-contained.tb-secondary:hover {
+        background-color: #5c636a;
+    }
+
+.tb-contained.tb-danger {
+    background-color: var(--bs-danger);
+    color: var(--bs-body-color);
+}
+
+
+.tb-contained.tb-success {
+    background-color: var(--bs-success);
+    color: var(--bs-body-color);
+}
+
+/* === Outline === */
+.tb-outline {
+    background-color: transparent;
+    border-width: 1px;
+    border-style: solid;
+}
+
+    .tb-outline.tb-primary {
+        border-color: var(--bs-primary);
+        color: var(--bs-primary);
+    }
+
+    .tb-outline.tb-secondary {
+        border-color: var(--bs-secondary);
+        color: var(--bs-secondary);
+    }
+
+    .tb-outline.tb-danger {
+        border-color: var(--bs-danger);
+        color: var(--bs-danger);
+    }
+
+    .tb-outline.tb-success {
+        border-color: var(--bs-success);
+        color: var(--bs-success);
+    }
+
+ /*=== Text === */
+.tb-text {
+    background-color: transparent;
+    border: none !important;
+}
+
+    .tb-text.tb-primary {
+        color: var(--bs-primary);
+    }
+
+    .tb-text.tb-secondary {
+        color: var(--bs-secondary);
+    }
+
+    .tb-text.tb-danger {
+        color: var(--bs-danger);
+    }
+
+    .tb-text.tb-success {
+        color: var(--bs-success);
+    }
+
+/* css cho toolbar mới làm */
+/* tb-add dùng chung rule với tb.tb-primary.tb-contained */
+.tb.tb-primary.tb-contained,
+.tb-add {
+    background-color: var(--bs-primary);
+    color: var(--bs-body-color);
+}
+
+/* tb-edit alias cho tb.tb-secondary.tb-outline */
+.tb.tb-secondary.tb-outline,
+.tb-edit {
+    background-color: transparent;
+    border: 1px solid var(--bs-secondary);
+    color: var(--bs-secondary);
+}
+
+/* tb-delete alias cho tb.tb-danger.tb-outline */
+.tb.tb-danger.tb-outline,
+.tb-delete {
+    background-color: transparent;
+    border: 1px solid var(--bs-danger);
+    color: var(--bs-danger);
+}
+
+/* tb-refresh alias cho tb.tb-primary.tb-outline */
+.tb.tb-primary.tb-outline,
+.tb-refresh {
+    background-color: transparent;
+    border: 1px solid var(--bs-primary);
+    color: var(--bs-primary);
+}
+
+/* Nút lọc (Filter) */
+.tb-filter {
+    background-color: transparent;
+    border: 1px solid var(--bs-secondary);
+    color: var(--bs-secondary);
+}
+
+/* Các nút phân trang (Prev, Next, Current, Total) */
+.tb-page-prev,
+.tb-page-next,
+.tb-page-current,
+.tb-page-total {
+    background-color: transparent;
+    border: none;
+    color: var(--bs-secondary);
+}
+
+/* === Nút Chọn cột (Column Chooser) === */
+.tb-column-chooser {
+    background-color: transparent;
+    border: 1px solid var(--bs-secondary);
+    color: var(--bs-secondary);
+}
+
+/* === Nút Xuất khẩu dữ liệu (Export) === */
+.tb-export {
+    background-color: transparent;
+    border: 1px solid var(--bs-success);
+    color: var(--bs-success);
+}
+/* === Nút nhập khẩu dữ liệu (Import) === */
+.tb-import {
+    background-color: transparent;
+    border: 1px solid var(--bs-success);
+    color: var(--bs-success);
+}
+
+/* === ô search === */
+.tb-search {
+    background-color: transparent;
+    border: 1px solid var(--bs-secondary);
+    color: var(--bs-secondary);
+}
+
+/* kết thúc css cho toolbar */
+
+/* Xử lý khung cho toolbar */
+/* Toolbar nổi riêng */
+.toolbar-box {
+    background-color: var(--bs-light); /* thay #f8f9fa */
+    border: 1px solid var(--bs-border-color, #dee2e6);
+    border-radius: var(--bs-border-radius, 0.375rem);
+    padding: 6px 8px;
+    margin-bottom: 0.5rem;
+}
+
+/* Toolbar dính sát grid */
+.toolbar-box-tight {
+    background-color: var(--bs-light);
+    border: 1px solid var(--bs-border-color, #dee2e6);
+    border-radius: var(--bs-border-radius) var(--bs-border-radius) 0 0;
+    padding: 6px 8px;
+    margin-bottom: 0; /* dính grid */
+    flex-shrink: 0; /* 👈 Không cho co kéo khi splitter tính toán */
+}
+
+/* Toolbar bên trong */
+.toolbar-inner {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+/* Kết thúc xử lý khung cho toolbar */
+
+/* Kích thước của các button next,prev ở phân trang trên mobile */
+.mobile-page-btn {
+    background-color: transparent;
+    border: 1px solid var(--bs-primary);
+    color: var(--bs-primary);
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    margin: 0 2px;
+    text-align: center;
+    border-radius: 6px; /* bo góc nhẹ */
+    /* border-radius: 50%;   bo tròn thành hình tròn */
+}
+
+.mobile-page-info-btn {
+    background-color: transparent;
+    border: 1px solid var(--bs-primary);
+    color: var(--bs-primary);
+    height: 42px;
+    padding: 0;
+    margin: 0 2px;
+    text-align: center;
+    border-radius: 6px; /* bo góc nhẹ */
+    /* border-radius: 50%;  bo tròn thành hình tròn */
+}

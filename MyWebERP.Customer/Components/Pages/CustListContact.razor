@@ -1,0 +1,497 @@
+﻿@* @page "/listcustcategory/{CompanyMenuId}" *@
+
+@using MyWebERP.Base.Components.Pages
+@using Blazored.LocalStorage;
+@using MyWebERP.Data;
+@using MyWebERP.Services;
+@using MyWebERP.Model;
+@using System.Dynamic;
+@using DevExpress.Blazor
+
+@inherits ComponentBaseTabGrid0
+
+<div class="toolbar-box-tight">
+    <DxToolbar ItemRenderStyleMode="ToolbarRenderStyleMode.Contained" CssClass="toolbar-inner">
+
+        <DxToolbarItem Text="@Language["Nạp"]" IconCssClass="bi bi-arrow-clockwise" Click="RefreshItem_Click" CssClass="tb-refresh" BeginGroup="true" />
+        <DxToolbarItem Text="@Language["Thêm"]" IconCssClass="bi bi-plus-lg" Click="NewItem_Click" CssClass="tb-add" BeginGroup="true" />
+        <DxToolbarItem Text="@Language["Sửa"]" IconCssClass="bi bi-pencil-square" Click="EditItem_Click" CssClass="tb-edit" BeginGroup="true" />
+        <DxToolbarItem Text="@Language["Xóa"]" IconCssClass="bi bi-trash" Click="DeleteItem_Click" CssClass="tb-delete" BeginGroup="true" />
+
+        <DxToolbarItem Text="Column Chooser" BeginGroup="true" CssClass="tb-column-chooser" Click="ShowColumnChooser" IconCssClass="grid-toolbar-column-chooser" />
+        <DxToolbarItem Text="@Language["Xuất dữ liệu"]" CssClass="tb-export" IconCssClass="grid-toolbar-export" BeginGroup="true">
+            <Items>
+                <DxToolbarItem Text="File CSV" Click="ExportCsvItem_Click" />
+                <DxToolbarItem Text="File XLSX" Click="ExportXlsxItem_Click" />
+                <DxToolbarItem Text="File XLS" Click="ExportXlsItem_Click" />
+            </Items>
+        </DxToolbarItem>
+        <DxToolbarItem BeginGroup="true" CssClass="tb-search">
+            <Template Context="toolbar_item_context">
+                <DxSearchBox @bind-Text="GridSearchText"
+                             BindValueMode="BindValueMode.OnInput"
+                             ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"
+                             aria-label="Search" />
+            </Template>
+        </DxToolbarItem>
+    </DxToolbar>
+</div>
+
+@* Phải đặt trong div này để fill và không tràn trang*@
+<div class="detail-grid">
+
+    <DxGrid @ref="Grid"
+            CssClass="default-grid"
+    Data="@Data"
+    VirtualScrollingEnabled="true" 
+    KeyFieldName="@nameof(CustContactModel.cust_contact_id)"
+    ColumnResizeMode="GridColumnResizeMode.ColumnsContainer"
+    TextWrapEnabled="true"
+    FocusedRowEnabled="true"
+    HighlightRowOnHover="true"
+    FocusedRowChanged="Grid_FocusedRowChanged"
+    CustomizeElement="Grid_CustomizeElement"
+    ShowFilterRow="true"
+    FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Always"
+    ShowAllRows="true"
+    PopupEditFormCssClass="pw-800"
+    PopupEditFormHeaderText="Người liên hệ"
+    EditMode="GridEditMode.PopupEditForm"
+    ValidationEnabled="true"
+        ColumnCaptionAlignment="GridTextAlignment.Center"
+    CustomizeEditModel="Grid_CustomizeEditModel"
+    EditModelSaving="Grid_EditModelSaving"
+    SearchText="@GridSearchText">
+        <Columns>
+            <DxGridDataColumn Width="25" Caption="#"
+            TextAlignment="GridTextAlignment.Center"
+            FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never" AllowSort="false">
+                <CellDisplayTemplate>@(context.VisibleIndex + 1)</CellDisplayTemplate>
+            </DxGridDataColumn>
+            <DxGridDataColumn FieldName=@nameof(CustContactModel.vocative) Width="140">
+                <HeaderCaptionTemplate>
+                    <i class="bi bi-person-vcard me-1" title="@Language["Xưng hô"]"></i>
+                    <span class="d-none d-sm-inline">@Language["Xưng hô"]</span>
+                </HeaderCaptionTemplate>
+                </DxGridDataColumn>
+            <DxGridDataColumn FieldName="@nameof(CustContactModel.contact_name)" Width="200"
+                              FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never" Caption="@Language["Tên liên hệ"]">
+                <HeaderCaptionTemplate>
+                    <i class="bi bi-person me-1" title="@Language["Tên liên hệ"]"></i>
+                    <span class="d-none d-sm-inline">@Language["Tên liên hệ"]</span>
+                </HeaderCaptionTemplate>
+                </DxGridDataColumn>
+            <DxGridDataColumn FieldName="@nameof(CustContactModel.gender)" Width="140">
+                <HeaderCaptionTemplate>
+                    <i class="bi bi-gender-ambiguous me-1" title="@Language["Giới tính"]"></i>
+                    <span class="d-none d-sm-inline">@Language["Giới tính"]</span>
+                </HeaderCaptionTemplate>
+                <CellDisplayTemplate Context="cell">
+                    <div class="small text-muted">
+                        @{
+                            var gender = Convert.ToString(cell.Grid.GetRowValue(cell.VisibleIndex, "gender"));
+                        }
+                        @if (gender == "Nam" | gender == "Male")
+                        {
+                            <span><i class="bi bi-gender-male text-primary me-1"></i>@Language["Nam"]</span>
+                        }
+                        else if (gender == "Nữ" | gender == "Female")
+                        {
+                            <span><i class="bi bi-gender-female text-danger me-1"></i>@Language["Nữ"]</span>
+                        }
+                        else
+                        {
+                            <span><i class="bi bi-gender-ambiguous me-1"></i>@Language["Khác"]</span>
+                        }
+                    </div>
+                </CellDisplayTemplate>
+                </DxGridDataColumn>
+            <DxGridDataColumn FieldName="@nameof(CustContactModel.date_of_birth)" Width="100" 
+            FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never">
+
+                <HeaderCaptionTemplate>
+                    <i class="bi bi-calendar-heart me-1" title="@Language["Ngày sinh"]"></i>
+                    <span class="d-none d-sm-inline">@Language["Ngày sinh"]</span>
+                </HeaderCaptionTemplate>
+                <CellDisplayTemplate Context="cell">
+                @{
+                    var dt = (DateTime)cell.Value;
+                    if (dt != new DateTime(1900, 1, 1))
+                    {
+                        <text>@dt.ToString("d")</text>  @* chỉ hiển thị ngày tháng năm theo culture của thread *@
+                    }
+                }
+            </CellDisplayTemplate>
+
+                </DxGridDataColumn>
+            <DxGridDataColumn FieldName=@nameof(CustContactModel.tel) Width="120" FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never">
+                <HeaderCaptionTemplate>
+                    <i class="bi bi-telephone me-1" title="@Language["Số điện thoại"]"></i>
+                    <span class="d-none d-sm-inline">@Language["SĐT"]</span>
+                </HeaderCaptionTemplate>
+            </DxGridDataColumn>
+            <DxGridDataColumn FieldName=@nameof(CustContactModel.email) Width="120" FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never">
+                <HeaderCaptionTemplate>
+                    <i class="bi bi-envelope me-1" title="@Language["Email"]"></i>
+                    <span class="d-none d-sm-inline">@Language["Email"]</span>
+                </HeaderCaptionTemplate>
+            </DxGridDataColumn>
+            <DxGridDataColumn FieldName=@nameof(CustContactModel.department) Width="140">
+                <HeaderCaptionTemplate>
+                    <i class="bi bi-diagram-3 me-1" title="@Language["Phòng ban"]"></i>
+                    <span class="d-none d-sm-inline">@Language["Phòng ban"]</span>
+                </HeaderCaptionTemplate>
+            </DxGridDataColumn>
+            <DxGridDataColumn FieldName=@nameof(CustContactModel.contact_position) Width="120">
+                <HeaderCaptionTemplate>
+                    <i class="bi bi-person-badge me-1" title="@Language["Chức vụ"]"></i>
+                    <span class="d-none d-sm-inline">@Language["Chức vụ"]</span>
+                </HeaderCaptionTemplate>
+                </DxGridDataColumn>
+            <DxGridDataColumn FieldName=@nameof(CustContactModel.comment) Width="150" FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never">
+                <HeaderCaptionTemplate>
+                    <i class="bi bi-journal-text me-1" title="@Language["Ghi chú"]"></i>
+                    <span class="d-none d-sm-inline">@Language["Ghi chú"]</span>
+                </HeaderCaptionTemplate>
+            </DxGridDataColumn>
+
+            <DxGridDataColumn FieldName="inactive" Width="140px" FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never">
+                <HeaderCaptionTemplate>
+                    <i class="bi bi-power text-danger me-1" title="@Language["Trạng thái sử dụng"]"></i>
+                    <span class="d-none d-sm-inline">@Language["Trạng thái"]</span>
+                </HeaderCaptionTemplate>
+                <CellDisplayTemplate Context="cell">
+                    @if (Convert.ToBoolean(cell.Value))
+                    {
+                        <span class="text-danger"><i class="bi bi-slash-circle me-1"></i>@Language["Không SD"]</span>
+                    }
+                    else
+                    {
+                        <span class="text-success"><i class="bi bi-check-circle me-1"></i>@Language["Đang SD"]</span>
+                    }
+                </CellDisplayTemplate>
+            </DxGridDataColumn>
+        </Columns>
+        <EmptyDataAreaTemplate>
+        @* Không hiển thị gì, hoặc hiển thị custom text *@
+        <div style="height:0;">@Language["Không có dữ liệu"]</div>
+        @* Hoặc muốn custom thông báo: <span>Chưa có dữ liệu</span> *@
+    </EmptyDataAreaTemplate>
+        @* <EditFormTemplate Context="EditFormContext">
+            @{
+                var editItem = (CustContactModel)EditFormContext.EditModel;
+            }
+            <DxFormLayout CssClass="w-1000">
+                <DxFormLayoutItem Caption="Tên liên hệ:" ColSpanMd="12">
+                    @EditFormContext.GetEditor(nameof(CustContactModel.contact_name))
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Ngày sinh:" ColSpanMd="12">
+                    <DxDateEdit @bind-date=editItem.date_of_birth Format="dd/MM/yyyy"
+                    NullText="Ngày sinh"
+                    NullValue="@(new DateTime(1900, 1, 1))" />
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Giới tính:" ColSpanMd="12">
+                    <DxComboBox Data="@ListGender" 
+                    NullText="Chọn giới tính"
+                    @bind-Value="@editItem.gender_id"
+                    ValueFieldName="@nameof(GenderLookupModel.gender_id)"
+                    TextFieldName="@nameof(GenderLookupModel.gender)"/>
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Xưng hô:" ColSpanMd="12">
+                    <DxComboBox Data="@ListVocative"
+                    NullText="Chọn xưng hô"
+                    @bind-Value="@editItem.vocative_id"
+                    ValueFieldName="@nameof(VocativeLookupModel.vocative_id)"
+                    TextFieldName="@nameof(VocativeLookupModel.vocative)" />
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="SĐT:" ColSpanMd="12">
+                    @EditFormContext.GetEditor(nameof(CustContactModel.tel))
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Email:" ColSpanMd="12">
+                    @EditFormContext.GetEditor(nameof(CustContactModel.email))
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Phòng ban:" ColSpanMd="12">
+                    <DxTextBox @bind-Text=editItem.department/>
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Chức vụ:" ColSpanMd="12">
+                    <DxTextBox @bind-Text=editItem.contact_position />
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Ghi chú:" ColSpanMd="12">
+                    <DxTextBox @bind-Text=editItem.comment />
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Không SD:" ColSpanMd="6">
+                    <DxCheckBox @bind-Checked="@editItem.inactive" ValueChecked="@((Int16)1)" ValueUnchecked="@((Int16)0)"></DxCheckBox>
+                </DxFormLayoutItem>
+
+            </DxFormLayout>
+        </EditFormTemplate> *@
+
+        <EditFormTemplate Context="EditFormContext">
+    @{
+        var editItem = (CustContactModel)EditFormContext.EditModel;
+    }
+    <DxFormLayout CssClass="w-1000">
+        <!-- Tên liên hệ -->
+                <DxFormLayoutItem ColSpanMd="12" CaptionCssClass="me-2">
+            <CaptionTemplate>
+                <i class="bi bi-person me-1"></i> @Language["Tên liên hệ"]
+            </CaptionTemplate>
+            <Template>
+                @EditFormContext.GetEditor(nameof(CustContactModel.contact_name))
+            </Template>
+        </DxFormLayoutItem>
+
+        <!-- Ngày sinh -->
+                <DxFormLayoutItem ColSpanMd="12" CaptionCssClass="me-2">
+            <CaptionTemplate>
+                <i class="bi bi-calendar-date me-1"></i> @Language["Ngày sinh"]
+            </CaptionTemplate>
+            <Template>
+                <DxDateEdit @bind-Date=editItem.date_of_birth Format="dd/MM/yyyy"
+                        NullText="@Language["Ngày sinh"]"
+                        NullValue="@(new DateTime(1900, 1, 1))" />
+            </Template>
+        </DxFormLayoutItem>
+
+        <!-- Giới tính -->
+                <DxFormLayoutItem ColSpanMd="12" CaptionCssClass="me-2">
+            <CaptionTemplate>
+                <i class="bi bi-gender-ambiguous me-1"></i> @Language["Giới tính"]
+            </CaptionTemplate>
+            <Template>
+            <DxComboBox Data="@ListGender"
+                        NullText="@Language["Chọn giới tính"]"
+                        @bind-Value="@editItem.gender_id"
+                        ValueFieldName="@nameof(GenderLookupModel.gender_id)"
+                        TextFieldName="@nameof(GenderLookupModel.gender)" />
+                        </Template>
+        </DxFormLayoutItem>
+
+        <!-- Xưng hô -->
+                <DxFormLayoutItem ColSpanMd="12" CaptionCssClass="me-2">
+            <CaptionTemplate>
+                <i class="bi bi-chat-dots me-1"></i> @Language["Xưng hô"]
+            </CaptionTemplate>
+            <Template>
+            <DxComboBox Data="@ListVocative"
+                        NullText="@Language["Chọn xưng hô"]"
+                        @bind-Value="@editItem.vocative_id"
+                        ValueFieldName="@nameof(VocativeLookupModel.vocative_id)"
+                        TextFieldName="@nameof(VocativeLookupModel.vocative)" />
+                        </Template>
+        </DxFormLayoutItem>
+
+        <!-- SĐT -->
+                <DxFormLayoutItem ColSpanMd="12" CaptionCssClass="me-2">
+            <CaptionTemplate>
+                <i class="bi bi-telephone me-1"></i> @Language["SĐT"]
+            </CaptionTemplate>
+            <Template>
+            @EditFormContext.GetEditor(nameof(CustContactModel.tel))
+            </Template>
+        </DxFormLayoutItem>
+
+        <!-- Email -->
+                <DxFormLayoutItem ColSpanMd="12" CaptionCssClass="me-2">
+            <CaptionTemplate>
+                <i class="bi bi-envelope me-1"></i> @Language["Email"]
+            </CaptionTemplate>
+            <Template>
+            @EditFormContext.GetEditor(nameof(CustContactModel.email))
+            </Template>
+        </DxFormLayoutItem>
+
+        <!-- Phòng ban -->
+                <DxFormLayoutItem ColSpanMd="12" CaptionCssClass="me-2">
+            <CaptionTemplate>
+                        <i class="bi bi-diagram-3 me-1"></i> @Language["Phòng ban"]
+            </CaptionTemplate>
+            <Template>
+                <DxTextBox @bind-Text=editItem.department />
+            </Template>
+        </DxFormLayoutItem>
+
+        <!-- Chức vụ -->
+                <DxFormLayoutItem ColSpanMd="12" CaptionCssClass="me-2">
+            <CaptionTemplate>
+                        <i class="bi bi-person-badge me-1"></i> @Language["Chức vụ"]
+            </CaptionTemplate>
+            <Template>
+                <DxTextBox @bind-Text=editItem.contact_position />
+            </Template>
+        </DxFormLayoutItem>
+
+        <!-- Ghi chú -->
+                <DxFormLayoutItem ColSpanMd="12" CaptionCssClass="me-2">
+            <CaptionTemplate>
+                <i class="bi bi-journal-text me-1"></i> @Language["Ghi chú"]
+            </CaptionTemplate>
+            <Template>
+                <DxTextBox @bind-Text=editItem.comment />
+            </Template>
+        </DxFormLayoutItem>
+
+        <!-- Không SD -->
+                <DxFormLayoutItem ColSpanMd="12" CaptionCssClass="me-2">
+            <CaptionTemplate>
+                <i class="bi bi-x-circle me-1"></i> @Language["Không SD"]
+            </CaptionTemplate>
+            <Template>
+            <DxCheckBox @bind-Checked="@editItem.inactive"
+                        ValueChecked="@((Int16)1)"
+                        ValueUnchecked="@((Int16)0)" />
+                </Template>
+        </DxFormLayoutItem>
+    </DxFormLayout>
+</EditFormTemplate>
+
+
+    </DxGrid>
+</div>
+<DxWindow @ref=windowRef
+AllowResize="true"
+ShowCloseButton="true"
+CloseOnEscape="true"
+HeaderText="@MyHeaderErrorMessage"
+FooterText="Footer"
+ShowFooter="true"
+Width="max(25vw, 250px)"
+MinWidth="300"
+MinHeight="200"
+MaxWidth="800"
+MaxHeight="500">
+    <BodyContentTemplate>
+        <div style="color:red">@MyErrorMessage</div>
+    </BodyContentTemplate>
+    <FooterContentTemplate>
+        <DxButton CssClass="popup-button my-1 ms-2"
+        RenderStyle="ButtonRenderStyle.Primary" Text="OK" Click="@context.CloseCallback" />
+    </FooterContentTemplate>
+</DxWindow>
+
+
+@code {
+    List<CustContactModel> Data;
+
+    // protected override string DelAPICode => ("CUST_CONTACT_DEL_W");
+    // protected override string InsAPICode => ("CUST_CONTACT_INS_W");
+    // protected override string UpdAPICode => ("CUST_CONTACT_UPD_W");
+    // protected override string FetAPICode => ("CUST_FET_CONTACT_W");
+    // protected override string FetSingleAPICode => ("CUST_CONTACT_FET_SINGLE_W");
+
+    /// <summary>
+    /// phải là string? nếu không sẽ bị báo lỗi
+    /// </summary>
+    [Parameter]
+    public string? CustomerId { get; set; }
+    List<GenderLookupModel?> ListGender { get; set; }
+    List<VocativeLookupModel?> ListVocative { get; set; }
+
+    public EventCallback<string> CustomerIdChanged { get; set; }
+
+    protected override async Task InitCfg()
+    {
+        await base.InitCfg();
+        ListGender = await DataService.LookupCode<GenderLookupModel>(CompanyId, CompanyMenuId, "GENDER_LOOKUP");
+        ListVocative = await DataService.LookupCode<VocativeLookupModel>(CompanyId, CompanyMenuId, "VOCATIVE_LOOKUP");
+    }
+
+    protected override async Task DataAsync()
+    {
+        // string _sParam = "{\"company_id\":\"" + CompanyId + "\",\"customer_id\":\"" + CustomerId + "\"}";
+        // APIResultDataModel resultData = await DataService.GetData(_sParam, FetAPICode);
+        dynamic dParam = new System.Dynamic.ExpandoObject();
+        dParam.company_id = CompanyId;
+        dParam.customer_id = CustomerId;
+
+        APIResultDataModel resultData = await DataService.GetDataSimple(dParam, FetAPICode);
+
+        if (resultData != null && resultData.data_details != null)
+        {
+            Data = System.Text.Json.JsonSerializer.Deserialize<List<CustContactModel>>(resultData.data_details.ToString());
+        }
+        else
+        {
+            Data = new List<CustContactModel>();
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await DataAsync();
+    }
+
+    protected override async Task NewItem_Click()
+    {
+        await Grid.StartEditNewRowAsync();
+    }
+
+    protected override async Task EditItem_Click()
+    {
+        await Grid.StartEditRowAsync(FocusedRowVisibleIndex);
+
+    }
+
+    async void Grid_CustomizeEditModel(GridCustomizeEditModelEventArgs e)
+    {
+        MyHeaderErrorMessage = "";
+        MyErrorMessage = "";
+
+        var _editItem = (CustContactModel)e.EditModel;
+
+        if (e.IsNew)
+        {
+            _editItem.customer_id = CustomerId;
+            _editItem.date_of_birth = new DateTime(1900, 1, 1);
+        }
+        else
+        {
+
+            // Lấy lại dữ liệu trước khi sửa.
+            string _sFetSingleParam = await MyLib.CreateFetSingleParam(LocalStorageService, nameof(CustContactModel.cust_contact_id), _editItem.cust_contact_id);
+            APIResultModel _resultFetSingle = await DataService.CallMyApi(_sFetSingleParam, FetSingleAPICode);
+
+            if (_resultFetSingle.Status == 0)
+            {
+                string _sData = _resultFetSingle.Data.ToString();
+                CustContactModel _editItemTmp = System.Text.Json.JsonSerializer.Deserialize<CustContactModel>(_sData);
+                if (_editItemTmp != null)
+                {
+                    await MyLib.MapObject<CustContactModel>(_editItem, _editItemTmp);
+                }
+            }
+        }
+    }
+
+    protected override async Task DeleteItem_Click()
+    {
+        bool _blnConfirm = await DialogService.ConfirmAsync(new MessageBoxOptions()
+            {
+                Title = "Xác nhận xóa dữ liệu",
+                Text = "Quý khách có chắc chắn muốn xóa dòng này không?",
+                RenderStyle = MessageBoxRenderStyle.Danger,
+                OkButtonText = "Có",
+                CancelButtonText = "Không",
+            });
+
+        if (_blnConfirm == true)
+        {
+            string _sId = MyLib.GetPropertyValueOfObject(Grid.GetFocusedDataItem(), Grid.KeyFieldName);
+            string _sParam = await MyLib.CreateDeleteDataParam(LocalStorageService, nameof(CustContactModel.cust_contact_id), _sId);
+
+            APIResultModel _resultDel = await DataService.CallMyApi(_sParam, DelAPICode);
+
+            if (_resultDel.Status != 0)
+            {
+                MyHeaderErrorMessage = "Lỗi xóa dữ liệu";
+                MyErrorMessage = _resultDel.StatusDetails;
+
+                await windowRef.ShowAsync();
+                return;
+            }
+
+            await DataAsync();
+        }
+    }
+
+}

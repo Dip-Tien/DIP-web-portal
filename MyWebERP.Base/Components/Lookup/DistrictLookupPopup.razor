@@ -1,0 +1,138 @@
+﻿@using MyWebERP.Model
+
+@inject Microsoft.Extensions.Localization.IStringLocalizer Language;
+
+@typeparam TValue
+
+@inherits BaseClasses.DistrictLookup<TValue>
+
+<div class="dx-form-control">
+    <DxTextBox Text="@SelectedItem?.district_name"
+               ReadOnly="true"
+               ValidationEnabled="false"
+               NullText="@Language["Chọn xã/phường"]"
+               CssClass="@CssClass">
+        <Buttons>
+            <DxEditorButton IconCssClass="bi bi-search"
+                            Click="() => TogglePopup()" />
+        </Buttons>
+    </DxTextBox>
+</div>
+
+<DxPopup @bind-Visible="@IsPopupVisible"
+         Width="85vw"
+         Height="80dvh"
+         ShowHeader="false"
+         ShowFooter="false"
+         ShowCloseButton="false"
+         CloseOnOutsideClick="true"
+         CssClass="d-flex justify-content-center align-items-center">
+
+    @* Nội dung popup chọn xã - dùng trong DxPopup *@
+    <div class="d-flex flex-column bg-white rounded-0" style="height:85dvh; max-height:85dvh; overflow:hidden;">
+
+        <!-- Header -->
+        <div class="d-flex align-items-center justify-content-between border-bottom px-3 py-2 bg-light sticky-top">
+            <button class="btn btn-link text-decoration-none text-dark fw-semibold px-0"
+                    @onclick="() => OnBackClicked()">
+                <i class="bi bi-arrow-left me-2"></i> @Language["Quay lại"]
+            </button>
+            <span class="fw-semibold text-truncate">@Language["Chọn xã/phường"]</span>
+            <div style="width: 30px;"></div>
+        </div>
+
+        <!-- Ô tìm kiếm -->
+        <div class="p-2 border-bottom bg-light sticky-top">
+            <DxTextBox Text="@SearchText"
+                       TextChanged="OnSearchTextChanged"
+                       BindValueMode="BindValueMode.OnDelayedInput"
+                       ValidationEnabled="false"
+                       ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Never"
+                       InputDelay="300"
+                       NullText="@($"🔍 {@Language["Tìm kiếm"]}...")"
+                       CssClass="form-control-sm w-100">
+                <Buttons>
+                    @if (!string.IsNullOrEmpty(SearchText))
+                    {
+                        <DxEditorButton IconCssClass="bi bi-x-lg text-muted"
+                                        Click="@(() => SearchText = string.Empty)" />
+                    }
+                </Buttons>
+            </DxTextBox>
+        </div>
+
+        <!-- Danh sách -->
+        <div class="list-group list-group-flush flex-grow-1 overflow-auto">
+            @if (IsLoading)
+            {
+                <div class="text-center text-muted py-3 small">@($"{Language["Đang tải dữ liệu"]}...")</div>
+            }
+            else if (!FilteredList.Any())
+            {
+                <div class="text-center text-muted py-3 small">@Language["Không tìm thấy dữ liệu"]</div>
+            }
+            else
+            {
+                @foreach (var item in FilteredList)
+                {
+                    <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center border-0 border-bottom py-2 px-3"
+                         style="cursor:pointer;"
+                         @onclick="@(() => SelectItem(item))">
+                        <div class="flex-grow-1">
+                            <div class="fw-semibold text-truncate" style="max-width: 280px;">@item.district_name</div>
+                            @if (!string.IsNullOrWhiteSpace(item.comment))
+                            {
+                                <div class="text-muted small">@item.comment</div>
+                            }
+                        </div>
+                        <i class="bi bi-chevron-right text-muted small ms-2"></i>
+                    </div>
+                }
+            }
+        </div>
+
+        @if (ShowByMyOwn == false)
+        {
+            <div class="d-flex justify-content-center border-top p-2 bg-light text-center small text-muted">
+                <button class="btn btn-link text-decoration-none" @onclick="SkipSelection">@Language["Bỏ qua"]</button>
+            </div>
+        }
+    </div>
+
+</DxPopup>
+
+@code
+{
+    [Parameter] public EventCallback OnBack { get; set; }
+    private bool ShowByMyOwn = false;
+
+    private async Task OnBackClicked()
+    {
+        IsPopupVisible = false; // Đóng popup
+
+        if (ShowByMyOwn == false && OnBack.HasDelegate)
+            await OnBack.InvokeAsync(); // Gọi sự kiện ở parent
+    }
+
+    private async Task SkipSelection()
+    {
+        IsPopupVisible = false;
+        //await OnSelected.InvokeAsync(null); // trả null nếu bỏ qua
+    }
+
+    public void ShowPopup()
+    {
+        ShowByMyOwn = false;
+        IsPopupVisible = true;
+    }
+
+    private async Task TogglePopup()
+    {
+        IsPopupVisible = !IsPopupVisible;
+
+        if (IsPopupVisible)
+        {
+            ShowByMyOwn = true;
+        }
+    }
+}

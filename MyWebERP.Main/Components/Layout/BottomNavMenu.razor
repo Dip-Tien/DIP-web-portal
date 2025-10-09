@@ -1,0 +1,54 @@
+﻿@using System.Threading.Tasks
+@using MyWebERP.Model
+@using Microsoft.AspNetCore.Components.Authorization
+
+@inherits MenuBase
+@inject NavigationManager NavigationManager
+
+@*Đây là hiển thị menu dưới footer nhưng chưa tối ưu*@
+
+<div class="bottom-nav">
+    @if (@MyMenuItems is null)
+    {
+        <div class="loading-text">Đang tải menu...</div>
+    }
+    else
+    {
+        @foreach (var item in @MyMenuItems)
+        {
+            <div class="nav-item" @onclick="@(() => ToggleSubMenu(item))">
+                <div class="icon">
+                    <i class="@item.IconCss"></i>
+                </div>
+                <div class="label" title="@item.Title">@item.MenuName</div>
+
+                @if (ActiveMenu == item && item.Children?.Count > 0)
+                {
+                    <div class="submenu" @onmouseleave="() => ActiveMenu = null">
+                        @foreach (var child in item.Children)
+                        {
+                            <SubMenuItemView Item="child" OnClick="NavigateTo" />
+                        }
+                    </div>
+                }
+            </div>
+        }
+    }
+</div>
+
+@code {
+
+    private MenuItem? ActiveMenu;
+
+    void ToggleSubMenu(MenuItem item)
+    {
+        ActiveMenu = ActiveMenu == item ? null : item;
+    }
+
+    void NavigateTo(string url)
+    {
+        ActiveMenu = null;
+        if (!string.IsNullOrEmpty(url))
+            NavigationManager.NavigateTo(url);
+    }
+}

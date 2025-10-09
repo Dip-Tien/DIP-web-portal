@@ -1,0 +1,17 @@
+{
+  "profiles": {
+    "MyWebERP.Customer": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:23610;http://localhost:23613"
+    },
+    "Profile 1": {
+      "commandName": "Executable",
+      "executablePath": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\Publish\\MyWebERP.Main.exe",
+      "workingDirectory": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\Publish\\"
+    }
+  }
+}

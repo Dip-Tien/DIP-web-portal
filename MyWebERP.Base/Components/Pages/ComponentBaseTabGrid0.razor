@@ -1,0 +1,24 @@
+﻿@inherits ComponentBaseGrid0
+
+@code
+{
+    [Parameter]
+    public MyWebERP.Model.MenuItem MenuItem
+    {
+        get
+        {
+            return menuItem;
+        }
+        set
+        {
+            menuItem = value;
+        }
+    }
+
+    public EventCallback<MyWebERP.Model.MenuItem> MenuItemChanged { get; set; }
+
+    protected void ShowColumnChooser()
+    {
+        Grid.ShowColumnChooser(new DialogDisplayOptions($".flexGrid", HorizontalAlignment.Center, VerticalAlignment.Center));
+    }
+}

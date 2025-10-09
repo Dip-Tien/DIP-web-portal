@@ -1,0 +1,1401 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\obj\\Release\\net9.0\\scopedcss\\projectbundle\\MyWebERP.bundle.scp.css",
+      "PackagePath": "staticwebassets\\MyWebERP.hzgztfn26x.bundle.scp.css"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\css\\Grid.css",
+      "PackagePath": "staticwebassets\\css\\Grid.css"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\css\\Toolbar.css",
+      "PackagePath": "staticwebassets\\css\\Toolbar.css"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\css\\bootstrap\\bootstrap.css",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.css"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\css\\dx-demo-icons-fluent.css",
+      "PackagePath": "staticwebassets\\css\\dx-demo-icons-fluent.css"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\css\\dx-demo-pages.css",
+      "PackagePath": "staticwebassets\\css\\dx-demo-pages.css"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\css\\dx-demo-reporting-pages.css",
+      "PackagePath": "staticwebassets\\css\\dx-demo-reporting-pages.css"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\css\\dx-demo-richedit-pages.css",
+      "PackagePath": "staticwebassets\\css\\dx-demo-richedit-pages.css"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\css\\dx-demo.css",
+      "PackagePath": "staticwebassets\\css\\dx-demo.css"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\css\\open.iconic\\FONT-LICENSE.txt",
+      "PackagePath": "staticwebassets\\css\\open.iconic\\FONT-LICENSE.txt"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\css\\open.iconic\\ICON-LICENSE.txt",
+      "PackagePath": "staticwebassets\\css\\open.iconic\\ICON-LICENSE.txt"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\css\\open.iconic\\README.md",
+      "PackagePath": "staticwebassets\\css\\open.iconic\\README.md"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\css\\open.iconic\\font\\css\\open-iconic-bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\open.iconic\\font\\css\\open-iconic-bootstrap.min.css"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\css\\open.iconic\\font\\fonts\\open-iconic.eot",
+      "PackagePath": "staticwebassets\\css\\open.iconic\\font\\fonts\\open-iconic.eot"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\css\\open.iconic\\font\\fonts\\open-iconic.otf",
+      "PackagePath": "staticwebassets\\css\\open.iconic\\font\\fonts\\open-iconic.otf"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\css\\open.iconic\\font\\fonts\\open-iconic.svg",
+      "PackagePath": "staticwebassets\\css\\open.iconic\\font\\fonts\\open-iconic.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\css\\open.iconic\\font\\fonts\\open-iconic.ttf",
+      "PackagePath": "staticwebassets\\css\\open.iconic\\font\\fonts\\open-iconic.ttf"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\css\\open.iconic\\font\\fonts\\open-iconic.woff",
+      "PackagePath": "staticwebassets\\css\\open.iconic\\font\\fonts\\open-iconic.woff"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\css\\ribbon.css",
+      "PackagePath": "staticwebassets\\css\\ribbon.css"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\favicon.ico",
+      "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\favicon_ifinition.ico",
+      "PackagePath": "staticwebassets\\favicon_ifinition.ico"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\AppleStock\\stock.svg",
+      "PackagePath": "staticwebassets\\images\\AppleStock\\stock.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\account\\log-in.svg",
+      "PackagePath": "staticwebassets\\images\\account\\log-in.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\account\\log-out.svg",
+      "PackagePath": "staticwebassets\\images\\account\\log-out.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\account\\manage-email.svg",
+      "PackagePath": "staticwebassets\\images\\account\\manage-email.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\account\\manage-password.svg",
+      "PackagePath": "staticwebassets\\images\\account\\manage-password.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\account\\manage-personal.svg",
+      "PackagePath": "staticwebassets\\images\\account\\manage-personal.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\account\\manage-profile.svg",
+      "PackagePath": "staticwebassets\\images\\account\\manage-profile.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\account\\manage-two-factor.svg",
+      "PackagePath": "staticwebassets\\images\\account\\manage-two-factor.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\account\\providers\\facebook-logo.svg",
+      "PackagePath": "staticwebassets\\images\\account\\providers\\facebook-logo.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\account\\providers\\google-logo.svg",
+      "PackagePath": "staticwebassets\\images\\account\\providers\\google-logo.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\account\\providers\\microsoft-logo.svg",
+      "PackagePath": "staticwebassets\\images\\account\\providers\\microsoft-logo.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\account\\providers\\x-logo.svg",
+      "PackagePath": "staticwebassets\\images\\account\\providers\\x-logo.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\account\\settings.svg",
+      "PackagePath": "staticwebassets\\images\\account\\settings.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\account\\user.svg",
+      "PackagePath": "staticwebassets\\images\\account\\user.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\back.svg",
+      "PackagePath": "staticwebassets\\images\\back.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\cancel-search.svg",
+      "PackagePath": "staticwebassets\\images\\cancel-search.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\cards.svg",
+      "PackagePath": "staticwebassets\\images\\cards.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\close.svg",
+      "PackagePath": "staticwebassets\\images\\close.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\collapse.svg",
+      "PackagePath": "staticwebassets\\images\\collapse.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\copy-code.svg",
+      "PackagePath": "staticwebassets\\images\\copy-code.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\counter.svg",
+      "PackagePath": "staticwebassets\\images\\counter.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\demos.svg",
+      "PackagePath": "staticwebassets\\images\\demos.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\doc.svg",
+      "PackagePath": "staticwebassets\\images\\doc.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\documentation.svg",
+      "PackagePath": "staticwebassets\\images\\documentation.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\documents\\AlbertEinstein.jpg",
+      "PackagePath": "staticwebassets\\images\\documents\\AlbertEinstein.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\documents\\SampleWatermark.png",
+      "PackagePath": "staticwebassets\\images\\documents\\SampleWatermark.png"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\download.svg",
+      "PackagePath": "staticwebassets\\images\\download.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\employees\\1.jpg",
+      "PackagePath": "staticwebassets\\images\\employees\\1.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\employees\\10.jpg",
+      "PackagePath": "staticwebassets\\images\\employees\\10.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\employees\\11.jpg",
+      "PackagePath": "staticwebassets\\images\\employees\\11.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\employees\\2.jpg",
+      "PackagePath": "staticwebassets\\images\\employees\\2.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\employees\\3.jpg",
+      "PackagePath": "staticwebassets\\images\\employees\\3.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\employees\\4.jpg",
+      "PackagePath": "staticwebassets\\images\\employees\\4.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\employees\\5.jpg",
+      "PackagePath": "staticwebassets\\images\\employees\\5.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\employees\\6.jpg",
+      "PackagePath": "staticwebassets\\images\\employees\\6.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\employees\\7.jpg",
+      "PackagePath": "staticwebassets\\images\\employees\\7.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\employees\\8.jpg",
+      "PackagePath": "staticwebassets\\images\\employees\\8.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\employees\\9.jpg",
+      "PackagePath": "staticwebassets\\images\\employees\\9.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\employees\\item-template1.jpg",
+      "PackagePath": "staticwebassets\\images\\employees\\item-template1.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\employees\\item-template10.jpg",
+      "PackagePath": "staticwebassets\\images\\employees\\item-template10.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\employees\\item-template11.jpg",
+      "PackagePath": "staticwebassets\\images\\employees\\item-template11.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\employees\\item-template2.jpg",
+      "PackagePath": "staticwebassets\\images\\employees\\item-template2.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\employees\\item-template3.jpg",
+      "PackagePath": "staticwebassets\\images\\employees\\item-template3.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\employees\\item-template4.jpg",
+      "PackagePath": "staticwebassets\\images\\employees\\item-template4.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\employees\\item-template5.jpg",
+      "PackagePath": "staticwebassets\\images\\employees\\item-template5.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\employees\\item-template6.jpg",
+      "PackagePath": "staticwebassets\\images\\employees\\item-template6.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\employees\\item-template7.jpg",
+      "PackagePath": "staticwebassets\\images\\employees\\item-template7.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\employees\\item-template8.jpg",
+      "PackagePath": "staticwebassets\\images\\employees\\item-template8.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\employees\\item-template9.jpg",
+      "PackagePath": "staticwebassets\\images\\employees\\item-template9.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\error.svg",
+      "PackagePath": "staticwebassets\\images\\error.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\expand.svg",
+      "PackagePath": "staticwebassets\\images\\expand.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\feedback\\feedback-thumb-down-selected.svg",
+      "PackagePath": "staticwebassets\\images\\feedback\\feedback-thumb-down-selected.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\feedback\\feedback-thumb-down.svg",
+      "PackagePath": "staticwebassets\\images\\feedback\\feedback-thumb-down.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\feedback\\feedback-thumb-up-selected.svg",
+      "PackagePath": "staticwebassets\\images\\feedback\\feedback-thumb-up-selected.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\feedback\\feedback-thumb-up.svg",
+      "PackagePath": "staticwebassets\\images\\feedback\\feedback-thumb-up.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\github.svg",
+      "PackagePath": "staticwebassets\\images\\github.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\home.svg",
+      "PackagePath": "staticwebassets\\images\\home.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\homes\\1.jpg",
+      "PackagePath": "staticwebassets\\images\\homes\\1.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\homes\\10.jpg",
+      "PackagePath": "staticwebassets\\images\\homes\\10.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\homes\\11.jpg",
+      "PackagePath": "staticwebassets\\images\\homes\\11.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\homes\\12.jpg",
+      "PackagePath": "staticwebassets\\images\\homes\\12.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\homes\\13.jpg",
+      "PackagePath": "staticwebassets\\images\\homes\\13.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\homes\\14.jpg",
+      "PackagePath": "staticwebassets\\images\\homes\\14.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\homes\\15.jpg",
+      "PackagePath": "staticwebassets\\images\\homes\\15.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\homes\\16.jpg",
+      "PackagePath": "staticwebassets\\images\\homes\\16.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\homes\\17.jpg",
+      "PackagePath": "staticwebassets\\images\\homes\\17.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\homes\\18.jpg",
+      "PackagePath": "staticwebassets\\images\\homes\\18.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\homes\\19.jpg",
+      "PackagePath": "staticwebassets\\images\\homes\\19.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\homes\\2.jpg",
+      "PackagePath": "staticwebassets\\images\\homes\\2.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\homes\\20.jpg",
+      "PackagePath": "staticwebassets\\images\\homes\\20.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\homes\\21.jpg",
+      "PackagePath": "staticwebassets\\images\\homes\\21.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\homes\\22.jpg",
+      "PackagePath": "staticwebassets\\images\\homes\\22.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\homes\\23.jpg",
+      "PackagePath": "staticwebassets\\images\\homes\\23.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\homes\\24.jpg",
+      "PackagePath": "staticwebassets\\images\\homes\\24.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\homes\\25.jpg",
+      "PackagePath": "staticwebassets\\images\\homes\\25.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\homes\\3.jpg",
+      "PackagePath": "staticwebassets\\images\\homes\\3.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\homes\\4.jpg",
+      "PackagePath": "staticwebassets\\images\\homes\\4.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\homes\\5.jpg",
+      "PackagePath": "staticwebassets\\images\\homes\\5.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\homes\\6.jpg",
+      "PackagePath": "staticwebassets\\images\\homes\\6.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\homes\\7.jpg",
+      "PackagePath": "staticwebassets\\images\\homes\\7.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\homes\\8.jpg",
+      "PackagePath": "staticwebassets\\images\\homes\\8.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\homes\\9.jpg",
+      "PackagePath": "staticwebassets\\images\\homes\\9.jpg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\html-editor\\html-editor.svg",
+      "PackagePath": "staticwebassets\\images\\html-editor\\html-editor.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\about.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\about.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\accept-fluent.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\accept-fluent.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\accept.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\accept.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\add-fluent.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\add-fluent.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\add.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\add.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\address.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\address.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\alert.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\alert.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\align-center.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\align-center.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\align-left.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\align-left.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\align-right.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\align-right.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\birthdate-fluent.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\birthdate-fluent.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\birthdate.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\birthdate.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\bold.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\bold.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\bonus.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\bonus.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\bug.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\bug.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\calendar.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\calendar.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\check.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\check.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\chevron-down.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\chevron-down.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\chevron-left-fluent.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\chevron-left-fluent.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\chevron-left-small.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\chevron-left-small.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\chevron-left.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\chevron-left.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\chevron-right-fluent.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\chevron-right-fluent.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\chevron-right-small.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\chevron-right-small.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\chevron-right.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\chevron-right.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\city-fluent.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\city-fluent.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\city.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\city.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\clear.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\clear.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\close.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\close.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\collapse.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\collapse.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\column-chooser-fluent.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\column-chooser-fluent.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\column-chooser.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\column-chooser.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\contacts.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\contacts.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\continue.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\continue.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\copy.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\copy.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\credit-card.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\credit-card.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\cut.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\cut.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\debit-card.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\debit-card.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\delete-fluent.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\delete-fluent.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\delete.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\delete.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\document-color-fluent.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\document-color-fluent.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\document-color.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\document-color.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\dollar-fluent.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\dollar-fluent.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\dollar.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\dollar.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\drop-file-fluent.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\drop-file-fluent.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\drop-file.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\drop-file.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\edit.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\edit.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\editor-clock.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\editor-clock.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\euro-fluent.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\euro-fluent.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\euro.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\euro.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\export-fluent.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\export-fluent.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\export-jpg.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\export-jpg.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\export-pdf.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\export-pdf.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\export-png.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\export-png.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\export.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\export.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\folder-color-fluent.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\folder-color-fluent.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\folder-color.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\folder-color.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\folder.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\folder.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\font.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\font.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\full-screen.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\full-screen.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\grid-move-left.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\grid-move-left.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\grid-move-right.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\grid-move-right.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\grid-reorder-down.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\grid-reorder-down.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\grid-reorder-up.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\grid-reorder-up.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\grid-toolbar-delete-fluent.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\grid-toolbar-delete-fluent.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\grid-toolbar-delete.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\grid-toolbar-delete.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\grid-toolbar-document.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\grid-toolbar-document.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\grid-toolbar-edit-fluent.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\grid-toolbar-edit-fluent.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\grid-toolbar-edit.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\grid-toolbar-edit.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\grid-toolbar-filter.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\grid-toolbar-filter.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\grid-toolbar-new-fluent.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\grid-toolbar-new-fluent.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\grid-toolbar-new.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\grid-toolbar-new.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\grid-toolbar-refresh.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\grid-toolbar-refresh.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\hamburger.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\hamburger.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\home.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\home.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\image-colors.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\image-colors.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\info-circle.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\info-circle.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\info.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\info.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\italic.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\italic.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\last.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\last.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\like-fluent.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\like-fluent.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\like.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\like.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\link.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\link.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\lock-column.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\lock-column.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\logo-color.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\logo-color.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\logo-monochrome.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\logo-monochrome.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\logo-transparent.png",
+      "PackagePath": "staticwebassets\\images\\icons\\logo-transparent.png"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\mail-fluent.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\mail-fluent.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\mail.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\mail.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\minus.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\minus.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\music-colors.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\music-colors.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\music.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\music.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\paragraph.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\paragraph.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\paste.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\paste.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\pause.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\pause.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\phone.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\phone.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\pivot-table\\pivot-table-green-arrow-up.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\pivot-table\\pivot-table-green-arrow-up.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\pivot-table\\pivot-table-red-arrow-down.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\pivot-table\\pivot-table-red-arrow-down.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\pivot-table\\pivot-table-yellow-arrow-down-right.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\pivot-table\\pivot-table-yellow-arrow-down-right.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\pivot-table\\pivot-table-yellow-arrow-right.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\pivot-table\\pivot-table-yellow-arrow-right.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\pivot-table\\pivot-table-yellow-arrow-up-right.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\pivot-table\\pivot-table-yellow-arrow-up-right.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\plus.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\plus.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\popup-birthday.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\popup-birthday.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\popup-position-fluent.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\popup-position-fluent.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\popup-position.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\popup-position.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\popup-user-fluent.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\popup-user-fluent.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\popup-user.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\popup-user.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\popup-worked.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\popup-worked.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\products.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\products.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\quest-fluent.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\quest-fluent.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\quest.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\quest.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\redo-fluent.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\redo-fluent.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\redo.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\redo.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\refresh.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\refresh.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\berry\\align-center.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\berry\\align-center.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\berry\\align-justify.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\berry\\align-justify.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\berry\\align-left.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\berry\\align-left.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\berry\\align-right.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\berry\\align-right.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\berry\\bold.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\berry\\bold.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\berry\\bookmarks.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\berry\\bookmarks.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\berry\\bullets.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\berry\\bullets.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\berry\\clipboard.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\berry\\clipboard.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\berry\\copy.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\berry\\copy.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\berry\\cut.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\berry\\cut.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\berry\\document-blank.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\berry\\document-blank.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\berry\\emoji.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\berry\\emoji.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\berry\\folder-open.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\berry\\folder-open.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\berry\\font.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\berry\\font.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\berry\\italic.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\berry\\italic.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\berry\\link.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\berry\\link.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\berry\\mic.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\berry\\mic.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\berry\\page-break.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\berry\\page-break.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\berry\\page-numbers.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\berry\\page-numbers.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\berry\\paint.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\berry\\paint.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\berry\\pi.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\berry\\pi.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\berry\\picture.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\berry\\picture.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\berry\\print.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\berry\\print.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\berry\\redo.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\berry\\redo.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\berry\\save.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\berry\\save.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\berry\\search.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\berry\\search.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\berry\\share.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\berry\\share.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\berry\\table.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\berry\\table.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\berry\\underline.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\berry\\underline.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\berry\\undo.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\berry\\undo.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\fluent\\align-center.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\fluent\\align-center.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\fluent\\align-justify.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\fluent\\align-justify.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\fluent\\align-left.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\fluent\\align-left.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\fluent\\align-right.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\fluent\\align-right.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\fluent\\bold.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\fluent\\bold.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\fluent\\bookmarks.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\fluent\\bookmarks.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\fluent\\bullets.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\fluent\\bullets.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\fluent\\clipboard.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\fluent\\clipboard.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\fluent\\copy.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\fluent\\copy.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\fluent\\cut.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\fluent\\cut.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\fluent\\document-blank.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\fluent\\document-blank.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\fluent\\emoji.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\fluent\\emoji.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\fluent\\folder-open.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\fluent\\folder-open.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\fluent\\font.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\fluent\\font.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\fluent\\italic.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\fluent\\italic.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\fluent\\link.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\fluent\\link.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\fluent\\mic.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\fluent\\mic.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\fluent\\page-break.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\fluent\\page-break.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\fluent\\page-numbers.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\fluent\\page-numbers.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\fluent\\paint.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\fluent\\paint.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\fluent\\pi.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\fluent\\pi.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\fluent\\picture.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\fluent\\picture.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\fluent\\print.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\fluent\\print.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\fluent\\redo.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\fluent\\redo.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\fluent\\save.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\fluent\\save.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\fluent\\search.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\fluent\\search.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\fluent\\share.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\fluent\\share.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\fluent\\table.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\fluent\\table.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\fluent\\underline.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\fluent\\underline.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\ribbon\\fluent\\undo.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\ribbon\\fluent\\undo.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\save-fluent.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\save-fluent.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\save.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\save.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\scheduler-add-fluent.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\scheduler-add-fluent.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\scheduler-add.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\scheduler-add.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\scheduler-delete-fluent.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\scheduler-delete-fluent.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\scheduler-delete.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\scheduler-delete.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\scheduler-drag-and-resize-fluent.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\scheduler-drag-and-resize-fluent.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\scheduler-drag-and-resize.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\scheduler-drag-and-resize.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\scheduler-drag-between-resources-fluent.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\scheduler-drag-between-resources-fluent.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\scheduler-drag-between-resources.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\scheduler-drag-between-resources.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\scheduler-edit-fluent.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\scheduler-edit-fluent.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\scheduler-edit.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\scheduler-edit.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\scheduler-navigator-fluent.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\scheduler-navigator-fluent.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\scheduler-navigator.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\scheduler-navigator.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\scheduler-no-tooltip-fluent.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\scheduler-no-tooltip-fluent.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\scheduler-no-tooltip.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\scheduler-no-tooltip.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\search.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\search.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\settings.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\settings.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\sort.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\sort.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\support.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\support.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\theme-icon.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\theme-icon.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\time-fluent.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\time-fluent.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\time.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\time.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\total.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\total.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\underline.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\underline.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\undo-fluent.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\undo-fluent.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\undo.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\undo.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\user-profile.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\user-profile.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\validation-warning.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\validation-warning.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\video-colors.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\video-colors.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\video.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\video.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\icons\\watermark.svg",
+      "PackagePath": "staticwebassets\\images\\icons\\watermark.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\information.svg",
+      "PackagePath": "staticwebassets\\images\\information.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\landing\\Charts.svg",
+      "PackagePath": "staticwebassets\\images\\landing\\Charts.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\landing\\DataGrid.svg",
+      "PackagePath": "staticwebassets\\images\\landing\\DataGrid.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\landing\\Editors.svg",
+      "PackagePath": "staticwebassets\\images\\landing\\Editors.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\landing\\Navigation.svg",
+      "PackagePath": "staticwebassets\\images\\landing\\Navigation.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\landing\\PivotGrid.svg",
+      "PackagePath": "staticwebassets\\images\\landing\\PivotGrid.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\landing\\Reports.svg",
+      "PackagePath": "staticwebassets\\images\\landing\\Reports.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\landing\\RichEdit.svg",
+      "PackagePath": "staticwebassets\\images\\landing\\RichEdit.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\landing\\Scheduler.svg",
+      "PackagePath": "staticwebassets\\images\\landing\\Scheduler.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\landing\\Upload.svg",
+      "PackagePath": "staticwebassets\\images\\landing\\Upload.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\logo-sec.svg",
+      "PackagePath": "staticwebassets\\images\\logo-sec.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\logo.svg",
+      "PackagePath": "staticwebassets\\images\\logo.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\menu.svg",
+      "PackagePath": "staticwebassets\\images\\menu.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\mobile-view\\mobile-view-horizontal.svg",
+      "PackagePath": "staticwebassets\\images\\mobile-view\\mobile-view-horizontal.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\mobile-view\\mobile-view-vertical.svg",
+      "PackagePath": "staticwebassets\\images\\mobile-view\\mobile-view-vertical.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\mobile-view\\resize.svg",
+      "PackagePath": "staticwebassets\\images\\mobile-view\\resize.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\products.svg",
+      "PackagePath": "staticwebassets\\images\\products.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\search.svg",
+      "PackagePath": "staticwebassets\\images\\search.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\theme.svg",
+      "PackagePath": "staticwebassets\\images\\theme.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\unsupported.svg",
+      "PackagePath": "staticwebassets\\images\\unsupported.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\warning-message.svg",
+      "PackagePath": "staticwebassets\\images\\warning-message.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\weather.svg",
+      "PackagePath": "staticwebassets\\images\\weather.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\wheather\\Cloudy.png",
+      "PackagePath": "staticwebassets\\images\\wheather\\Cloudy.png"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\wheather\\Partly cloudy.png",
+      "PackagePath": "staticwebassets\\images\\wheather\\Partly cloudy.png"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\wheather\\Rain.png",
+      "PackagePath": "staticwebassets\\images\\wheather\\Rain.png"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\wheather\\SampleWatermark.png",
+      "PackagePath": "staticwebassets\\images\\wheather\\SampleWatermark.png"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\wheather\\Storm.png",
+      "PackagePath": "staticwebassets\\images\\wheather\\Storm.png"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\wheather\\Sunny.png",
+      "PackagePath": "staticwebassets\\images\\wheather\\Sunny.png"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\wheather\\cloudy.svg",
+      "PackagePath": "staticwebassets\\images\\wheather\\cloudy.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\wheather\\partly-cloudy.svg",
+      "PackagePath": "staticwebassets\\images\\wheather\\partly-cloudy.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\wheather\\storm.svg",
+      "PackagePath": "staticwebassets\\images\\wheather\\storm.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\images\\wheather\\sunny.svg",
+      "PackagePath": "staticwebassets\\images\\wheather\\sunny.svg"
+    },
+    {
+      "Id": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\wwwroot\\js\\focus-helper.js",
+      "PackagePath": "staticwebassets\\js\\focus-helper.js"
+    },
+    {
+      "Id": "obj\\Release\\net9.0\\staticwebassets\\msbuild.MyWebERP.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Release\\net9.0\\staticwebassets\\msbuild.MyWebERP.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Release\\net9.0\\staticwebassets\\msbuild.build.MyWebERP.props",
+      "PackagePath": "build\\MyWebERP.props"
+    },
+    {
+      "Id": "obj\\Release\\net9.0\\staticwebassets\\msbuild.buildMultiTargeting.MyWebERP.props",
+      "PackagePath": "buildMultiTargeting\\MyWebERP.props"
+    },
+    {
+      "Id": "obj\\Release\\net9.0\\staticwebassets\\msbuild.buildTransitive.MyWebERP.props",
+      "PackagePath": "buildTransitive\\MyWebERP.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

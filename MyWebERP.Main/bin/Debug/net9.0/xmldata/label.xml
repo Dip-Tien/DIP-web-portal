@@ -1,0 +1,1122 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<hi2.Label>
+  <Label Name="Mã KH">
+    <en-US>Customer Code</en-US>
+  </Label>
+  <Label Name="Tên KH">
+    <en-US>Customer Name</en-US>
+  </Label>
+  <Label Name="&amp;Cty/Đơn vị">
+    <en-US>Company</en-US>
+  </Label>
+  <Label Name="Mẫu NT?">
+    <en-US>Foreign Currency</en-US>
+  </Label>
+  <Label Name="Mã NT">
+    <en-US>Currency code</en-US>
+  </Label>
+  <Label Name="Mã hợp đồng">
+    <en-US>Contract code</en-US>
+  </Label>
+  <Label Name="Kỳ">
+    <en-US>Report period</en-US>
+  </Label>
+  <Label Name="Tên đăng nhậ&amp;p">
+    <en-US>Username</en-US>
+  </Label>
+  <Label Name="Tên đăng nhập">
+    <en-US>Username</en-US>
+  </Label>
+  <Label Name="&amp;Mật khẩu">
+    <en-US>Password</en-US>
+  </Label>
+  <Label Name="N&amp;gôn ngữ hiển thị">
+    <en-US>Language</en-US>
+  </Label>
+  <Label Name="&amp;Năm làm việc">
+    <en-US>Working year</en-US>
+  </Label>
+  <Label Name="Đăng &amp;nhập">
+    <en-US>Login</en-US>
+  </Label>
+  <Label Name="Đăng nhập">
+    <en-US>Login</en-US>
+  </Label>
+  <Label Name="&amp;Thoát">
+    <en-US>Exit</en-US>
+  </Label>
+  <Label Name="Phải thu">
+    <en-US>Receivable</en-US>
+  </Label>
+  <Label Name="Tổng hợp">
+    <en-US>General</en-US>
+  </Label>
+  <Label Name="Phải trả">
+    <en-US>Payable</en-US>
+  </Label>
+  <Label Name="&amp;Báo cáo">
+    <en-US>Report</en-US>
+  </Label>
+  <Label Name="Thêm">
+    <en-US>Add</en-US>
+  </Label>
+  <Label Name="&amp;Thêm">
+    <en-US>&amp;Add</en-US>
+  </Label>
+  <Label Name="Sửa">
+    <en-US>Edit</en-US>
+    <zh-CN>使固定</zh-CN>
+  </Label>
+  <Label Name="&amp;Sửa">
+    <en-US>&amp;Edit</en-US>
+    <zh-CN>使固定</zh-CN>
+  </Label>
+  <Label Name="Xóa">
+    <en-US>Delete</en-US>
+    <zh-CN>擦除</zh-CN>
+  </Label>
+  <Label Name="&amp;Xóa">
+    <en-US>&amp;Delete</en-US>
+    <zh-CN>擦除</zh-CN>
+  </Label>
+  <Label Name="Lưu">
+    <en-US>Save</en-US>
+    <zh-CN>節省</zh-CN>
+  </Label>
+  <Label Name="&amp;Lưu">
+    <en-US>Save</en-US>
+    <zh-CN>節省</zh-CN>
+  </Label>
+  <Label Name="Thêm mới">
+    <en-US>New</en-US>
+    <zh-CN>添新</zh-CN>
+  </Label>
+  <Label Name="Thêm &amp;mới">
+    <en-US>&amp;New</en-US>
+    <zh-CN>添新</zh-CN>
+  </Label>
+  <Label Name="&amp;Lưu hết">
+    <en-US>Save all</en-US>
+  </Label>
+  <Label Name="Hủy">
+    <en-US>Cancel</en-US>
+    <zh-CN>取消</zh-CN>
+  </Label>
+  <Label Name="&amp;Hủy">
+    <en-US>Cancel</en-US>
+    <zh-CN>取消</zh-CN>
+  </Label>
+  <Label Name="Hủy hết">
+    <en-US>Cancel all</en-US>
+  </Label>
+  <Label Name="&amp;Hủy hết">
+    <en-US>Cancel all</en-US>
+  </Label>
+  <Label Name="Đóng">
+    <en-US>Close</en-US>
+  </Label>
+  <Label Name="Mới">
+    <en-US>New</en-US>
+  </Label>
+  <Label Name="&amp;Mới">
+    <en-US>&amp;New</en-US>
+  </Label>
+  <Label Name="&amp;Chứng từ">
+    <en-US>Voucher</en-US>
+  </Label>
+  <Label Name="TT chung">
+    <en-US>Header</en-US>
+  </Label>
+  <Label Name="TT chi tiết">
+    <en-US>Detail</en-US>
+  </Label>
+  <Label Name="Lọc chứng từ (F3)">
+    <en-US>Filter (F3)</en-US>
+  </Label>
+  <Label Name="Thông tin chứng từ">
+    <en-US>Voucher</en-US>
+  </Label>
+  <Label Name="Chi tiết">
+    <en-US>Details</en-US>
+  </Label>
+  <Label Name="Cty/Đ.Vị">
+    <en-US>Company</en-US>
+  </Label>
+  <Label Name="Chỉ lấy cty này">
+    <en-US>This company only</en-US>
+  </Label>
+  <Label Name="Thông tin chung">
+    <en-US>Header</en-US>
+  </Label>
+  <Label Name="Thực hiện">
+    <en-US>&amp;Ok</en-US>
+    <zh-CN>履行</zh-CN>
+  </Label>
+  <Label Name="&amp;Thực hiện">
+    <en-US>Ok</en-US>
+    <zh-CN>履行</zh-CN>
+  </Label>
+  <Label Name="Từ ngày">
+    <en-US>Date from</en-US>
+  </Label>
+  <Label Name="Từ số">
+    <en-US>No from</en-US>
+  </Label>
+  <Label Name="TK ĐƯ">
+    <en-US>Reciprocal account</en-US>
+  </Label>
+  <Label Name="Ghi chú">
+    <en-US>Comment</en-US>
+  </Label>
+  <Label Name="Diễn giải">
+    <en-US>Comment</en-US>
+  </Label>
+  <Label Name="TK">
+    <en-US>Account</en-US>
+  </Label>
+  <Label Name="Tài khoản">
+    <en-US>Account</en-US>
+  </Label>
+  <Label Name="F4 - Thêm mới; F8 - Xóa">
+    <en-US> F4-Add row; F8-Delete row</en-US>
+  </Label>
+  <Label Name="Phát sinh VNĐ">
+    <en-US>Amount VND</en-US>
+  </Label>
+  <Label Name="Công ty / đơn &amp;vị">
+    <en-US>Company</en-US>
+  </Label>
+  <Label Name="Chọn">
+    <en-US>Select</en-US>
+  </Label>
+  <Label Name="&amp;Chọn">
+    <en-US>&amp;Select</en-US>
+  </Label>
+  <Label Name="Xóa hoàn toàn">
+    <en-US>Delete complate</en-US>
+  </Label>
+  <Label Name="Phục hồi CT đã xóa">
+    <en-US>Restore deleted</en-US>
+  </Label>
+  <Label Name="Chưa xóa">
+    <en-US>Not deleted</en-US>
+  </Label>
+  <Label Name="Đã xóa">
+    <en-US>Deleted</en-US>
+  </Label>
+  <Label Name="Tất cả">
+    <en-US>All</en-US>
+  </Label>
+  <Label Name="Tỷ giá">
+    <en-US>Currency rate</en-US>
+  </Label>
+  <Label Name="Mã kho">
+    <en-US>Warehouse code</en-US>
+  </Label>
+  <Label Name="Mã KH/NCC">
+    <en-US>Customer code</en-US>
+  </Label>
+  <Label Name="txtReadTotalAmount1">
+    <en-US>Số tiền viết bằng chữ - Dòng 1</en-US>
+    <vi-VN>Số tiền viết bằng chữ - Dòng 1</vi-VN>
+  </Label>
+  <Label Name="txtReadTotalAmount2">
+    <en-US>Số tiền viết bằng chữ - Dòng 2</en-US>
+    <vi-VN>Số tiền viết bằng chữ - Dòng 2</vi-VN>
+  </Label>
+  <Label Name="txtReadTotalAmount3">
+    <en-US>Số tiền viết bằng chữ - Dòng 3</en-US>
+    <vi-VN>Số tiền viết bằng chữ - Dòng 3</vi-VN>
+  </Label>
+  <Label Name="txtTotalAmountFc2">
+    <en-US>Tổng thanh toán</en-US>
+    <vi-VN>Tổng thanh toán</vi-VN>
+  </Label>
+  <Label Name="txtTotalVatFc">
+    <en-US>Tiền thuế</en-US>
+    <vi-VN>Tiền thuế</vi-VN>
+  </Label>
+  <Label Name="txtTotalAmountFc">
+    <en-US>Tổng tiền hàng</en-US>
+    <vi-VN>Tổng tiền hàng</vi-VN>
+  </Label>
+  <Label Name="txtVatRate">
+    <en-US>Thuế suất</en-US>
+    <vi-VN>Thuế suất</vi-VN>
+  </Label>
+  <Label Name="txtCustomerBankAccount">
+    <en-US>Tài khoản ngân hàng</en-US>
+    <vi-VN>Tài khoản ngân hàng</vi-VN>
+  </Label>
+  <Label Name="txtPaymentMethodName">
+    <en-US>Hình thức thanh toán</en-US>
+    <vi-VN>Hình thức thanh toán</vi-VN>
+  </Label>
+  <Label Name="txtCustomerAddress">
+    <en-US>Địa chỉ</en-US>
+    <vi-VN>Địa chỉ</vi-VN>
+  </Label>
+  <Label Name="txtCustomerTaxCode">
+    <en-US>Mã số thuế</en-US>
+    <vi-VN>Mã số thuế</vi-VN>
+  </Label>
+  <Label Name="txtCustomerName">
+    <en-US>Tên khách hàng</en-US>
+    <vi-VN>Tên khách hàng</vi-VN>
+  </Label>
+  <Label Name="txtWhoTrader">
+    <en-US>Người giao dịch</en-US>
+    <vi-VN>Người giao dịch</vi-VN>
+  </Label>
+  <Label Name="txtVoucherDay">
+    <en-US>Ngày CT</en-US>
+    <vi-VN>Ngày CT</vi-VN>
+  </Label>
+  <Label Name="txtVoucherNo">
+    <en-US>Số CT</en-US>
+    <vi-VN>Số CT</vi-VN>
+  </Label>
+  <Label Name="txtVoucherMonth">
+    <en-US>Tháng CT</en-US>
+    <vi-VN>Tháng CT</vi-VN>
+  </Label>
+  <Label Name="txtVoucherYear">
+    <en-US>Năm CT</en-US>
+    <vi-VN>Năm CT</vi-VN>
+  </Label>
+  <Label Name="Mã nguồn vốn">
+    <en-US>Capital code</en-US>
+    <vi-VN>Mã nguồn vốn</vi-VN>
+  </Label>
+  <Label Name="Tên nguồn vốn">
+    <en-US>Capital name</en-US>
+    <vi-VN>Tên nguồn vốn</vi-VN>
+  </Label>
+  <Label Name="Mô tả">
+    <en-US>Description</en-US>
+    <vi-VN>Mô tả</vi-VN>
+  </Label>
+  <Label Name="Giảm">
+    <en-US>reduce</en-US>
+    <vi-VN>Giảm</vi-VN>
+  </Label>
+  <Label Name="Tăng">
+    <en-US>Increase</en-US>
+    <vi-VN>Tăng</vi-VN>
+  </Label>
+  <Label Name="Tên đăng nhập">
+    <en-US>Username</en-US>
+  </Label>
+  <Label Name="Mật khẩu">
+    <en-US>Password</en-US>
+  </Label>
+  <Label Name="Ngôn ngữ">
+    <en-US>Language</en-US>
+  </Label>
+  <Label Name="Nhóm khách hàng">
+    <en-US>Category</en-US>
+  </Label>
+  <Label Name="DM khách hàng">
+    <en-US>Customers</en-US>
+  </Label>
+  <Label Name="Danh mục">
+    <en-US>List</en-US>
+  </Label>
+  <Label Name="Khách hàng">
+    <en-US>Customers</en-US>
+    <zh-CN>客戶</zh-CN>
+  </Label>
+  <Label Name="K.hàng">
+    <en-US>Customers</en-US>
+    <zh-CN>客戶</zh-CN>
+  </Label>
+  <Label Name="Công ty">
+    <en-US>Company</en-US>
+  </Label>
+  <Label Name="Báo cáo">
+    <en-US>Report</en-US>
+  </Label>
+  <Label Name="Cơ hội">
+    <en-US>Chance</en-US>
+  </Label>
+  <Label Name="Báo giá">
+    <en-US>Quote</en-US>
+  </Label>
+  <Label Name="Đơn đặt hàng">
+    <en-US>Orders</en-US>
+  </Label>
+  <Label Name="Đăng nhập">
+    <en-US>Login</en-US>
+  </Label>
+  <Label Name="Đăng xuất">
+    <en-US>Logout</en-US>
+  </Label>
+  <Label Name="Điện thoại">
+    <en-US>Tel</en-US>
+  </Label>
+  <Label Name="Địa chỉ">
+    <en-US>Address</en-US>
+  </Label>
+  <Label Name="Nhật ký xử lý">
+    <en-US>Handling logs</en-US>
+  </Label>
+  <Label Name="Nhóm">
+    <en-US>Category</en-US>
+  </Label>
+  <Label Name="Thoát">
+    <en-US>Exit</en-US>
+  </Label>
+  <Label Name="Đang tải">
+    <en-US>Loading</en-US>
+  </Label>
+  <Label Name="Nhập số điện thoại">
+    <en-US>Input tel number</en-US>
+  </Label>
+  <Label Name="Nhập email">
+    <en-US>Input email</en-US>
+  </Label>
+  <Label Name="Sản phẩm">
+    <en-US>Products</en-US>
+  </Label>
+  <Label Name="Chọn sản phẩm">
+    <en-US>Select product</en-US>
+  </Label>
+  <Label Name="Ngày">
+    <en-US>Date</en-US>
+  </Label>
+  <Label Name="M.Hàng">
+    <en-US>Purchase</en-US>
+  </Label>
+  <Label Name="B.Hàng">
+    <en-US>Sales</en-US>
+  </Label>
+  <Label Name="Sort Ascending">
+    <en-US>Sort Ascending</en-US>
+    <vi-VN>Sắp xếp tăng dần</vi-VN>
+  </Label>
+  <Label Name="Sort Descending">
+    <en-US>Sort Descending</en-US>
+    <vi-VN>Sắp xếp giảm giần</vi-VN>
+  </Label>
+  <Label Name="Drag a column header here to group by that column">
+    <en-US>Drag a column header here to group by that column</en-US>
+    <vi-VN>Kéo một vài cột lên đây để xem theo nhóm</vi-VN>
+  </Label>
+  <Label Name="(All)">
+    <en-US>(All)</en-US>
+    <vi-VN>(Tất cả)</vi-VN>
+  </Label>
+  <Label Name="Equals">
+    <en-US>Equals</en-US>
+    <vi-VN>Bằng</vi-VN>
+  </Label>
+  <Label Name="Does not equal">
+    <en-US>Does not equal</en-US>
+    <vi-VN>Không bằng</vi-VN>
+  </Label>
+  <Label Name="Contains">
+    <en-US>Contains</en-US>
+    <vi-VN>Chứa</vi-VN>
+  </Label>
+  <Label Name="Does not contain">
+    <en-US>Does not contain</en-US>
+    <vi-VN>Không chứa</vi-VN>
+  </Label>
+  <Label Name="Filter editor...">
+    <en-US>Filter editor...</en-US>
+    <vi-VN>Tạo bộ lọc</vi-VN>
+  </Label>
+  <Label Name="Clear sorting">
+    <en-US>Clear sorting</en-US>
+    <vi-VN>Xóa sắp xếp</vi-VN>
+  </Label>
+  <Label Name="Group By This Column">
+    <en-US>Group By This Column</en-US>
+    <vi-VN>Nhóm theo cột này</vi-VN>
+  </Label>
+  <Label Name="Show Group By Box">
+    <en-US>Show Group By Box</en-US>
+    <vi-VN>Hiển thị hộp xem theo nhóm</vi-VN>
+  </Label>
+  <Label Name="Hide This Column">
+    <en-US>Hide This Column</en-US>
+    <vi-VN>Ẩn cột này</vi-VN>
+  </Label>
+  <Label Name="Column Chooser">
+    <en-US>Column Chooser</en-US>
+    <vi-VN>Chọn cột</vi-VN>
+  </Label>
+  <Label Name="Best Fit">
+    <en-US>Best Fit</en-US>
+    <vi-VN>Căn độ rộng phù hợp cho cột này</vi-VN>
+  </Label>
+  <Label Name="Best Fit (all columns)">
+    <en-US>Best Fit (all columns)</en-US>
+    <vi-VN>Căn độ rộng phù hợp cho tất cả các cột</vi-VN>
+  </Label>
+  <Label Name="Show Find Panel">
+    <en-US>Show Find Panel</en-US>
+    <vi-VN>Hiển thị bảng tìm kiếm</vi-VN>
+  </Label>
+  <Label Name="Hide Auto Filter Row">
+    <en-US>Hide Auto Filter Row</en-US>
+    <vi-VN>Ẩn dòng lọc dữ liệu</vi-VN>
+  </Label>
+  <Label Name="And">
+    <vi-VN>Và</vi-VN>
+  </Label>
+  <Label Name="Not And">
+    <vi-VN>Không và</vi-VN>
+  </Label>
+  <Label Name="Or">
+    <vi-VN>Hoặc</vi-VN>
+  </Label>
+  <Label Name="Not Or">
+    <vi-VN>Không hoặc</vi-VN>
+  </Label>
+  <Label Name="Add Condition">
+    <vi-VN>Thêm điều kiện</vi-VN>
+  </Label>
+  <Label Name="Add Group">
+    <vi-VN>Thêm nhóm</vi-VN>
+  </Label>
+  <Label Name="Clear All">
+    <vi-VN>Xóa hết</vi-VN>
+  </Label>
+  <Label Name="enter a value">
+    <vi-VN>Nhập 1 giá trị</vi-VN>
+  </Label>
+  <Label Name="Is like">
+    <vi-VN>Tương tự</vi-VN>
+  </Label>
+  <Label Name="Is not like">
+    <vi-VN>Không tương tự</vi-VN>
+  </Label>
+  <Label Name="Begins with">
+    <vi-VN>Bắt đầu với</vi-VN>
+  </Label>
+  <Label Name="Ends with">
+    <vi-VN>Kết thúc với</vi-VN>
+  </Label>
+  <Label Name="Is greater than">
+    <vi-VN>Lớn hơn</vi-VN>
+  </Label>
+  <Label Name="Is greater than or equal to">
+    <vi-VN>Lớn hơn hoặc bằng</vi-VN>
+  </Label>
+  <Label Name="Is less than">
+    <vi-VN>Nhỏ hơn</vi-VN>
+  </Label>
+  <Label Name="Is less than or equal to">
+    <vi-VN>Nhỏ hơn hoặc bằng</vi-VN>
+  </Label>
+  <Label Name="Date Filters">
+    <vi-VN>Lọc ngày</vi-VN>
+  </Label>
+  <Label Name="Yesterday">
+    <vi-VN>Hôm qua</vi-VN>
+  </Label>
+  <Label Name="Today">
+    <vi-VN>Hôm nay</vi-VN>
+  </Label>
+  <Label Name="Tomorrow">
+    <vi-VN>Ngày mai</vi-VN>
+  </Label>
+  <Label Name="Last Week">
+    <vi-VN>Tuần trước</vi-VN>
+  </Label>
+  <Label Name="This Week">
+    <vi-VN>Tuần này</vi-VN>
+  </Label>
+  <Label Name="Next Week">
+    <vi-VN>Tuần sau</vi-VN>
+  </Label>
+  <Label Name="Last Month">
+    <vi-VN>Tháng trước</vi-VN>
+  </Label>
+  <Label Name="This Month">
+    <vi-VN>Tháng này</vi-VN>
+  </Label>
+  <Label Name="Next Month">
+    <vi-VN>Tháng sau</vi-VN>
+  </Label>
+  <Label Name="Last Year">
+    <vi-VN>Năm trước</vi-VN>
+  </Label>
+  <Label Name="This Year">
+    <vi-VN>Năm nay</vi-VN>
+  </Label>
+  <Label Name="Next Year">
+    <vi-VN>Năm sau</vi-VN>
+  </Label>
+  <Label Name="Specific Date Periods">
+    <vi-VN>Khoảng thời gian cụ thể</vi-VN>
+  </Label>
+  <Label Name="Values">
+    <vi-VN>Giá trị</vi-VN>
+  </Label>
+  <Label Name="Clear Filter">
+    <vi-VN>Xóa lọc</vi-VN>
+  </Label>
+  <Label Name="Close">
+    <vi-VN>Đóng</vi-VN>
+  </Label>
+  <Label Name="From">
+    <vi-VN>Từ</vi-VN>
+  </Label>
+  <Label Name="To">
+    <vi-VN>Đến</vi-VN>
+  </Label>
+  <Label Name="Enter text to search...">
+    <vi-VN>Nhập chữ để tìm...</vi-VN>
+  </Label>
+  <Label Name="Numeric Filters">
+    <vi-VN>Lọc số</vi-VN>
+  </Label>
+  <Label Name="Text Filters">
+    <vi-VN>Lọc chữ</vi-VN>
+  </Label>
+  <Label Name="Select a value...">
+    <vi-VN>Chọn 1 giá trị...</vi-VN>
+  </Label>
+  <Label Name="Is Same Day">
+    <vi-VN>Cùng ngày</vi-VN>
+  </Label>
+  <Label Name="Is Null">
+    <vi-VN>Không có giá trị</vi-VN>
+  </Label>
+  <Label Name="Is Not Null">
+    <vi-VN>Có giá trị</vi-VN>
+  </Label>
+  <Label Name="Between">
+    <vi-VN>Giữa</vi-VN>
+  </Label>
+  <Label Name="Before">
+    <vi-VN>Trước</vi-VN>
+  </Label>
+  <Label Name="After">
+    <vi-VN>Sau</vi-VN>
+  </Label>
+  <Label Name="Year To Date">
+    <vi-VN>Từ đầu năm đến  nay</vi-VN>
+  </Label>
+  <Label Name="All Dates In The Period">
+    <vi-VN>Tất cả các ngày trong khoảng thời gian (kỳ)</vi-VN>
+  </Label>
+  <Label Name="Custom Filter">
+    <vi-VN>Tự tạo bộ lọc</vi-VN>
+  </Label>
+  <Label Name="First">
+    <vi-VN>Đầu tiên</vi-VN>
+  </Label>
+  <Label Name="Second">
+    <vi-VN>Thứ hai</vi-VN>
+  </Label>
+  <Label Name="Choose one...">
+    <vi-VN>Chọn một...</vi-VN>
+  </Label>
+  <Label Name="Enter a date...">
+    <vi-VN>Nhập một ngày...</vi-VN>
+  </Label>
+  <Label Name="Greater Than">
+    <vi-VN>Lớn hơn</vi-VN>
+  </Label>
+  <Label Name="Greater Than Or Equal To">
+    <vi-VN>Lớn hơn hoặc bằng</vi-VN>
+  </Label>
+  <Label Name="Less Than">
+    <vi-VN>Nhỏ hơn</vi-VN>
+  </Label>
+  <Label Name="Less Than Or Equal To">
+    <vi-VN>Nhỏ hơn hoặc bằng</vi-VN>
+  </Label>
+  <Label Name="Top N">
+    <vi-VN>Lấy N dòng đầu</vi-VN>
+  </Label>
+  <Label Name="Bottom N">
+    <vi-VN>Lấy N dòng cuối</vi-VN>
+  </Label>
+  <Label Name="Above Average">
+    <vi-VN>Trên trung bình</vi-VN>
+  </Label>
+  <Label Name="Below Average">
+    <vi-VN>Dưới trung bình</vi-VN>
+  </Label>
+  <Label Name="All">
+    <vi-VN>Tất cả</vi-VN>
+  </Label>
+  <Label Name="(Blanks)">
+    <vi-VN>(Trống)</vi-VN>
+  </Label>
+  <Label Name="Is blank">
+    <vi-VN>Trống - không có giá trị</vi-VN>
+  </Label>
+  <Label Name="Is not blank">
+    <vi-VN>Có giá trị</vi-VN>
+  </Label>
+  <Label Name="Checked">
+    <vi-VN>Đánh dấu</vi-VN>
+  </Label>
+  <Label Name="Unchecked">
+    <vi-VN>Không đánh dấu</vi-VN>
+  </Label>
+  <Label Name="Error">
+    <vi-VN>Lỗi</vi-VN>
+  </Label>
+  <Label Name="Object reference not set to an instance of an object">
+    <vi-VN>Đối tượng tham chiếu chưa được khởi tạo</vi-VN>
+  </Label>
+  <Label Name="Record {0} of {1}">
+    <vi-VN>Dòng {0} / {1}</vi-VN>
+  </Label>
+  <Label Name="(Select All)">
+    <vi-VN>(Chọn tất cả)</vi-VN>
+  </Label>
+  <Label Name="Next">
+    <vi-VN>Kế</vi-VN>
+  </Label>
+  <Label Name="Previous">
+    <vi-VN>Trước</vi-VN>
+  </Label>
+  <Label Name="Next Page">
+    <vi-VN>Trang kế</vi-VN>
+  </Label>
+  <Label Name="Previous Page">
+    <vi-VN>Trang trước</vi-VN>
+  </Label>
+  <Label Name="Last">
+    <vi-VN>Cuối cùng</vi-VN>
+  </Label>
+  <Label Name="Select a date...">
+    <vi-VN>Chọn một ngày...</vi-VN>
+  </Label>
+  <Label Name="{0} Total">
+    <vi-VN>{0} tổng</vi-VN>
+  </Label>
+  <Label Name="Grand Total">
+    <vi-VN>Tổng cộng</vi-VN>
+  </Label>
+  <Label Name="Extra large icons">
+    <vi-VN>Đặc biệt lớn</vi-VN>
+  </Label>
+  <Label Name="Large icons">
+    <vi-VN>Lớn</vi-VN>
+  </Label>
+  <Label Name="Medium icons">
+    <vi-VN>Trung bình</vi-VN>
+  </Label>
+  <Label Name="Small icons">
+    <vi-VN>Nhỏ</vi-VN>
+  </Label>
+  <Label Name="List">
+    <vi-VN>Danh sách</vi-VN>
+  </Label>
+  <Label Name="Tiles">
+    <vi-VN>Gạch</vi-VN>
+  </Label>
+  <Label Name="Content">
+    <vi-VN>Nội dung</vi-VN>
+  </Label>
+  <Label Name="Show auto filter row">
+    <vi-VN>Hiển thị dòng lọc dữ liệu</vi-VN>
+  </Label>
+  <Label Name="Hide group by box">
+    <vi-VN>Ẩn hộp xem theo nhóm</vi-VN>
+  </Label>
+  <Label Name="Min">
+    <vi-VN>Nhỏ nhất</vi-VN>
+  </Label>
+  <Label Name="Max">
+    <vi-VN>Lớn nhất</vi-VN>
+  </Label>
+  <Label Name="Count">
+    <vi-VN>Đếm</vi-VN>
+  </Label>
+  <Label Name="Average">
+    <vi-VN>Trung bình</vi-VN>
+  </Label>
+  <Label Name="Sum">
+    <vi-VN>Tổng</vi-VN>
+  </Label>
+  <Label Name="Customization">
+    <vi-VN>Tùy biến</vi-VN>
+  </Label>
+  <Label Name="Drag and drop columns here to customize layout">
+    <vi-VN>Kéo một vài cột vào đây để tùy chỉnh bố cục</vi-VN>
+  </Label>
+  <Label Name="Not between">
+    <vi-VN>Nằm ngoài khoảng</vi-VN>
+  </Label>
+  <Label Name="Equal to">
+    <vi-VN>Bằng</vi-VN>
+  </Label>
+  <Label Name="Not Equal to">
+    <vi-VN>Khác</vi-VN>
+  </Label>
+  <Label Name="Select a Rule Type:">
+    <vi-VN>Chọn loại quy tắc</vi-VN>
+  </Label>
+  <Label Name="Cell value">
+    <vi-VN>Giá chị cell</vi-VN>
+  </Label>
+  <Label Name="Dates Occurring">
+    <vi-VN>Ngày xảy ra</vi-VN>
+  </Label>
+  <Label Name="New Formatting Rule">
+    <vi-VN>Quy tắc định dạng mới</vi-VN>
+  </Label>
+  <Label Name="New Rule...">
+    <vi-VN>Thêm quy tắc mới</vi-VN>
+  </Label>
+  <Label Name="Edit Rule...">
+    <vi-VN>Sửa quy tắc</vi-VN>
+  </Label>
+  <Label Name="Delete Rule">
+    <vi-VN>Xóa quy tắc</vi-VN>
+  </Label>
+  <Label Name="Up">
+    <vi-VN>Chuyển lên</vi-VN>
+  </Label>
+  <Label Name="Down">
+    <vi-VN>Chuyển xuống</vi-VN>
+  </Label>
+  <Label Name="Show rules for:">
+    <vi-VN>Hiển thị các quy tắc cho:</vi-VN>
+  </Label>
+  <Label Name="Rule">
+    <vi-VN>Quy tắc</vi-VN>
+  </Label>
+  <Label Name="Format">
+    <vi-VN>Định dạng</vi-VN>
+  </Label>
+  <Label Name="Apply to the row">
+    <vi-VN>Áp dụng cho dòng</vi-VN>
+  </Label>
+  <Label Name="Column">
+    <vi-VN>Cột</vi-VN>
+  </Label>
+  <Label Name="Stop If True">
+    <vi-VN>Ngừng nếu đúng</vi-VN>
+  </Label>
+  <Label Name="Column Apply To">
+    <vi-VN>Áp dụng cho cột</vi-VN>
+  </Label>
+  <Label Name="Conditional Formatting Rules Manager">
+    <vi-VN>Trình quản lý quy tắc định dạng có điều kiện</vi-VN>
+  </Label>
+  <Label Name="Conditional Formatting">
+    <vi-VN>Định dạng có điều kiện</vi-VN>
+  </Label>
+  <Label Name="Highlight Cell Rules">
+    <vi-VN>Làm nổi bật quy tắc ô</vi-VN>
+  </Label>
+  <Label Name="Top/Bottom Rules">
+    <vi-VN>Quy tắc Trên cùng / Dưới cùng</vi-VN>
+  </Label>
+  <Label Name="Unique/Duplicate Rules">
+    <vi-VN>Quy tắc duy nhất / trùng lặp</vi-VN>
+  </Label>
+  <Label Name="Data Bars">
+    <vi-VN>Thanh dữ liệu</vi-VN>
+  </Label>
+  <Label Name="Color Scales">
+    <vi-VN>Thang màu</vi-VN>
+  </Label>
+  <Label Name="Icon Sets">
+    <vi-VN>Bộ biểu tượng</vi-VN>
+  </Label>
+  <Label Name="Manage Rules...">
+    <vi-VN>Quản lý các quy tắc...</vi-VN>
+  </Label>
+  <Label Name="Text that Contains">
+    <vi-VN>Văn bản Chứa</vi-VN>
+  </Label>
+  <Label Name="Custom Condition">
+    <vi-VN>Điều kiện tùy chỉnh</vi-VN>
+  </Label>
+  <Label Name="&lt;enter a value&gt;">
+    <vi-VN>&lt;nhập một giá trị&gt;</vi-VN>
+  </Label>
+  <Label Name="with">
+    <vi-VN>cùng</vi-VN>
+  </Label>
+  <Label Name="Format cells that match the following condition">
+    <vi-VN>Định dạng các ô phù hợp với điều kiện sau</vi-VN>
+  </Label>
+  <Label Name="Apply formatting to an entire row">
+    <vi-VN>Áp dụng định dạng cho toàn bộ hàng</vi-VN>
+  </Label>
+  <Label Name="Bold Text">
+    <vi-VN>Chữ in đậm</vi-VN>
+  </Label>
+  <Label Name="Green Bold Text">
+    <vi-VN>Chữ in đậm màu xanh lá cây</vi-VN>
+  </Label>
+  <Label Name="Green Fill">
+    <vi-VN>Tô màu xanh lá cây</vi-VN>
+  </Label>
+  <Label Name="Green Fill with Greeen Text">
+    <vi-VN>Tô màu xanh lá cây với chữ màu xanh lá cây</vi-VN>
+  </Label>
+  <Label Name="Green Text">
+    <vi-VN>Chữ màu xanh lá cây</vi-VN>
+  </Label>
+  <Label Name="Italic Text">
+    <vi-VN>Chữ nghiên</vi-VN>
+  </Label>
+  <Label Name="Red Bold Text">
+    <vi-VN>Chữ đỏ in đậm</vi-VN>
+  </Label>
+  <Label Name="Red Fill">
+    <vi-VN>Tô màu đỏ</vi-VN>
+  </Label>
+  <Label Name="Red Fill with Red Text">
+    <vi-VN>Tô màu đỏ với chữ đỏ</vi-VN>
+  </Label>
+  <Label Name="Red Text">
+    <vi-VN>Chữ đỏ</vi-VN>
+  </Label>
+  <Label Name="Strikeout Text">
+    <vi-VN>Chữ gạch ngang</vi-VN>
+  </Label>
+  <Label Name="Yellow Fill with Yellow Text">
+    <vi-VN>Tô màu vàng với chữ màu vàng</vi-VN>
+  </Label>
+  <Label Name="Format cells that are GREATER THAN">
+    <vi-VN>Định dạng ô LỚN HƠN</vi-VN>
+  </Label>
+  <Label Name="Format cells that are LESS THAN">
+    <vi-VN>Định dạng ô NHỎ HƠN</vi-VN>
+  </Label>
+  <Label Name="Format cells that are BETWEEN">
+    <vi-VN>Định dạng ô GIỮA</vi-VN>
+  </Label>
+  <Label Name="Format cells that are EQUAL TO">
+    <vi-VN>Định dạng ô BẰNG</vi-VN>
+  </Label>
+  <Label Name="Format cells that contain the text">
+    <vi-VN>Định dạng ô chứa ký tự</vi-VN>
+  </Label>
+  <Label Name="Top 10 Items">
+    <vi-VN>10 mục đầu</vi-VN>
+  </Label>
+  <Label Name="Top 10 %">
+    <vi-VN>10 % đầu</vi-VN>
+  </Label>
+  <Label Name="Bottom 10 Items">
+    <vi-VN>10 mục cuối</vi-VN>
+  </Label>
+  <Label Name="Bottom 10 %">
+    <vi-VN>10 % cuối</vi-VN>
+  </Label>
+  <Label Name="Unique Values">
+    <vi-VN>Giá trị duy nhất</vi-VN>
+  </Label>
+  <Label Name="Duplicate Values">
+    <vi-VN>Giá trị trùng lặp</vi-VN>
+  </Label>
+  <Label Name="Format cells that are UNIQUE VALUES">
+    <vi-VN>Định dạng ô có GIÁ TRỊ DUY NHẤT</vi-VN>
+  </Label>
+  <Label Name="for this column with">
+    <vi-VN>cho cột này với</vi-VN>
+  </Label>
+  <Label Name="Format cells that are DUPLICATE VALUES">
+    <vi-VN>Định dạng ô có GIÁ TRỊ TRÙNG LẶP</vi-VN>
+  </Label>
+  <Label Name="Format cells that rank in the TOP">
+    <vi-VN>Định dạng các ô xếp hạng TRÊN CÙNG</vi-VN>
+  </Label>
+  <Label Name="Format cells that rank in the BOTTOM">
+    <vi-VN>Định dạng các ô xếp hạng DƯỚI CÙNG</vi-VN>
+  </Label>
+  <Label Name="Format cells that are ABOVE AVERAGE">
+    <vi-VN>Định dạng các ô xếp hạng TRÊN TRUNG BÌNH</vi-VN>
+  </Label>
+  <Label Name="Format cells that are BELOW AVERAGE">
+    <vi-VN>Định dạng các ô xếp hạng DƯỚI TRUNG BÌNH</vi-VN>
+  </Label>
+  <Label Name="Gradient Fill">
+    <vi-VN>Gradient Fill</vi-VN>
+  </Label>
+  <Label Name="Solid Fill">
+    <vi-VN>Solid Fill</vi-VN>
+  </Label>
+  <Label Name="Ratings">
+    <vi-VN>Xếp hạng</vi-VN>
+  </Label>
+  <Label Name="Directional">
+    <vi-VN>Định hướng</vi-VN>
+  </Label>
+  <Label Name="Shapes">
+    <vi-VN>Hình dạng</vi-VN>
+  </Label>
+  <Label Name="Symbols">
+    <vi-VN>Biểu tượng</vi-VN>
+  </Label>
+  <Label Name="Positive/Negative">
+    <vi-VN>Tích cực / Tiêu cực</vi-VN>
+  </Label>
+  <Label Name="Edit the Rule Description:">
+    <vi-VN>Chỉnh sửa Mô tả Quy tắc</vi-VN>
+  </Label>
+  <Label Name="Format Style">
+    <vi-VN>Định dạng kiểu</vi-VN>
+  </Label>
+  <Label Name="Minimum">
+    <vi-VN>Tối thiểu</vi-VN>
+  </Label>
+  <Label Name="Type">
+    <vi-VN>Kiểu</vi-VN>
+  </Label>
+  <Label Name="Value">
+    <vi-VN>Giá trị</vi-VN>
+  </Label>
+  <Label Name="Color">
+    <vi-VN>Màu</vi-VN>
+  </Label>
+  <Label Name="Maximum">
+    <vi-VN>Tối đa</vi-VN>
+  </Label>
+  <Label Name="Preview">
+    <vi-VN>Xem trước</vi-VN>
+  </Label>
+  <Label Name="Format all cells based on their values">
+    <vi-VN>Định dạng tất cả các ô dựa trên giá trị của chúng</vi-VN>
+  </Label>
+  <Label Name="Percent">
+    <vi-VN>Phần trăm</vi-VN>
+  </Label>
+  <Label Name="Number">
+    <vi-VN>Số</vi-VN>
+  </Label>
+  <Label Name="2-Color Scale">
+    <vi-VN>2 thang màu</vi-VN>
+  </Label>
+  <Label Name="3-Color Scale">
+    <vi-VN>3 thang màu</vi-VN>
+  </Label>
+  <Label Name="Data Bar">
+    <vi-VN>Thanh dữ liệu</vi-VN>
+  </Label>
+  <Label Name="Fill">
+    <vi-VN>Đổ đầy</vi-VN>
+  </Label>
+  <Label Name="Border">
+    <vi-VN>Đường viền</vi-VN>
+  </Label>
+  <Label Name="Draw Axis">
+    <vi-VN>Vẽ trục</vi-VN>
+  </Label>
+  <Label Name="Use Negative Bar">
+    <vi-VN>Sử dụng thanh "Negative"</vi-VN>
+  </Label>
+  <Label Name="Axis Color">
+    <vi-VN>Màu trục</vi-VN>
+  </Label>
+  <Label Name="Bar Direction">
+    <vi-VN>Hướng thanh</vi-VN>
+  </Label>
+  <Label Name="No Border">
+    <vi-VN>Không viền</vi-VN>
+  </Label>
+  <Label Name="Solid Border">
+    <vi-VN>Viền đặc</vi-VN>
+  </Label>
+  <Label Name="Bar Appearance">
+    <vi-VN>Hiển thị thanh</vi-VN>
+  </Label>
+  <Label Name="Midpoint">
+    <vi-VN>Điểm giữa</vi-VN>
+  </Label>
+  <Label Name="Display each icon according to these rules">
+    <vi-VN>Hiển thị từng biểu tượng theo các quy tắc này</vi-VN>
+  </Label>
+  <Label Name="When">
+    <vi-VN>Khi</vi-VN>
+  </Label>
+  <Label Name="value is">
+    <vi-VN>giá trị là</vi-VN>
+  </Label>
+  <Label Name="Format only cells that contain">
+    <vi-VN>Chỉ định dạng các ô có chứa</vi-VN>
+  </Label>
+  <Label Name="Format only top or bottom ranked values">
+    <vi-VN>Chỉ định dạng các giá trị được xếp hạng trên cùng hoặc dưới cùng</vi-VN>
+  </Label>
+  <Label Name="Format only cells with">
+    <vi-VN>Chỉ định dạng các ô với</vi-VN>
+  </Label>
+  <Label Name="No Format Set">
+    <vi-VN>Chưa có định dạng</vi-VN>
+  </Label>
+  <Label Name="Format values that rank in the">
+    <vi-VN>Định dạng các giá trị xếp hạng trong</vi-VN>
+  </Label>
+  <Label Name="% of column values">
+    <vi-VN>% giá trị cột</vi-VN>
+  </Label>
+  <Label Name="Top">
+    <vi-VN>Trên cùng</vi-VN>
+  </Label>
+  <Label Name="Bottom">
+    <vi-VN>Dưới cùng</vi-VN>
+  </Label>
+  <Label Name="Format only values that are above or below average">
+    <vi-VN>Chỉ định dạng các giá trị trên hoặc dưới trung bình</vi-VN>
+  </Label>
+  <Label Name="Format values that are">
+    <vi-VN>Định dạng các giá trị</vi-VN>
+  </Label>
+  <Label Name="Above">
+    <vi-VN>Trên</vi-VN>
+  </Label>
+  <Label Name="Below">
+    <vi-VN>Dưới</vi-VN>
+  </Label>
+  <Label Name="Equal Or Above">
+    <vi-VN>Bằng hoặc Trên</vi-VN>
+  </Label>
+  <Label Name="Equal Or Below">
+    <vi-VN>Bằng hoặc Dưới</vi-VN>
+  </Label>
+  <Label Name="the average of column values">
+    <vi-VN>giá trị trung bình của các cột</vi-VN>
+  </Label>
+  <Label Name="Format only unique or duplicate values">
+    <vi-VN>Chỉ định dạng các giá trị duy nhất hoặc trùng lặp</vi-VN>
+  </Label>
+  <Label Name="Format all">
+    <vi-VN>Định dạng tất cả</vi-VN>
+  </Label>
+  <Label Name="column values">
+    <vi-VN>giá trị cột</vi-VN>
+  </Label>
+  <Label Name="Duplicate">
+    <vi-VN>Trùng lặp</vi-VN>
+  </Label>
+  <Label Name="Unique">
+    <vi-VN>Duy nhất</vi-VN>
+  </Label>
+  <Label Name="Use a formula to determine which cells to format">
+    <vi-VN>Sử dụng công thức để xác định ô cần định dạng</vi-VN>
+  </Label>
+  <Label Name="Filter Editor">
+    <vi-VN>Trình chỉnh sửa bộ lọc</vi-VN>
+  </Label>
+  <Label Name="Apply">
+    <vi-VN>Áp dụng</vi-VN>
+  </Label>
+  <Label Name="Customize">
+    <vi-VN>Tùy chỉnh</vi-VN>
+  </Label>
+  <Label Name="Sort">
+    <vi-VN>Sắp xếp</vi-VN>
+  </Label>
+  <Label Name="Filter">
+    <vi-VN>Lọc</vi-VN>
+  </Label>
+  <Label Name="Drop Filter Fields Here">
+    <vi-VN>Thả cột (trường) cần lọc lên đây</vi-VN>
+  </Label>
+</hi2.Label>

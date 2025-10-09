@@ -1,0 +1,41 @@
+﻿@using Blazored.LocalStorage;
+@using Model;
+@using Data;
+
+@inherits MyEditFormBase1
+
+@code {
+    // Có thêm xử lý phím tắt, enter.....
+    [Inject] protected IJSRuntime JS { get; set; } = default!;
+    [Inject] protected Microsoft.Extensions.Localization.IStringLocalizer Language { get; set; }
+
+    protected bool isXSmallScreenX;
+
+    protected DotNetObjectReference<MyEditFormBase> dotNetRef;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            if (dotNetRef == null)
+            {                    
+                // Nên null thì mới cần khởi tạo lại
+                // Nếu khác null tức là có khởi tạo ở các lớp thừa kế rồi
+                dotNetRef = DotNetObjectReference.Create(this);
+            }
+
+            await JS.InvokeVoidAsync("registerEnterKeyHandler", ".enter-nav input", dotNetRef);
+            // Register F4 key: when pressed in the DxComboBox input, open the popup
+            // Không cần vì có xử lý ở addShortcutKey rồi. cứ đề đây tham khảo
+            //await JS.InvokeVoidAsync("registerDxComboBoxF4KeyHandler", ".my-combobox input");
+            // Add các lệnh F
+            await JS.InvokeVoidAsync("addShortcutKey", dotNetRef);
+
+            // Register Down Arrow key: when pressed in the DxComboBox input, focus the first item in the popup.
+            // Adjust the second parameter's selector based on your rendered popup markup.
+            await JS.InvokeVoidAsync("registerDxComboBoxDownKeyHandler",
+                                     ".my-combobox input",
+                                     ".dx-combobox-popup .dx-list-item:first-child");
+        }
+    }
+}

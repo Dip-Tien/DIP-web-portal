@@ -1,0 +1,271 @@
+﻿@using Microsoft.AspNetCore.Components;
+@* @using System.Text.Json; *@
+@using MyWebERP.Data;
+@using Blazored.LocalStorage;
+@using MyWebERP.Services;
+@using MyWebERP.Model;
+@using DevExpress.Blazor;
+@using MyWebERP.Lib;
+@* @using Microsoft.AspNetCore.Components.Forms; *@
+@* @using System.ComponentModel; *@
+
+@code
+{
+    [Inject] protected ILocalStorageService LocalStorageService { get; set; }
+    [Inject] protected IDataService DataService { get; set; }
+    /// <summary>
+    /// Hộp thoại xác nhận xóa dữ liệu
+    /// </summary>
+    [Inject] protected IDialogService DialogService { get; set; }
+    [Inject] protected AppStateManager AppState { get; set; }
+    [Inject] protected Microsoft.Extensions.Localization.IStringLocalizer Language { get; set; }
+    [Inject] protected NavigationManager NavigationManager { get; set; }
+
+    [Parameter]
+    public string CompanyMenuId { get; set; }
+
+    protected bool isXSmallScreen;
+
+    protected string CompanyId;
+
+    protected MenuItem menuItem;
+
+    protected string PageTitle = "My BMS";
+    protected bool IsLoading = false;
+
+    protected string GridSearchText = "";
+    protected string MyHeaderErrorMessage { get; set; }
+    protected string MyErrorMessage { get; set; }
+    protected bool EditItemsEnabled { get; set; }
+    protected int FocusedRowVisibleIndex { get; set; }
+
+    protected string FocusedDataId { get; set; }
+    protected bool EditFormVisible { get; set; }
+    protected EditFormStatus EditFormStatus { get; set; }
+
+    protected bool FilterPopupVisible { get; set; }
+
+    protected virtual void filterPopupCancel()
+    {
+        FilterPopupVisible = false;
+    }
+
+    protected virtual void filterPopupShow()
+    {
+        FilterPopupVisible = true;
+    }
+
+    protected virtual async Task filterApply()
+    {
+        FilterPopupVisible = false;
+        await DataAsync();
+    }
+
+    //protected string Language { get; set; }
+
+    protected virtual string DelAPICode
+    {
+        get
+        {
+            if (menuItem != null)
+            {
+                return menuItem.DelDataCode;
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+    }
+
+    protected virtual string InsAPICode
+    {
+        get
+        {
+            if (menuItem != null)
+            {
+                return menuItem.InsDataCode;
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+    }
+
+    protected virtual string UpdAPICode
+    {
+        get
+        {
+            if (menuItem != null)
+            {
+                return menuItem.UpdDataCode;
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+    }
+
+    protected virtual string FetAPICode
+    {
+        get
+        {
+            if (menuItem != null)
+            {
+                return menuItem.FetDataCode;
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+    }
+
+    protected virtual string FetSingleAPICode
+    {
+        get
+        {
+            if (menuItem != null)
+            {
+                return menuItem.FetSingleDataCode;
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+    }
+
+    protected bool NewPermission
+    {
+        get
+        {
+            return menuItem == null ? false : menuItem.NewPermission;
+        }
+    }
+
+    protected bool EditPermission
+    {
+        get
+        {
+            return menuItem == null ? false : menuItem.EditPermission;
+        }
+    }
+
+    protected bool DeletePermission
+    {
+        get
+        {
+            return menuItem == null ? false : menuItem.DeletePermission;
+        }
+    }
+
+    protected bool PrintPermission
+    {
+        get
+        {
+            return menuItem == null ? false : menuItem.ReportFiles.Where(x => x.invisible == 0).Count() > 0;
+        }
+    }
+
+    protected bool ReportDesingerPermission
+    {
+        get
+        {
+            return menuItem == null ? false : menuItem.CheckPerission("EDIT_REPORT_FILE");
+        }
+    }
+
+    public DxWindow windowRef;
+
+    //protected bool EditWindowVisible { get; set; } = false;
+
+    //protected List<MenuItem> toolBarItems;
+    protected virtual async Task InitCfg()
+    {
+        //Language = await LocalStorageService.GetItemAsync<string?>(LocalStorageName.LANGUAGE);
+
+        if (string.IsNullOrEmpty(this.CompanyId))
+        {
+            CompanyId = await LocalStorageService.GetItemAsync<string?>(LocalStorageName.COMPANY_ID);
+        }
+
+        if (menuItem == null)
+        {
+            menuItem = await DataService.GetMenuSingle(CompanyId, CompanyMenuId);
+
+            AppState.CurrentMenuItem = menuItem;
+            await AppState.CurrentMenuItemChange();
+        }
+    }
+
+    //protected async Task InitToolbar()
+    //{
+    //    toolBarItems = new List<MenuItem>();
+    //    toolBarItems.Add(new MenuItem("refresh", "Nạp", "toolbar-refresh", true));
+    //    if (String.IsNullOrEmpty(menuItem.InsDataCode) == false)
+    //    {
+    //        toolBarItems.Add(new MenuItem("add", "Thêm", "toolbar-new", true));
+    //    }
+
+    //    if (String.IsNullOrEmpty(menuItem.UpdDataCode) == false)
+    //    {
+    //        toolBarItems.Add(new MenuItem("edit", "Sửa", "toolbar-edit", false));
+    //    }
+
+    //    if (String.IsNullOrEmpty(menuItem.DelDataCode) == false)
+    //    {
+    //        toolBarItems.Add(new MenuItem("delete", "Xóa", "toolbar-delete", true));
+    //    }
+
+    //    MenuItem mnuExport = new MenuItem("export", "Export", "toolbar-export", true);
+    //    //mnuExport.Children = new List<MenuItem>();
+    //    mnuExport.Children.Add(new MenuItem("csv", "To CSV", ""));
+    //    mnuExport.Children.Add(new MenuItem("xlsx", "To XLSX", ""));
+    //    mnuExport.Children.Add(new MenuItem("xls", "To XLS", ""));
+    //    toolBarItems.Add(mnuExport);
+    //}
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        await InitCfg();
+        //await InitToolbar();
+        await DataAsync();
+    }
+
+    protected virtual async Task DataAsync()
+    {
+    }
+
+    //protected virtual async Task OnToolbarItemClick(ToolbarItemClickEventArgs e)
+    //{
+    //    string _sItemName = ((MenuItem)e.Info.Data).MenuName;
+    //    switch (_sItemName)
+    //    {
+    //        case "fresh":
+    //            await DataAsync();
+    //            break;
+    //    }
+    //}
+
+    protected Boolean CheckMenuPermission(string permissionKey)
+    {
+        switch (permissionKey)
+        {
+            case "NEW":
+                return String.IsNullOrEmpty(menuItem.InsDataCode) == false;
+            case "EDIT":
+                return String.IsNullOrEmpty(menuItem.UpdDataCode) == false;
+            case "DELETE":
+                return String.IsNullOrEmpty(menuItem.DelDataCode) == false;
+            default:
+                return false;
+        }
+    }
+
+    protected string DisplayOrEmpty(string? value) =>
+        string.IsNullOrWhiteSpace(value) ? Language["Chưa cập nhật"] : value!;
+}

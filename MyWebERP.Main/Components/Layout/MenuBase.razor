@@ -1,0 +1,43 @@
+﻿@using MyWebERP.Model
+@using MyWebERP.Data
+@using MyWebERP.Services
+@using Microsoft.AspNetCore.Components.Authorization
+
+@inject IDataService DataService
+
+@code
+{
+    protected bool isXSmallScreenX;
+
+    [Parameter]
+    public Model.CompanyItem? Company { get; set; }
+
+    [Parameter]
+    public EventCallback<Model.CompanyItem?> CompanyChanged { get; set; }
+
+    [CascadingParameter]
+    protected Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    protected List<MenuItem> MyMenuItems;
+
+    protected string MenuUrlFieldName()
+    {
+        // if(isXSmallScreenX)
+        // {
+        //     return "Small";
+        // }
+
+        return isXSmallScreenX ? "SmallUrl" : "Url";
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+
+        if (user != null && user.Identity.IsAuthenticated)
+        {
+            MyMenuItems = await DataService.GetMenus(System.Globalization.CultureInfo.CurrentUICulture.Name);
+        }
+    }
+}

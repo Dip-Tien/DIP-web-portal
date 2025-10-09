@@ -1,0 +1,56 @@
+﻿@using Microsoft.AspNetCore.Components;
+@using System.Dynamic;
+@* @using System.Text.Json; *@
+@using MyWebERP.Data;
+@using Blazored.LocalStorage;
+@using MyWebERP.Services;
+@using MyWebERP.Model;
+@using DevExpress.Blazor;
+@using MyWebERP.Lib;
+
+@inherits ReportComponentBase
+
+@code {
+    protected DxGrid Grid;
+
+    protected override async Task DataAsync()
+    {
+        dynamic _param = new ExpandoObject();
+        _param.company_id = this.ListCompanyIdSelected;
+        _param.company_menu_id = menuItem.CompanyMenuId;
+        _param.date1 = this.Date1;
+        _param.date2 = this.Date2;
+
+        APIResultModel _result = await DataService.CallMyApiSimple(_param, menuItem.FetDataCode);
+
+        Data.Clear();
+
+        if (_result.Status == 0)
+        {
+            APIResultDataModel _resultData = Newtonsoft.Json.JsonConvert.DeserializeObject<APIResultDataModel>(_result.Data.ToString());
+
+            if (_resultData.count_of_items > 0)
+            {
+                Newtonsoft.Json.Linq.JArray array = Newtonsoft.Json.Linq.JArray.Parse(_resultData.data_details.ToString());
+
+                Data = MyWebERP.Data.MyLib.ConvertListJObjectToListExpando(array);
+            }
+        }
+
+        Grid.Reload();
+    }
+
+    protected virtual void Grid_CustomizeElement(GridCustomizeElementEventArgs e)
+    {
+        if (e.ElementType == GridElementType.DataRow && e.VisibleIndex % 2 == 1)
+        {
+            e.CssClass = "grid-alt-item";
+        }
+
+        if (e.ElementType == GridElementType.DetailCell)
+        {
+            // Xử lý các dòng con
+            e.Style = "padding: 0.5rem; opacity: 0.75";
+        }
+    }
+}

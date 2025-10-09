@@ -1,0 +1,359 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components
+@using MyWebERP.Model
+@using MyWebERP.Services
+
+@inject IDataService DataService;
+@inject Microsoft.Extensions.Localization.IStringLocalizer Language
+
+<DxLayoutBreakpoint DeviceSize="DeviceSize.XSmall" @bind-IsActive="@IsMobile" />
+
+<DxPopup @bind-Visible="@Visible"
+         ShowCloseButton="true"
+         CloseOnEscape="true"
+         ShowFooter="true"
+         ShowHeader="true"
+         HeaderText="Bộ lọc"
+         Width="@(IsMobile ? "80%" : "400px")"
+         Height="auto">
+
+    <BodyContentTemplate>
+        <!-- Tỉnh/TP -->
+        @* <div class="border rounded p-3 mb-3"> *@
+        <div class="group-bg">
+
+            <div class="d-flex align-items-center mb-2">
+                <i class="bi bi-geo-alt icon-province me-2"></i>
+                <label class="form-label fw-semibold mb-0">@Language["Tỉnh/TP"]</label>
+            </div>
+            <DxTextBox ReadOnly="true"
+                       CssClass="selected-display-box form-control-lg"
+                       Text="@(SelectedProvinces==null?Language["Chọn tỉnh/TP..."]: string.Join(", ", SelectedProvinces.Select(b => b.province_name)))"
+                       style="width:100%">
+                <Buttons>
+                    <DxEditorButton Click="@OpenProvincePopup"
+                                    IconCssClass="oi oi-magnifying-glass"
+                                    CssClass="btn-in-other-lg"
+                                    Position="EditorButtonPosition.Right" />
+                    <DxEditorButton Click="@(() => SelectedProvinces = new List<ProvinceLookupModel>())"
+                                    IconCssClass="bi bi-x-circle"
+                                    CssClass="btn-in-other-lg"
+                                    Position="EditorButtonPosition.Right" />
+                </Buttons>
+            </DxTextBox>
+        </div>
+
+        <!-- Xã/phường -->
+        @* <div class="border rounded p-3 mb-3"> *@
+        <div class="group-bg">
+
+            <div class="d-flex align-items-center mb-2">
+                <i class="bi bi-pin-map icon-district me-2"></i>
+                <label class="form-label fw-semibold mb-0">@Language["Xã/phường"]</label>
+            </div>
+            <DxTextBox ReadOnly="true"
+                       CssClass="selected-display-box form-control-lg"                       
+                       Text="@(SelectedDistricts==null?Language["Chọn xã/phường"]:string.Join(", ", SelectedDistricts.Select(b => b.district_name)))"
+                       style="width:100%">
+                <Buttons>
+                    <DxEditorButton Click="@OpenDistrictPopup"
+                                    IconCssClass="oi oi-magnifying-glass"
+                                    CssClass="btn-in-other-lg"
+                                    Position="EditorButtonPosition.Right" />
+                    <DxEditorButton Click="@(() => SelectedDistricts = new List<DistrictLookupModel>())"
+                                    IconCssClass="bi bi-x-circle"
+                                    CssClass="btn-in-other-lg"
+                                    Position="EditorButtonPosition.Right" />
+                </Buttons>
+            </DxTextBox>
+        </div>
+
+        <!-- Thông tin khác -->
+        @* <div class="border rounded p-3 mb-3"> *@
+        <div class="group-bg">
+
+            <div class="d-flex align-items-center mb-2">
+                <i class="bi bi-info-circle icon-other me-2"></i>
+                <label class="form-label fw-semibold mb-0">@Language["Thông tin khác..."]</label>
+            </div>
+            <DxTextBox @bind-Text="FilterText" CssClass="form-control-lg" style="width:100%">
+                <Buttons>
+                    <DxEditorButton Click="@(() => FilterText = "")"
+                                    IconCssClass="bi bi-x-circle"
+                                    CssClass="btn-in-other-lg"
+                                    Position="EditorButtonPosition.Right" />
+                </Buttons>
+                </DxTextBox>
+        </div>
+        @*Định làm button cao hơn nhưng chưa được. tạm gác*@
+        @* <div class="dxbl-popup-footer d-flex gap-2 w-100 p-2">
+
+            <DxButton CssClass="btn-lg flex-grow-1" Click="Confirm" RenderStyle="ButtonRenderStyle.Primary" Text="@Language["Hoàn tất"]" />
+            <DxButton CssClass="btn-lg flex-grow-1" Click="Cancel" RenderStyle="ButtonRenderStyle.Secondary" Text="@Language["Hủy"]" />
+                </div> *@
+    </BodyContentTemplate>
+
+
+    <FooterContentTemplate>
+        <div class="d-flex gap-2 w-100">
+            <DxButton CssClass="btn-lg w-100" Click="Confirm" RenderStyle="ButtonRenderStyle.Primary" Text="@Language["Hoàn tất"]" />
+            <DxButton CssClass="btn-lg w-100" Click="Cancel" RenderStyle="ButtonRenderStyle.Secondary" Text="@Language["Hủy"]" />
+        </div>
+    </FooterContentTemplate>
+</DxPopup>
+
+<!-- Popup chọn tỉnh/tp -->
+<DxPopup @bind-Visible="@ProvincePopupVisible"
+         ShowFooter="true"
+         Width="@(IsMobile ? "80%" : "400px")"
+         Height="@(IsMobile ? "80%" : "auto")">
+    <HeaderContentTemplate><b>@Language["Chọn tỉnh/TP"]</b></HeaderContentTemplate>
+    <BodyContentTemplate>
+        <div class="d-flex flex-column h-100">
+
+        <DxButton Click="ProvinceToggleAll" 
+            RenderStyle="@(ProvinceCheckedAll? ButtonRenderStyle.Secondary: ButtonRenderStyle.Primary)" Text="@ProvinceToggleButtonText" />
+
+        <DxListBox Data="@Provinces"
+                   TextFieldName="@nameof(ProvinceLookupModel.province_name)"
+                   ValueFieldName="@nameof(ProvinceLookupModel.province_id)"
+                   @bind-Values="@SelectedProvinces"
+                       CssClass="flex-grow-1 overflow-auto"
+                   ShowSearchBox="true"
+                   ShowCheckboxes="true"
+                       SelectionMode="ListBoxSelectionMode.Multiple">
+                <ItemTemplate Context="item">
+                    <div class="@(IsMobile?"py-3":"")">
+                        @item.province_name
+                    </div>
+                </ItemTemplate>
+                   </DxListBox>
+        </div>
+    </BodyContentTemplate>
+    <FooterContentTemplate>
+        <div class="d-flex gap-2 w-100">
+            <DxButton CssClass="flex-grow-1" Click="@ProvinceConfirmFilter" RenderStyle="ButtonRenderStyle.Secondary" Text="@Language["Hoàn tất"]" />
+            <DxButton CssClass="flex-grow-1" Text="@Language["Xong"]" Click="@ProvinceConfirmSelection" RenderStyle="ButtonRenderStyle.Primary" />
+            <DxButton CssClass="flex-grow-1" Text="@Language["Hủy"]" Click="@(() => ProvincePopupVisible = false)" RenderStyle="ButtonRenderStyle.Secondary" />
+        </div>
+    </FooterContentTemplate>
+</DxPopup>
+
+<!-- Popup chọn xã/phường -->
+<DxPopup @bind-Visible="@DistrictPopupVisible"
+         ShowFooter="true"
+         Width="@(IsMobile ? "80%" : "400px")"
+         Height="@(IsMobile ? "80%" : "auto")">
+    <HeaderContentTemplate><b>@Language["Chọn xã/phường"]</b></HeaderContentTemplate>
+    <BodyContentTemplate>
+        <div class="d-flex flex-column h-100">
+        <DxButton Click="DistrictToggleAll" RenderStyle="@(DistrictCheckedAll? ButtonRenderStyle.Secondary: ButtonRenderStyle.Primary)" Text="@DistrictToggleButtonText" />
+
+        <DxListBox Data="@Districts"
+                   TextFieldName="@nameof(DistrictLookupModel.district_name)"
+                   ValueFieldName="@nameof(DistrictLookupModel.district_id)"
+                   @bind-Values="@SelectedDistricts"
+                   CssClass="flex-grow-1 overflow-auto"                   
+                   ShowSearchBox="true"
+                   ShowCheckboxes="true"
+                       SelectionMode="ListBoxSelectionMode.Multiple">
+                <ItemTemplate Context="item">
+                    <div class="@(IsMobile ? "py-3" : "")">
+                        @item.district_name
+                    </div>
+                </ItemTemplate>
+               </DxListBox>
+        </div>
+    </BodyContentTemplate>
+    <FooterContentTemplate>
+        <div class="d-flex gap-2 w-100">
+            <DxButton CssClass="flex-grow-1 " Click="@DistrictConfirmFilter" RenderStyle="ButtonRenderStyle.Secondary" Text="@Language["Hoàn tất"]" />
+            <DxButton CssClass="flex-grow-1 " Click="@(() => DistrictPopupVisible = false)" RenderStyle="ButtonRenderStyle.Primary" Text="@Language["Xong"]" />
+            <DxButton CssClass="flex-grow-1 " Text="@Language["Hủy"]" Click="@(() => DistrictPopupVisible = false)" RenderStyle="ButtonRenderStyle.Secondary" />
+        </div>
+    </FooterContentTemplate>
+</DxPopup>
+
+@code
+{
+    [Parameter] public EventCallback<(List<ProvinceLookupModel> provinces, List<DistrictLookupModel> districts, string filterText)> OnConfirm { get; set; }
+    [Parameter] public string CompanyId { get; set; }
+    [Parameter] public string CompanyMenuId { get; set; }
+
+    private bool Visible { get; set; }
+    private bool ProvincePopupVisible { get; set; }
+    private bool DistrictPopupVisible { get; set; }
+
+    [Parameter] public string FilterText { get; set; }
+    [Parameter] public IEnumerable<ProvinceLookupModel> SelectedProvinces { get; set; } = new List<ProvinceLookupModel>();
+    [Parameter] public IEnumerable<DistrictLookupModel> SelectedDistricts { get; set; } = new List<DistrictLookupModel>();
+
+    // Thay bằng API
+    private List<ProvinceLookupModel> Provinces { get; set; } = new();
+    private List<DistrictLookupModel> Districts { get; set; } = new();
+
+    public void Hide() => Visible = false;
+
+    private void OpenProvincePopup() => ProvincePopupVisible = true;
+    private void OpenDistrictPopup() => DistrictPopupVisible = true;
+
+    #region Root
+
+    private async Task Confirm()
+    {
+        // Cho lên trên để đóng trước khi xử lý dữ liệu.
+        Hide();
+        StateHasChanged();
+
+        await OnConfirm.InvokeAsync((SelectedProvinces as List<ProvinceLookupModel>, SelectedDistricts as List<DistrictLookupModel>, FilterText));
+    }
+
+    private void Cancel() => Hide();
+
+    private bool IsMobile { get; set; }
+
+    /// <summary>
+    /// load guard
+    /// </summary>
+    private bool _isLoaded = false;
+
+    private async Task LoadDataAsync()
+    {
+        //var blockNames = ListWorkItemSelected.Any() ? string.Join(", ", ListWorkItemSelected.Select(b => b.work_item_name)) : "";
+        var provinceIds = string.Join(",", SelectedProvinces?.Select(x => x.province_id) ?? Enumerable.Empty<string>());
+        Provinces = await DataService.LookupCode<ProvinceLookupModel>(this.CompanyId, 1, this.CompanyMenuId, "PROVINCE_LOOKUP");
+        Districts = await DataService.LookupCode<DistrictLookupModel>(this.CompanyId, 1, provinceIds, 0, this.CompanyMenuId, "DISTRICT_LOOKUP");
+    }
+
+    /// <summary>
+    /// public method để gọi từ parent
+    /// </summary>
+    /// <param name="forceReload"></param>
+    /// <returns></returns>
+    public async Task ShowAsync(bool forceReload = false)
+    {
+        if (!_isLoaded || forceReload)
+        {
+            await LoadDataAsync();
+            _isLoaded = true;
+        }
+
+        Visible = true;
+    }
+
+    #endregion end root
+
+    #region work
+    protected async Task ProvinceConfirmSelection()
+    {
+        // Hiển thị tên node đã chọn
+        ProvincePopupVisible = false;
+
+        var provinceIds = string.Join(",", SelectedProvinces?.Select(x => x.province_id) ?? Enumerable.Empty<string>());
+        Districts = await DataService.LookupCode<DistrictLookupModel>(this.CompanyId, 1, provinceIds, 0, this.CompanyMenuId, "DISTRICT_LOOKUP");
+
+        SelectedDistricts = new List<DistrictLookupModel>();
+    }
+
+    /// <summary>
+    /// Đóng lookup work và đóng filter luôn
+    /// </summary>
+    /// <returns></returns>
+    private async Task ProvinceConfirmFilter()
+    {
+        // 1) đóng popup chọn dự án (con) trước
+        ProvincePopupVisible = false;
+        //Hide();
+        await InvokeAsync(StateHasChanged);
+
+        // 2) chờ 1 vòng event loop / allow DOM update (nhỏ thôi)
+        await Task.Delay(30); // 10-50ms tùy cần; Task.Yield() có thể dùng thay
+
+        // 3) đóng popup chính (cha)
+        Visible = false;
+        await InvokeAsync(StateHasChanged);
+
+        // 4) chuẩn bị kết quả để trả về parent
+        var result = (((SelectedProvinces as List<ProvinceLookupModel>) ?? Enumerable.Empty<ProvinceLookupModel>().ToList()),
+                    ((SelectedDistricts as List<DistrictLookupModel>) ?? Enumerable.Empty<DistrictLookupModel>()).ToList(),
+                    FilterText);
+
+        // 5) báo cho parent xử lý (parent sẽ show skeleton / load)
+        if (OnConfirm.HasDelegate)
+            await OnConfirm.InvokeAsync(result);
+    }
+
+    protected bool ProvinceCheckedAll => (SelectedProvinces?.Count() == Provinces?.Count);
+
+    protected string ProvinceToggleButtonText => ProvinceCheckedAll ? Language["Bỏ chọn hết"] : Language["Chọn hết"];
+
+    protected void ProvinceToggleAll()
+    {
+        if (Provinces == null) return;
+
+        if (SelectedProvinces?.Count() == Provinces.Count)
+        {
+            // Đang chọn hết → bỏ chọn
+            SelectedProvinces = new List<ProvinceLookupModel>();
+        }
+        else
+        {
+            // Chưa chọn hết → chọn hết
+            SelectedProvinces = Provinces.ToList();
+        }
+    }
+
+    #endregion end work
+
+    #region work item
+
+    /// <summary>
+    /// Đóng lookup work item và đóng filter luôn
+    /// </summary>
+    /// <returns></returns>
+    private async Task DistrictConfirmFilter()
+    {
+        // 1) đóng popup chọn dự án (con) trước
+        DistrictPopupVisible = false;
+        //Hide();
+        await InvokeAsync(StateHasChanged);
+
+        // 2) chờ 1 vòng event loop / allow DOM update (nhỏ thôi)
+        await Task.Delay(30); // 10-50ms tùy cần; Task.Yield() có thể dùng thay
+
+        // 3) đóng popup chính (cha)
+        Visible = false;
+        await InvokeAsync(StateHasChanged);
+
+        // 4) chuẩn bị kết quả để trả về parent
+        var result = (((SelectedProvinces as List<ProvinceLookupModel>) ?? Enumerable.Empty<ProvinceLookupModel>().ToList()),
+                    ((SelectedDistricts as List<DistrictLookupModel>) ?? Enumerable.Empty<DistrictLookupModel>()).ToList(),
+                    FilterText);
+
+        // 5) báo cho parent xử lý (parent sẽ show skeleton / load)
+        if (OnConfirm.HasDelegate)
+            await OnConfirm.InvokeAsync(result);
+    }
+
+    protected bool DistrictCheckedAll => (SelectedDistricts?.Count() == Districts?.Count);
+
+    protected string DistrictToggleButtonText => DistrictCheckedAll ? Language["Bỏ chọn hết"] : Language["Chọn hết"];
+
+    protected void DistrictToggleAll()
+    {
+        if (Districts == null) return;
+
+        if (SelectedDistricts?.Count() == Districts.Count)
+        {
+            // Đang chọn hết → bỏ chọn
+            SelectedDistricts = new List<DistrictLookupModel>();
+        }
+        else
+        {
+            // Chưa chọn hết → chọn hết
+            SelectedDistricts = Districts.ToList();
+        }
+    }
+
+    #endregion end work item
+}

@@ -1,0 +1,82 @@
+﻿@using Blazored.LocalStorage;
+@using Model;
+@using Data;
+@using MyWebERP.Data;
+
+
+@inherits MyEditFormBase
+
+@code {
+    public DxGrid GridDetail{ get; set; }
+
+    // protected virtual VoucherHeaderBaseModel EditItem{ get; set; }
+
+    /// <summary>
+    /// Mã NT được chọn là đồng tiền cơ sở
+    /// </summary>
+    protected bool CurrencyIsBase { get; set; }
+
+    protected List<CustomerLookupModel> ListCustomer;
+    protected List<CurrencyLookupModel> ListCurrency;
+
+    protected Boolean CustomerEditPopupVisible { get; set; }
+    protected EditFormStatus CustomerEditFormStatus { get; set; }
+
+    protected virtual async Task InitCfg()
+    {
+        ListCustomer = await DataService.LookupCode<CustomerLookupModel>(CompanyId, 1, MenuItem.CompanyMenuId, "CUST_LOOKUP_W");
+        ListCurrency = await DataService.LookupCode<CurrencyLookupModel>(CompanyId, 1, MenuItem.CompanyMenuId, "CURRENCY_LOOKUP_W");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await InitCfg();
+    }
+
+    
+
+    // protected virtual async Task SelectCustomerChanged(CustomerLookupModel customer, TResult voucherHeader)
+    // {
+    //     EditItem.customer_code = customer.customer_code;
+    //     EditItem.customer_name = customer.customer_name;
+    //     EditItem.customer_tel = customer.tel;
+    //     EditItem.customer_address = customer.address1;
+    // }
+
+    // protected virtual async Task SelectCurrencyChanged(CurrencyLookupModel currency, VoucherHeaderBaseModel voucherHeader)
+    // {
+    //     EditItem.currency_id = currency.currency_id;
+    //     EditItem.currency_code = currency.currency_code;
+    //     EditItem.currency_name = currency.currency_name;
+    //     EditItem.currency_rate = await DataService.GetCurrencyRate(CompanyId, currency.currency_code, EditItem.voucher_date);
+    // }
+
+    protected virtual void OnCustomerAddButtonClick()
+    {
+        CustomerEditPopupVisible = true;
+        CustomerEditFormStatus = EditFormStatus.NEW;
+    }
+
+    protected virtual void OnCustomerEditButtonClick()
+    {
+        // if (String.IsNullOrEmpty(EditItem.customer_id))
+        // {
+        //     return;
+        // }
+        // else
+        // {
+        //     CustomerEditPopupVisible = true;
+        //     CustomerEditFormStatus = EditFormStatus.EDIT;
+        // }
+
+        CustomerEditPopupVisible = true;
+        CustomerEditFormStatus = EditFormStatus.EDIT;
+    }
+
+    // protected virtual async Task OnCustomerSubmit(CustomerModel customer)
+    // {
+    //     // Nạp lại
+    //     ListCustomer = await DataService.LookupCode<CustomerLookupModel>(CompanyId, 1, CompanyMenuId, "CUST_LOOKUP_W");
+    //     EditItem.customer_id = customer.customer_id;
+    // }
+}

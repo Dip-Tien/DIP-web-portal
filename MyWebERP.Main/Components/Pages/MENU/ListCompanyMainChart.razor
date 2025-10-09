@@ -1,0 +1,352 @@
+﻿@page "/listmainchart/{CompanyMenuId}"
+
+@using MyWebERP.Base.Components.Pages
+@using Blazored.LocalStorage;
+@using MyWebERP.Data;
+@using MyWebERP.Services;
+@using MyWebERP.Model;
+@* @using System.Dynamic; *@
+@* @using DevExpress.Blazor; *@
+
+@inherits ComponentBaseGrid0
+
+<style>
+    .dxbl-grid {
+    height: 522px;
+    }
+</style>
+
+<div class="grid-container">
+    <DxGrid Data="@Data"
+    @ref="Grid"
+    CssClass="flexGrid"
+    VirtualScrollingEnabled="true"
+    KeyFieldName="@nameof(CompanyMainMenuModel.web_company_main_chart_id)"
+    ColumnResizeMode="GridColumnResizeMode.NextColumn"
+    TextWrapEnabled="true"
+    FocusedRowEnabled="true"
+    HighlightRowOnHover="true"
+    ShowFilterRow="true"
+    FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Always"
+    ShowAllRows="true"
+    AllowColumnReorder = "false"
+    AllowSort = "false"
+    EditModelSaving="Grid_EditModelSaving"
+    FocusedRowChanged="Grid_FocusedRowChanged"
+    EditMode="GridEditMode.EditCell"
+    ValidationEnabled="true">
+        <ToolbarTemplate>
+            <DxToolbar ItemRenderStyleMode="ToolbarRenderStyleMode.Plain">
+                <DxToolbarItem Text="Nạp" Click="RefreshItem_Click" IconCssClass="grid-toolbar-refresh" BeginGroup="true" />
+                <DxToolbarItem Text="Thêm" Click="NewItem_Click" IconCssClass="grid-toolbar-new" BeginGroup="true" />
+                <DxToolbarItem Text="Chuyển lên" Click="UpItem_Click" IconCssClass="grid-toolbar-up" Enabled="EnableUp" BeginGroup="true" />
+                <DxToolbarItem Text="Chuyển xuống" Click="DownItem_Click" IconCssClass="grid-toolbar-down" Enabled="EnableDown" BeginGroup="true" />
+                <DxToolbarItem Text="Xóa" Click="DeleteItem_Click" IconCssClass="grid-toolbar-delete" Enabled="EditItemsEnabled" BeginGroup="true" />
+                <DxToolbarItem Text="Lưu" Click="SaveItem_Click" IconCssClass="grid-toolbar-save" BeginGroup="true" />
+            </DxToolbar>
+        </ToolbarTemplate>
+        <Columns>
+            <DxGridDataColumn FieldName="@nameof(CompanyMainMenuModel.web_company_menu_name)"
+            Width="30%" Caption="Tên menu">
+                <CellEditTemplate>
+                    @{
+                        var editModel = (CompanyMainMenuModel)context.EditModel;
+                    }
+                    <DxComboBox Data="@ListMenu"
+                    ValueFieldName="@nameof(CompanyMainMenuModel.web_company_menu_id)"
+                    TextFieldName="@nameof(CompanyMainMenuModel.web_company_menu_name)"
+                    NullText="Chọn vật tư (F4 để xổ danh sách. Mũi tên xuống để chọn từ trên xuống)"
+                    CssClass="enter-nav my-combobox"
+                    SearchMode="@ListSearchMode.AutoSearch"
+                    SearchFilterCondition="@ListSearchFilterCondition.Contains"
+                    @bind-Value="@editModel.web_company_menu_id"
+                    SelectedItemChanged="@((CompanyMenuModel arg) => SelectMenuChanged(arg, editModel))">
+                        <Columns>
+                            <DxListEditorColumn FieldName="@nameof(CompanyMainMenuModel.web_company_menu_name)" Caption="Tên menu" Width="200px" />
+                            <DxListEditorColumn FieldName="@nameof(CompanyMainMenuModel.title)" Caption="Tiêu đề" Width="200px" />
+                        </Columns>                        
+                    </DxComboBox>
+                </CellEditTemplate>
+            </DxGridDataColumn>
+
+            <DxGridDataColumn FieldName="row" Width="20%" Caption="Dòng"
+            FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never"/>
+            <DxGridDataColumn FieldName="col_width" Width="20%" Caption="Độ rộng (1 - 12)" 
+            FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never">
+                <CellEditTemplate>
+                    @{
+                        var editModel = (CompanyMainMenuModel)context.EditModel;
+                    }
+                    <DxSpinEdit MaxValue="12" MinValue="4" @bind-Value="@editModel.col_width"></DxSpinEdit>
+                </CellEditTemplate>
+            </DxGridDataColumn>
+
+            <DxGridDataColumn FieldName=@nameof(CompanyMainMenuModel.order) Width="20%" Caption="STT"
+            FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never" />
+
+            <DxGridDataColumn FieldName=@nameof(CompanyMainMenuModel.inactive) Caption="Không SD" Width="10%"
+            TextAlignment="GridTextAlignment.Center"
+            CaptionAlignment="GridTextAlignment.Center">
+            <CellDisplayTemplate>
+                    @{
+                        var editModel = (CompanyMainMenuModel)context.DataItem;
+                    }
+                    <DxCheckBox @bind-Checked="@editModel.inactive" ValueChecked="@((Int16)1)" ValueUnchecked="@((Int16)0)"></DxCheckBox>
+            </CellDisplayTemplate>
+                <CellEditTemplate>
+                    @{
+                        var editModel = (CompanyMainMenuModel)context.EditModel;
+                    }
+                    <DxCheckBox @bind-Checked="@editModel.inactive" ValueChecked="@((Int16)1)" ValueUnchecked="@((Int16)0)"></DxCheckBox>
+                </CellEditTemplate>
+            </DxGridDataColumn>
+        </Columns>
+
+    </DxGrid>
+</div>
+
+<DxWindow @ref=windowRef
+AllowResize="true"
+ShowCloseButton="true"
+CloseOnEscape="true"
+HeaderText="MyHeaderErrorMessage"
+FooterText="Footer"
+ShowFooter="true"
+Width="max(25vw, 250px)"
+MinWidth="300"
+MinHeight="200"
+MaxWidth="800"
+MaxHeight="500">
+    <BodyContentTemplate>
+        <div style="color:red">@MyErrorMessage</div>
+    </BodyContentTemplate>
+    <FooterContentTemplate>
+        <DxButton CssClass="popup-button my-1 ms-2" RenderStyle="ButtonRenderStyle.Primary" Text="OK" Click="@context.CloseCallback" />
+    </FooterContentTemplate>
+</DxWindow>
+
+@code {
+    List<CompanyMainMenuModel> Data { get; set; } = new List<CompanyMainMenuModel>();
+    List<CompanyMenuModel> ListMenu = new List<CompanyMenuModel>();
+
+    Dictionary<CompanyMainMenuModel, DataChange> UnsavedChanges { get; } = new();
+    protected bool BatchItemsEnabled => UnsavedChanges.Count > 0 || Grid.IsEditing();
+
+    private Boolean EnableUp = false;
+    private Boolean EnableDown = false;
+
+    protected override async Task InitCfg()
+    {
+        await base.InitCfg();
+
+        ListMenu = await DataService.LookupCode<CompanyMenuModel>(CompanyId, 1, CompanyMenuId, "WEB_COMPANY_MENU_LOOKUP_MAIN_CHA");
+    }
+
+    protected override async Task DataAsync()
+    {
+        string _sParam = "{\"abc\":\"abc\"}"; // tạo đại 1 tham số cho khỏi null, token tự add ở hệ thống
+        APIResultDataModel resultData = await DataService.GetData(_sParam, menuItem.FetDataCode);
+
+        Data.Clear();
+
+        if (resultData != null && resultData.count_of_items > 0)
+        {
+            Data = System.Text.Json.JsonSerializer.Deserialize<List<CompanyMainMenuModel>>(resultData.data_details.ToString());
+        }
+
+        Grid.SortBy("row", GridColumnSortOrder.Ascending, 1);
+        Grid.SortBy("order", GridColumnSortOrder.Ascending, 2);
+
+
+    }
+
+    protected override async Task Grid_FocusedRowChanged(GridFocusedRowChangedEventArgs args)
+    {
+        await base.Grid_FocusedRowChanged(args);
+
+        if (Grid != null)
+        {
+            int _iFocusedIndex = Grid.GetFocusedRowIndex();
+
+            EnableUp = (_iFocusedIndex > 0);
+            EnableDown = (_iFocusedIndex >= 0 & _iFocusedIndex < Grid.GetVisibleRowCount() - 1);
+        }
+        else
+        {
+            EnableDown = false;
+            EnableUp = false;
+        }
+    }
+
+    protected override async Task<bool> DeleteData()
+    {
+        CompanyMainMenuModel _model2Delete = Grid.GetFocusedDataItem() as CompanyMainMenuModel;
+
+        UnsavedChanges[_model2Delete] = new(DataChangeType.Delete, new());
+
+        Data.Remove(_model2Delete);
+        Grid.Reload();
+        return true;
+    }
+
+    protected override async Task DataDeleted()
+    {
+        // Phải để trống để dưới base gọi (dưới base là load lại data)
+    }
+
+    protected override async Task NewItem_Click()
+    {
+        CompanyMainMenuModel newMenu = new CompanyMainMenuModel();
+        newMenu.web_company_main_chart_id = await DataService.GetRowId(CompanyId, CompanyMenuId);
+
+        CompanyMainMenuModel prevMenu = Data.OrderByDescending(x => x.row).OrderByDescending(x => x.order).FirstOrDefault();
+
+        if(prevMenu != null)
+        {
+            int iPrevRow = prevMenu.row;
+            int iPrevOrder = prevMenu.order;
+
+            if(Data.Where(x => x.row == iPrevRow).Count() < 3)
+            {
+                newMenu.order = iPrevOrder + 1;
+                newMenu.row = iPrevRow;
+                newMenu.col_width = 12 - (Data.Where(x => x.row == iPrevRow).Sum(x => x.col_width));
+            }
+            else
+            {
+                // có 3 rồi thì tạo dòng mới
+                newMenu.row = iPrevRow + 1;
+                newMenu.order = 1;
+                newMenu.col_width = 12;
+            }
+        }
+        else
+        {
+            newMenu.row = 1;
+            newMenu.col_width = 12;
+            newMenu.order = 1;
+        }
+
+        Data.Add(newMenu);
+
+        UnsavedChanges[newMenu] = new(DataChangeType.Addition, new());
+
+        Grid.Reload();
+    }
+
+    protected override async Task Grid_EditModelSaving(GridEditModelSavingEventArgs e)
+    {
+        var detailModel = (CompanyMainMenuModel)e.EditModel;
+        var detailDataItem = (CompanyMainMenuModel)e.DataItem;
+        if (e.IsNew)
+        {
+            Data.Add(detailModel);
+            UnsavedChanges[detailModel] = new(DataChangeType.Addition, new());
+        }
+        else
+        {
+            await SubmitChanges(detailModel);
+        }
+    }
+
+    protected async Task SubmitChanges(CompanyMainMenuModel editingItem)
+    {
+        CompanyMainMenuModel dataItem = Data.First(x => x.web_company_main_chart_id == editingItem.web_company_main_chart_id);
+        var changedFields = MyLib.ApplyModifiedFields(editingItem, dataItem);
+
+        if (changedFields.Count > 0)
+        {
+            if (UnsavedChanges.TryGetValue(dataItem, out var changes))
+                changes.ChangedFields.UnionWith(changedFields);
+            else
+                UnsavedChanges.Add(dataItem, new(DataChangeType.Modification, changedFields));
+        }
+    }
+
+    private async Task UpItem_Click()
+    {
+        int _iFocusedIndex = Grid.GetFocusedRowIndex();
+
+        if (_iFocusedIndex <= 0) return;
+
+        CompanyMainMenuModel _modelCurrent = Grid.GetFocusedDataItem() as CompanyMainMenuModel;
+        CompanyMainMenuModel _modelPrev = Grid.GetDataItem(_iFocusedIndex - 1) as CompanyMainMenuModel;
+
+        int _iCurrentOrder = _modelCurrent.order;
+        _modelCurrent.order = _modelPrev.order;
+        _modelPrev.order = _iCurrentOrder;
+
+        if(_modelCurrent.row != _modelPrev.row)
+        {
+            int _iCurrentRow = _modelCurrent.row;
+            _modelCurrent.row = _modelPrev.row;
+            _modelPrev.row = _iCurrentOrder;
+        }
+
+        UnsavedChanges[_modelCurrent] = new(DataChangeType.Modification, new());
+        UnsavedChanges[_modelPrev] = new(DataChangeType.Modification, new());
+
+        Grid.Reload();
+
+        Grid.SetFocusedRowIndex(_iFocusedIndex - 1);
+    }
+
+    private async Task DownItem_Click()
+    {
+        int _iFocusedIndex = Grid.GetFocusedRowIndex();
+
+        if (_iFocusedIndex < 0 | _iFocusedIndex >= Grid.GetVisibleRowCount()-1) return;
+
+        CompanyMainMenuModel _modelCurrent = Grid.GetFocusedDataItem() as CompanyMainMenuModel;
+        CompanyMainMenuModel _modelNext = Grid.GetDataItem(Grid.GetFocusedRowIndex() + 1) as CompanyMainMenuModel;
+
+        int _iCurrentOrder = _modelCurrent.order;
+        _modelCurrent.order = _modelNext.order;
+        _modelNext.order = _iCurrentOrder;
+
+        if (_modelCurrent.row != _modelNext.row)
+        {
+            int _iCurrentRow = _modelCurrent.row;
+            _modelCurrent.row = _modelNext.row;
+            _modelNext.row = _iCurrentOrder;
+        }
+
+        UnsavedChanges[_modelCurrent] = new(DataChangeType.Modification, new());
+        UnsavedChanges[_modelNext] = new(DataChangeType.Modification, new());
+
+        Grid.Reload();
+
+        Grid.SetFocusedRowIndex(_iFocusedIndex + 1);
+    }
+
+    private async Task SaveItem_Click()
+    {
+        string _sApiCode = UpdAPICode;
+        CompanyMainMenuHeaderModel _header = new CompanyMainMenuHeaderModel(CompanyId, Data);
+
+        APIResultModel _resultIns = await DataService.CallMyApi(_header, _sApiCode);
+
+        if (_resultIns.Status != 0)
+        {
+            MyHeaderErrorMessage = "Lỗi lưu dữ liệu";
+            MyErrorMessage = _resultIns.StatusDetails;
+
+            await windowRef.ShowAsync();
+
+            return;
+        }
+
+        MyHeaderErrorMessage = "Lưu thành công";
+        MyErrorMessage = "Đã lưu thành công.";
+
+        await windowRef.ShowAsync();
+
+        await DataAsync();
+    }
+
+    protected async Task SelectMenuChanged(CompanyMenuModel menu, CompanyMainMenuModel data)
+    {
+        data.web_company_menu_id = menu.web_company_menu_id;
+        data.web_company_menu_name = menu.web_company_menu_name;
+    }
+}

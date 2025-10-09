@@ -1,0 +1,107 @@
+﻿@using MyWebERP.Model
+@using Microsoft.AspNetCore.Components.Authorization
+
+@inherits MenuBase
+@* @inject NavigationManager NavigationManager *@
+
+<DxLayoutBreakpoint DeviceSize="DeviceSize.XSmall" @bind-IsActive="@isXSmallScreenX" />
+﻿
+<div id="sidebar">
+    <CascadingAuthenticationState>
+        <AuthorizeView>
+            <Authorized>
+                <DxMenu Data="@MyMenuItems" Orientation="@Orientation.Vertical"
+                            CssClass="menu" ItemsPosition="ItemPosition.Start">
+                        <DataMappings>
+                            <DxMenuDataMapping Text="MenuName"
+                                               Children="Children"
+                                               BeginGroup="BeginGroup"
+                                               Target="Target"
+                                               IconUrl="IconUrl"
+                                               IconCssClass="IconCss"
+                                               CssClass="CssClass"
+                                               NavigateUrl="@MenuUrlFieldName()"
+                                               Enabled="Enabled" />
+                        </DataMappings>
+                    </DxMenu>
+
+                @* Tạm thời chưa dùng tree view vì chưa tối ưu, bên PĐ bị lỗi khi bấm 1 menu chi tiết thì các node cha tự collap*@
+                @* @if (isXSmallScreenX)
+                {
+                    <DxMenu Data="@MyMenuItems" Orientation="@Orientation.Vertical"
+                            CssClass="menu" ItemsPosition="ItemPosition.Start">
+                        <DataMappings>
+                            <DxMenuDataMapping Text="MenuName"
+                                               Children="Children"
+                                               BeginGroup="BeginGroup"
+                                               Target="Target"
+                                               IconUrl="IconUrl"
+                                               IconCssClass="IconCss"
+                                               CssClass="CssClass"
+                                               NavigateUrl="@MenuUrlFieldName()"
+                                               Enabled="Enabled" />
+                        </DataMappings>
+                    </DxMenu>
+                }
+                else
+                {
+                    <DxTreeView Data="@MyMenuItems" @ref="treeView"
+                                AllowSelectNodes="true"
+                                ShowExpandButtons="@(!ToggledSidebar)"
+                                NodeClick="OnNodeClick"
+                                AnimationType="LayoutAnimationType.Slide">
+
+                        <DataMappings>
+                            <DxTreeViewDataMapping Text="MenuName"
+                                                   NavigateUrl="@MenuUrlFieldName()"
+                                                   IconCssClass="IconCss"
+                                                   IconUrl="IconUrl"
+                                                   CssClass="CssClass"
+                                                   Target="Target"
+                                                   Enabled="Enabled"
+                                                   Children="Children" />
+                        </DataMappings>
+                    </DxTreeView>
+                } *@
+            </Authorized>
+            <NotAuthorized>
+                <DxMenu Orientation="@Orientation.Vertical" CssClass="menu">
+                    <Items>
+                        <DxMenuItem NavigateUrl="/" Text="Home" CssClass="menu-item" IconCssClass="icon home-icon"></DxMenuItem>
+                        <DxMenuItem Text="Components" IconCssClass="menu-icon-products menu-icon">
+                            <Items>
+                                <DxMenuItem Text="Blazor" />
+                                <DxMenuItem Text="ASP.NET MVC" />
+                                <DxMenuItem Text="ASP.NET Web Forms" />
+                                <DxMenuItem Text="ASP.NET Core" />
+                                <DxMenuItem Text="Bootstrap Web Forms" />
+                            </Items>
+                        </DxMenuItem>
+                    </Items>
+                </DxMenu>
+            </NotAuthorized>
+        </AuthorizeView>
+    </CascadingAuthenticationState>
+</div>
+@code
+{
+    [SupplyParameterFromQuery(Name = UrlGenerator.ToggleSidebarName)]
+    public bool ToggledSidebar { get; set; }
+
+    // DxTreeView treeView;
+    // ITreeViewNodeInfo nodeInfoSelected;
+
+    // void OnNodeClick(TreeViewNodeClickEventArgs args)
+    // {
+    //     var _nodeSelected = args.NodeInfo;
+
+    //     treeView.SetNodeExpanded((n) => ((MenuItem)n.DataItem).CompanyMenuId == ((MenuItem)_nodeSelected.DataItem).CompanyMenuId, !_nodeSelected.Expanded);
+    //     if (ToggledSidebar)
+    //     {
+    //         // Gọi lại link mở menu
+    //         var newUri = UrlGenerator.GetUrl(new Uri(NavigationManager.Uri).LocalPath, false);
+    //         NavigationManager.NavigateTo(newUri, false);
+    //     }
+    // }
+}
+

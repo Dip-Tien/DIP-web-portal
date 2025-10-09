@@ -1,0 +1,427 @@
+﻿@using DevExpress.Blazor;
+@using Microsoft.AspNetCore.Components;
+@using Microsoft.AspNetCore.Components.Web;
+@using Microsoft.JSInterop;
+@using DevExpress.XtraReports.UI;
+@using DevExpress.DataAccess.Json;
+@using System.Dynamic;
+@using MyWebERP.Data;
+@using MyWebERP.Model;
+@using MyWebERP.Lib;
+
+@inherits ComponentBase0
+
+@code
+{
+    
+    protected GridDetailRowDisplayMode GridDetailRowDisplayMode
+    {
+        get
+        {
+            if (isXSmallScreen)
+            {
+                return GridDetailRowDisplayMode.Always;
+            }
+
+            return GridDetailRowDisplayMode.Never;
+        }
+    }
+    [Inject]
+    System.Net.Http.HttpClient HttpClient { get; set; }
+
+    
+    [Inject]
+    protected IJSRuntime JS { get; set; }
+
+    public DxGrid Grid { get; set; }
+
+    //public DxToolbar Toolbar { get; set; }
+    public Boolean ReportViewVisible { get; set; } = false;
+    public string ReportViewParam { get; set; } = "";
+
+    protected const string ExportFileName = "ExportResult";
+
+    protected List<MenuReportFileItem> menuVisibleReportFiles
+    {
+        get
+        {
+            List<MenuReportFileItem> result = new List<MenuReportFileItem>();
+
+            if (menuItem != null)
+            {
+                result = menuItem.ReportFiles.Where(x => x.invisible == 0).OrderBy(x => x.order).ToList();
+            }
+
+            if (result.Count > 0)
+            {
+                SelectedReportFileItem = result[0];
+            }
+
+            return result;
+        }
+    }
+
+    protected MenuReportFileItem SelectedReportFileItem{ get; set; }
+
+    protected bool ReportFilePopupVisible { get; set; }
+    protected EditFormStatus ReportFileFormStatus { get; set; } = EditFormStatus.NEW;
+
+    protected virtual async Task RefreshItem_Click()
+    {
+        await DataAsync();
+    }
+
+    protected virtual async Task Grid_FocusedRowChanged(GridFocusedRowChangedEventArgs args)
+    {
+        FocusedRowVisibleIndex = args.VisibleIndex;
+
+        if (args.Grid.GetFocusedDataItem() == null)
+        {
+            FocusedDataId = "";
+            UpdateEditItemsEnabled(false);            
+        }
+        else
+        {
+            FocusedDataId = MyLib.GetPropertyValueOfObject(args.Grid.GetFocusedDataItem(), menuItem.IdColumnName);
+            UpdateEditItemsEnabled(true);
+        }
+    }
+    protected virtual void UpdateEditItemsEnabled(bool enabled)
+    {
+        EditItemsEnabled = enabled;
+    }
+
+    protected virtual async Task NewItem_Click()
+    {
+        //await Grid.StartEditNewRowAsync();
+        EditFormStatus = EditFormStatus.NEW;
+        EditFormVisible = true;
+    }
+    protected virtual async Task EditItem_Click()
+    {
+        //await Grid.StartEditRowAsync(FocusedRowVisibleIndex);
+
+        if (Grid.GetFocusedDataItem() == null)
+        {
+            MyHeaderErrorMessage = Language["Không có dữ liệu nào cả"];
+            MyErrorMessage = Language["Không có dòng nào được chọn"];
+
+            await windowRef.ShowAsync();
+            return;
+        }
+
+        EditFormStatus = EditFormStatus.EDIT;
+        EditFormVisible = true;
+    }
+    protected virtual async Task DeleteItem_Click()
+    {
+        //Grid.ShowRowDeleteConfirmation(FocusedRowVisibleIndex);
+
+        if (Grid.GetFocusedDataItem() == null)
+        {
+            MyHeaderErrorMessage = "Không có dữ liệu nào cả";
+            MyErrorMessage = "Không có dòng nào được chọn";
+
+            await windowRef.ShowAsync();
+            return;
+        }
+
+        // Tự xử lý để ra hộp thoại Tiếng Việt
+        bool _blnConfirm = await DialogService.ConfirmAsync(new MessageBoxOptions()
+            {
+                Title = "Xác nhận xóa dữ liệu",
+                Text = "Quý khách có chắc chắn muốn xóa dòng này không?",
+                RenderStyle = MessageBoxRenderStyle.Danger,
+                OkButtonText = "Có",
+                CancelButtonText = "Không",
+            });
+
+        if (_blnConfirm == true)
+        {
+            // string _sId = MyLib.GetPropertyValueOfObject(Grid.GetFocusedDataItem(), menuItem.IdColumnName);
+            // string _sParam = await MyLib.CreateDeleteDataParam(LocalStorageService, Grid.KeyFieldName, _sId);
+
+            // APIResultModel _resultDel = await DataService.CallMyApiSimple(_sParam, DelAPICode);
+
+            // if (_resultDel.Status != 0)
+            // {
+            //     MyHeaderErrorMessage = "Lỗi xóa dữ liệu";
+            //     MyErrorMessage = _resultDel.StatusDetails;
+
+            //     await windowRef.ShowAsync();
+            //     return;
+            // }
+
+            bool _blnDelete = await this.DeleteData();
+
+            if (_blnDelete)
+            {
+                await DataDeleted();
+            }
+        }
+    }
+
+    protected virtual async Task<bool> DeleteData()
+    {
+        string _sId = MyLib.GetPropertyValueOfObject(Grid.GetFocusedDataItem(), menuItem.IdColumnName);
+        string _sParam = await MyLib.CreateDeleteDataParam(LocalStorageService, Grid.KeyFieldName, _sId);
+
+        APIResultModel _resultDel = await DataService.CallMyApiSimple(_sParam, DelAPICode);
+
+        if (_resultDel.Status != 0)
+        {
+            MyHeaderErrorMessage = "Lỗi xóa dữ liệu";
+            MyErrorMessage = _resultDel.StatusDetails;
+
+            await windowRef.ShowAsync();
+            return false;
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    /// Gọi sau khi xóa dữ liệu
+    /// </summary>
+    /// <returns></returns>
+    protected virtual async Task DataDeleted()
+    {
+        await DataAsync();
+    }
+
+
+    // Bỏ, tự làm riêng
+    //protected virtual async void Grid_CustomizeEditModel(GridCustomizeEditModelEventArgs e)
+    //{
+    //    MyErrorMessage = "";
+
+    //    if (e.IsNew == false)
+    //    {
+    //        // Lấy lại dữ liệu trước khi sửa.
+    //        string _sId = MyLib.GetPropertyValueOfObject(e.EditModel, "web_menu_id");
+    //        string _sFetSingleParam = await MyLib.CreateFetSingleParam(LocalStorageService, _sId);
+    //        APIResultModel _resultFetSingle = await DataService.CallMyApi(_sFetSingleParam, menuItem.FetSingleDataCode);
+
+    //        if (_resultFetSingle.Status == 0)
+    //        {
+    //            string _sData = _resultFetSingle.Data.ToString();
+    //            MenuModel _menuModelTmp = System.Text.Json.JsonSerializer.Deserialize<MenuModel>(_sData);
+    //            await MyLib.MapObject<MenuModel>(_menuModel, _menuModelTmp);
+    //        }
+    //    }
+    //}
+
+    /// <summary>
+    /// Để đây để dùng cho những trường hợp gọi form edit của GRID
+    /// </summary>
+    /// <param name="e"></param>
+    /// <returns></returns>
+    protected virtual async Task Grid_EditModelSaving(GridEditModelSavingEventArgs e)
+    {
+        //var menu = (MenuModel)e.EditModel;
+        string _sApiCode = e.IsNew ? InsAPICode : UpdAPICode;
+
+        APIResultModel _resultIns = await DataService.CallMyApi(e.EditModel, _sApiCode);
+
+        if (_resultIns.Status != 0)
+        {
+            MyHeaderErrorMessage = "Lỗi lưu dữ liệu";
+            MyErrorMessage = _resultIns.StatusDetails;
+            e.Cancel = true;
+
+            await windowRef.ShowAsync();
+
+            return;
+        }
+
+        await DataAsync();
+    }
+
+    /// <summary>
+    /// Dùng của GRID, cứ để đây
+    /// </summary>
+    /// <param name="e"></param>
+    /// <returns></returns>
+    protected virtual async Task Grid_DataItemDeleting(GridDataItemDeletingEventArgs e)
+    {
+        string _sId = MyLib.GetPropertyValueOfObject(e.DataItem, menuItem.IdColumnName);
+        string _sParam = await MyLib.CreateDeleteDataParam(LocalStorageService, Grid.KeyFieldName, _sId);
+
+        APIResultModel _resultDel = await DataService.CallMyApiSimple(_sParam, DelAPICode);
+
+        if (_resultDel.Status != 0)
+        {
+            MyHeaderErrorMessage = "Lỗi xóa dữ liệu";
+            MyErrorMessage = _resultDel.StatusDetails;
+
+            await windowRef.ShowAsync();
+            return;
+        }
+
+        await DataAsync();
+    }
+
+    protected virtual void Grid_CustomizeElement(GridCustomizeElementEventArgs e)
+    {
+        if (e.ElementType == GridElementType.DataRow && e.VisibleIndex % 2 == 1)
+        {
+            e.CssClass = "grid-alt-item";
+        }
+
+        if (e.ElementType == GridElementType.DetailCell)
+        {
+            // Xử lý các dòng con
+            e.Style = "padding: 0.5rem;";// opacity: 0.75";
+        }
+
+        // Dòng không sử dụng, để sau
+        // if (e.ElementType == GridElementType.DataRow)
+        // {
+        //     var inactive = Convert.ToBoolean(e.Grid.GetRowValue(e.VisibleIndex, "inactive"));
+        //     if (inactive)
+        //     {
+        //         e.CssClass = "bg-light"; // hoặc custom class nền xám nhạt
+        //     }
+        // }
+    }
+    
+    protected void ColumnChooserItem_Click(ToolbarItemClickEventArgs e)
+    {
+        Grid.ShowColumnChooser();
+    }
+
+    protected virtual async Task ExportXlsxItem_Click()
+    {
+        await Grid.ExportToXlsxAsync(ExportFileName);
+    }
+    protected virtual async Task ExportXlsItem_Click()
+    {
+        await Grid.ExportToXlsAsync(ExportFileName);
+    }
+    protected virtual async Task ExportCsvItem_Click()
+    {
+        await Grid.ExportToCsvAsync(ExportFileName);
+    }
+
+    #region Print, report
+
+    // protected virtual async Task<String> CreateReportSource()
+    // {
+    //     MenuReportFileItem _reportFileItem = SelectedReportFileItem;
+
+    //     string _sSpName = string.IsNullOrEmpty(_reportFileItem.sp_name) ? menuItem.FetSingleDataCode : _reportFileItem.sp_name;
+    //     string _sFetSingleParam = await Data.MyLib.CreateFetSingleParam(CompanyId, menuItem.IdColumnName, FocusedDataId);
+    //     Model.APIResultModel _resultFetSingle = await DataService.CallMyApiSimple(_sFetSingleParam, _sSpName);
+
+    //     if (_resultFetSingle.Status == 0)
+    //     {
+    //         return _resultFetSingle.Data.ToString();
+    //     }
+
+    //     return "";
+    // }
+
+    protected async Task<string> CreateReportViewParam()
+    {
+        // Dictionary<string, object> _paramData = new Dictionary<string, object>();
+        // _paramData.Add(menuItem.IdColumnName, FocusedDataId);
+
+        // Dictionary<string, object> _paramView = new Dictionary<string, object>();
+        // _paramView.Add("report_title", SelectedReportFileItem.report_title);
+
+        // ReportViewParamItem _param = new ReportViewParamItem()
+        // {
+        //     report_file_id = SelectedReportFileItem.report_file_id,
+        //     company_menu_id = menuItem.CompanyMenuId,
+        //     company_id = CompanyId,
+        //     api_code = (String.IsNullOrEmpty(SelectedReportFileItem.sp_name)?menuItem.FetSingleDataCode:SelectedReportFileItem.sp_name),
+        //     param = _paramData,
+        //     view_param = _paramView
+        // };
+
+        ReportViewParamItem _param = this.CreateReportViewParamItem();
+
+        return await MyLib.Object2Base64(_param);
+    }
+
+    protected ReportViewParamItem CreateReportViewParamItem()
+    {
+        Dictionary<string, object> _paramData = new Dictionary<string, object>();
+        _paramData.Add(menuItem.IdColumnName, FocusedDataId);
+
+        Dictionary<string, object> _paramView = new Dictionary<string, object>();
+        _paramView.Add("report_title", SelectedReportFileItem.report_title);
+
+        ReportViewParamItem _param = new ReportViewParamItem()
+            {
+                report_file_id = SelectedReportFileItem.report_file_id,
+                company_menu_id = menuItem.CompanyMenuId,
+                company_id = CompanyId,
+                api_code = (String.IsNullOrEmpty(SelectedReportFileItem.sp_name) ? menuItem.FetSingleDataCode : SelectedReportFileItem.sp_name),
+                param = _paramData,
+                view_param = _paramView
+            };
+
+        return _param;
+    }
+
+    protected virtual async Task PrintItem_Click()
+    {
+        XtraReport _report = await DataService.CreateReport(this.CreateReportViewParamItem());
+        await _report.CreateDocumentAsync();        
+        await _report.PrintAsync();
+    }
+
+    protected virtual async Task PrintPreviewItem_Click()
+    {
+        this.ReportViewParam = await this.CreateReportViewParam();
+        ReportViewVisible = true;
+    }
+
+    protected virtual async Task ReportDesignerItem_Click()
+    {
+        this.ReportViewParam = await this.CreateReportViewParam();
+        //NavigationManager.NavigateTo($"/reportdesigner/{this.ReportViewParam}");
+        await RerportDesinger2NewTab();
+    }
+
+    protected async Task RerportDesinger2NewTab()
+    {
+        await JS.InvokeAsync<object>("open", $"/reportdesigner/{ReportViewParam}", "_blank");
+    }
+
+    protected virtual async Task AddReportFileItem_Click()
+    {
+        ReportFilePopupVisible = true;
+        ReportFileFormStatus = EditFormStatus.NEW;
+    }
+
+    protected virtual async Task EditReportFileItem_Click()
+    {
+        if(SelectedReportFileItem == null)
+        {
+            return;
+        }
+
+        ReportFilePopupVisible = true;
+        ReportFileFormStatus = EditFormStatus.EDIT;
+    }
+
+    protected async Task ReportFileSubmit(MenuReportFileModel model)
+    {
+        MenuReportFileItem _file = menuItem.ReportFiles.FirstOrDefault(x => x.web_company_menu_report_file_id == model.web_company_menu_report_file_id);
+
+        if(_file == null)
+        {
+            MenuReportFileItem _newItem = new MenuReportFileItem();
+            MyLib.MapObject(_newItem, model);
+            menuItem.ReportFiles.Add(_newItem);
+        }
+        else
+        {
+            MyLib.MapObject(_file, model);
+        }
+    }
+
+    #endregion Print, report
+}

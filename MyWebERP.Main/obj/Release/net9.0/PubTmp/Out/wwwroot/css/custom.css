@@ -1,0 +1,16 @@
+﻿/* Xử lý chọn màu chủ đạo các kiểu....*/
+
+:root {
+    --bs-primary: #0d6efd;
+    --bs-secondary: #6c757d;
+    --bs-success: #198754;
+    --bs-warning: #ffc107;
+    --bs-danger: #dc3545;
+    --bs-body-bg: #ffffff;
+    --bs-body-color: #212529;
+}
+
+body {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+}

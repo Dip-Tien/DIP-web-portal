@@ -1,0 +1,292 @@
+﻿@page "/listso001sm/{CompanyMenuId}"
+
+@using MyWebERP.Base.Components.Pages
+@using Blazored.LocalStorage;
+@using MyWebERP.Data;
+@using MyWebERP.Services;
+@using MyWebERP.Model;
+@using System.Dynamic;
+@using DevExpress.Blazor
+
+@inherits SO001ListBase
+
+@* Kiểm tra kích thước màn hình *@
+<DxLayoutBreakpoint DeviceSize="DeviceSize.XSmall" @bind-IsActive="@isXSmallScreen" />
+<div class="row gx-0 gy-2">
+    <div class="row">
+        <div class="col-12">
+                        <DxTextBox ReadOnly="true"
+                                   CssClass="selected-display-box form-control-mobile"
+                                   Text="@ListCompanyNameSelected"
+                                   style="width:100%">
+                            <Buttons>
+                                <DxEditorButton Click="@(() => CompanySelectPopupVisible = true)"
+                                                IconCssClass="oi oi-magnifying-glass"
+                                                Position="EditorButtonPosition.Right" />
+                            </Buttons>
+                        </DxTextBox>
+                        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <DxComboBox Data="@ListPeriod"
+            TextFieldName="@nameof(PeriodItem.PeriodName)"
+            KeyFieldName="@nameof(PeriodItem.PeriodCode)"
+            @bind-Value="@SelectedPeriodItem"
+            CssClass="form-control-mobile"
+            SelectedItemChanged="@((PeriodItem item) => SelectedPeriodChanged(item))"
+            InputId="cbPeriod" />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-6">
+            <DxDateEdit @bind-Date="@Date1"
+            DisplayFormat="dd/MM/yyyy"
+            Format="dd/MM/yyyy"
+            Mask="dd/MM/yyyy"
+            CssClass="form-control-mobile"
+            SizeMode="SizeMode.Small"
+            InputId="deDate1">
+
+                <DxDateTimeMaskProperties CaretMode="@MaskCaretMode.Advancing" UpdateNextSectionOnCycleChange="true" />
+                @* Phải có Mask thì caretmode mới chạy*@
+            </DxDateEdit>
+        </div>
+        <div class="col-6">
+            <DxDateEdit @bind-Date="@Date2"
+            DisplayFormat="dd/MM/yyyy"
+            Mask="dd/MM/yyyy"
+            Format="dd/MM/yyyy"
+            CssClass="form-control-mobile"
+            InputId="deDate2">
+                @* Phải có Mask thì caretmode mới chạy *@
+                <DxDateTimeMaskProperties CaretMode="@MaskCaretMode.Advancing" UpdateNextSectionOnCycleChange="true" />
+            </DxDateEdit>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-4 form-control-mobile">
+            <DxComboBox Data="@Pages"
+            TData="int"
+            TValue="int"
+            CssClass="form-control-mobile"
+            @bind-Value="@pageNo"
+            InputId="cbPageNo">
+                <Buttons>
+                    <DxEditorButton IconCssClass="editor-icon toolbar-icon-chevron-left"
+                    Tooltip="Trang trước"
+                    Click="@(_ => OnPrevPageButtonClick())" />
+                    <DxEditorButton IconCssClass="editor-icon toolbar-icon-chevron-right"
+                    Tooltip="Trang sau"
+                    Click="@(_ => OnNextPageButtonClick())" />
+                </Buttons>
+            </DxComboBox>
+        </div>
+        <div class="col-8  form-control-mobile">
+            <DxTextBox ReadOnly="true" Text="@(" / Tổng số " + pageCountText)" CssClass="form-control-mobile"></DxTextBox>
+        </div>
+    </div>
+    <div class="row">        
+        <div class="col-4 form-control-mobile">
+            <DxTextBox Text="Số dòng" 
+                ReadOnly="true" 
+                CssClass="form-control-mobile"></DxTextBox>
+        </div>
+        <div class="col-3 form-control-mobile">
+            <DxComboBox Data="@PageSizes"
+                TData="int"
+                TValue="int"
+                @bind-Value="@pageSize"
+                CssClass="form-control-mobile"
+                InputId="cbPageSize">
+            </DxComboBox>
+        </div>
+        <div class="col-2">
+            <DxButton Click="RefreshItem_Click" 
+                IconPosition="ButtonIconPosition.BeforeText" 
+                IconCssClass="grid-toolbar-refresh" 
+                CssClass="form-control-mobile" Text="Nạp"></DxButton>
+        </div>
+        <div class="col-3">
+            <DxButton Click="NewItem_Click" 
+                IconPosition="ButtonIconPosition.BeforeText" 
+                IconCssClass="grid-toolbar-new" 
+                CssClass="form-control-mobile" 
+                Text="Thêm" 
+                RenderStyle="ButtonRenderStyle.Secondary">
+            </DxButton>
+        </div>
+    </div> 
+</div>
+<div class="h-100 grid-wrapper">
+    <DxGrid @ref="Grid"
+    Data="@Data"
+    KeyFieldName="@nameof(SO001Model.voucher_header_id)"
+    ColumnResizeMode="GridColumnResizeMode.ColumnsContainer"
+    FooterDisplayMode="GridFooterDisplayMode.Always"
+    CustomizeElement="Grid_CustomizeElement"
+    CssClass="flex-grid"
+    VirtualScrollingEnabled="true"
+    TextWrapEnabled="true"
+    FocusedRowEnabled="true"
+    HighlightRowOnHover="true"
+    FocusedRowChanged="Grid_FocusedRowChanged"
+    ShowFilterRow="true"
+    FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Always"
+    ShowAllRows="true"
+    DetailRowDisplayMode="GridDetailRowDisplayMode"
+    RowClick="Grid_OnRowClick"
+    SearchText="@GridSearchText">
+        <Columns>
+            <DxGridDataColumn Width="25"
+            TextAlignment="GridTextAlignment.Center"
+            FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never" AllowSort="false">
+                <CellDisplayTemplate>@(context.VisibleIndex + 1)</CellDisplayTemplate>
+            </DxGridDataColumn>
+            <DxGridDataColumn FieldName=@nameof(SO001Model.voucher_date) Width="90" Caption="Ngày CT" DisplayFormat="dd/MM/yyyy" />
+            <DxGridDataColumn FieldName="@nameof(SO001Model.voucher_no)" Width="90" Caption="Số CT" />
+            <DxGridDataColumn FieldName="@nameof(SO001Model.comment)" Caption="Ghi chú" />
+            <DxGridDataColumn FieldName="@nameof(SO001Model.amount_fc)" Width="120" Caption="Tiền hàng" TextAlignment="GridTextAlignment.Right" Visible="@(isXSmallScreen == false)" />
+            <DxGridDataColumn FieldName=@nameof(SO001Model.discount_amount_fc) Width="100" Caption="Tiền CK" TextAlignment="GridTextAlignment.Right" Visible="@(isXSmallScreen == false)" />
+            <DxGridDataColumn FieldName=@nameof(SO001Model.total_amount_fc) Width="120" Caption="Tổng tiền" TextAlignment="GridTextAlignment.Right" Visible="@(isXSmallScreen == false)" />
+
+            <DxGridDataColumn FieldName=@nameof(SO001Model.is_deleted)
+            Caption="Xoá" Width="80" ReadOnly="true"
+            TextAlignment="GridTextAlignment.Center"
+            CaptionAlignment="GridTextAlignment.Center"
+            Visible="@(isXSmallScreen == false)">
+                <CellDisplayTemplate>
+                    <DxCheckBox Checked="@((Int16)context.Value == 1)" ReadOnly="true" />
+                </CellDisplayTemplate>
+            </DxGridDataColumn>
+
+            <DxGridDataColumn FieldName=@nameof(SO001Model.created_on_date) Width="140" Caption="Ngày tạo" DisplayFormat="dd/MM/yyyy HH:mm:ss" Visible="@(isXSmallScreen == false)" />
+            <DxGridDataColumn FieldName="@nameof(SO001Model.created_by_display_name)" Width="140" Caption="Người tạo" Visible="@(isXSmallScreen == false)" />
+            <DxGridDataColumn FieldName=@nameof(SO001Model.last_modified_on_date) Width="140" Caption="Ngày sửa" DisplayFormat="dd/MM/yyyy HH:mm:ss" Visible="@(isXSmallScreen == false)" />
+            <DxGridDataColumn FieldName="@nameof(SO001Model.last_modified_by_display_name)" Width="140" Caption="Người sửa" Visible="@(isXSmallScreen == false)" />
+        </Columns>
+        <TotalSummary>
+            <DxGridSummaryItem SummaryType="GridSummaryItemType.Count" FieldName="@nameof(SO001Model.voucher_no)" DisplayText="{0:N0} dòng" />
+            <DxGridSummaryItem SummaryType="GridSummaryItemType.Sum" FieldName="@nameof(SO001Model.amount_fc)" DisplayText="{0:N0}" />
+            <DxGridSummaryItem SummaryType="GridSummaryItemType.Sum" FieldName="@nameof(SO001Model.discount_amount_fc)" DisplayText="{0:N0}" />
+            <DxGridSummaryItem SummaryType="GridSummaryItemType.Sum" FieldName="@nameof(SO001Model.total_amount_fc)" DisplayText="{0:N0}" />
+        </TotalSummary>
+        <DetailRowTemplate>
+            @{
+                var header = (SO001Model)context.DataItem;
+
+                // <div class="row">
+                //     <div class="col-2">
+                //         Khách:
+                //     </div>
+                //     <div class="col"><text>@(header.customer_code + " - " + header.customer_name)</text></div>
+                // </div>
+
+                <div class="row"><text>@(header.customer_code + " - " + header.customer_name)</text></div>
+
+                <div class="row">
+                    <div class="col">
+                        Tiền hàng:
+                    </div>
+                    <div class="col" style="text-align:right">
+                        <text>@header.amount_fc.ToString("N0")</text>
+                    </div>
+                    <div class="col-5"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        Tiền CK:
+                    </div>
+                    <div class="col" style="text-align:right">
+                        <text>@header.discount_amount_fc.ToString("N0")</text>
+                    </div>
+                    <div class="col-5"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        Tổng thanh toán:
+                    </div>
+                    <div class="col" style="text-align:right">
+                        <text>@header.total_amount_fc.ToString("N0")</text>
+                    </div>
+                    <div class="col-5"></div>
+                </div>
+            }
+        </DetailRowTemplate>
+    </DxGrid>
+</div>
+
+@if (menuItem != null)
+{
+    <SO001SmallEditPopup @bind-Visible="@EditFormVisible"
+    CompanyId="@CompanyId"
+    EditDataId="@FocusedDataId"
+    LocalStorageService="@LocalStorageService"
+    DataService="@DataService"
+    FormStatus="@EditFormStatus"
+    MenuItem="@menuItem"
+    PopupClosed="@OnDataSubmit" />
+}
+
+<DxWindow @ref=windowRef
+AllowResize="true"
+ShowCloseButton="true"
+CloseOnEscape="true"
+HeaderText="@MyHeaderErrorMessage"
+FooterText="Footer"
+ShowFooter="true"
+Width="max(25vw, 250px)"
+MinWidth="300"
+MinHeight="200"
+MaxWidth="800"
+MaxHeight="500">
+    <BodyContentTemplate>
+        <div style="color:red">@MyErrorMessage</div>
+    </BodyContentTemplate>
+    <FooterContentTemplate>
+        <DxButton CssClass="popup-button my-1 ms-2"
+        RenderStyle="ButtonRenderStyle.Primary" Text="OK" Click="@context.CloseCallback" />
+    </FooterContentTemplate>
+</DxWindow>
+
+@* popup company *@
+<DxPopup @bind-Visible="@CompanySelectPopupVisible"
+         Width="400px"
+         ShowCloseButton="true"
+         CloseOnEscape="true"
+         CloseOnOutsideClick="true">
+    <DxTreeView Data="@ListCompany"
+                CheckAllVisible="true"
+                CheckMode="TreeViewCheckMode.Multiple"
+                CheckAllText="Chọn hết"
+                CheckedChanged="@OnCompanyCheckedNodesChanged"
+                @ref="treeViewCompany">
+        <DataMappings>
+            <DxTreeViewDataMapping Text="CompanyName" Key="CompanyId" ParentKey="ParentId" />
+        </DataMappings>
+    </DxTreeView>
+    <div class="mt-2" style="text-align:right;">
+        <DxButton Text="Xác nhận" Click="@CompanyConfirmSelection" />
+        <DxButton Text="Hủy" Click="@CompanyCancelSelection" />
+    </div>
+</DxPopup>
+
+@code {
+
+    void Grid_OnRowClick(GridRowClickEventArgs args)
+    {
+        // Dòng này lỗi vì nó trả về dòng click trước đó 1 thao tác        
+        //SO001Model model = (SO001Model)args.Grid.GetFocusedDataItem();
+
+        if (args.VisibleIndex >= 0)
+        {
+            FocusedDataId = args.Grid.GetRowValue(args.VisibleIndex, "voucher_header_id").ToString();
+            EditFormStatus = EditFormStatus.VIEW;
+            EditFormVisible = true;
+        }
+    }
+}

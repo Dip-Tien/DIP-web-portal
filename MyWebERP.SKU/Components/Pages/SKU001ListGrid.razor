@@ -1,0 +1,249 @@
+﻿@page "/listsku001/{CompanyMenuId}"
+@using System.Text.Json;
+@using System.Drawing
+@using Blazored.LocalStorage;
+@using System.Dynamic;
+@using DevExpress.Blazor
+@using System.Globalization;
+@using MyWebERP.Data;
+@using MyWebERP.Services;
+@using MyWebERP.Model;
+@using MyWebERP.Lib;
+@using MyWebERP.Base.Components.Pages
+
+@inherits SKU001ListBase
+
+<style>
+
+    .apartment-grid-container {
+        display: inline-block;
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .cell-empty {
+        transition: box-shadow 0.2s ease;
+    }
+
+    /* wrapper dùng chung cho cả ô có dữ liệu hoặc trống */
+    .cell-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        box-sizing: border-box;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: box-shadow .14s ease, transform .12s ease;
+        /* không set border mặc định */
+        border: none;
+    }
+
+        /* hover chỉ cho ô có dữ liệu (nếu muốn) - nếu muốn hover trên ô trống thì bỏ :not(.cell-empty) */
+        .cell-wrapper:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(0,0,0,0.06);
+        }
+
+
+    .cell-selected {
+        outline: 2px solid #007bff;
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.6);
+        transform: scale(1.05); /* hơi phóng to để gây chú ý */
+        transition: transform 0.15s ease-in-out;
+    }
+
+</style>
+<div class="dock-header">
+    <DxToolbar ItemRenderStyleMode="ToolbarRenderStyleMode.Plain">
+
+        
+
+        <DxToolbarItem Visible="@(!string.IsNullOrWhiteSpace(FilterSummaryText))">
+            <ChildContent>
+                <div class="d-block small text-primary cursor-pointer"
+                     style="font-size: 0.7rem; width:120px; white-space:normal; word-wrap:break-word;"
+                     @onclick="async () => await filterPopup.ShowAsync(true)">
+                    @FilterSummaryText
+                </div>
+            </ChildContent>
+        </DxToolbarItem>
+
+        <DxToolbarItem>
+            <DxButton Click="async () => await ShowFilterPopup()" RenderStyleMode="ButtonRenderStyleMode.Outline">
+                <ChildContent Context="btn">
+                    <FilterIcon Size="32" />
+                    <span class="button-text">@Language["Lọc"]</span>
+                </ChildContent>
+            </DxButton>
+        </DxToolbarItem>
+        @* Để đây - trường hợp cứ nạp lại theo filter cũ thì dùng *@
+        <DxToolbarItem Text="Nạp" Click="RefreshItem_Click" IconCssClass="grid-toolbar-refresh" BeginGroup="true" />
+        <DxToolbarItem GroupName="ZoomControls"
+                       IconCssClass="oi oi-minus"
+                       Click="@ZoomOut" BeginGroup="true" />
+        <DxToolbarItem GroupName="ZoomControls"
+                       IconCssClass="oi oi-plus"
+                       Click="@ZoomIn" />
+        <DxToolbarItem Text="@($"{Scale}%")" />
+        @* <DxToolbarItem>
+            <span>@($"{Scale * 100:F0}%")</span>
+        </DxToolbarItem> *@
+        <DxToolbarItem Text="Thêm" Click="NewItem_Click" IconCssClass="grid-toolbar-new" BeginGroup="true" />
+        <DxToolbarItem Text="Sửa" Click="EditItem_Click" IconCssClass="grid-toolbar-edit" Enabled="EditItemsEnabled" />
+        <DxToolbarItem Text="Xóa" Click="DeleteItem_Click" IconCssClass="grid-toolbar-delete" Enabled="EditItemsEnabled" />
+        <DxToolbarItem Text="Xuất dữ liệu" IconCssClass="grid-toolbar-export" BeginGroup="true">
+            <Items>
+                <DxToolbarItem Text="Ra CSV" Click="ExportCsvItem_Click" />
+                <DxToolbarItem Text="Ra XLSX" Click="ExportXlsxItem_Click" />
+                <DxToolbarItem Text="Ra XLS" Click="ExportXlsItem_Click" />
+            </Items>
+        </DxToolbarItem>
+        @* <DxToolbarItem BeginGroup="true">
+            <Template Context="toolbar_item_context">
+                <DxSearchBox @bind-Text="GridSearchText" BindValueMode="BindValueMode.OnInput"
+                             ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" aria-label="Search" />
+            </Template>
+        </DxToolbarItem> *@
+    </DxToolbar>
+</div>
+
+<div class="dock-body">
+    @if (Appartments == null)
+    {
+        <div class="skeleton-wrapper">
+            @for (int i = 0; i < 6; i++)
+            {
+                <div class="skeleton-row">
+                    <div class="skeleton skeleton-sm"></div>
+                    <div class="skeleton skeleton-lg"></div>
+                    <div class="skeleton skeleton-sm"></div>
+                    <div class="skeleton skeleton-sm"></div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+            <DxGrid @ref="Grid"
+                    Data="@Data"
+                    ColumnResizeMode="GridColumnResizeMode.ColumnsContainer"
+                    FooterDisplayMode="GridFooterDisplayMode.Never"
+                    CustomizeElement="Grid_CustomizeElement"
+                    CssClass="default-grid"
+                    VirtualScrollingEnabled="true"
+                    TextWrapEnabled="true"           
+                    FocusedRowChanged="Grid_FocusedRowChanged"
+                    ShowFilterRow="false"
+                    FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Always"
+                    ShowAllRows="true"
+                    ValidationEnabled="true"
+                    DetailRowDisplayMode="GridDetailRowDisplayMode"
+                    SelectionMode="GridSelectionMode.Single"
+                    SearchText="@GridSearchText">
+                <Columns>
+                    @foreach (var col in FloorColumns)
+                    {
+                        <DxGridDataColumn FieldName="@col" Caption="@col" Width="@($"{EffectiveColumnWidth}px")" 
+                            AllowSort="false" 
+                            AllowReorder="false" 
+                            CaptionAlignment="GridTextAlignment.Center"
+                            FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never">
+                            <CellDisplayTemplate Context="cell">
+                            @{
+                                int colIndex = FloorColumns.IndexOf(cell.DataColumn.FieldName) + 1;
+                                int rowIndex = Data.IndexOf(cell.DataItem as ExpandoObject) + 1;
+
+                                // chuẩn hóa các chuỗi kích thước
+                                var heightStr = EffectiveCellHeight.ToString(CultureInfo.InvariantCulture) + "px";
+                                var paddingStr = EffectivePadding.ToString(CultureInfo.InvariantCulture) + "px";
+                                var fontStr = EffectiveFontSize.ToString(CultureInfo.InvariantCulture) + "px";
+
+                                // bảo vệ kiểu an toàn
+                                if (cell.Value is SKU001Model apt && apt != null)
+                                {
+                                    var isSelected = selectedModel != null && apt.sku_id == selectedModel.sku_id;
+                                    var wrapperClass = "cell-wrapper" + (isSelected ? " cell-selected" : "");
+
+                                    var bg = GetCellColor(apt);
+                                    // Khai báo biến ở đây
+                                    // kẻo cho thẳng vào style dài quá mà ở đó không cho xuống dòng
+                                    // Hoặc có thể tạo hàm ở code behide....
+                                    var cellStyle = $@"
+                                        cursor:pointer;
+                                        width:100%;
+                                        height:{heightStr};
+                                        background-color:{bg};
+                                        padding:{paddingStr};
+                                        display:flex;
+                                        align-items:center;
+                                        justify-content:center;
+                                        font-size:{EffectiveFontSize.ToString(CultureInfo.InvariantCulture)}px;
+                                        border-radius:4px;";
+
+                                    <div class="@wrapperClass"
+                                            style="@cellStyle"
+                                        @onclick="() => OnCellClick(apt, rowIndex, colIndex)"
+                                            @onmouseenter="async (MouseEventArgs e) => { if (HasTooltip(apt)) await ShowTooltip(e, apt); }"
+                                            @onmouseleave="(MouseEventArgs e) => { if (HasTooltip(apt)) HideTooltip(e); }">
+                                        @(string.IsNullOrEmpty(apt.display_barcode) ? "-" : apt.display_barcode)
+                                    </div>
+                                }
+                                else
+                                {
+                                    // ô trống — KHÔNG thêm border dashed. Vẫn cho click và highlight khi chọn.
+                                    var isSelEmpty = selectedEmpty?.Row == rowIndex && selectedEmpty?.Col == colIndex;
+                                    var wrapperClass = "cell-wrapper" + (isSelEmpty ? " cell-selected" : "");
+
+                                    <div class="@wrapperClass"
+                                         style=@($"height:{heightStr}; background:transparent;")
+                                         @onclick="() => OnCellClick(null, rowIndex, colIndex)">
+                                        @* không in "-" để giữ giống ô trống mặc định; nếu muốn chữ '-' thì chèn ở đây *@
+                                    </div>
+                                }
+                            }
+                            </CellDisplayTemplate>
+                        </DxGridDataColumn>
+                    }
+                </Columns>
+            </DxGrid>
+    }
+</div>
+
+<div class="grid-cell-tooltip-div">
+    @if (popupSkuModel?.tooltips != null && popupSkuModel?.tooltips.Count > 0)
+    {
+        var items = popupSkuModel.tooltips;// JsonSerializer.Deserialize<List<Sku001TooltipItem>>(popupSkuModel.json_info);
+
+        if (items != null)
+        {
+            foreach (var item in items.OrderBy(x => x.order))
+            {
+                <div style="margin-bottom:4px;">
+                    <b>@item.item_name</b>:
+                    @if (item.is_image == 1)
+                    {
+                        <br />
+                        <img src="@item.item_value" width="120"
+                             style="border:1px solid #ccc;border-radius:4px;margin-top:4px;" />
+                    }
+                    else
+                    {
+                        @item.item_value
+                    }
+                </div>
+            }
+        }
+    }
+</div>
+
+<ProjectBlockFilterPopup @ref="filterPopup"
+                         AllowMultiBlock="true"
+                         CompanyId="@CompanyId"
+                         CompanyMenuId="@CompanyMenuId"                         
+                         OnConfirm="HandleFilterConfirm" />
+
+
+@code
+{
+    
+}

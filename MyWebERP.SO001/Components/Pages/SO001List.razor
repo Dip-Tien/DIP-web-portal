@@ -1,0 +1,360 @@
+﻿@page "/listso001/{CompanyMenuId}"
+
+@using MyWebERP.Model;
+
+@inherits SO001ListBase// ComponentBaseGrid2
+
+<style>
+    /*Đây là xử lý cái tab page chi tiết để cho nó không cao quá*/
+    .dxbl-tabs-content-panel {
+    height: 80% !important;
+    }
+</style>
+
+<div class="dock-header">
+    <DxToolbar ItemRenderStyleMode="ToolbarRenderStyleMode.Plain">
+        <DxToolbarItem>
+            <Template Context="toolbar_item_context">                
+
+                <div class="d-flex align-items-center gap-2">
+                    <DxTextBox ReadOnly="true"
+                    CssClass="selected-display-box"
+                    Text="@ListCompanyNameSelected"
+                    style="width:250px">
+                        <Buttons>
+                            @* <DxEditorButton Click="@(() => CompanySelectPopupVisible = true)"
+                                                IconCssClass="oi oi-magnifying-glass"
+                                                Position="EditorButtonPosition.Right" /> *@
+
+                            <DxEditorButton Click="@CompanySelectShow"
+                            IconCssClass="oi oi-magnifying-glass"
+                            Position="EditorButtonPosition.Right" />
+                        </Buttons>
+                    </DxTextBox>
+                </div>
+            </Template>
+        </DxToolbarItem>
+
+        <DxToolbarItem CssClass="grid-toolbar-period">
+            <Template Context="toolbar_item_context">
+                <DxComboBox Data="@ListPeriod"
+                TextFieldName="@nameof(PeriodItem.PeriodName)"
+                KeyFieldName="@nameof(PeriodItem.PeriodCode)"
+                @bind-Value="@SelectedPeriodItem"
+                SelectedItemChanged="@((PeriodItem item) => SelectedPeriodChanged(item))"
+                InputId="cbPeriod" />
+            </Template>
+        </DxToolbarItem>
+        <DxToolbarItem CssClass="grid-toolbar-date">
+            <Template Context="toolbar_item_context">
+                <DxDateEdit @bind-Date="@Date1"
+                DisplayFormat="dd/MM/yyyy"
+                Format="dd/MM/yyyy"
+                Mask="dd/MM/yyyy"
+                InputId="deDate1">
+                    <DxDateTimeMaskProperties CaretMode="@MaskCaretMode.Advancing" UpdateNextSectionOnCycleChange="true" />
+                    @* Phải có Mask thì caretmode mới chạy*@
+                </DxDateEdit>
+            </Template>
+        </DxToolbarItem>
+        <DxToolbarItem CssClass="grid-toolbar-date">
+            <Template Context="toolbar_item_context">
+                <DxDateEdit @bind-Date="@Date2"
+                DisplayFormat="dd/MM/yyyy"
+                Mask="dd/MM/yyyy"
+                Format="dd/MM/yyyy"
+                InputId="deDate2">
+                    @* Phải có Mask thì caretmode mới chạy*@
+                    <DxDateTimeMaskProperties CaretMode="@MaskCaretMode.Advancing" UpdateNextSectionOnCycleChange="true" />
+                </DxDateEdit>
+            </Template>
+        </DxToolbarItem>
+        <DxToolbarItem Text="Trang "></DxToolbarItem>
+        <DxToolbarItem Text="Trang" CssClass="grid-toolbar-page-no">
+            <Template Context="toolbar_item_context">
+                <DxComboBox Data="@Pages"
+                TData="int"
+                TValue="int"
+                @bind-Value="@pageNo"
+                CssClass="cw-60"
+                InputId="cbPageNo">
+                    <Buttons>
+                        <DxEditorButton IconCssClass="toolbar-icon-chevron-left"
+                        Tooltip="Trang trước"
+                        Click="@(_ => OnPrevPageButtonClick())" />
+                        <DxEditorButton IconCssClass="toolbar-icon-chevron-right"
+                        Tooltip="Trang sau"
+                        Click="@(_ => OnNextPageButtonClick())" />
+                    </Buttons>
+                </DxComboBox>
+            </Template>
+        </DxToolbarItem>
+
+        <DxToolbarItem Text=" / " />
+
+        <DxToolbarItem Enabled="false" CssClass="grid-toolbar-page-count">
+            <Template Context="toolbar_item_context">
+                <DxTextBox Text="@pageCountText" ReadOnly="true"></DxTextBox>
+            </Template>
+        </DxToolbarItem>
+
+        <DxToolbarItem Text="Số dòng">
+        </DxToolbarItem>
+
+        <DxToolbarItem Text="Số dòng" CssClass="grid-toolbar-page-size">
+            <Template Context="toolbar_item_context">
+                <DxComboBox Data="@PageSizes"
+                TData="int"
+                TValue="int"
+                @bind-Value="@pageSize"
+                CssClass="cw-80"
+                InputId="cbPageSize">
+                </DxComboBox>
+            </Template>
+        </DxToolbarItem>
+
+        <DxToolbarItem Text="Nạp" Click="RefreshItem_Click" IconCssClass="grid-toolbar-refresh" />
+
+        <DxToolbarItem CssClass="grid-toolbar-report_file" Visible="PrintPermission">
+            <Template Context="toolbar_item_context">
+
+                <DxComboBox Data="@menuVisibleReportFiles"
+                TextFieldName="@nameof(MenuReportFileItem.report_desc)"
+                KeyFieldName="@nameof(MenuReportFileItem.web_company_menu_report_file_id)"
+                @bind-Value="@SelectedReportFileItem"
+                InputId="cbPeriod" />
+            </Template>
+        </DxToolbarItem>
+        <DxToolbarItem Text="In" Click="PrintItem_Click" IconCssClass="grid-toolbar-print" Tooltip="In" Visible="PrintPermission" Enabled="@EditItemsEnabled" />
+        <DxToolbarItem Text="Xem" Click="PrintPreviewItem_Click" IconCssClass="grid-toolbar-print" Tooltip="Xem trước khi in" Visible="PrintPermission" Enabled="@EditItemsEnabled" />
+
+        <DxToolbarItem Text="Sửa mẫu" Click="ReportDesignerItem_Click" IconCssClass="grid-toolbar-edit" BeginGroup="true" Tooltip="Thiết kế mẫu in" Visible="ReportDesingerPermission" Enabled="@EditItemsEnabled" />
+        @* <DxToolbarItem Text="Thêm mẫu" Click="AddReportFileItem_Click" IconCssClass="grid-toolbar-edit" Tooltip="Thêm mẫu in mới vào phiếu" Visible="ReportDesingerPermission" /> *@
+
+        <DxToolbarItem Text="Thêm" Click="NewItem_Click" IconCssClass="grid-toolbar-new" BeginGroup="true" Visible="NewPermission"/>
+        <DxToolbarItem Text="Sửa" Click="EditItem_Click" IconCssClass="grid-toolbar-edit" Enabled="EditItemsEnabled" Visible="EditPermission"/>
+
+        <DxToolbarItem Text="Xóa" Click="DeleteItem_Click" IconCssClass="grid-toolbar-delete" Enabled="EditItemsEnabled" Visible="DeletePermission"/>
+
+        <DxToolbarItem Text="Chọn cột" BeginGroup="true" IconCssClass="grid-toolbar-column-chooser" Click="ColumnChooserItem_Click" />
+        <DxToolbarItem Text="Xuất dữ liệu" IconCssClass="grid-toolbar-export" BeginGroup="true">
+            <Items>
+                <DxToolbarItem Text="Ra CSV" Click="ExportCsvItem_Click" />
+                <DxToolbarItem Text="Ra XLSX" Click="ExportXlsxItem_Click" />
+                <DxToolbarItem Text="Ra XLS" Click="ExportXlsItem_Click" />
+            </Items>
+        </DxToolbarItem>
+        @*  <DxToolbarItem BeginGroup="true">
+                    <Template Context="toolbar_item_context">
+                        <DxSearchBox @bind-Text="GridSearchText" BindValueMode="BindValueMode.OnInput"
+                                        ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" aria-label="Search" />
+                    </Template>
+                </DxToolbarItem> *@
+    </DxToolbar>
+</div>
+
+<div class="dock-body">
+    <DxSplitter CssClass="main-splitter" Orientation="Orientation.Vertical">
+        <Panes>
+            <DxSplitterPane Size="60%" AllowCollapse="true" CssClass="default-splitter-pane">
+
+                @* <div class="h-100 grid-wrapper"> *@
+                <DxGrid @ref="Grid" 
+                Data="@Data"
+                KeyFieldName="@nameof(SO001Model.voucher_header_id)"
+                ColumnResizeMode="GridColumnResizeMode.ColumnsContainer"
+                GroupFooterDisplayMode="GridGroupFooterDisplayMode.Always"
+                CustomizeElement="Grid_CustomizeElement"
+                CssClass="default-grid"
+                VirtualScrollingEnabled="true"    
+                TextWrapEnabled="true"
+                FocusedRowEnabled="true"
+                HighlightRowOnHover="true"
+                FocusedRowChanged="Grid_FocusedRowChanged"
+                ShowFilterRow="true"
+                FooterDisplayMode="GridFooterDisplayMode.Always"
+                FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Always"
+                ShowAllRows="true"
+                        DetailRowDisplayMode="GridDetailRowDisplayMode"
+                        SearchText="@GridSearchText">
+                    <Columns>
+                        <DxGridDataColumn Width="25"
+                        TextAlignment="GridTextAlignment.Center"
+                        FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never" AllowSort="false">
+                            <CellDisplayTemplate>@(context.VisibleIndex + 1)</CellDisplayTemplate>
+                        </DxGridDataColumn>
+                        <DxGridDataColumn FieldName=@nameof(SO001Model.voucher_date) Width="100" Caption="Ngày CT" DisplayFormat="dd/MM/yyyy" />
+                        @* <DxGridDataColumn FieldName="@nameof(SO001Model.voucher_no)" Width="100" Caption="Số CT" /> *@
+
+                        <DxGridDataColumn Caption="Số đơn hàng">
+                            <CellDisplayTemplate Context="cellContext">
+                                @{
+                                    var orderId = ((SO001Model)cellContext.DataItem).voucher_header_id;
+                                    var orderNumber = cellContext.Value?.ToString();
+                                }
+                                <a href="#" @onclick="@(() => OnOrderClicked(orderId))" @onclick:preventDefault="true">
+                                    @orderNumber
+                                </a>
+                            </CellDisplayTemplate>
+                        </DxGridDataColumn>
+                        <DxGridDataColumn FieldName="@nameof(SO001Model.comment)" Width="200" Caption="Ghi chú" />
+                        <DxGridDataColumn FieldName="@nameof(SO001Model.amount_fc)" Width="120" Caption="Tiền hàng" TextAlignment="GridTextAlignment.Right" />
+                        <DxGridDataColumn FieldName=@nameof(SO001Model.discount_amount_fc) Width="100" Caption="Tiền CK" TextAlignment="GridTextAlignment.Right" />
+                        <DxGridDataColumn FieldName=@nameof(SO001Model.total_amount_fc) Width="120" Caption="Tổng tiền" TextAlignment="GridTextAlignment.Right"/>
+
+                        <DxGridDataColumn FieldName=@nameof(SO001Model.is_deleted)
+                        Caption="Xoá" Width="80" ReadOnly="true"
+                        TextAlignment="GridTextAlignment.Center"
+                        CaptionAlignment="GridTextAlignment.Center">
+                            <CellDisplayTemplate>
+                                <DxCheckBox Checked="@((Int16)context.Value == 1)" ReadOnly="true"/>
+                            </CellDisplayTemplate>
+                        </DxGridDataColumn>
+
+                        <DxGridDataColumn FieldName=@nameof(SO001Model.created_on_date) Width="140" Caption="Ngày tạo" DisplayFormat="dd/MM/yyyy HH:mm:ss" />
+                        <DxGridDataColumn FieldName="@nameof(SO001Model.created_by_display_name)" Width="140" Caption="Người tạo" />
+                        <DxGridDataColumn FieldName=@nameof(SO001Model.last_modified_on_date) Width="140" Caption="Ngày sửa" DisplayFormat="dd/MM/yyyy HH:mm:ss" />
+                        <DxGridDataColumn FieldName="@nameof(SO001Model.last_modified_by_display_name)" Width="140" Caption="Người sửa" />
+                    </Columns>
+                    <TotalSummary>
+                        <DxGridSummaryItem SummaryType="GridSummaryItemType.Count" FieldName="@nameof(SO001Model.voucher_no)" DisplayText="{0:N0} dòng" />
+                        <DxGridSummaryItem SummaryType="GridSummaryItemType.Sum" FieldName="@nameof(SO001Model.amount_fc)" DisplayText="{0:N0}" />
+                        <DxGridSummaryItem SummaryType="GridSummaryItemType.Sum" FieldName="@nameof(SO001Model.discount_amount_fc)" DisplayText="{0:N0}" />
+                        <DxGridSummaryItem SummaryType="GridSummaryItemType.Sum" FieldName="@nameof(SO001Model.total_amount_fc)" DisplayText="{0:N0}" />
+                    </TotalSummary>
+                </DxGrid>
+            </DxSplitterPane>
+
+            <DxSplitterPane AllowCollapse="true" CssClass="default-splitter-pane">
+                <DxTabs @bind-ActiveTabIndex="@ActiveTabIndex" CssClass="default-tab">
+                    <DxTabPage Text="Chi tiết">
+                        <DxGrid @ref="GridDetail"
+                        Data="@DataDetail"
+                        CssClass="default-grid"
+                        VirtualScrollingEnabled="true"
+                        KeyFieldName="@nameof(SO001DetailModel.voucher_detail_id)"
+                        ColumnResizeMode="GridColumnResizeMode.ColumnsContainer"
+                        CustomizeElement="Grid_CustomizeElement"
+                        TextWrapEnabled="true"
+                        FocusedRowEnabled="true"
+                        HighlightRowOnHover="true"
+                        ShowFilterRow="true"
+                        FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Always"
+                        ShowAllRows="true">
+                            <Columns>
+                                <DxGridDataColumn Width="25"
+                                TextAlignment="GridTextAlignment.Center"
+                                FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never" AllowSort="false">
+                                    <CellDisplayTemplate>@(context.VisibleIndex + 1)</CellDisplayTemplate>
+                                </DxGridDataColumn>
+                                <DxGridDataColumn FieldName=@nameof(SO001DetailModel.sku) Width="100" Caption="Mã VT" />
+                                <DxGridDataColumn FieldName="@nameof(SO001DetailModel.product_name)" Width="200" Caption="Tên VT" />
+                                <DxGridDataColumn FieldName="@nameof(SO001DetailModel.unit_name)" Width="70" Caption="ĐVT" />
+                                <DxGridDataColumn FieldName="@nameof(SO001DetailModel.quantity)" Width="70" Caption="SL" TextAlignment="GridTextAlignment.Right" />
+                                <DxGridDataColumn FieldName="@nameof(SO001DetailModel.price_fc)" Width="100" Caption="Đơn giá" TextAlignment="GridTextAlignment.Right" />
+                                <DxGridDataColumn FieldName="@nameof(SO001DetailModel.amount_fc)" Width="120" Caption="Tiền hàng" TextAlignment="GridTextAlignment.Right" />
+                                <DxGridDataColumn FieldName=@nameof(SO001DetailModel.discount_rate) Width="60" Caption="% CK" TextAlignment="GridTextAlignment.Right" />
+                                <DxGridDataColumn FieldName=@nameof(SO001DetailModel.discount_amount_fc) Width="100" Caption="Tiền CK" TextAlignment="GridTextAlignment.Right" />
+                                <DxGridDataColumn FieldName=@nameof(SO001DetailModel.total_amount_fc) Width="120" Caption="Tổng tiền" TextAlignment="GridTextAlignment.Right" />
+                                <DxGridDataColumn FieldName="@nameof(SO001DetailModel.comment)" Width="200" Caption="Ghi chú" />
+                            </Columns>
+                            <TotalSummary>
+                                <DxGridSummaryItem SummaryType="GridSummaryItemType.Count" FieldName="@nameof(SO001Model.voucher_no)" DisplayText="{0:N0} dòng" />
+                                <DxGridSummaryItem SummaryType="GridSummaryItemType.Sum" FieldName="@nameof(SO001Model.amount_fc)" DisplayText="{0:N0}" />
+                                <DxGridSummaryItem SummaryType="GridSummaryItemType.Sum" FieldName="@nameof(SO001Model.discount_amount_fc)" DisplayText="{0:N0}" />
+                                <DxGridSummaryItem SummaryType="GridSummaryItemType.Sum" FieldName="@nameof(SO001Model.total_amount_fc)" DisplayText="{0:N0}" />
+                            </TotalSummary>
+                        </DxGrid>
+                    </DxTabPage>
+                    @* <DxTabPage Text="Nhật ký xử lý">
+                </DxTabPage> *@
+                </DxTabs>
+            </DxSplitterPane>
+        </Panes>
+    </DxSplitter>
+</div>
+
+@if (menuItem != null)
+{
+    <SO001EditPopup @bind-Visible="@EditFormVisible"
+    CompanyId="@CompanyId"
+    EditDataId="@FocusedDataId"
+    MenuItem="@menuItem"
+    DataService="@DataService"
+    FormStatus="@EditFormStatus"
+    PopupClosed="@OnDataSubmit" />
+
+    <MyWebERP.Base.Components.Pages.REPORTING.ReportViewPopup
+    @bind-Visible="@ReportViewVisible"
+    MenuItem="@menuItem"
+    ReportParam="@ReportViewParam"
+    />
+}
+
+@* <DxPopup @bind-Visible="CompanySelectPopupVisible"  >
+    <FooterContentTemplate>
+        <DxButton CssClass="popup-button my-1 ms-2"
+                  RenderStyle="ButtonRenderStyle.Primary" Text="OK" Click="@context.CloseCallback" />
+    </FooterContentTemplate>
+</DxPopup> *@
+
+@* Tạm thời xử lý việc này bên pm *@
+@* @if (menuItem != null && menuItem.CheckPerission("EDIT_REPORT_FILE"))
+{
+    <MyWebERP.Components.Pages.REPORTFILE.MenuReportFileEditPopup
+        @bind-Visible = "@ReportFilePopupVisible"
+        CompanyId="@CompanyId"
+                                                                  EditDataId="@SelectedReportFileItem?.web_company_menu_report_file_id.ToString()"
+                                                                  MenuItem="@menuItem"
+                                                                  DataService="@DataService"
+                                                                  FormStatus="@ReportFileFormStatus"
+                                                                  PopupClosed="@ReportFileSubmit" />
+} *@
+
+<DxWindow @ref=windowRef
+AllowResize="true"
+ShowCloseButton="true"
+CloseOnEscape="true"
+HeaderText="@MyHeaderErrorMessage"
+FooterText="Footer"
+ShowFooter="true"
+Width="max(25vw, 250px)"
+MinWidth="300"
+MinHeight="200"
+MaxWidth="800"
+MaxHeight="500">
+    <BodyContentTemplate>
+        <div style="color:red">@MyErrorMessage</div>
+    </BodyContentTemplate>
+    <FooterContentTemplate>
+        <DxButton CssClass="popup-button my-1 ms-2"
+        RenderStyle="ButtonRenderStyle.Primary" Text="OK" Click="@context.CloseCallback" />
+    </FooterContentTemplate>
+</DxWindow>
+
+@* popup company *@
+<DxPopup @bind-Visible="@CompanySelectPopupVisible" 
+        Width="400px" 
+        ShowHeader = "true"
+        ShowFooter="true"
+        ShowCloseButton="true"
+         CloseOnEscape="true" Shown="OnCompanySelectPopupShown"
+        CloseOnOutsideClick="true">
+
+        <BodyContentTemplate>
+        <DxTreeView Data="@ListCompany"
+                    CheckAllVisible="true"
+                    CheckMode="TreeViewCheckMode.Multiple"
+                    CheckAllText="Chọn hết"
+                    CheckedChanged="@OnCompanyCheckedNodesChanged"
+                    @ref="treeViewCompany">
+            <DataMappings>
+                <DxTreeViewDataMapping Text="CompanyName" Key="CompanyId" ParentKey="ParentId" />
+            </DataMappings>
+        </DxTreeView>
+        </BodyContentTemplate>
+    <FooterContentTemplate>
+        <DxButton Text="Xác nhận" Click="@CompanyConfirmSelection" />
+        <DxButton Text="Hủy" Click="@CompanyCancelSelection" />
+    </FooterContentTemplate>
+</DxPopup>

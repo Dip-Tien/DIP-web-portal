@@ -1,0 +1,13 @@
+﻿@* @page "/mainthuchi/{CompanyMenuId}" *@
+@using MyWebERP.Model
+@using System.Dynamic
+@using MyWebERP.Base.Components.Pages
+
+
+<div>@CompanyMenuId</div>
+
+@code {
+
+    [Parameter]
+    public string CompanyMenuId { get; set; }
+}

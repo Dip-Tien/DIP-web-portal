@@ -1,0 +1,197 @@
+﻿@using Blazored.LocalStorage;
+@using MyWebERP.Data;
+@using MyWebERP.Services;
+@using MyWebERP.Model;
+@using System.Dynamic;
+@using DevExpress.Blazor
+@using MyWebERP.Base.Components.Pages
+
+@inherits ComponentBaseGrid2
+
+@code {
+    protected int ActiveTabIndex { get; set; } = 0;
+
+    public DxGrid GridDetail { get; set; }
+
+    protected SO001Model selectedModel;
+
+    protected List<SO001Model> Data { get; set; }
+    protected List<SO001DetailModel> DataDetail;
+    protected List<ProvinceLookupModel> ListProvince;
+    protected List<DistrictLookupModel> ListDistrict;
+    protected List<WardLookupModel> ListWard;
+    protected List<CustomerLookupModel> ListCustomer;
+
+    protected override async Task InitCfg()
+    {
+        await base.InitCfg();
+
+        ListCustomer = await DataService.LookupCode<CustomerLookupModel>(CompanyId, 1, CompanyMenuId, "CUST_LOOKUP");
+
+        ListProvince = await DataService.LookupCode<ProvinceLookupModel>(CompanyId, CompanyMenuId, "PROVINCE_LOOKUP");
+
+    }
+
+    protected override async Task DataAsync()
+    {
+        // string _sParam = "{\"company_id\":\"" + CompanyId + "\",\"data_code\":\"" + menuItem.DataCode + "\", \"page_size\":" + pageSize.ToString() + ", \"page_number\":" + pageNo + "}";
+
+        // APIResultDataModel resultData = await DataService.GetData(_sParam, menuItem.FetDataCode);
+
+        dynamic dParam = new System.Dynamic.ExpandoObject();
+        dParam.company_id = ListCompanyIdSelected;// CompanyId;
+        dParam.data_code = menuItem.DataCode;
+        dParam.page_size = pageSize;
+        dParam.page_number = pageNo;
+        dParam.date1 = Date1;
+        dParam.date2 = Date2;
+        dParam.company_menu_id = menuItem.CompanyMenuId;
+
+        APIResultDataModel resultData = await DataService.GetData(dParam, menuItem.FetDataCode);
+
+        if (resultData != null)
+        {
+            Pages.Clear();
+
+            int _iRowCount = resultData.count_of_items;
+
+            if (_iRowCount > 0)
+            {
+                Data = System.Text.Json.JsonSerializer.Deserialize<List<SO001Model>>(resultData.data_details.ToString());
+            }
+            else if (Data != null)
+            {
+                Data.Clear();
+                DataDetail.Clear();
+            }
+
+            this.SetPageInfo(_iRowCount);
+        }
+    }
+
+    protected override async Task Grid_FocusedRowChanged(GridFocusedRowChangedEventArgs args)
+    {
+        await base.Grid_FocusedRowChanged(args);
+
+        if (args.VisibleIndex > -1)
+        {
+            SO001Model header = Data[args.VisibleIndex];
+            DataDetail = header.details;
+        }
+        else
+        {
+            DataDetail = new List<SO001DetailModel>();
+        }
+    }
+
+    protected override async Task EditItem_Click()
+    {
+        if (Grid.GetFocusedDataItem() != null)
+        {
+            FocusedDataId = ((SO001Model)Grid.GetFocusedDataItem()).voucher_header_id;
+        }
+
+        await base.EditItem_Click();
+    }
+
+    protected async void Grid_CustomizeEditModel(GridCustomizeEditModelEventArgs e)
+    {
+        MyHeaderErrorMessage = "";
+        MyErrorMessage = "";
+
+        var _editItem = (SO001Model)e.EditModel;
+
+        if (e.IsNew)
+        {
+            _editItem.voucher_code = menuItem.DataCode;
+            _editItem.company_id = CompanyId;
+        }
+        else
+        {
+            // Lấy lại dữ liệu trước khi sửa.
+            string _sFetSingleParam = await MyLib.CreateFetSingleParam(CompanyId, Grid.KeyFieldName, _editItem.voucher_header_id);
+            APIResultModel _resultFetSingle = await DataService.CallMyApi(_sFetSingleParam, FetSingleAPICode);
+
+            if (_resultFetSingle.Status == 0)
+            {
+                string _sData = _resultFetSingle.Data.ToString();
+                SO001Model _editItemTmp = System.Text.Json.JsonSerializer.Deserialize<SO001Model>(_sData);
+                if (_editItemTmp != null)
+                {
+                    await MyLib.MapObject<SO001Model>(_editItem, _editItemTmp);
+                }
+            }
+        }
+    }
+
+    protected async Task SelectProvinceChanged(ProvinceLookupModel province)
+    {
+        // selectedProvince = province;
+        ListDistrict = await DataService.LookupCode<DistrictLookupModel>(CompanyId, 1, province.province_id, 0, CompanyMenuId, "DISTRICT_LOOKUP");
+        // selectedModel = "";
+        // selectedModel.ward_id = "";
+    }
+
+    protected async Task SelectDistictChanged(DistrictLookupModel district)
+    {
+        ListWard = await DataService.LookupCode<WardLookupModel>(CompanyId, 1, district.district_id, 0, CompanyMenuId, "WARD_LOOKUP");
+        // selectedModel.ward_id = "";
+    }
+
+    protected override async Task DeleteItem_Click()
+    {
+        // Chứng từ phải xử lý riêng ở đây, có thể sau cho vào 1 base khác chứ không dùng chung với danh mục được.
+        // Tự xử lý để ra hộp thoại Tiếng Việt
+        bool _blnConfirm = await DialogService.ConfirmAsync(new MessageBoxOptions()
+            {
+                Title = "Xác nhận xóa dữ liệu",
+                Text = "Quý khách có chắc chắn muốn xóa dòng này không?",
+                RenderStyle = MessageBoxRenderStyle.Danger,
+                OkButtonText = "Có",
+                CancelButtonText = "Không",
+            });
+
+        if (_blnConfirm == true)
+        {
+            string _sId = MyLib.GetPropertyValueOfObject(Grid.GetFocusedDataItem(), menuItem.IdColumnName);
+            string _sParam = await MyLib.CreateDeleteVoucherDataParam(LocalStorageService, Grid.KeyFieldName, _sId, 1);
+
+            APIResultModel _resultDel = await DataService.CallMyApiSimple(_sParam, DelAPICode);
+
+            if (_resultDel.Status != 0)
+            {
+                MyHeaderErrorMessage = "Lỗi xóa dữ liệu";
+                MyErrorMessage = _resultDel.StatusDetails;
+
+                await windowRef.ShowAsync();
+                return;
+            }
+
+            await DataAsync();
+        }
+    }
+
+    protected async Task OnDataSubmit(SO001Model model)
+    {
+        // Nạp lại
+        await DataAsync();
+
+        //Grid.SetFocusedRowIndex
+        SO001Model savedModel = Data.FirstOrDefault(x => x.voucher_header_id == model.voucher_header_id);
+        if (savedModel != null)
+        {
+            //Grid.SetFocusedRowIndex(Data.IndexOf(savedModel));
+            await Grid.SetFocusedDataItemAsync(savedModel);
+            DataDetail = savedModel.details;
+        }
+        else
+        {
+            DataDetail = Data.FirstOrDefault(x => x.voucher_header_id == model.voucher_header_id)?.details;
+        }
+    }
+
+    protected void OnOrderClicked(string orderId)
+    {
+        NavigationManager.NavigateTo($"/{menuItem.EditUrl}/VIEW/{orderId}");
+    }
+}

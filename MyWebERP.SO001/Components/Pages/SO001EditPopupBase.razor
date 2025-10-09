@@ -1,0 +1,109 @@
+﻿@using MyWebERP.Base.Components.Pages
+@using Blazored.LocalStorage;
+@using MyWebERP.Data;
+@using MyWebERP.Services;
+@using MyWebERP.Model;
+@using System.Dynamic;
+@using DevExpress.Blazor
+
+@inherits MyEditPopupBase
+
+@code {
+    protected readonly string FormId = "SO001EditSmallPopup";
+
+    [Parameter] public EventCallback<Model.SO001Model> PopupClosed { get; set; }
+
+    [Inject] protected IDialogService DialogService { get; set; }
+
+    protected string MyHeaderErrorMessage;
+
+    public DxWindow windowRef;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (FormStatus == Data.EditFormStatus.NEW)
+            FormTitle = "Thêm đơn hàng";
+        else
+            FormTitle = "Sửa đơn hàng";
+
+        FormTitle += $" Nhấn F10 hoặc (Ctrl + s) để lưu)";
+    }
+
+    protected async Task OnFormSubmitted(EditContext editContext)
+    {
+
+        var editModel = (Model.SO001Model)editContext.Model;
+
+        // Kiểm tra dữ liệu
+        if(editModel.details.Count(x => String.IsNullOrEmpty(x.sku_id)) > 0)
+        {
+            MyErrorMessage = "Xin vui lòng nhập đủ vật tư/sản phẩm.";
+            return;
+        }
+
+        if (editModel.details.Count(x => x.quantity == 0) > 0)
+        {
+            MyErrorMessage = "Xin vui lòng nhập đủ số lượng.";
+            return;
+        }
+
+        string sApiCode = FormStatus == Data.EditFormStatus.NEW ? MenuItem.InsDataCode:MenuItem.UpdDataCode;
+        Model.APIResultModel _resultIns = await DataService.CallMyApi(editModel, sApiCode);
+        // Lỗi
+        //Model.APIResultModel _resultIns = await DataService.CallMyApiSimple(editModel, sApiCode);
+
+        if (_resultIns.Status != 0)
+        {
+            MyErrorMessage = _resultIns.StatusDetails;
+
+            return;
+        }
+
+        FormStatus = EditFormStatus.VIEW;
+
+        var modelSaved = Newtonsoft.Json.JsonConvert.DeserializeObject<Model.SO001Model>(_resultIns.Data.ToString());
+
+        await VisibleChanged.InvokeAsync(false);
+        await PopupClosed.InvokeAsync(modelSaved);
+    }
+
+    protected override async Task NewItem_Click()
+    {
+        FormStatus = Data.EditFormStatus.NEW;
+    }
+    protected override async Task EditItem_Click()
+    {
+        FormStatus = Data.EditFormStatus.EDIT;
+    }
+    protected override async Task DeleteItem_Click()
+    {
+        bool _blnConfirm = await DialogService.ConfirmAsync(new MessageBoxOptions()
+            {
+                Title = "Xác nhận xóa dữ liệu",
+                Text = "Quý khách có chắc chắn muốn xóa dòng này không?",
+                RenderStyle = MessageBoxRenderStyle.Danger,
+                OkButtonText = "Có",
+                CancelButtonText = "Không",
+            });
+
+        if (_blnConfirm == true)
+        {
+            string _sId = EditDataId;
+            string _sParam = await MyLib.CreateDeleteVoucherDataParam(LocalStorageService, MenuItem.IdColumnName, _sId, 1);
+
+            APIResultModel _resultDel = await DataService.CallMyApiSimple(_sParam, MenuItem.DelDataCode);
+
+            if (_resultDel.Status != 0)
+            {
+                MyHeaderErrorMessage = "Lỗi xóa dữ liệu";
+                MyErrorMessage = _resultDel.StatusDetails;
+
+                await windowRef.ShowAsync();
+                return;
+            }
+        }
+
+        await VisibleChanged.InvokeAsync(false);
+        await PopupClosed.InvokeAsync(null);
+    }
+}

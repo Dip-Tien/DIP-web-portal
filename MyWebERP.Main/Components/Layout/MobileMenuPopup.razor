@@ -1,0 +1,145 @@
+﻿@using Microsoft.Extensions.Localization
+@using MyWebERP.Model
+@inject NavigationManager Navigation
+@inject IStringLocalizer L
+@inject IJSRuntime JS
+
+@* =============================================================
+   MobileMenuPopup – full‑screen mobile menu component
+   ✔ Sub‑menu navigation with animated slide transition
+   ✔ Fully localised via IStringLocalizer – use L["SomeKey"]
+   ✔ Two visual styles: "grid" (square icons) or "list"
+   ✔ Dark‑mode aware & accessible (focus trap + ARIA)
+   ✔ Supports IconUrl (/images/abc.svg) or IconCss for each MenuItem
+   ✔ Displays submenu count per parent item (badge or inline)
+   ============================================================= *@
+@if (IsVisible)
+{
+    <div class="mobile-menu-overlay" tabindex="0" role="dialog" aria-modal="true" @onkeydown="HandleKeyDown">
+        <div class="mobile-menu-container @MenuStyleClass animate-fade-in zoom-in" style="max-height:@MaxHeightPx; overflow-y:auto;">
+            <div class="menu-header d-flex align-items-center justify-content-between">
+                <div class="menu-left">
+                    @if (MenuStack.Count > 0)
+                    {
+                        <button class="btn-back btn btn-link text-white p-0" @onclick="BackToPreviousLevel" aria-label="@L["Quay lại"]">
+                            <i class="fas fa-arrow-left me-2"></i>@L["Quay lại"]
+                        </button>
+                    }
+                </div>
+                <div class="menu-center flex-grow-1 text-center">
+                    @if (CurrentParent != null)
+                    {
+                        <span class="menu-title fade-title @FadeTitleClass">@L[CurrentParent.MenuName]</span>
+                    }
+                </div>
+                <div class="menu-right">
+                    <button class="btn-close btn btn-link text-white p-0" @onclick="CloseMenu" aria-label="Close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="menu-grid @SlideDirectionClass">
+                @foreach (var item in CurrentItems)
+                {
+                    <div class="menu-item slide-level" tabindex="0" @onclick="() => OnItemClick(item)">
+                        <div class="item-main d-flex @MenuStyleClass position-relative">
+                            <div class="icon-container">
+                                @if (!string.IsNullOrEmpty(item.IconUrl))
+                                {
+                                    <img src="@item.IconUrl" alt="@item.MenuName" class="@item.IconCss" />
+                                }
+                                else if (!string.IsNullOrEmpty(item.IconCss))
+                                {
+                                    <i class="@item.IconCss" aria-hidden="true"></i>
+                                }
+                                @if (MenuStyleClass == "square-style" && item.Children?.Any() == true)
+                                {
+                                    <span class="submenu-badge-grid">@item.Children.Count</span>
+                                }
+                            </div>
+                            <div class="label flex-grow-1 ms-2">@L[item.MenuName]</div>
+                            @if (MenuStyleClass == "list-style" && item.Children?.Any() == true)
+                            {
+                                <div class="submenu-indicator d-flex align-items-center ms-auto">
+                                    <span class="submenu-badge me-1">@item.Children.Count</span>
+                                    <i class="fas fa-chevron-right submenu-arrow"></i>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public List<MenuItem> MenuItems { get; set; } = new();
+    [Parameter] public EventCallback<bool> IsVisibleChanged { get; set; }
+    [Parameter] public bool IsVisible { get; set; }
+    [Parameter] public string MenuStyle { get; set; } = "grid";
+
+    private List<MenuItem> CurrentItems = new();
+    private Stack<(List<MenuItem> Items, MenuItem? Parent)> MenuStack = new();
+    private MenuItem? CurrentParent;
+    private string MenuStyleClass => MenuStyle == "list" ? "list-style" : "square-style";
+    private string SlideDirectionClass = "animate-slide-in";
+    private string FadeTitleClass = "fade-up";
+    private string MaxHeightPx => Math.Min(100 + CurrentItems.Count * 64, 600) + "px";
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (IsVisible)
+        {
+            CurrentItems = MenuItems;
+            CurrentParent = null;
+            SlideDirectionClass = "animate-slide-in";
+            FadeTitleClass = "fade-up";
+            await JS.InvokeVoidAsync("menuPopup.lockBody", true);
+        }
+        else
+        {
+            await JS.InvokeVoidAsync("menuPopup.lockBody", false);
+        }
+    }
+
+    private void OnItemClick(MenuItem item)
+    {
+        if (item.Children?.Any() == true)
+        {
+            MenuStack.Push((CurrentItems, CurrentParent));
+            CurrentItems = item.Children;
+            CurrentParent = item;
+            SlideDirectionClass = "animate-slide-in";
+            FadeTitleClass = "fade-up";
+        }
+        else if (!string.IsNullOrWhiteSpace(item.Url))
+        {
+            Navigation.NavigateTo(item.Url);
+            CloseMenu();
+        }
+    }
+
+    private void BackToPreviousLevel()
+    {
+        if (MenuStack.Count > 0)
+        {
+            var (prevItems, prevParent) = MenuStack.Pop();
+            CurrentItems = prevItems;
+            CurrentParent = prevParent;
+            SlideDirectionClass = "animate-slide-out";
+            FadeTitleClass = "fade-down";
+        }
+    }
+
+    private async void CloseMenu()
+    {
+        if (IsVisibleChanged.HasDelegate)
+            await IsVisibleChanged.InvokeAsync(false);
+    }
+
+    private void HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Escape") CloseMenu();
+    }
+}

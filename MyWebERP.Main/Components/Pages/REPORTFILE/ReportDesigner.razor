@@ -1,0 +1,55 @@
+﻿@page "/reportdesigner/{ReportParam}"
+
+@using DevExpress.Blazor.Reporting;
+@using DevExpress.DataAccess.ObjectBinding
+@inject MyWebERP.Services.IDataService DataService;
+
+<PageTitle>@PageTitle</PageTitle>
+
+<DxReportDesigner ReportName="@ReportEntry" Height="calc(100vh - 130px)" Width="100%" AllowMDI="true" DataSources="DataSources">
+    <DxReportDesignerWizardSettings UseFullscreenWizard="true" />
+</DxReportDesigner>
+
+@code {
+    public Dictionary<string, object> DataSources { get; set; } = new Dictionary<string, object>();
+
+    [Parameter]
+    public string ReportParam { get; set; }
+    public string ReportEntry { get; set; }
+
+    public string PageTitle;
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        return base.OnAfterRenderAsync(firstRender);
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        Model.ReportViewParamItem paramItem = await MyWebERP.Data.MyLib.Base642Object<Model.ReportViewParamItem>(ReportParam);
+
+        ReportEntry = Newtonsoft.Json.JsonConvert.SerializeObject(paramItem);
+
+        PageTitle = $"My BMS / Thiết kế mẫu: {paramItem.view_param.FirstOrDefault(x => x.Key == "report_title").Value}";
+    }
+
+    // protected override void OnParametersSet()
+    // {
+    //     Dictionary<string, object> param = new Dictionary<string, object>();
+    //     if(IsVoucher == "1")
+    //     {
+    //         param.Add("voucher_header_id", ListId);
+    //     }
+
+    //     Model.ReportViewParamItem paramItem = new Model.ReportViewParamItem()
+    //         {
+    //             report_file_id = ReportFileId,
+    //             company_id = CompanyId,
+    //             company_menu_id = CompanyMenuId,
+    //             param = param,
+    //             is_voucher = (IsVoucher == "1")
+    //         };
+
+    //     ReportEntry = Newtonsoft.Json.JsonConvert.SerializeObject(paramItem);
+    // }
+}

@@ -1,0 +1,57 @@
+is_global = true
+build_property.TargetFramework = net9.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = MyWebERP.SKU
+build_property.RootNamespace = MyWebERP.SKU
+build_property.ProjectDir = D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.SKU\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 9.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.SKU
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 9.0
+build_property.EnableCodeStyleSeverity = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.SKU/Components/Pages/ApartmentGrid.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xBcGFydG1lbnRHcmlkLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.SKU/Components/Pages/SKU001ListBase.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xTS1UwMDFMaXN0QmFzZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.SKU/Components/Pages/SKU001ListGrid.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xTS1UwMDFMaXN0R3JpZC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.SKU/Components/Pages/SKU001List_new.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xTS1UwMDFMaXN0X25ldy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.SKU/Components/Pages/SKU0Edit.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xTS1UwRWRpdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.SKU/Components/Pages/SKU0EditPopup.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xTS1UwRWRpdFBvcHVwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.SKU/Components/Pages/SKU0List.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xTS1UwTGlzdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.SKU/Components/Pages/SKU0List_bak.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xTS1UwTGlzdF9iYWsucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.SKU/Components/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xfSW1wb3J0cy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 

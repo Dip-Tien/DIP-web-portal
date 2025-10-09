@@ -1,0 +1,136 @@
+﻿@using MyWebERP.Model
+@using Microsoft.AspNetCore.Components.Authorization
+
+@inherits MenuBase
+@inject NavigationManager NavigationManager
+
+@*Phải có dòng này mới expand được node cha. Để ở main layout bị lỗi*@
+@rendermode InteractiveServer
+
+@* Không dùng, tạm để đây lỡ cần*@
+
+<DxLayoutBreakpoint DeviceSize="DeviceSize.XSmall" @bind-IsActive="@isXSmallScreenX" />
+﻿
+<div id="sidebar">
+    <CascadingAuthenticationState>
+        <AuthorizeView>
+            <Authorized>
+                @if (isXSmallScreenX)
+                {
+                    <DxMenu Data="@MyMenuItems" Orientation="@Orientation.Vertical"
+                            CssClass="menu" ItemsPosition="ItemPosition.Start">
+                        <DataMappings>
+                            <DxMenuDataMapping Text="MenuName"
+                                               Children="Children"
+                                               BeginGroup="BeginGroup"
+                                               Target="Target"
+                                               IconUrl="IconUrl"
+                                               IconCssClass="IconCss"
+                                               CssClass="CssClass"
+                                               NavigateUrl="@MenuUrlFieldName()"
+                                               Enabled="Enabled" />
+                        </DataMappings>
+                    </DxMenu>
+                }
+                else
+                {
+                    <DxTreeView Data="@MyMenuItems" @ref="treeView"
+                        AllowSelectNodes="true"
+                                ShowExpandButtons="@(!ToggledSidebar)"
+                                NodeClick="OnNodeClick"
+                                AnimationType="LayoutAnimationType.Slide">
+
+                        <DataMappings>
+                            <DxTreeViewDataMapping Text="MenuName"
+                                                    NavigateUrl="@MenuUrlFieldName()"
+                                                    IconCssClass="IconCss"
+                                                    IconUrl="IconUrl"
+                                                    CssClass="CssClass"
+                                                    Target="Target"
+                                                    Enabled="Enabled"
+                                                    Children="Children" />
+                        </DataMappings>
+                    </DxTreeView>
+                }
+            </Authorized>
+            <NotAuthorized>
+                <DxMenu Orientation="@Orientation.Vertical" CssClass="menu">
+                    <Items>
+                        <DxMenuItem NavigateUrl="/" Text="Home" CssClass="menu-item" IconCssClass="icon home-icon"></DxMenuItem>
+                        <DxMenuItem Text="Components" IconCssClass="menu-icon-products menu-icon">
+                            <Items>
+                                <DxMenuItem Text="Blazor" />
+                                <DxMenuItem Text="ASP.NET MVC" />
+                                <DxMenuItem Text="ASP.NET Web Forms" />
+                                <DxMenuItem Text="ASP.NET Core" />
+                                <DxMenuItem Text="Bootstrap Web Forms" />
+                            </Items>
+                        </DxMenuItem>
+                    </Items>
+                </DxMenu>
+            </NotAuthorized>
+        </AuthorizeView>
+    </CascadingAuthenticationState>    
+</div>
+@code
+{
+    [SupplyParameterFromQuery(Name = UrlGenerator.ToggleSidebarName)]
+    public bool ToggledSidebar { get; set; }
+
+    DxTreeView treeView;
+    ITreeViewNodeInfo nodeInfoSelected;
+    // List<string> ListExpandedText = new List<string>();
+
+    void OnNodeClick(TreeViewNodeClickEventArgs args)
+    {
+        var _nodeSelected = args.NodeInfo;
+
+        treeView.SetNodeExpanded((n) => ((MenuItem)n.DataItem).CompanyMenuId == ((MenuItem)_nodeSelected.DataItem).CompanyMenuId, !_nodeSelected.Expanded);
+        if (ToggledSidebar)
+        {
+            // Gọi lại link mở menu            
+            var newUri = UrlGenerator.GetUrl(new Uri(NavigationManager.Uri).LocalPath, false);
+            NavigationManager.NavigateTo(newUri, false);
+        }
+    }
+
+    protected override void OnParametersSet()
+    {
+        if (treeView != null)
+        {
+            if (ToggledSidebar)
+            {
+                // Lấy không chính xác
+                // ListExpandedText = treeView.GetNodesInfo(n => n.Expanded == true)
+                //     .Select(x => x.Text)
+                //     .ToList();
+
+                nodeInfoSelected = treeView.GetSelectedNodeInfo();
+
+                treeView.CollapseAll();
+            }
+            else if(nodeInfoSelected != null)
+            {
+                if (nodeInfoSelected.Parent != null)
+                {
+                    treeView.SetNodeExpanded((n) => ((MenuItem)n.DataItem).CompanyMenuId == ((MenuItem)nodeInfoSelected.Parent.DataItem).CompanyMenuId, true);
+                }
+                else
+                {
+                    treeView.SetNodeExpanded((n) => ((MenuItem)n.DataItem).CompanyMenuId == ((MenuItem)nodeInfoSelected.DataItem).CompanyMenuId, true);
+                }
+            }
+        }
+    }
+
+
+    // public class NavItem
+    // {
+    //     public string Text { get; set; }
+    //     public string Url { get; set; }
+    //     public string CssClass { get; set; }
+    //     public string IconCssClass { get; set; }
+    //     public List<NavItem> Children { get; set; } = new();
+    // }
+}
+

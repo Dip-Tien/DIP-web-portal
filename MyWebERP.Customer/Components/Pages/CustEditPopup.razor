@@ -1,0 +1,88 @@
+﻿@using MyWebERP.Base.Components.Pages
+
+@inherits MyEditPopupBase
+
+<DxLayoutBreakpoint DeviceSize="DeviceSize.XSmall" @bind-IsActive="@isXSmallScreen" />
+
+<DxPopup Visible="@Visible"
+    CloseOnOutsideClick="false"
+    ShowFooter="true"
+    HeaderText=@FormTitle
+    Width="@PopupWidth"
+    VisibleChanged="@VisibleChanged">
+    <BodyContentTemplate>
+        <div class="popup-body-scroll">
+            @if(isXSmallScreen)
+            {
+                <CustEditSmall FormId="@FormId"
+                             FormSubmitted="@OnFormSubmitted"
+                             CompanyId="@CompanyId"
+                             EditDataId="@EditDataId"
+                             FormStatus="@FormStatus"
+                             MenuItem="@MenuItem"
+                             LocalStorageService="@LocalStorageService"
+                DataService="@DataService" />
+            }
+            else
+            {
+                <CustEditLarge FormId="@FormId"
+                             FormSubmitted="@OnFormSubmitted"
+                             CompanyId="@CompanyId"
+                             EditDataId="@EditDataId"
+                             FormStatus="@FormStatus"
+                             MenuItem="@MenuItem"
+                             LocalStorageService="@LocalStorageService"
+                             DataService="@DataService" />
+            }
+        </div>
+    </BodyContentTemplate>
+    <FooterContentTemplate>
+        @if (String.IsNullOrEmpty(MyErrorMessage) == false)
+        {
+            <div style="color:red">@MyErrorMessage</div>
+        }
+        <DxButton CssClass="popup-button my-1 ms-2"
+        RenderStyle="ButtonRenderStyle.Primary"
+        Text="@(isXSmallScreen?Language["Lưu"]: $"{Language["lưu"]} (Ctrl + S)")"
+                  Id="btnSubmit"
+        SubmitFormOnClick="true"
+        form="@FormId" />
+        <DxButton CssClass="popup-button my-1 ms-2"
+        RenderStyle="ButtonRenderStyle.Secondary"
+        Text="@Language["Hủy"]"
+        Click="@(async() => await VisibleChanged.InvokeAsync(false))" />
+    </FooterContentTemplate>
+</DxPopup>
+
+@code {
+    readonly string FormId = "CustEditPopup";    
+    [Parameter] public EventCallback<Model.CustomerModel> PopupClosed { get; set; }
+    [Parameter] public string PopupWidth { get; set; } = "70vw"; // default desktop
+
+    protected override void OnParametersSet()
+    {
+        if (FormStatus == Data.EditFormStatus.NEW)
+            FormTitle = Language["Thêm khách hàng"];
+        else
+            FormTitle = Language["Sửa khách hàng"];
+    }
+
+    async Task OnFormSubmitted(EditContext editContext) {
+        var custCagegory = (Model.CustomerModel)editContext.Model;
+
+        string sApiCode = FormStatus == Data.EditFormStatus.NEW ? MenuItem.InsDataCode: MenuItem.UpdDataCode;
+        Model.APIResultModel _resultIns = await DataService.CallMyApi(custCagegory, sApiCode);
+
+        if (_resultIns.Status != 0)
+        {
+            MyErrorMessage = _resultIns.StatusDetails;
+
+            return;
+        }
+
+        var customerSaved = Newtonsoft.Json.JsonConvert.DeserializeObject<Model.CustomerModel>(_resultIns.Data.ToString());
+
+        await VisibleChanged.InvokeAsync(false);
+        await PopupClosed.InvokeAsync(customerSaved);
+    }
+}

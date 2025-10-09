@@ -1,0 +1,76 @@
+﻿@using DevExpress.Blazor
+@inject IJSRuntime JS
+
+@typeparam TItem
+@typeparam TValue
+
+@* <div class="position-relative" style="display:inline-block;">
+    <DxTextBox ReadOnly="true"
+               Text="@DisplayText"
+               Width="@Width"
+               @ref="textBoxRef">
+        <Buttons>
+            <DxEditorButton IconCssClass="@Icon"
+                            Click="@ShowPopup" />
+        </Buttons>
+    </DxTextBox>
+</div>
+
+@if (showPopup)
+{
+    <div class="custom-popup"
+         style="position: absolute; z-index: 9999; background-color: white; border: 1px solid #ccc; width:@Width;"
+         @ref="popupRef">
+        <DxListBox TData="@TItem"
+                   TValue="@TItem"
+                   Data="@Data"
+                   SelectionMode="ListBoxSelectionMode.Multiple"
+                   @bind-Values="@SelectedValues"
+                   TextFieldName="@TextField"
+                   ValueFieldName="@ValueField"
+                   Width="100%" />
+        <DxButton Text="Chọn" Click="@ConfirmSelection" CssClass="m-2" />
+    </div>
+} *@
+
+@code {
+    // [Parameter] public IEnumerable<TItem> Data { get; set; } = [];
+    // [Parameter] public string TextField { get; set; } = "Name";
+    // [Parameter] public string ValueField { get; set; } = "Id";
+    // [Parameter] public IEnumerable<TValue>? SelectedValues { get; set; }
+    // [Parameter] public EventCallback<IEnumerable<TValue>> SelectedValuesChanged { get; set; }
+
+    // [Parameter] public string Placeholder { get; set; } = "Chọn giá trị";
+    // [Parameter] public string Width { get; set; } = "250px";
+    // [Parameter] public string Icon { get; set; } = "oi oi-magnifying-glass";
+
+    // private bool showPopup = false;
+    // private DxTextBox textBoxRef;
+    // private ElementReference popupRef;
+
+    // private string DisplayText =>
+    //     Data?.Where(item => SelectedValues?.Contains(GetValue(item)) == true)
+    //          .Select(GetText)
+    //          .DefaultIfEmpty(Placeholder)
+    //          .Aggregate((a, b) => $"{a}, {b}");
+
+    // private async Task ShowPopup()
+    // {
+    //     showPopup = true;
+    //     await Task.Delay(50);
+    //     await JS.InvokeVoidAsync("positionPopupUnder", textBoxRef, popupRef);
+    // }
+
+    // private async Task ConfirmSelection()
+    // {
+    //     showPopup = false;
+    //     if (SelectedValuesChanged.HasDelegate)
+    //         await SelectedValuesChanged.InvokeAsync(SelectedValues);
+    // }
+
+    // private object? GetValue(TItem item) =>
+    //     typeof(TItem).GetProperty(ValueField)?.GetValue(item);
+
+    // private string GetText(TItem item) =>
+    //     typeof(TItem).GetProperty(TextField)?.GetValue(item)?.ToString() ?? "";
+}

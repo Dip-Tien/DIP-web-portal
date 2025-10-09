@@ -1,0 +1,63 @@
+﻿@using Blazored.LocalStorage;
+@using Model;
+@using Data;
+@using MyWebERP.Data;
+
+@code {
+    protected string MyErrorMessage = "";
+    /// <summary>
+    /// Để dùng hộp thoại nếu cần.
+    /// </summary>
+    [Inject] protected IDialogService DialogService { get; set; }
+
+    [Parameter] public EventCallback<EditContext> FormSubmitted { get; set; }
+
+    [Parameter] public string FormId { get; set; }
+    [Parameter] public string CompanyId { get; set; }
+    [Parameter] public MenuItem MenuItem { get; set; }
+
+    [Parameter] public ILocalStorageService LocalStorageService { get; set; }
+    [Parameter] public Services.IDataService DataService { get; set; }
+
+    [Parameter] public EventCallback<string> CompanyIdChanged { get; set; }
+    [Parameter] public EventCallback<EditFormStatus> FormStatusChanged { get; set; }
+
+    [Parameter] public EventCallback<string> EditDataIdChanged { get; set; }
+    [Parameter] public EventCallback<MenuItem> MenuItemChanged { get; set; }
+
+    protected List<LookupItem> ListLookup;
+
+    protected Boolean CheckLookupEdit(string sLookupName)
+    {
+        if (ListLookup == null || ListLookup.Count == 0)
+        {
+            return false;
+        }
+
+        LookupItem lookupItem = ListLookup.FirstOrDefault(x => x.sp_code == sLookupName);
+
+        if (lookupItem == null || string.IsNullOrEmpty(lookupItem.upd_data_code))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    protected Boolean CheckLookupAddNew(string sLookupName)
+    {
+        if (ListLookup == null || ListLookup.Count == 0)
+        {
+            return false;
+        }
+
+        LookupItem lookupItem = ListLookup.FirstOrDefault(x => x.sp_code == sLookupName);
+
+        if (lookupItem == null || string.IsNullOrEmpty(lookupItem.ins_data_code))
+        {
+            return false;
+        }
+
+        return true;
+    }
+}

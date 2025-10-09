@@ -1,0 +1,349 @@
+﻿@* @page "/report/sorptthdtthang/{CompanyMenuId}" *@
+
+@using MyWebERP.Model
+@using MyWebERP.Data
+@using System.Dynamic
+@using MyWebERP.Base.Components.Pages
+
+@inject Microsoft.Extensions.Localization.IStringLocalizer Lang
+
+@inherits ReportComponentChartBase<BieuDoTHDTThangModel>
+
+<DxLayoutBreakpoint DeviceSize="DeviceSize.XSmall" @bind-IsActive="@isXSmallScreen" />
+
+@if (isXSmallScreen)
+{
+    @* <div class="d-flex justify-content-between align-items-center p-2 border rounded shadow-sm" > *@
+        <div class="row">
+
+        @* <!-- Bên trái -->
+        <div class="d-flex flex-column">
+            <!-- Link chọn ngày -->
+            <a href="#" class="text-primary fw-bold small" @onclick="filterPopupShow">
+                Từ @Date1.ToString("dd/MM/yyyy") → @Date2.ToString("dd/MM/yyyy")
+            </a>
+
+            <!-- Link chọn loại báo cáo -->
+            <a href="#" class="text-primary small mt-1" @onclick="chartTypeSelectPopupShow">
+                @SelectedChartType.ToString()
+            </a>
+        </div> *@
+
+        <div class="col-7 d-flex div-padding-0">
+            <a href="#" class="text-primary fw-bold small" @onclick="filterPopupShow">
+                @Lang["Từ"] @Date1.ToString("dd/MM/yyyy") → @Date2.ToString("dd/MM/yyyy")
+            </a>
+        </div>
+
+        <div class="col-3 d-flex div-padding-0">
+            <DxComboBox Data="@ListChartType"
+                        CssClass="default-control-size"
+                        TData="ChartType"
+                        TValue="ChartType"
+                        @bind-Value="@SelectedChartType"
+                        SelectedItemChanged="@((ChartType item) => SelectedChartTypeChanged(item))"
+                        InputId="cbChartType" />
+        </div>
+        <!-- Bên phải: Nút Nạp -->
+        <div class="col-2 d-flex div-padding-0">
+            <DxButton Click="RefreshItem_Click"
+                      CssClass="button-icon-gap default-control-size"
+                      RenderStyleMode="ButtonRenderStyleMode.Outline">
+                @*Icon*@
+                <RefreshIcon Size="32" />
+            </DxButton>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row" style="width:100%">
+        <DxToolbar ItemRenderStyleMode="ToolbarRenderStyleMode.Plain">
+
+            @* <DxToolbarItem CssClass="grid-toolbar-company-main-chart">
+                <Template Context="toolbar_item_context">
+
+                    <div class="d-flex align-items-center gap-2">
+                        <DxTextBox ReadOnly="true"
+                                   CssClass="selected-display-box"
+                                   Text="@ListCompanyNameSelected">
+                            <Buttons>
+                                <DxEditorButton Click="@CompanySelectShow"
+                                                IconCssClass="oi oi-magnifying-glass"
+                                                Position="EditorButtonPosition.Right" />
+                            </Buttons>
+                        </DxTextBox>
+                    </div>
+                </Template>
+            </DxToolbarItem> *@
+            <DxToolbarItem CssClass="grid-toolbar-period">
+                <Template Context="toolbar_item_context">
+                    <DxComboBox Data="@ListPeriod"
+                    TextFieldName="@nameof(PeriodItem.PeriodName)"
+                    KeyFieldName="@nameof(PeriodItem.PeriodCode)"
+                    @bind-Value="@SelectedPeriodItem"
+                    SelectedItemChanged="@((PeriodItem item) => SelectedPeriodChanged(item))"
+                    InputId="cbPeriod" />
+                </Template>
+            </DxToolbarItem>
+            <DxToolbarItem CssClass="grid-toolbar-date">
+                <Template Context="toolbar_item_context">
+                    <DxDateEdit @bind-Date="@Date1"
+                    DisplayFormat="dd/MM/yyyy"
+                    Format="dd/MM/yyyy"
+                    Mask="dd/MM/yyyy"
+                    InputId="deDate1">
+                        <DxDateTimeMaskProperties CaretMode="@MaskCaretMode.Advancing" UpdateNextSectionOnCycleChange="true" />
+                    </DxDateEdit>
+
+                </Template>
+            </DxToolbarItem>
+            <DxToolbarItem CssClass="grid-toolbar-date">
+                <Template Context="toolbar_item_context">
+                    <DxDateEdit @bind-Date="@Date2"
+                    DisplayFormat="dd/MM/yyyy"
+                    Mask="dd/MM/yyyy"
+                    Format="dd/MM/yyyy"
+                    InputId="deDate2">
+                        <DxDateTimeMaskProperties CaretMode="@MaskCaretMode.Advancing" UpdateNextSectionOnCycleChange="true" />
+                    </DxDateEdit>
+                </Template>
+            </DxToolbarItem>
+            <DxToolbarItem Text="Nạp" Click="RefreshItem_Click" IconCssClass="grid-toolbar-refresh" />
+
+            <DxToolbarItem>
+                <Template Context="toolbar_item_context">
+                    <DxComboBox Data="@ListChartType"
+                            TData="ChartType"
+                            TValue="ChartType"
+                            @bind-Value="@SelectedChartType"
+                            SelectedItemChanged="@((ChartType item) => SelectedChartTypeChanged(item))"
+                            InputId="cbChartType" />
+                </Template>
+            </DxToolbarItem>
+        </DxToolbar>
+    </div>
+}
+
+
+@* <div class="row">
+    <div class="col-12">
+        Tổng cộng: @TotalAmount.ToString("N0")
+    </div>
+</div> *@
+<DxChart T="BieuDoTHDTThangModel" Height="35vh"
+         Data="@Data" @ref="Chart" CssClass="main-dashboard-chart">
+
+    <DxChartValueAxis>
+        <DxChartValueAxis>
+            <DxChartAxisTitle Text= "@Lang["Tỷ đồng"]" />
+        </DxChartValueAxis>
+    </DxChartValueAxis>
+
+    @switch(SelectedChartType)
+    {
+        case ChartType.Line:
+            <DxChartLineSeries Name="@Title"
+                               T="BieuDoTHDTThangModel"
+                               TArgument="string"
+                               TValue="decimal"
+                               ArgumentField="x => x.m_cap"
+            ValueField="x => x.amount" />
+            break;
+        case ChartType.Bar:
+        default:
+            <DxChartBarSeries Name="@Title"
+                              T="BieuDoTHDTThangModel"
+                              TArgument="string"
+                              TValue="decimal"
+                              ArgumentField="x => x.m_cap"
+                              ValueField="x => x.amount" />
+            break;
+    }
+
+    @foreach (var item in Data)
+    {
+        <DxChartAnnotation Argument="@item.m_cap"
+                           Value="@item.amount"
+                           Text="@FormatTooltipValue(item.amount)"
+                           Type="ChartAnnotationType.Text" />
+    }
+
+    @*Để song song với DxChartAnnotation ở trên thì dễ sinh lỗi khi di chuột nên tắt đi*@
+    @* <DxChartTooltip Enabled="@(!isXSmallScreen)"
+                    Position="RelativePosition.Outside">
+        <div style="margin: 0.75rem">
+            <div class="fw-bold">@context.Point.Argument</div>
+            <div>@($"{context.Point.Value:N0}")</div>
+        </div>
+    </DxChartTooltip> *@
+</DxChart>
+
+<DxPopup @bind-Visible="@FilterPopupVisible"
+         Width="@(isXSmallScreen?"90vw":"600px")"
+         ShowHeader="true"
+         ShowFooter="true"
+         ShowCloseButton="true"
+         CloseOnEscape="true"
+         HeaderText="Chọn điều kiện lọc"
+         CloseOnOutsideClick="false">
+    <BodyContentTemplate Context="dd_status_context">
+        <div class="row">
+            <div class="col-12 div-toolbar my-row-height">
+                <DxComboBox Data="@ListPeriod"
+                            CssClass="default-control-size"
+                            TextFieldName="@nameof(PeriodItem.PeriodName)"
+                            KeyFieldName="@nameof(PeriodItem.PeriodCode)"
+                            @bind-Value="@SelectedPeriodItem"
+                            SelectedItemChanged="@((PeriodItem item) => SelectedPeriodChanged(item))"
+                            InputId="cbPeriod" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 div-toolbar my-row-height">
+                <DxDateEdit @bind-Date="@Date1"
+                            DisplayFormat="dd/MM/yyyy"
+                            Format="dd/MM/yyyy"
+                            Mask="dd/MM/yyyy"
+                            CssClass="default-control-size"
+                            InputId="deDate1">
+                    <DxDateTimeMaskProperties CaretMode="@MaskCaretMode.Advancing" UpdateNextSectionOnCycleChange="true" />
+                </DxDateEdit>
+            </div>
+            <div class="col-6 div-toolbar my-row-height">
+                <DxDateEdit @bind-Date="@Date2"
+                            DisplayFormat="dd/MM/yyyy"
+                            Mask="dd/MM/yyyy"
+                            Format="dd/MM/yyyy"
+                            CssClass="default-control-size"
+                            InputId="deDate2">
+                    <DxDateTimeMaskProperties CaretMode="@MaskCaretMode.Advancing" UpdateNextSectionOnCycleChange="true" />
+                </DxDateEdit>
+            </div>
+        </div>
+    </BodyContentTemplate>
+    <FooterContentTemplate>
+        <DxButton Text="@Lang["Áp dụng"]" Click="@filterApply" />
+        <DxButton Text="@Lang["Hủy"]" Click="@filterPopupCancel" />
+    </FooterContentTemplate>
+</DxPopup>
+
+<DxPopup @bind-Visible="@ChartTypeSelectPopupVisible"
+         Width="@(isXSmallScreen?"90vw":"600px")"
+         Height="@(isXSmallScreen?"70vh":"500px")"
+         ShowHeader="true"
+         ShowFooter="true"
+         ShowCloseButton="true"
+         CloseOnEscape="true"
+         CloseOnOutsideClick="false">
+
+    <BodyContentTemplate Context="dd_product_category_context">
+        <div class="row">
+            <div class="col-12 div-toolbar my-row-height">
+                <DxComboBox Data="@ListChartType"
+                            CssClass="default-control-size"
+                            TextFieldName="@nameof(PeriodItem.PeriodName)"
+                            KeyFieldName="@nameof(PeriodItem.PeriodCode)"
+                            @bind-Value="@SelectedChartType"
+                            SelectedItemChanged="@((ChartType item) => SelectedChartTypeChanged(item))"
+                            InputId="cbPeriod" />
+            </div>
+        </div>
+    </BodyContentTemplate>
+    <FooterContentTemplate>
+        <DxButton Text="@Lang["Áp dụng"]" Click="@ChartTypeConfirmSelection" />
+        <DxButton Text="@Lang["Hủy"]" Click="@ChartTypeCancelSelection" />
+    </FooterContentTemplate>
+</DxPopup>
+
+ @*Động chưa được*@
+@* <DynamicChartGeneric TItem="BieuDoTHDTThangModel"
+                     Data="@Data"
+                     ArgumentField="m_cap"
+                     ValueFields="@valueFields"
+                     ChartType="ChartType.Bar" />
+
+@code
+{
+    string[] valueFields = new[] { "total_amount_fc2"};
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+} *@
+
+@code
+{
+    decimal TotalAmount { get; set; } = 0;
+    string Title { get; set; }
+
+    protected override async Task SetDefaultPeriod()
+    {
+        SelectedPeriodItem = ListPeriod.FirstOrDefault(x => x.PeriodCode == "NAM");
+        await SetDate(SelectedPeriodItem);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        if (String.IsNullOrEmpty(CompanyId))
+        {
+            return;
+        }
+
+        ListCompanyIdSelected = this.CompanyId;
+
+        await DataAsync();
+    }
+
+    protected override async Task DataAsync()
+    {
+        await base.DataAsync();
+
+        Title = $"TỔNG HỢP DOANH THU: {TotalAmount.ToString("#,###")}";
+    }
+
+    protected override void DeserializeResult(APIResultModel result)
+    {
+        APIResultModel _result = result;
+
+        BieuDoTHDTThangResultModel _resultData = Newtonsoft.Json.JsonConvert.DeserializeObject<BieuDoTHDTThangResultModel>(_result.Data.ToString());
+
+        TotalAmount = _resultData.total_amount;
+
+        if (_resultData.count_of_items > 0)
+        {
+            // Data = MyWebERP.Data.MyLib.ConvertListJObjectToListExpando(array);
+            Data = Newtonsoft.Json.JsonConvert.DeserializeObject<List<BieuDoTHDTThangModel>>(_resultData.data_details.ToString());
+        }
+    }
+
+    private string FormatTooltipValue(object value)
+    {
+        if (value is decimal dec)
+        {
+            if (dec >= 1_000_000_000)
+                return $"{Math.Round(dec / 1_000_000_000M, 1)} {Lang["tỷ"]}";
+            else if (dec >= 1_000_000)
+                return $"{Math.Round(dec / 1_000_000M, 1)} {Lang["triệu"]}";
+            else
+                return $"{dec:N0}";
+        }
+
+        return value?.ToString() ?? "";
+    }
+
+    // public string FormattedAmount(amount) => FormatMoney(amount);
+
+    // private static string FormatMoney(decimal value)
+    // {
+    //     if (value >= 1_000_000_000)
+    //         return $"{Math.Round(value / 1_000_000_000M, 1)} tỷ";
+    //     else if (value >= 1_000_000)
+    //         return $"{Math.Round(value / 1_000_000M, 1)} triệu";
+    //     else
+    //         return $"{value:N0}";
+    // }
+}

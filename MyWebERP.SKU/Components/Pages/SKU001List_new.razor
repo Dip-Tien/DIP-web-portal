@@ -1,0 +1,176 @@
+﻿@page "/listsku001_new/{CompanyMenuId}"
+@using System.Text.Json;
+@using System.Drawing
+@using Blazored.LocalStorage;
+@using System.Dynamic;
+@using DevExpress.Blazor
+@using MyWebERP.Data;
+@using MyWebERP.Services;
+@using MyWebERP.Model;
+@using MyWebERP.Lib;
+@using MyWebERP.Base.Components.Pages
+
+@inherits SKU001ListBase
+
+<DxLayoutBreakpoint DeviceSize="DeviceSize.XSmall" @bind-IsActive="@isXSmallScreen" />
+@* <style>    
+
+    .cell-span {
+        cursor: pointer;
+        padding: 6px;
+        display: block;
+        text-align: center;
+        border-radius: 4px;
+        transition: all 0.2s ease-in-out;
+    }
+
+        .cell-span:hover {
+            outline: 2px solid #007bff40;
+        }
+
+    .cell-selected {
+        outline: 2px solid #007bff;
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.6);
+        transform: scale(1.05); /* hơi phóng to để gây chú ý */
+        transition: transform 0.15s ease-in-out;
+    }
+
+</style> *@
+
+<div class="dock-header">
+    <DxToolbar ItemRenderStyleMode="ToolbarRenderStyleMode.Plain">
+        @* <DxToolbarItem>
+            <Template>
+                <div class="d-flex align-items-center gap-2">
+                    <DxTextBox ReadOnly="true"
+                               CssClass="selected-display-box"
+                               Text="@WorkSelected?.work_name"
+                               style="width:250px">
+                        <Buttons>
+                            <DxEditorButton Click="@WorkSelectShow"
+                                            IconCssClass="oi oi-magnifying-glass"
+                                            Position="EditorButtonPosition.Right" />
+                        </Buttons>
+                    </DxTextBox>
+                </div>
+            </Template>
+        </DxToolbarItem>
+        <DxToolbarItem>
+            <Template>
+                <div class="d-flex align-items-center gap-2">
+                    <DxTextBox ReadOnly="true"
+                               CssClass="selected-display-box"
+                               Text="@ListWorkItemNameSelected"
+                               style="width:250px">
+                        <Buttons>
+                            <DxEditorButton Click="@WorkItemSelectShow"
+                                            IconCssClass="oi oi-magnifying-glass"
+                                            Position="EditorButtonPosition.Right" />
+                        </Buttons>
+                    </DxTextBox>
+                </div>
+            </Template>
+        </DxToolbarItem>
+
+        <DxToolbarItem Text="Nạp" Click="RefreshItem_Click" IconCssClass="grid-toolbar-refresh" BeginGroup="true" /> *@
+
+        <DxToolbarItem GroupName="ZoomControls"
+                       
+                       IconCssClass="oi oi-minus"
+                       Click="@ZoomOut" />
+        <DxToolbarItem GroupName="ZoomControls"
+                       
+                       IconCssClass="oi oi-plus"
+                       Click="@ZoomIn" />
+        <DxToolbarItem>
+            <span>@($"{Scale * 100:F0}%")</span>
+        </DxToolbarItem>
+
+        <DxToolbarItem Text="Thêm" Click="NewItem_Click" IconCssClass="grid-toolbar-new" BeginGroup="true" />
+        <DxToolbarItem Text="Sửa" Click="EditItem_Click" IconCssClass="grid-toolbar-edit" Enabled="EditItemsEnabled" />
+        <DxToolbarItem Text="Xóa" Click="DeleteItem_Click" IconCssClass="grid-toolbar-delete" Enabled="EditItemsEnabled" />
+        <DxToolbarItem Text="Xuất dữ liệu" IconCssClass="grid-toolbar-export" BeginGroup="true">
+            <Items>
+                <DxToolbarItem Text="Ra CSV" Click="ExportCsvItem_Click" />
+                <DxToolbarItem Text="Ra XLSX" Click="ExportXlsxItem_Click" />
+                <DxToolbarItem Text="Ra XLS" Click="ExportXlsItem_Click" />
+            </Items>
+        </DxToolbarItem>
+        <DxToolbarItem BeginGroup="true">
+            <Template Context="toolbar_item_context">
+                <DxSearchBox @bind-Text="GridSearchText" BindValueMode="BindValueMode.OnInput"
+                             ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" aria-label="Search" />
+            </Template>
+        </DxToolbarItem>
+    </DxToolbar>
+</div>
+
+<div class="dock-body">
+
+    @if(Appartments == null)
+    {
+        <div class="skeleton-wrapper">
+            @for (int i = 0; i < 6; i++)
+            {
+                <div class="skeleton-row">
+                    <div class="skeleton skeleton-sm"></div>
+                    <div class="skeleton skeleton-lg"></div>
+                    <div class="skeleton skeleton-sm"></div>
+                    <div class="skeleton skeleton-sm"></div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <ApartmentGrid Apartments="@Appartments"
+                       HasTooltip="apt => apt.tooltips != null && apt.tooltips.Count > 0"
+                       Scale="@Scale"
+                       OnZoomIn="ZoomIn"
+                       OnZoomOut="ZoomOut"
+                       ShowTooltipCallback="ShowTooltip"
+                       HideTooltipCallback="HideTooltip"
+                       OnApartmentClicked="OnApartmentClick" />
+
+    }
+</div>
+
+<div class="grid-cell-tooltip-div">
+    @if (popupSkuModel?.tooltips != null && popupSkuModel?.tooltips.Count > 0)
+    {
+        var items = popupSkuModel.tooltips;// JsonSerializer.Deserialize<List<Sku001TooltipItem>>(popupSkuModel.json_info);
+
+        if (items != null)
+        {
+            foreach (var item in items.OrderBy(x => x.order))
+            {
+                <div style="margin-bottom:4px;">
+                    <b>@item.item_name</b>:
+                    @if (item.is_image == 1)
+                    {
+                        <br />
+                        <img src="@item.item_value" width="120"
+                             style="border:1px solid #ccc;border-radius:4px;margin-top:4px;" />
+                    }
+                    else
+                    {
+                        @item.item_value
+                    }
+                </div>
+            }
+        }
+    }
+</div>
+
+@code
+{
+    /// <summary>
+    /// Để tạm dây
+    /// </summary>
+    /// <param name="apt"></param>
+    protected async void OnApartmentClick(SKU001Model apt)
+    {
+        // 1) Chọn model ngay lập tức
+        selectedModel = apt;
+    }
+}

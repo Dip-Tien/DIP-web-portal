@@ -1,0 +1,242 @@
+﻿@page "/listreportfile/{CompanyMenuId}"
+
+@using Blazored.LocalStorage;
+@using MyWebERP.Data;
+@using MyWebERP.Services;
+@using MyWebERP.Model;
+@using System.Dynamic;
+@using DevExpress.Blazor
+@using MyWebERP.Base.Components.Pages
+
+@inherits ComponentBaseGrid1
+@inject NavigationManager NavigationManager
+
+    <DxGrid @ref="Grid"
+    Data="@Data"
+    KeyFieldName="@nameof(ReportFileModel.report_file_id)"
+    ColumnResizeMode="GridColumnResizeMode.ColumnsContainer"
+    FooterDisplayMode="GridFooterDisplayMode.Always"
+    CustomizeElement="Grid_CustomizeElement"
+    CssClass="default-grid"
+    VirtualScrollingEnabled="true"
+    TextWrapEnabled="true"
+    FocusedRowEnabled="true"
+    HighlightRowOnHover="true"
+    FocusedRowChanged="Grid_FocusedRowChanged"
+    ShowFilterRow="true"
+    FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Always"
+    ShowAllRows="true"
+    ValidationEnabled="true"
+    SearchText="@GridSearchText">
+        <ToolbarTemplate>
+            <DxToolbar ItemRenderStyleMode="ToolbarRenderStyleMode.Plain">
+                <DxToolbarItem Text="Trang "></DxToolbarItem>
+                <DxToolbarItem Text="Trang" CssClass="grid-toolbar-page-no">
+                    <Template Context="toolbar_item_context">
+                        <DxComboBox Data="@Pages"
+                        TData="int"
+                        TValue="int"
+                        @bind-Value="@pageNo"
+                        CssClass="cw-60"
+                        InputId="cbPageNo">
+                            <Buttons>
+                                <DxEditorButton IconCssClass="editor-icon editor-icon-chevron-left"
+                                Tooltip="Trang trước"
+                                Click="@(_ => OnPrevPageButtonClick())" />
+                                <DxEditorButton IconCssClass="editor-icon editor-icon-chevron-right"
+                                Tooltip="Trang sau"
+                                Click="@(_ => OnNextPageButtonClick())" />
+                            </Buttons>
+                        </DxComboBox>
+                    </Template>
+                </DxToolbarItem>
+
+                <DxToolbarItem Text=" / " />
+
+                <DxToolbarItem Enabled="false" CssClass="grid-toolbar-page-count">
+                    <Template Context="toolbar_item_context">
+                        <DxTextBox Text="@pageCountText" ReadOnly="true"></DxTextBox>
+                    </Template>
+                </DxToolbarItem>
+
+                <DxToolbarItem Text="Số dòng">
+                </DxToolbarItem>
+
+                <DxToolbarItem Text="Số dòng" CssClass="grid-toolbar-page-size">
+                    <Template Context="toolbar_item_context">
+                        <DxComboBox Data="@PageSizes"
+                        TData="int"
+                        TValue="int"
+                        @bind-Value="@pageSize"
+                        CssClass="cw-80"
+                        InputId="cbPageSize">
+                        </DxComboBox>
+                    </Template>
+                </DxToolbarItem>
+
+                <DxToolbarItem Text="Nạp" Click="RefreshItem_Click" IconCssClass="grid-toolbar-refresh" BeginGroup="true" Tooltip="Nạp lại dữ liệu" />
+                <DxToolbarItem Text="Thêm" Click="NewItem_Click" IconCssClass="grid-toolbar-new" BeginGroup="true" Tooltip="Thêm mới file" Visible="@NewPermission" />
+                <DxToolbarItem Text="Sửa" Click="EditItem_Click" IconCssClass="grid-toolbar-edit" Enabled="EditItemsEnabled" Tooltip="Sửa file" Visible="@EditPermission" />
+                <DxToolbarItem Text="Designer" Click="DesignerItem_Click" IconCssClass="grid-toolbar-edit" Enabled="EditItemsEnabled" Tooltip="Thiết kế báo cáo" Visible="@EditPermission" />
+                <DxToolbarItem Text="Xóa" Click="DeleteItem_Click" IconCssClass="grid-toolbar-delete" Enabled="EditItemsEnabled" Tooltip="Xóa file" Visible="@DeletePermission" />
+
+                <DxToolbarItem Text="Chọn cột" BeginGroup="true" IconCssClass="grid-toolbar-column-chooser" Click="ColumnChooserItem_Click" />
+                <DxToolbarItem Text="Xuất dữ liệu" IconCssClass="grid-toolbar-export" BeginGroup="true">
+                    <Items>
+                        <DxToolbarItem Text="Ra CSV" Click="ExportCsvItem_Click" />
+                        <DxToolbarItem Text="Ra XLSX" Click="ExportXlsxItem_Click" />
+                        <DxToolbarItem Text="Ra XLS" Click="ExportXlsItem_Click" />
+                    </Items>
+                </DxToolbarItem>
+                <DxToolbarItem BeginGroup="true">
+                    <Template Context="toolbar_item_context">
+                        <DxSearchBox @bind-Text="GridSearchText" BindValueMode="BindValueMode.OnInput"
+                        ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" aria-label="Search" />
+                    </Template>
+                </DxToolbarItem>
+            </DxToolbar>
+        </ToolbarTemplate>
+        <Columns>
+            <DxGridDataColumn Width="25"
+            TextAlignment="GridTextAlignment.Center"
+            FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never" AllowSort="false">
+                <CellDisplayTemplate>@(context.VisibleIndex + 1)</CellDisplayTemplate>
+            </DxGridDataColumn>
+
+            <DxGridDataColumn FieldName="@nameof(ReportFileModel.report_file_id)" Width="100" Caption="Id" />
+
+            <DxGridDataColumn FieldName=@nameof(ReportFileModel.report_name) Width="150" Caption="Name" />
+            <DxGridDataColumn FieldName=@nameof(ReportFileModel.report_title) Width="150" Caption="Title" />
+            <DxGridDataColumn FieldName=@nameof(ReportFileModel.report_file_desc) Width="120" Caption="Desc" />
+            <DxGridDataColumn FieldName=@nameof(ReportFileModel.sp_name) Width="120" Caption="sp name" />
+            <DxGridDataColumn FieldName=@nameof(ReportFileModel.web_menu_name) Width="120" Caption="Menu name" />
+
+            <DxGridDataColumn FieldName=@nameof(ReportFileModel.invisible)
+            Caption="invisible" Width="100" ReadOnly="true"
+            TextAlignment="GridTextAlignment.Center"
+            CaptionAlignment="GridTextAlignment.Center">
+                <CellDisplayTemplate>
+                    <DxCheckBox Checked="@((Int16)context.Value == 1)" ReadOnly="true" />
+                </CellDisplayTemplate>
+            </DxGridDataColumn>
+
+            <DxGridDataColumn FieldName=@nameof(ReportFileModel.created_on_date) DisplayFormat="dd/MM/yyyy HH:mm" Width="130" Caption="Ngày tạo" />
+            <DxGridDataColumn FieldName=@nameof(ReportFileModel.created_by_display_name) Width="130" Caption="Người tạo" />
+            <DxGridDataColumn FieldName=@nameof(ReportFileModel.last_modified_on_date) DisplayFormat="dd/MM/yyyy HH:mm" Width="130" Caption="Ngày sửa" />
+            <DxGridDataColumn FieldName=@nameof(ReportFileModel.last_modified_by_display_name) Width="130" Caption="Người sửa" />
+        </Columns>
+        <TotalSummary>
+            <DxGridSummaryItem SummaryType="GridSummaryItemType.Count" FieldName="@nameof(ReportFileModel.report_file_id)" DisplayText="{0:N0} dòng" />
+        </TotalSummary>
+
+    </DxGrid>
+
+<DxWindow @ref=windowRef
+AllowResize="true"
+ShowCloseButton="true"
+CloseOnEscape="true"
+HeaderText="@MyHeaderErrorMessage"
+FooterText="Footer"
+ShowFooter="true"
+Width="max(25vw, 250px)"
+MinWidth="300"
+MinHeight="200"
+MaxWidth="800"
+MaxHeight="500">
+    <BodyContentTemplate>
+        <div style="color:red">@MyErrorMessage</div>
+    </BodyContentTemplate>
+    <FooterContentTemplate>
+        <DxButton CssClass="popup-button my-1 ms-2"
+        RenderStyle="ButtonRenderStyle.Primary" Text="OK" Click="@context.CloseCallback" />
+    </FooterContentTemplate>
+</DxWindow>
+
+@if (menuItem != null)
+{
+    <ReportFileEditPopup @bind-Visible="@EditFormVisible"
+    CompanyId="@CompanyId"
+    EditDataId="@FocusedDataId"
+    MenuItem="@menuItem"
+    LocalStorageService="@LocalStorageService"
+    DataService="@DataService"
+    FormStatus="@EditFormStatus"
+    PopupClosed="@OnReportFileSubmit" />
+}
+
+@code {
+    List<ReportFileModel> Data { get; set; }
+
+    // DxToolbar toolbar;
+
+    protected override async Task DataAsync()
+    {
+
+        dynamic dParam = new System.Dynamic.ExpandoObject();
+        dParam.company_id = CompanyId;
+        dParam.data_code = menuItem.DataCode;
+
+        APIResultDataModel resultData = await DataService.GetDataSimple(dParam, menuItem.FetDataCode);
+
+        if (resultData != null)
+        {
+            int _iRowCount = resultData.count_of_items;
+
+            if (_iRowCount > 0)
+            {
+                Data = System.Text.Json.JsonSerializer.Deserialize<List<ReportFileModel>>(resultData.data_details.ToString());
+
+            }
+            else if(Data != null)
+            {
+                Data.Clear();
+            }
+
+            SetPageInfo(_iRowCount);
+        }
+    }
+
+    // protected override async Task EditItem_Click()
+    // {
+    //     if (Grid.GetFocusedDataItem() != null)
+    //     {
+    //         FocusedDataId = ((ReportFileModel)Grid.GetFocusedDataItem()).report_file_id;
+    //     }
+
+    //     await base.EditItem_Click();
+    // }
+
+    // protected override async Task Grid_FocusedRowChanged(GridFocusedRowChangedEventArgs args)
+    // {
+    //     await base.Grid_FocusedRowChanged(args);
+    //     if(Data == null)
+    //     {
+    //         FocusedDataId = "";
+    //         return;
+    //     }
+    // }
+
+    async Task OnReportFileSubmit(ReportFileModel customer)
+    {
+        // Nạp lại
+        await DataAsync();
+    }
+
+    protected async Task DesignerItem_Click()
+    {
+        //await Grid.StartEditRowAsync(FocusedRowVisibleIndex);
+
+        if (Grid.GetFocusedDataItem() == null)
+        {
+            MyHeaderErrorMessage = "Không có dữ liệu nào cả";
+            MyErrorMessage = "Không có dòng nào được chọn";
+
+            await windowRef.ShowAsync();
+            return;
+        }
+
+        string _sReportFileId = MyLib.GetPropertyValueOfObject(Grid.GetFocusedDataItem(), menuItem.IdColumnName);
+
+        NavigationManager.NavigateTo($"reportdesigner/{menuItem.CompanyMenuId}/{_sReportFileId}");
+    }
+}

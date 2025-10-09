@@ -1,0 +1,486 @@
+﻿@using Blazored.LocalStorage;
+@using Model;
+@using Data;
+@using MyWebERP.Customer.Components.Pages;
+@using MyWebERP.SKU.Components.Pages;
+@using MyWebERP.Base.Components.Pages
+
+@inherits SO001EditBase//MyVoucherEditFormBase1
+
+@* <DxToolbar>
+    <DxToolbarItem Text="Thêm" Click="NewItem_Click" IconCssClass="grid-toolbar-new" BeginGroup="true" Visible="@(FormStatus == EditFormStatus.VIEW)" />
+    <DxToolbarItem Text="Sửa" Click="EditItem_Click" IconCssClass="grid-toolbar-edit" Visible="@(FormStatus == EditFormStatus.VIEW)" />
+    <DxToolbarItem Text="Xóa" Click="DeleteItem_Click" IconCssClass="grid-toolbar-delete" Visible="@(FormStatus == EditFormStatus.VIEW)" />
+</DxToolbar> *@
+
+<EditForm Model="@editItem" OnValidSubmit="@FormSubmitted" id="@FormId" Context="EditFormContext">
+    <DataAnnotationsValidator />
+    <DxFormLayout CssClass="100">
+        <div class="row">
+            <div class="col-6 px-0 py-0">
+                <DxFormLayoutItem Caption="Ngày CT" ColSpanMd="12">
+                    <DxDateEdit @bind-Date="@editItem.voucher_date"                    
+                    DisplayFormat="dd/MM/yyyy"
+                    Format="dd/MM/yyyy"
+                    Mask="dd/MM/yyyy"
+                    ReadOnly="@(FormStatus == EditFormStatus.VIEW)"
+                    InputId="deDate">
+                        <DxDateTimeMaskProperties CaretMode="@MaskCaretMode.Advancing" UpdateNextSectionOnCycleChange="true" />
+                        @* Phải có Mask thì caretmode mới chạy*@
+                    </DxDateEdit>
+                </DxFormLayoutItem>
+            </div>
+            <div class="col-6 px-0 py-0">
+                <DxFormLayoutItem Caption="Số CT:" ColSpanMd="12" CaptionPosition="CaptionPosition.Horizontal">
+                    <DxTextBox @bind-Text="@editItem.voucher_no"
+                    ReadOnly="@(FormStatus == EditFormStatus.VIEW)">
+                        <Buttons>
+                            <DxEditorButton IconCssClass="grid-toolbar-new"
+                            Tooltip="Tự động tạo mã mới"
+                            Enabled="@(FormStatus != EditFormStatus.VIEW)"
+                            Click="@(_ => OnNewVoucherNoButtonClick())" />
+                        </Buttons>
+                    </DxTextBox>
+                </DxFormLayoutItem>
+            </div>
+            <div class="col-6 px-0 py-0">
+                <DxFormLayoutItem Caption="Mã NT:" ColSpanMd="12">
+                    <DxComboBox Data="@ListCurrency"
+                    @bind-Value=@editItem.currency_id
+                    SearchMode="@ListSearchMode.AutoSearch"
+                    SearchFilterCondition="@ListSearchFilterCondition.Contains"
+                    NullText="Chọn ngoại tệ"
+                    Enabled="@(FormStatus != EditFormStatus.VIEW)"
+                    CssClass="enter-nav my-combobox"
+                    SelectedItemChanged="@((CurrencyLookupModel arg)=>SelectCurrencyChanged(arg, editItem))"
+                    TextFieldName="@nameof(CurrencyLookupModel.currency_code)"
+                    ValueFieldName="@nameof(CurrencyLookupModel.currency_id)">
+                    </DxComboBox>
+                </DxFormLayoutItem>
+            </div>
+            <div class="col-6 px-0 py-0">
+                <DxFormLayoutItem Caption="Tỷ giá NT" ColSpanMd="12">
+                    <DxSpinEdit @bind-Value=@editItem.currency_rate ReadOnly="@(CurrencyIsBase | FormStatus == EditFormStatus.VIEW)" DisplayFormat="{0:N2}" CssClass="my-spin enter-nav input">
+
+                    </DxSpinEdit>
+                </DxFormLayoutItem>
+            </div>
+        </div>
+        <div class="row">
+            <DxFormLayoutItem Caption="Mã khách:" ColSpanMd="12">
+                <DxComboBox Data="@ListCustomer"
+                @bind-Value=@editItem.customer_id
+                SearchMode="@ListSearchMode.AutoSearch"
+                SearchFilterCondition="@ListSearchFilterCondition.Contains"
+                NullText="Chọn khách hàng (F4 để xổ danh sách. Mũi tên xuống để chọn từ trên xuống)"
+                @ref="cboCustomerCode"
+                Enabled="@(FormStatus != EditFormStatus.VIEW)"
+                SelectedItemChanged="@((CustomerLookupModel arg)=>SelectCustomerChanged(arg, editItem))"
+                TextFieldName="@nameof(CustomerLookupModel.customer_code)"
+                ValueFieldName="@nameof(CustomerLookupModel.customer_id)">
+                    <Columns>
+                        <DxListEditorColumn FieldName="@nameof(CustomerLookupModel.customer_code)" Caption="Mã khách" Width="120" />
+                        <DxListEditorColumn FieldName="@nameof(CustomerLookupModel.customer_name)" Caption="Tên khách" Width="200" />
+                        <DxListEditorColumn FieldName="@nameof(CustomerLookupModel.tel)" Caption="SĐT" Width="120" />
+                    </Columns>
+                    <Buttons>
+
+                        @if (FormStatus != EditFormStatus.VIEW && CheckLookupAddNew("CUST_LOOKUP_W") == true)
+                        {
+                            <DxEditorButton IconCssClass="toolbar-new"
+                            Tooltip="Thêm khách hàng"
+                            Click="@(_ => OnCustomerAddButtonClick())" />
+                        }
+                        @if (FormStatus != EditFormStatus.VIEW && CheckLookupEdit("CUST_LOOKUP_W") == true)
+                        {
+                            <DxEditorButton IconCssClass="toolbar-edit"
+                            Tooltip="Thêm khách hàng"
+                            Click="@(_ => OnCustomerEditButtonClick())" />
+                        }
+                    </Buttons>
+
+                </DxComboBox>
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Tên khách khách:" ColSpanMd="12">
+                <DxTextBox @bind-Text="@editItem.customer_name" ReadOnly="true"/>
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Ghi chú:" ColSpanMd="12">
+                <DxTextBox @bind-Text="@editItem.comment" ReadOnly="@(FormStatus == EditFormStatus.VIEW)" />
+            </DxFormLayoutItem>            
+        </div>
+        <div class="grid-wrapper">
+            <DxGrid @ref="GridDetail"
+            Data="@editItem.details"
+            CssClass="flexGrid"
+            KeyFieldName="@nameof(SO001DetailModel.voucher_detail_id)"
+            FooterDisplayMode="GridFooterDisplayMode.Always"
+            EditModelSaving="GridDetail_EditModelSaving"
+            CustomizeElement="GridDetail_CustomizeElement"
+            ColumnResizeMode="GridColumnResizeMode.NextColumn"
+            TextWrapEnabled="false"
+            VirtualScrollingEnabled="true"
+            FocusedRowEnabled="true"
+            DetailRowDisplayMode="GridDetailRowDisplayMode.Always"
+            EditMode="GridEditMode.EditCell"
+            HighlightRowOnHover="true">
+                <Columns>
+                    <DxGridDataColumn Width="10" Caption="STT"
+                    TextAlignment="GridTextAlignment.Center"
+                    ReadOnly="true"
+                    FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never" AllowSort="false">
+                        <CellDisplayTemplate>@(context.VisibleIndex + 1)</CellDisplayTemplate>
+                    </DxGridDataColumn>
+
+                    <DxGridCommandColumn Width="30px">
+                        <HeaderTemplate>
+                            <DxButton IconCssClass="grid-icon grid-icon-add"
+                            RenderStyle="ButtonRenderStyle.Link"
+                            aria-label="Add"
+                            tabindex="-1"
+                            Enabled=@(FormStatus != EditFormStatus.VIEW)
+                            Click="@(() => OnNewDetailButtonClick())" />
+                        </HeaderTemplate>
+                        <CellDisplayTemplate>
+                            <div class="grid-cell-align-center">
+                                <DxButton IconCssClass="toolbar-delete"
+                                CssClass="grid-delete-btn"
+                                RenderStyle="ButtonRenderStyle.Link"
+                                aria-label="Delete"
+                                tabindex="-1"
+                                Enabled=@(FormStatus != EditFormStatus.VIEW)
+                                Click="@(() => OnDeleteDetailCommandButtonClick(context.DataItem))" />
+                            </div>
+                        </CellDisplayTemplate>
+                        <CellEditTemplate>
+                            <div class="grid-cell-align-center">
+                                <DxButton 
+                                CssClass="grid-disabled-button"
+                                IconCssClass="grid-icon grid-icon-delete"
+                                aria-label="Delete"
+                                tabindex="-1"
+                                Enabled=@(FormStatus != EditFormStatus.VIEW)
+                                RenderStyle="ButtonRenderStyle.Link" />
+                            </div>
+                        </CellEditTemplate>
+                    </DxGridCommandColumn>
+
+                    <DxGridDataColumn FieldName="sku" Caption="Mã VT/SP" MinWidth="120" AllowSort="false" 
+                        ReadOnly = "@(FormStatus == EditFormStatus.VIEW)" >
+                        <CellEditTemplate>
+                            @{
+                                var editModel = (SO001DetailModel)context.EditModel;
+
+                                void OnSKU0AddButtonClick()
+                                {
+                                    editDetailItem = editModel;
+                                    SKU0EditPopupVisible = true;
+                                    SKU0EditFormStatus = EditFormStatus.NEW;
+                                    SelectedSkuId = "";
+                                }
+
+                                void OnSKU0EditButtonClick()
+                                {
+                                    editDetailItem = editModel;
+                                    SKU0EditPopupVisible = true;
+                                    SKU0EditFormStatus = EditFormStatus.EDIT;
+                                    SelectedSkuId = editModel.sku_id;
+                                }
+                            }
+                            <DxComboBox Data="@ListSKU0"
+                            ValueFieldName="sku_id" 
+                            TextFieldName="sku"
+                            NullText="Chọn vật tư (F4 để xổ danh sách. Mũi tên xuống để chọn từ trên xuống)"
+                            CssClass="enter-nav my-combobox"
+                            SearchMode="@ListSearchMode.AutoSearch"
+                            SearchFilterCondition="@ListSearchFilterCondition.Contains"
+                            @bind-Value = "@editModel.sku_id"
+                            SelectedItemChanged="@((SKU0LookupModel arg) => SelectSKU0Changed(arg, editModel))"
+                            >
+                                <Columns>
+                                    <DxListEditorColumn FieldName="@nameof(SKU0LookupModel.sku)" Caption="Mã" Width="100px" />
+                                    <DxListEditorColumn FieldName="@nameof(SKU0LookupModel.sku_name)" Caption="Tên" Width="150px" />
+                                    <DxListEditorColumn FieldName="@nameof(SKU0LookupModel.sku_description)" Caption="Mô tả" Width="300px" />
+                                </Columns>
+                                <Buttons>
+                                    @if (CheckLookupAddNew("SKU0_LOOKUP_W") == true)
+                                    {
+                                        <DxEditorButton IconCssClass="toolbar-new"
+                                        Tooltip="Thêm vật tư" 
+                                        Enabled=@(FormStatus != EditFormStatus.VIEW)
+                                        Click="@(_ => OnSKU0AddButtonClick())" />
+                                    }
+
+                                    @if (CheckLookupEdit("SKU0_LOOKUP_W") == true)
+                                    {
+                                        <DxEditorButton IconCssClass="toolbar-edit"
+                                        Tooltip="Sửa vật tư"
+                                        Enabled=@(FormStatus != EditFormStatus.VIEW)
+                                        Click="@(_ => OnSKU0EditButtonClick())" />
+                                    }
+                                </Buttons>
+                            </DxComboBox>
+                        </CellEditTemplate>
+                    </DxGridDataColumn>
+
+                    @* <DxGridDataColumn FieldName="@nameof(SO001DetailModel.product_name)" Width="160" Caption="Tên VT/SP" ReadOnly="true" AllowSort="false" /> *@
+                    @* <DxGridDataColumn FieldName="@nameof(SO001DetailModel.unit_name)" Width="60" Caption="ĐVT" ReadOnly="true" AllowSort="false"/> *@
+
+                    @* <DxGridDataColumn FieldName="@nameof(SO001DetailModel.quantity)" Width="80" Caption="SL" 
+                        TextAlignment="GridTextAlignment.Right" DisplayFormat="N2" AllowSort="false">
+
+                        <CellEditTemplate>
+                            @{
+                                var editModel = (SO001DetailModel)context.EditModel;
+
+                                async Task OnValueChanged(decimal newValue)
+                                {
+                                    editModel.quantity = newValue;
+                                    await DetailQuantityOrPriceChange(editModel);
+                                }
+                            }
+                            <DxSpinEdit Value="editModel.quantity" Mask="N2" ValueExpression="@(() => editModel.quantity)" ValueChanged="@((decimal newValue) => OnValueChanged(newValue))">
+
+                            </DxSpinEdit>
+                        </CellEditTemplate>
+
+                    </DxGridDataColumn> *@
+                    @* <DxGridDataColumn FieldName="@nameof(SO001DetailModel.price_fc)" Width="120" Caption="Đơn giá" TextAlignment="GridTextAlignment.Right" DisplayFormat="N2" AllowSort="false">
+                        <CellEditTemplate>
+                            @{
+                                var editModel = (SO001DetailModel)context.EditModel;
+
+                                async Task OnValueChanged(decimal newValue)
+                                {
+                                    editModel.price_fc = newValue;
+                                    await DetailQuantityOrPriceChange(editModel);
+                                }
+                            }
+                            <DxSpinEdit Value="editModel.price_fc" ValueExpression="@(() => editModel.price_fc)" ValueChanged="@((decimal newValue) => OnValueChanged(newValue))" Mask="N2" AllowSort="false">
+
+                            </DxSpinEdit>
+                        </CellEditTemplate>
+                    </DxGridDataColumn>
+                    <DxGridDataColumn FieldName="@nameof(SO001DetailModel.amount_fc)" Width="140" Caption="Tiền hàng" TextAlignment="GridTextAlignment.Right" DisplayFormat="N2" ReadOnly="true" AllowSort="false">
+
+                    </DxGridDataColumn>
+                    <DxGridDataColumn FieldName=@nameof(SO001DetailModel.discount_rate) Width="80" Caption="% CK" TextAlignment="GridTextAlignment.Right" AllowSort="false">
+                        <CellEditTemplate>
+                            @{
+                                var editModel = (SO001DetailModel)context.EditModel;
+
+                                async Task OnValueChanged(decimal newValue)
+                                {
+                                    editModel.discount_rate = newValue;
+                                    await DetailDiscountRateChage(editModel);
+                                }
+                            }
+                            <DxSpinEdit Value="editModel.discount_rate" ValueExpression="@(() => editModel.discount_rate)"
+                                        ValueChanged="@((decimal newValue) => OnValueChanged(newValue))" Mask="P" DisplayFormat="P">
+                            </DxSpinEdit>
+                        </CellEditTemplate>
+                    </DxGridDataColumn>
+                    <DxGridDataColumn FieldName=@nameof(SO001DetailModel.discount_amount_fc) Width="100" Caption="Tiền CK" TextAlignment="GridTextAlignment.Right" AllowSort="false">
+                        <CellEditTemplate>
+                            @{
+                                var editModel = (SO001DetailModel)context.EditModel;
+
+                                async Task OnValueChanged(decimal newValue)
+                                {
+                                    editModel.discount_amount_fc = newValue;
+                                    await DetailDiscountAmountChage(editModel);
+                                }
+                            }
+                            <DxSpinEdit Value="editModel.discount_amount_fc" ValueExpression="@(() => editModel.discount_amount_fc)" ValueChanged="@((decimal newValue) => OnValueChanged(newValue))" Mask="N2" DisplayFormat="N2">
+
+                            </DxSpinEdit>
+                        </CellEditTemplate>
+                    </DxGridDataColumn>
+                    <DxGridDataColumn FieldName=@nameof(SO001DetailModel.total_amount_fc) Width="140" Caption="Tổng tiền" TextAlignment="GridTextAlignment.Right" DisplayFormat="N2" ReadOnly="true" AllowSort="false">
+
+                    </DxGridDataColumn>
+                    <DxGridDataColumn FieldName="@nameof(SO001DetailModel.comment)" Width="200" Caption="Ghi chú" AllowSort="false" /> *@
+
+
+                </Columns>
+                @* <TotalSummary>
+                    <DxGridSummaryItem SummaryType="GridSummaryItemType.Count" FieldName="@nameof(SO001DetailModel.sku_id)" DisplayText="{0:N0} dòng" />
+                    <DxGridSummaryItem SummaryType="GridSummaryItemType.Sum" FieldName="@nameof(SO001DetailModel.quantity)" DisplayText="{0:N2}" />
+                    <DxGridSummaryItem SummaryType="GridSummaryItemType.Sum" FieldName="@nameof(SO001DetailModel.amount_fc)" DisplayText="{0:N0}" />
+                    <DxGridSummaryItem SummaryType="GridSummaryItemType.Sum" FieldName="@nameof(SO001DetailModel.discount_amount_fc)" DisplayText="{0:N0}" />
+                    <DxGridSummaryItem SummaryType="GridSummaryItemType.Sum" FieldName="@nameof(SO001DetailModel.total_amount_fc)" DisplayText="{0:N0}" />
+                </TotalSummary> *@
+
+                <DetailRowTemplate>
+                    @{
+                        var detail = (SO001DetailModel)context.DataItem;
+                        async Task OnQuantityChanged(decimal newValue)
+                        {
+                            detail.quantity = newValue;
+                            await DetailQuantityOrPriceChange(detail);
+                        }
+
+                        async Task OnPriceChanged(decimal newValue)
+                        {
+                            detail.price_fc = newValue;
+                            await DetailQuantityOrPriceChange(detail);
+                        }
+
+                        async Task OnDiscountRateChanged(decimal newValue)
+                        {
+                            detail.discount_rate = newValue;
+                            await DetailDiscountRateChage(detail);
+                        }
+
+                        async Task OnDiscountAmountChanged(decimal newValue)
+                        {
+                            detail.discount_amount_fc = newValue;
+                            await DetailDiscountAmountChage(detail);
+                        }
+
+                        <div class="row">
+                            @detail.product_name
+                        </div>
+                        <div class="row">
+                            <div class="col-2 px-0 py-0">Số lượng: </div>
+                            <div class="col px-0 py-0">
+                                <DxSpinEdit Value="detail.quantity" 
+                                DisplayFormat="{0:N2}"
+                                CssClass="default-control-size my-spin input"
+                                ValueExpression="@(() => detail.quantity)" 
+                                ValueChanged="@((decimal newValue) => OnQuantityChanged(newValue))"
+                                ReadOnly = "@(FormStatus == EditFormStatus.VIEW)"
+                                Mask="N2">
+                                </DxSpinEdit>
+                            </div>
+                            <div class="col-2 px-0 py-0">
+                                @detail.unit_name
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2 px-0 py-0">Giá bán: </div>
+                            <div class="col-5 px-0 py-0">
+                                <DxSpinEdit Value="detail.price_fc" 
+                                DisplayFormat="{0:N2}"
+                                ReadOnly="@(FormStatus == EditFormStatus.VIEW)"
+                                CssClass="default-control-size my-spin input" Mask="N2"
+                                ValueExpression="@(() => detail.price_fc)" 
+                                ValueChanged="@((decimal newValue) => OnPriceChanged(newValue))"
+                                ></DxSpinEdit>
+                            </div>
+                            <div class="col-5 px-0 py-0">
+                                <DxSpinEdit @bind-Value="detail.amount_fc" DisplayFormat="{0:N2}" CssClass="default-control-size my-spin input" Mask="N2" ReadOnly="true"></DxSpinEdit>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-2 px-0 py-0">CK: </div>
+                            <div class="col-5 px-0 py-0">
+                                <DxSpinEdit Value="detail.discount_rate" DisplayFormat="{0:N2} %" CssClass="default-control-size my-spin input" Mask="N2"
+                                ValueExpression="@(() => detail.discount_rate)"
+                                ReadOnly="@(FormStatus == EditFormStatus.VIEW)"
+                                ValueChanged="@((decimal newValue) => OnDiscountRateChanged(newValue))"></DxSpinEdit>
+                            </div>
+                            <div class="col-5 px-0 py-0">
+                                <DxSpinEdit Value="detail.discount_amount_fc" DisplayFormat="{0:N2}" CssClass="default-control-size my-spin input" Mask="N2"
+                                ValueExpression="@(() => detail.discount_amount_fc)"
+                                ReadOnly="@(FormStatus == EditFormStatus.VIEW)"
+                                ValueChanged="@((decimal newValue) => OnDiscountAmountChanged(newValue))"></DxSpinEdit>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2 px-0 py-0">Tổng TT: </div><div class="col px-0 py-0">
+                                <DxSpinEdit @bind-Value="detail.total_amount_fc" DisplayFormat="{0:N2}" CssClass="default-control-size my-spin input" Mask="N2" ReadOnly="true" />
+                            </div>
+                        </div>
+                    }
+                </DetailRowTemplate>
+
+            </DxGrid>
+        </div>
+    </DxFormLayout>
+</EditForm>
+
+@if (ListLookup != null && ListLookup.FirstOrDefault(x => x.sp_code == "CUST_LOOKUP_W") != null)
+{
+    LookupItem lookupCust = ListLookup.FirstOrDefault(x => x.sp_code == "CUST_LOOKUP_W");
+    MenuItem menuItemCust = new MenuItem(lookupCust);
+    <CustEditPopup @bind-Visible="@CustomerEditPopupVisible"
+                   CompanyId="@CompanyId"
+                   EditDataId="@editItem?.customer_id"
+                   LocalStorageService="@LocalStorageService"
+                   MenuItem="@menuItemCust"
+                   DataService="@DataService"
+                   FormStatus="@CustomerEditFormStatus"
+                   PopupClosed="@OnCustomerSubmit" />
+}
+
+@if (ListLookup != null && ListLookup.FirstOrDefault(x => x.sp_code == "SKU0_LOOKUP_W") != null)
+{
+    LookupItem lookupSKU0 = ListLookup.FirstOrDefault(x => x.sp_code == "SKU0_LOOKUP_W");
+    MenuItem menuItemSku0 = new MenuItem(lookupSKU0);
+
+    <SKU0EditPopup @bind-Visible="@SKU0EditPopupVisible"
+                   CompanyId="@CompanyId"
+                   EditDataId="@SelectedSkuId"
+                   MenuItem="@menuItemSku0"
+                   LocalStorageService="@LocalStorageService"
+                   DataService="@DataService"
+                   FormStatus="@SKU0EditFormStatus"
+                   PopupClosed="@OnSKU0Submit" />
+}
+
+
+@code {
+
+
+    Boolean DataInited = false;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if(DataInited)
+        {
+            return;
+        }
+
+        if (FormStatus == Data.EditFormStatus.NEW)
+        {
+            editItem.voucher_header_id = await DataService.GetRowId(CompanyId, MenuItem.CompanyMenuId);
+            editItem.voucher_code = MenuItem.DataCode;
+            editItem.company_id = CompanyId;
+            editItem.voucher_date = DateTime.Now;
+            editItem.voucher_no = await DataService.CreateVoucherNo(CompanyId, MenuItem.DataCode, editItem.voucher_date);
+            editItem.currency_id = ListCurrency.FirstOrDefault(x => x.currency_code == "VND")?.currency_id;
+            editItem.customer_id = "";
+            editItem.customer_code = "";
+            editItem.customer_name = "";
+            editItem.customer_address = "";
+
+            editItem.details = new List<SO001DetailModel>();
+            await NewDetail();
+        }
+        else if(editItem == null || String.IsNullOrEmpty(editItem.voucher_header_id))
+        {
+            string _sFetSingleParam = await Data.MyLib.CreateFetSingleParam(CompanyId, MenuItem.IdColumnName, EditDataId);
+            Model.APIResultModel _resultFetSingle = await DataService.CallMyApiSimple(_sFetSingleParam, MenuItem.FetSingleDataCode);
+
+            if (_resultFetSingle.Status == 0)
+            {
+                string _sData = _resultFetSingle.Data.ToString();
+                Model.SO001Model tmpItem = System.Text.Json.JsonSerializer.Deserialize<Model.SO001Model>(_sData);
+
+                if (tmpItem != null)
+                {
+                    //await Data.MyLib.MapObject<Model.SO001Model>(editItem, tmpItem);
+                    editItem = tmpItem;
+                }
+                else
+                {
+                    MyErrorMessage = "Không tìm thấy [Đơn hàng] cần sửa. Có thể đã bị xóa.";
+                }
+            }
+        }
+
+        DataInited = true;
+    }
+
+}

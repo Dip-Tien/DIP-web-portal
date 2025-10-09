@@ -1,0 +1,147 @@
+﻿
+@using Blazored.LocalStorage;
+@using MyWebERP.Data;
+@using MyWebERP.Services;
+@using MyWebERP.Model;
+@using System.Dynamic;
+@using DevExpress.Blazor
+@using MyWebERP.Base.Components.Pages
+@using Newtonsoft.Json;
+@using Newtonsoft.Json.Linq;
+
+@inherits ComponentBaseGrid1
+
+@code {
+
+    protected Boolean CustCategoryEditPopupVisible{ get; set; }
+    protected EditFormStatus CustCategoryEditFormStatus { get; set; }
+
+    protected CustomerModel selectedModel;
+
+    protected List<CustomerModel> Data { get; set; }
+
+    protected const string FILTER_PARAM_IN_LOCAL_STORAGE = "CUSTOMER_FILTER";
+
+    protected override async Task DataAsync()
+    {
+        // Cho = null để chạy skeleton
+        IsLoading = true;
+        StateHasChanged();
+
+        var storedParam = await LocalStorageService.GetItemAsync<ExpandoObject>(FILTER_PARAM_IN_LOCAL_STORAGE);
+
+        dynamic dParam = storedParam;// new System.Dynamic.ExpandoObject();
+
+        if (dParam == null)
+        {
+            // Nếu null thì mới đi tạo mới
+            dParam = new System.Dynamic.ExpandoObject();
+            dParam.company_id = CompanyId;
+            dParam.data_code = menuItem.DataCode;
+            dParam.page_size = pageSize;
+            dParam.page_number = pageNo;
+            dParam.filter = FilterText;
+            dParam.province_ids = string.Join(",", ListProvinceSelected?.Select(x => x.province_id) ?? Enumerable.Empty<string>());
+            dParam.district_ids = string.Join(",", ListDistrictSelected?.Select(x => x.district_id) ?? Enumerable.Empty<string>());
+        }
+
+        APIResultDataModel resultData = await DataService.GetDataSimple(dParam, menuItem.FetDataCode);
+        rowCount = 0;
+
+        if (resultData != null)
+        {
+            rowCount = resultData.count_of_items;
+
+            if (rowCount > 0)
+            {
+                // JToken token = resultData.data_details as JToken;
+                // Data = token.ToObject<List<CustomerModel>>();
+
+                if (resultData.data_details == null)
+                {
+                    // khi tắt trang web thì không hiểu sao nó bị null
+                    // Thêm vào cho khỏi báo lỗi
+                    rowCount = 0;
+                    Data = new();
+                }
+                else
+                {
+                    Data = System.Text.Json.JsonSerializer.Deserialize<List<CustomerModel>>(resultData.data_details.ToString());
+                }
+            }
+            else
+            {
+                Data = new();
+            }
+        }
+        else
+        {
+            Data = new();
+        }
+
+        this.SetPageInfo(rowCount);
+
+        IsLoading = false;
+
+        // Xóa ngầm filter lưu trước đó (nếu có gọi import thì mới lưu)
+        _ = LocalStorageService.RemoveItemAsync(FILTER_PARAM_IN_LOCAL_STORAGE);
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected override async Task EditItem_Click()
+    {
+        if (Grid.GetFocusedDataItem() != null)
+        {
+            FocusedDataId = ((CustomerModel)Grid.GetFocusedDataItem()).customer_id;
+        }
+
+        await base.EditItem_Click();
+    }
+
+    protected async Task OnCustomerSubmit(CustomerModel customer)
+    {
+        // Nạp lại
+        await DataAsync();
+    }    
+
+    #region Filter
+
+    protected CustFilterConditionPopup filterPopup;
+    protected List<ProvinceLookupModel> ListProvinceSelected;
+    protected List<DistrictLookupModel> ListDistrictSelected;
+    protected String FilterText;
+
+    protected async Task HandleFilterConfirm((List<ProvinceLookupModel> provinces, List<DistrictLookupModel> districts, string filterText) result)
+    {
+        // WorkSelected = result.work;
+        // ListWorkItemSelected = result.listWorkItem;
+
+        // var projectName = WorkSelected?.work_name ?? "Chưa chọn dự án";
+        // var blockNames = ListWorkItemSelected.Any() ? string.Join(", ", ListWorkItemSelected.Select(b => b.work_item_name)) : "";
+        // FilterSummaryText = $"{projectName}";
+
+        // if (!String.IsNullOrEmpty(blockNames))
+        // {
+        //     FilterSummaryText = $"{projectName};` {blockNames}";
+        // }
+
+        ListProvinceSelected = result.provinces;
+        ListDistrictSelected = result.districts;
+        FilterText = result.filterText;
+
+        // TODO: gọi lại API để nạp dữ liệu grid
+        await DataAsync();
+    }
+
+    protected async Task ShowFilterPopup()
+    {
+        // Chờ DxPopup render xong rồi gọi ShowAsync của child
+        if (filterPopup != null)
+        {
+            await filterPopup.ShowAsync(true); // true = load lại dữ liệu mỗi lần mở
+        }
+    }
+
+    #endregion
+}

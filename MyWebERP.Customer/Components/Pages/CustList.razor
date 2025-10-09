@@ -1,0 +1,21 @@
+﻿@page "/listcustomer/{CompanyMenuId}"
+
+
+<DxLayoutBreakpoint DeviceSize="DeviceSize.XSmall" @bind-IsActive="@isXSmallScreen" />
+
+@if(isXSmallScreen)
+{
+    <CustListSmall CompanyMenuId="@CompanyMenuId"/>
+}
+else
+{
+    <CustListLarge CompanyMenuId="@CompanyMenuId" />
+}
+
+@code {
+    [Parameter]
+    public string CompanyMenuId { get; set; }
+
+    Boolean isXSmallScreen { get; set; }
+
+}

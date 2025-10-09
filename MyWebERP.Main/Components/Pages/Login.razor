@@ -1,0 +1,170 @@
+﻿@page "/login"
+@using MyWebERP.Model
+@using MyWebERP.Lib
+@using MyWebERP.Services
+@using System.Security.Claims
+@using Blazored.LocalStorage;
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.Extensions.Localization;
+
+@using Microsoft.AspNetCore.Components.Authorization @*  Có lệnh này mới dùng được @context *@
+
+@inject NavigationManager NavigationManager
+@* @inject LocalizationService Lang *@
+@inject ILocalStorageService LocalStorageService;
+@inject IHttpContextAccessor HttpContextAccessor
+
+@inject IStringLocalizer Language
+
+
+@* <style>
+    .templateListbox {
+        border-width: 0;
+        width: 100%
+    }
+</style> *@
+
+@* <hr />
+<h1 id="title">@LoginLabel</h1>
+<hr /> *@
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-sm-8 col-md-6 col-lg-4">
+            <hr />
+            <h1 id="title">@Language["Đăng nhập"]</h1>
+            <hr />
+            <form asp-action="Login" asp-controller="User">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    @* <label for="cbLang" class="demo-text w-100 mb-1">
+                        @LangLabel
+                    </label> *@
+                    <label for="cbLang" class="demo-text w-100 mb-1">
+                        @Language["Ngôn ngữ"]
+                    </label>
+                    <DxComboBox Data="@Languages"
+                                TextFieldName="@nameof(LanguageModel.language_name)"
+                                @bind-Value="@SelectedLanguage"
+                                CssClass="w-100 form-control-mobile"
+                                SelectedItemChanged="@((LanguageModel lang) => SelectedLangChanged(lang))"
+                                InputId="cbLang" />
+                </div>
+                <div class="form-group">
+                    <label for="txtUsername" id="lblUsername" class="control-label">@Language["Tên đăng nhập"]</label>
+                    <DxTextBox @bind-Text="@Username"
+                               CssClass="w-100 form-control-mobile"
+                               InputId="txtUsername"
+                               NullText="@Language["Tên đăng nhập"]" />
+                    <span asp-validation-for="txtUsername" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="txtPassword" id="lblPass" class="control-label">@Language["Mật khẩu"]</label>
+                    <DxTextBox @bind-Text="@Password"
+                               Password="true"
+                               CssClass="w-100 form-control-mobile"
+                               NullText="@Language["Mật khẩu"]"
+                               InputId="txtPassword" />
+                    <span asp-validation-for="txtPassword" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="cbYear" class="demo-text w-100 mb-1">
+                        @Language["Năm"]
+                    </label>
+                    <DxComboBox Data="@Years"
+                                TextFieldName="@nameof(YearModel.Year)"
+                                @bind-Value="@SelectedYear"
+                                CssClass="w-100 form-control-mobile"
+                                InputId="cbYear" />
+                </div>
+                <div>
+                    @if (String.IsNullOrEmpty(MyErrorMessage) == false)
+                    {
+                        <div style="color:red">@MyErrorMessage</div>
+                    }
+                </div>
+                <div class="form-group">
+                    <DxButton RenderStyle="ButtonRenderStyle.Primary"
+                              Text="@Language["Đăng nhập"]"
+                              Click="@btnLogin_click"
+                              CssClass="w-100 form-control-mobile" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@code
+{
+    [Inject] private MyWebERP.Authentication.ILoginService LoginService { get; set; }
+
+    IEnumerable<LanguageModel> Languages { get; set; }
+    List<YearModel> Years { get; set; }
+    LanguageModel SelectedLanguage { get; set; } = new LanguageModel("vi-VN", "Việt Nam");
+    YearModel SelectedYear { get; set; }
+
+    string MyErrorMessage { get; set; } = "";
+
+    String Username { get; set; }
+    string Password { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Năm
+        int _iCurrentYear = DateTime.Now.Year;
+        this.Years = new List<YearModel>();
+
+        for (int _i = _iCurrentYear - 10; _i <= _iCurrentYear + 10; _i++)
+        {
+            this.Years.Add(new YearModel(_i));
+        }
+
+        this.SelectedYear = this.Years.FirstOrDefault(x => x.Year == _iCurrentYear);
+
+        // Sau này sửa lại lấy từ DB
+        LanguageModel _vn = new LanguageModel("vi-VN", "Việt Nam");
+        List<LanguageModel> _lang = new List<LanguageModel>();
+        _lang.Add(_vn);
+        _lang.Add(new LanguageModel("en-US", "English"));
+
+        this.Languages = _lang;
+
+        var current = System.Globalization.CultureInfo.CurrentUICulture.Name;
+        SelectedLanguage = Languages.FirstOrDefault(x => x.language_code == current) ?? _vn;
+        //await SetLang(SelectedLanguage.language_code);
+
+        //await base.OnInitializedAsync();
+    }
+
+    async Task SelectedLangChanged(LanguageModel p_lang)
+    {
+        if (p_lang?.language_code == System.Globalization.CultureInfo.CurrentUICulture.Name)
+            return; // đã là ngôn ngữ hiện tại → không reload
+
+        SelectedLanguage = p_lang;
+
+        //await SetLang(p_lang.language_code);
+
+        var returnUrl = Uri.EscapeDataString(NavigationManager.Uri);
+        var url = $"/set-culture?culture={p_lang.language_code}&returnUrl={returnUrl}";
+        NavigationManager.NavigateTo(url, forceLoad: true);
+
+
+        // await JS.InvokeVoidAsync("blazorCulture.set", p_lang.language_code);
+        // await JS.InvokeVoidAsync("location.reload");
+    }
+
+    private async Task btnLogin_click(MouseEventArgs args)
+    {
+        MyErrorMessage = "";
+
+        try
+        {
+            LoginResultModel _loginResult = await this.LoginService.Login(this.Username, this.Password, SelectedLanguage, SelectedYear.Year);
+
+            NavigationManager.NavigateTo("/selectcompany");
+        }
+        catch(Exception _ex)
+        {
+            MyErrorMessage = _ex.Message;
+        }
+    }
+}

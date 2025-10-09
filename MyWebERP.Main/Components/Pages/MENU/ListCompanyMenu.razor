@@ -1,0 +1,302 @@
+﻿@page "/listcmopanymenu/{CompanyMenuId}"
+
+@using Blazored.LocalStorage;
+@using MyWebERP.Data;
+@using MyWebERP.Services;
+@using MyWebERP.Model;
+@* @using DevExpress.Blazor; *@
+
+@rendermode InteractiveServer // Có thì mới popup
+
+@inject ILocalStorageService LocalStorageService
+@inject IDataService DataService
+
+<DxTreeList @ref="Grid" Data="Data"
+            KeyFieldName="web_company_menu_id"
+            ParentKeyFieldName="parent_id"
+            HasChildrenFieldName="has_children"
+            VirtualScrollingEnabled="true"
+            ColumnResizeMode="TreeListColumnResizeMode.NextColumn"
+            TextWrapEnabled="false"
+            CssClass="max-h-480"
+            ValidationEnabled="true"
+            EditModelSaving="Grid_EditModelSaving"
+            DataItemDeleting="Grid_DataItemDeleting"
+            CustomizeEditModel="Grid_CustomizeEditModel"
+            PopupEditFormCssClass="pw-800"
+            EditMode="TreeListEditMode.PopupEditForm"
+            HighlightRowOnHover="true">
+    <Columns>
+        <DxTreeListCommandColumn Width="200px" />
+        <DxTreeListDataColumn FieldName="@nameof(CompanyMenuModel.web_company_menu_name)" Caption="Name" />
+        <DxTreeListDataColumn FieldName="@nameof(CompanyMenuModel.title)" Caption="Title" />
+        <DxTreeListDataColumn FieldName="@nameof(CompanyMenuModel.order)" Caption="order" />
+        <DxGridDataColumn FieldName=@nameof(MenuModel.inactive) Caption="Inactive" MinWidth="100"
+                          FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never">
+            <CellDisplayTemplate>
+                <DxCheckBox Checked="@((Int16)context.Value == 1)" />
+            </CellDisplayTemplate>
+        </DxGridDataColumn>
+        @* <DxTreeListDataColumn FieldName="Priority" Width="80px" CaptionAlignment="TreeListTextAlignment.Center" TextAlignment="TreeListTextAlignment.Center">
+            <CellDisplayTemplate>
+                @{
+                    var displayText = TreeListRenderHelper.TaskPriorityToString((int)context.GetRowValue("Priority"));
+                }
+                <span title="@displayText priority">@displayText</span>
+            </CellDisplayTemplate>
+            <EditSettings>
+                <DxComboBoxSettings Data="Priorities" ValueFieldName="Value" TextFieldName="Text" />
+            </EditSettings>
+        </DxTreeListDataColumn> *@
+
+    </Columns>
+    <EditFormTemplate Context="EditFormContext">
+        @{
+
+            var menu = (CompanyMenuModel)EditFormContext.EditModel;
+        }
+        <DxFormLayout CssClass="w-100">
+            <DxFormLayoutItem Caption="Menu:" ColSpanMd="12">
+                <DxComboBox Data="@Menus"
+                TextFieldName="@nameof(MenuModel.web_menu_name)"
+                ValueFieldName="@nameof(MenuModel.web_menu_id)"
+                NullText="Chọn menu"
+                @bind-Value="@menu.web_menu_id"
+                SelectedItemChanged="@((MenuModel item) => MenuSelectedChanged(item))"
+
+                InputId="cbMenu" />
+            </DxFormLayoutItem>
+
+            <DxFormLayoutItem Caption="Menu name:" ColSpanMd="12">
+                @EditFormContext.GetEditor(nameof(CompanyMenuModel.web_company_menu_name))
+            </DxFormLayoutItem>
+
+            <DxFormLayoutItem Caption="Order:" ColSpanMd="12">
+                @EditFormContext.GetEditor(nameof(CompanyMenuModel.order))
+            </DxFormLayoutItem>
+
+            @* <DxGridDataColumn FieldName=@nameof(CompanyMenuModel.inactive) Caption="Inactive" MinWidth="100"
+                              FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never">
+                <CellDisplayTemplate>
+                    <DxCheckBox Checked="@((Int16)context.Value == 1)" />
+                </CellDisplayTemplate>
+            </DxGridDataColumn> *@
+        </DxFormLayout>
+    </EditFormTemplate>
+    @* <ToolbarTemplate>
+        <DxToolbar ItemRenderStyleMode="ToolbarRenderStyleMode.Plain">
+            <Items>
+                <DxToolbarItem BeginGroup="true" Alignment="ToolbarItemAlignment.Left">
+                    <Template Context="toolbar_item_context">
+                        <div class="d-flex flex-row align-items-center h-100">
+                            <div class="me-2">Edit Mode:</div>
+                            <DxComboBox Data="@TreeListEditModes" TextFieldName="Name"
+                                        @bind-Value="@EditMode" />
+                        </div>
+                    </Template>
+                </DxToolbarItem>
+                <DxToolbarItem BeginGroup="true" Alignment="ToolbarItemAlignment.Left">
+                    <Template Context="toolbar_item_context">
+                        <div class="d-flex flex-row align-items-center me-2">
+                            <DxCheckBox Checked="EnableValidation" CheckedChanged="new Func<bool, Task>(EnableValidation_CheckedChanged)">Enable Validation</DxCheckBox>
+                        </div>
+                    </Template>
+                </DxToolbarItem>
+                <DxToolbarItem>
+                    <Template Context="toolbar_item_context">
+                        <div class="d-flex flex-row align-items-center">
+                            <DxCheckBox Checked="ShowValidationSuccessState" Enabled="EnableValidation" CheckedChanged="new Func<bool, Task>(ShowValidationSuccessState_CheckedChanged)">Show Validation Success State</DxCheckBox>
+                        </div>
+                    </Template>
+                </DxToolbarItem>
+            </Items>
+        </DxToolbar>
+    </ToolbarTemplate> *@
+</DxTreeList>
+
+<DxWindow @ref=windowRef
+    AllowResize="true"
+    ShowCloseButton="true"
+    CloseOnEscape="true"
+    HeaderText="Edit Contact"
+    FooterText="Footer"
+    ShowFooter="true"
+    Width="max(25vw, 250px)"
+    MinWidth="300"
+    MinHeight="200"
+    MaxWidth="800"
+    MaxHeight="500">
+    <BodyContentTemplate>
+        <div style="color:red">@MyErrorMessage</div>
+    </BodyContentTemplate>
+    <FooterContentTemplate>
+        <DxButton CssClass="popup-button my-1 ms-2" RenderStyle="ButtonRenderStyle.Primary" Text="OK" Click="@context.CloseCallback" />
+    </FooterContentTemplate>
+</DxWindow>
+
+@code {
+
+    const string ExportFileName = "ExportResult";
+
+    [Parameter]
+    public string CompanyMenuId { get; set; }
+    string CompanyId;
+
+    private MenuItem menuItem;
+
+    List<CompanyMenuModel> Data { get; set; }
+    List<CompanyMenuModel> Parent { get; set; }
+    List<MenuModel> Menus { get; set; }
+    // Đổi sang sử dụng dynamic. Lỗi khi bắt sự kiện selected changed ở combo
+    // List<dynamic> Menus { get; set; }
+
+    ITreeList Grid { get; set; }
+    string GridSearchText = "";
+    string MyErrorMessage { get; set; }
+    bool EditItemsEnabled { get; set; }
+    int FocusedRowVisibleIndex { get; set; }
+
+    CompanyMenuModel EditCompanyMenu;
+
+    DxWindow windowRef;
+
+    protected override async Task OnInitializedAsync()
+    {
+        CompanyId = await LocalStorageService.GetItemAsync<string?>(LocalStorageName.COMPANY_ID);
+        // Lấy thông tin menu
+        menuItem = await DataService.GetMenuSingle(CompanyMenuId);
+        // Lấy dữ liệu
+        await DataAsync();
+    }
+
+    void Grid_FocusedRowChanged(GridFocusedRowChangedEventArgs args)
+    {
+        FocusedRowVisibleIndex = args.VisibleIndex;
+        UpdateEditItemsEnabled(true);
+    }
+    void UpdateEditItemsEnabled(bool enabled)
+    {
+        EditItemsEnabled = enabled;
+    }
+
+    private void MenuSelectedChanged(MenuModel item)
+    {
+        EditCompanyMenu.web_company_menu_name = item.web_menu_name;
+    }
+
+    async void Grid_CustomizeEditModel(TreeListCustomizeEditModelEventArgs e)
+    {
+        MyErrorMessage = "";
+
+        EditCompanyMenu = (CompanyMenuModel)e.EditModel;
+
+        if (e.IsNew)
+        {            
+            EditCompanyMenu.web_menu_name = "Menu mới";
+            EditCompanyMenu.title = "Menu mới nhé";
+            EditCompanyMenu.company_id = CompanyId;
+        }
+        else
+        {
+            // Lấy lại dữ liệu trước khi sửa.
+            string _sFetSingleParam = await MyLib.CreateFetSingleParam(LocalStorageService, Grid.KeyFieldName, EditCompanyMenu.web_company_menu_id);
+            APIResultModel _resultFetSingle = await DataService.CallMyApi(_sFetSingleParam, menuItem.FetSingleDataCode);
+
+            if(_resultFetSingle.Status == 0)
+            {
+                string _sData = _resultFetSingle.Data.ToString();
+                CompanyMenuModel _menuModelTmp = System.Text.Json.JsonSerializer.Deserialize<CompanyMenuModel>(_sData);
+                await MyLib.MapObject<CompanyMenuModel>(EditCompanyMenu, _menuModelTmp);
+            }
+        }
+    }
+    async Task Grid_EditModelSaving(TreeListEditModelSavingEventArgs e)
+    {
+        var menu = (CompanyMenuModel)e.EditModel;
+        string _sApiCode = e.IsNew ? menuItem.InsDataCode : menuItem.UpdDataCode;
+
+        APIResultModel _resultIns = await DataService.CallMyApi(menu, _sApiCode);
+
+        if (_resultIns.Status != 0)
+        {
+            MyErrorMessage = _resultIns.StatusDetails;
+            e.Cancel = true;
+            return;
+        }
+
+        await DataAsync();
+    }
+    async Task Grid_DataItemDeleting(TreeListDataItemDeletingEventArgs e)
+    {
+        CompanyMenuModel menuModel = (CompanyMenuModel)e.DataItem;
+
+        string _sParam = await MyLib.CreateDeleteDataParam(LocalStorageService, Grid.KeyFieldName, menuModel.web_menu_id);
+
+        APIResultModel _resultDel = await DataService.CallMyApi(_sParam, menuItem.DelDataCode);
+
+
+        if(_resultDel.Status != 0)
+        {
+            MyErrorMessage = _resultDel.StatusDetails;
+            await windowRef.ShowAsync();
+            return;
+        }
+
+        await DataAsync();
+    }
+
+    async Task DataAsync()
+    {
+        string _sParam = "{\"company_id\":\"" + CompanyId + "\",\"page_number\":1,\"page_size\":50}";
+        APIResultDataModel resultData = await DataService.GetData(_sParam, menuItem.FetDataCode);
+        if (resultData != null)
+        {
+            Data = System.Text.Json.JsonSerializer.Deserialize<List<CompanyMenuModel>>(resultData.data_details.ToString());
+
+            Parent = Data.ToList();
+
+            // Menus = await DataService.LookupCode(CompanyId, 1, menuItem.CompanyMenuId, "WEB_MENU_LOOKUP");
+            APIResultDataModel resultMenuData = await DataService.GetData(_sParam, "WEB_MENU_LOOKUP");
+            if(resultMenuData.data_details != null)
+            {
+                Menus = Newtonsoft.Json.JsonConvert.DeserializeObject<List<MenuModel>>(resultMenuData.data_details.ToString());
+            }
+            else
+            {
+                Menus = new();
+            }
+        }
+    }
+
+    async Task RefreshItem_Click()
+    {
+        await DataAsync();
+    }
+
+    async Task NewItem_Click()
+    {
+        await Grid.StartEditNewRowAsync();
+    }
+    async Task EditItem_Click()
+    {
+        await Grid.StartEditRowAsync(FocusedRowVisibleIndex);
+    }
+    void DeleteItem_Click()
+    {
+        Grid.ShowRowDeleteConfirmation(FocusedRowVisibleIndex);
+    }
+
+    async Task ExportXlsxItem_Click()
+    {
+        await Grid.ExportToXlsxAsync(ExportFileName);
+    }
+    async Task ExportXlsItem_Click()
+    {
+        await Grid.ExportToXlsAsync(ExportFileName);
+    }
+    async Task ExportCsvItem_Click()
+    {
+        await Grid.ExportToCsvAsync(ExportFileName);
+    }
+
+}

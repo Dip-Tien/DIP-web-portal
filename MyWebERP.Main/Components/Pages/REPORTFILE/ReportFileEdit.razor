@@ -1,0 +1,162 @@
+﻿@using Blazored.LocalStorage;
+@using Model;
+@using Data;
+@using MyWebERP.Base.Components.Pages
+
+@inherits MyEditFormBase1
+
+<EditForm Model="@editItem"
+OnValidSubmit="@FormSubmitted"
+id="@FormId"
+Context="EditFormContext">
+    <DataAnnotationsValidator />
+    <div>
+        <DxFormLayout CssClass="w-1000">
+
+            <DxFormLayoutItem Caption="Name (bắt buộc):" ColSpanMd="12" >
+                <div>
+                    <DxTextBox @bind-Text="@editItem.report_name" @ref="txtReportName" CssClass="enter-nav">
+                    </DxTextBox>
+                </div>
+                <div class="text-danger editors-validation-text">
+                    <ValidationMessage For="@(() => editItem.report_name)" />
+                </div>
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Title (bắt buộc):" ColSpanMd="12">
+                <div>
+                    <DxTextBox @bind-Text="@editItem.report_title" CssClass="enter-nav"/>
+                </div>
+                <div class="text-danger editors-validation-text">
+                    <ValidationMessage For="@(() => editItem.report_title)" />
+                </div>
+            </DxFormLayoutItem>
+
+            <DxFormLayoutItem Caption="Menu ID:" ColSpanMd="12">
+                <DxComboBox Data="@ListMenu"
+                            @bind-Value=@editItem.web_menu_id
+                SearchMode="@ListSearchMode.AutoSearch"
+                SearchFilterCondition="@ListSearchFilterCondition.Contains"
+                NullText="Chọn nhóm"
+                TextFieldName="@nameof(MenuModel.web_menu_name)"
+                            ValueFieldName="@nameof(MenuModel.web_menu_id)"
+                            SelectedItemChanged="@((MenuModel arg) => SelectMenuChanged(arg, editItem))"
+                CssClass="enter-nav my-combobox">
+                    <Columns>
+                        <DxListEditorColumn FieldName="@nameof(MenuModel.web_menu_id)" Caption="ID" Width="120" />
+                        <DxListEditorColumn FieldName="@nameof(MenuModel.web_menu_name)" Caption="Tên" Width="200" />
+                        <DxListEditorColumn FieldName="@nameof(MenuModel.comment)" Caption="Ghi chú" Width="300" />
+                    </Columns>
+                </DxComboBox>
+            </DxFormLayoutItem>
+
+            <DxFormLayoutItem Caption="Desc:" ColSpanMd="12">
+                <div>
+                    <DxTextBox @bind-Text ="@editItem.report_file_desc" CssClass="enter-nav"/>
+                </div>
+            </DxFormLayoutItem>
+
+            <DxFormLayoutItem Caption="Sp name:" ColSpanMd="12">
+                <div>
+                    <DxTextBox @bind-Text="@editItem.sp_name" CssClass="enter-nav" />
+                </div>
+            </DxFormLayoutItem>
+
+            <DxFormLayoutItem Caption="Invisible:" ColSpanMd="12">
+                <DxCheckBox @bind-Checked ="@editItem.invisible" ValueChecked="@((Int16)1)" ValueUnchecked="@((Int16)0)" CssClass="enter-nav"></DxCheckBox>
+            </DxFormLayoutItem>
+
+        </DxFormLayout>
+    </div>
+</EditForm>
+
+@code {
+    // [Inject] IJSRuntime JS { get; set; } = default!;
+
+    Model.ReportFileModel editItem { get; set; } = new Model.ReportFileModel();
+
+    List<Model.MenuModel> ListMenu { get; set; }
+
+    DxTextBox txtReportName;
+
+    protected override async Task OnInitializedAsync()
+    {
+        MyErrorMessage = "";
+
+        if(FormStatus == Data.EditFormStatus.NEW)
+        {
+            editItem.data_code = MenuItem.DataCode;
+            editItem.report_file_id = await DataService.GetRowId(CompanyId, MenuItem.CompanyMenuId);
+        }
+        else
+        {
+            string _sFetSingleParam = await Data.MyLib.CreateFetSingleParam(CompanyId, MenuItem.IdColumnName, EditDataId);
+            Model.APIResultModel _resultFetSingle = await DataService.CallMyApiSimple(_sFetSingleParam, MenuItem.FetSingleDataCode);
+
+            if (_resultFetSingle.Status == 0)
+            {
+                string _sData = _resultFetSingle.Data.ToString();
+                Model.ReportFileModel custTmp = System.Text.Json.JsonSerializer.Deserialize<Model.ReportFileModel>(_sData);
+
+                if (custTmp != null)
+                {
+                    await Data.MyLib.MapObject<Model.ReportFileModel>(editItem, custTmp);
+                }
+                else
+                {
+                    MyErrorMessage = "Không tìm thấy [mẫu in/báo cáo] cần sửa. Có thể đã bị xóa.";
+                }
+            }
+        }
+    }
+
+    // protected override void OnAfterRender(bool firstRender)
+    // {
+    //     // focus vào ô này
+    //     txtCustomerCode.FocusAsync();
+    // }
+
+    protected async Task InitCfg()
+    {
+        ListMenu = await DataService.LookupCode<MenuModel>(CompanyId, 1, MenuItem.CompanyMenuId, "WEB_MENU_LOOKUP");
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await InitCfg();
+
+        if (firstRender)
+        {
+            // Phải nhớ cho vào đây, kẻo mỗi lần enter nó render lại thì nó lại nhảy về đầu tiên
+            await txtReportName.FocusAsync();
+        };
+
+        await base.OnAfterRenderAsync(firstRender);
+
+    }
+
+    async Task SelectMenuChanged(MenuModel menu, ReportFileModel reportFile)
+    {
+        reportFile.web_menu_id = menu.web_menu_id;
+    }
+
+    void KeyDownHandler(KeyboardEventArgs args)
+    {
+        // if (args.Key == "Backspace" && CurrentValueAsString.Length >= 1)
+        // {
+        //     CurrentValueAsString = CurrentValueAsString.Substring(0,
+        //                                CurrentValueAsString.Length - 1);
+        // }
+    }
+
+    void KeyPressHandler(KeyboardEventArgs args)
+    {
+
+        if (args.Key == "Enter")
+        {
+            
+            return;
+        }
+        // var key = (string)args.Key;
+        // CurrentValueAsString += key;
+    }
+}

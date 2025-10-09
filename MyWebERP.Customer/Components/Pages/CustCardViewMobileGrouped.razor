@@ -1,0 +1,143 @@
+﻿@using System.Globalization
+@using MyWebERP.Model
+@using MyWebERP.Lib
+
+@inject Microsoft.Extensions.Localization.IStringLocalizer Language
+
+<div class="row row-cols-1 g-2">
+    @foreach (var item in FilteredData)
+    {
+        <div class="col">
+            <div class="card shadow-sm rounded-3">
+                <div class="card-body p-2">
+
+                    <!-- Thông tin cơ bản -->
+                    <h6 class="card-title mb-2 text-primary">
+                        <i class="bi bi-person-badge me-1"></i>@item.customer_name
+                    </h6>
+                    <div class="small mb-1">
+                        <span class="text-muted me-1">@Language["Mã khách"]:</span>
+                        <i class="bi bi-upc me-1"></i>@item.customer_code
+                    </div>
+                    <div class="small mb-1">
+                        <span class="text-muted me-1">@Language["Địa chỉ"]:</span>
+                        <i class="bi bi-geo-alt text-danger me-1"></i>@DisplayOrEmpty(item.full_address)
+                    </div>
+                    <div class="small mb-2">
+                        <span class="text-muted me-1">@Language["Phân loại"]:</span>
+                        @if (item.is_personal == 1)
+                        {
+                            <i class="bi bi-person-check text-success me-1"></i>
+                            @Language["Cá nhân"]
+                        }
+                        else
+                        {
+                            <i class="bi bi-buildings text-info me-1"></i>
+                            @Language["Tổ chức"]
+                        }
+                    </div>
+
+                    <hr class="my-2" />
+
+                    <!-- Thông tin liên hệ -->
+                    <div class="small mb-1">
+                        <span class="text-muted me-1">@Language["Điện thoại"]:</span>
+                        <i class="bi bi-telephone me-1"></i>@DisplayOrEmpty(item.tel)
+                    </div>
+                    <div class="small mb-1">
+                        <span class="text-muted me-1">@Language["Email"]:</span>
+                        <i class="bi bi-envelope me-1"></i>@DisplayOrEmpty(item.email)
+                    </div>
+                    <div class="small mb-1">
+                        <span class="text-muted me-1">@Language["Xưng hô / Giới tính"]:</span>
+                        <i class="bi bi-person-circle me-1"></i>@item.vocative
+                        @if (!string.IsNullOrWhiteSpace(item.gender))
+                        {
+                            if (item.gender == "Nam" || item.gender == "Male")
+                            {
+                                <span class="ms-2"><i class="bi bi-gender-male text-primary me-1"></i>@Language["Nam"]</span>
+                            }
+                            else if (item.gender == "Nữ" || item.gender == "Female")
+                            {
+                                <span class="ms-2"><i class="bi bi-gender-female text-danger me-1"></i>@Language["Nữ"]</span>
+                            }
+                            else
+                            {
+                                <span class="ms-2"><i class="bi bi-gender-ambiguous me-1"></i>@Language["Khác"]</span>
+                            }
+                        }
+                    </div>
+                    <div class="small mb-1">
+                        <span class="text-muted me-1">@Language["Nhóm khách"]:</span>
+                        <i class="bi bi-people me-1"></i>@item.cust_category_name
+                    </div>
+                    <div class="small mb-2">
+                        <span class="text-muted me-1">@Language["Ghi chú"]:</span>
+                        <i class="bi bi-journal-text me-1"></i>@item.comment
+                    </div>
+
+                    <hr class="my-2" />
+
+                    <!-- Quản lý -->
+                    <div class="small mb-1">
+                        <span class="text-muted me-1">@Language["Trạng thái"]:</span>
+                        @if (item.inactive == 1)
+                        {
+                            <span class="text-danger"><i class="bi bi-slash-circle me-1"></i>@Language["Không SD"]</span>
+                        }
+                        else
+                        {
+                            <span class="text-success"><i class="bi bi-check-circle me-1"></i>@Language["Đang SD"]</span>
+                        }
+                    </div>
+                    <div class="small mb-1">
+                        <span class="text-muted me-1">@Language["Người tạo"]:</span>
+                        <i class="bi bi-person-badge me-1"></i>@item.created_by_display_name
+                    </div>
+                    <div class="small">
+                        <span class="text-muted me-1">@Language["Người sửa"]:</span>
+                        <i class="bi bi-person-fill-gear me-1"></i>@item.last_modified_by_display_name
+                    </div>
+
+                   @*  <div class="d-flex justify-content-end mt-2">
+                        <button class="btn btn-sm btn-outline-primary me-1" >
+                            <i class="bi bi-pencil-square"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger me-1" >
+                            <i class="bi bi-trash"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-secondary" >
+                            <i class="bi bi-eye"></i>
+                        </button>
+                    </div> *@
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+@code {
+    [Parameter] public IEnumerable<CustomerModel>? Data { get; set; }
+
+    private string searchText = "";
+
+    private IEnumerable<CustomerModel> FilteredData =>
+        string.IsNullOrWhiteSpace(searchText) || Data == null
+        ? Data ?? Enumerable.Empty<CustomerModel>()
+        : Data.Where(item =>
+            CM.ContainsIgnoreDiacritics(item.customer_name, searchText) ||
+            CM.ContainsIgnoreDiacritics(item.customer_code, searchText) ||
+            CM.ContainsIgnoreDiacritics(item.full_address, searchText) ||
+            CM.ContainsIgnoreDiacritics(item.tel, searchText) ||
+            CM.ContainsIgnoreDiacritics(item.email, searchText) ||
+            CM.ContainsIgnoreDiacritics(item.vocative, searchText) ||
+            CM.ContainsIgnoreDiacritics(item.cust_category_name, searchText) ||
+            CM.ContainsIgnoreDiacritics(item.comment, searchText) ||
+            CM.ContainsIgnoreDiacritics(item.created_by_display_name, searchText) ||
+            CM.ContainsIgnoreDiacritics(item.last_modified_by_display_name, searchText)
+        );
+
+    private string DisplayOrEmpty(string? value) =>
+        string.IsNullOrWhiteSpace(value) ? Language["Chưa cập nhật"] : value!;
+}

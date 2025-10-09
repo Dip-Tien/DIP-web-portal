@@ -1,0 +1,101 @@
+﻿@page "/selectyear"
+@using MyWebERP.Model
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization @*  Có lệnh này mới dùng được @context *@
+
+
+@inject NavigationManager _navigationManager
+@inject Blazored.LocalStorage.ILocalStorageService _localStorageService
+@inject MyWebERP.Data.AppStateManager _appState
+@inject Microsoft.Extensions.Localization.IStringLocalizer Lang
+
+<style>
+    .templateListbox {
+        border-width: 0;
+        width: 100%
+    }
+</style>
+
+<div class="container">
+    <hr />
+    <h1 id="title">@Lang["Chọn năm làm việc"]</h1>
+    <hr />
+    <div class="row justify-content-center">
+        <div class="col-12 col-sm-8 col-md-6 col-lg-4">
+            <form asp-action="Login" asp-controller="User">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label for="cbYear" class="demo-text w-100 mb-1">
+                        @Lang["Năm"]
+                    </label>
+                    <DxComboBox Data="@Years"
+                                TextFieldName="@nameof(YearModel.Year)"
+                                @bind-Value="@SelectedYear"
+                                CssClass="w-100 form-control-mobile"
+                                InputId="cbYear" />
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <DxButton RenderStyle="ButtonRenderStyle.Primary"
+                                      Text="@Lang["Chọn"]"
+                                      Click="@btnLogin_click"
+                                      CssClass="w-100 form-control-mobile" />
+                        </div>
+                    </div>
+                    <div class="col">
+                        <DxButton RenderStyle="ButtonRenderStyle.Secondary"
+                                  Text="@Lang["Hủy"]"
+                                  Click="@btnCancel_click"
+                                  CssClass="w-100 form-control-mobile" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    List<YearModel>? Years { get; set; }
+    YearModel? SelectedYear { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Năm
+        int? _iCurrentYear = await _localStorageService.GetItemAsync<int?>(Data.LocalStorageName.YEAR);
+        LanguageModel? _lang = await _localStorageService.GetItemAsync<LanguageModel?>(Data.LocalStorageName.LANGUAGE);
+
+        if (_iCurrentYear == null)
+        {
+            _iCurrentYear = DateTime.Now.Year;
+        }
+
+        this.Years = new List<YearModel>();
+
+        for (int _i = _iCurrentYear.Value - 10; _i <= _iCurrentYear + 10; _i++)
+        {
+            this.Years.Add(new YearModel(_i));
+        }
+
+        this.SelectedYear = this.Years.FirstOrDefault(x => x.Year == _iCurrentYear.Value);
+
+        //return base.OnInitializedAsync();
+    }
+
+    private async Task btnLogin_click(MouseEventArgs args)
+    {
+        await _localStorageService.SetItemAsync<int?>(Data.LocalStorageName.YEAR, SelectedYear?.Year);
+        await _appState.YearState();
+
+
+        // _navigationManager.NavigateTo(HttpContext.Request.Headers["Referer"]);
+        _navigationManager.NavigateTo("/");
+    }
+
+    private void btnCancel_click(MouseEventArgs args)
+    {
+        //_navigationManager.NavigateTo(HttpContext.Request.Headers["Referer"]);
+        _navigationManager.NavigateTo("/");
+    }
+}

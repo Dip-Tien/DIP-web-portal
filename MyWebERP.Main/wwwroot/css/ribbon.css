@@ -1,0 +1,261 @@
+﻿.theme-fluent-light .ribbon-container .dxbl-ribbon .dxbl-tabs-content-panel,
+.theme-fluent-dark .ribbon-container .dxbl-ribbon .dxbl-tabs-content-panel {
+    box-shadow: var(--DS-box-shadow-shadow-04);
+    border-radius: var(--DS-border-radius-medium);
+}
+.ribbon-container {
+    width: 100%;
+    height: 300px;
+    max-width: 1150px;
+    position: relative;
+}
+
+.rb-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    background-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    background-position: center center;
+    background-color: currentColor;
+}
+
+.rb-icon-undo {
+    -webkit-mask-image: url("../images/icons/ribbon/fluent/undo.svg");
+    mask-image: url("../images/icons/ribbon/fluent/undo.svg");
+}
+
+.rb-icon-redo {
+    -webkit-mask-image: url("../images/icons/ribbon/fluent/redo.svg");
+    mask-image: url("../images/icons/ribbon/fluent/redo.svg");
+}
+
+.rb-icon-paste {
+    -webkit-mask-image: url("../images/icons/ribbon/fluent/clipboard.svg");
+    mask-image: url("../images/icons/ribbon/fluent/clipboard.svg");
+}
+
+.rb-icon-paint {
+    -webkit-mask-image: url("../images/icons/ribbon/fluent/paint.svg");
+    mask-image: url("../images/icons/ribbon/fluent/paint.svg");
+}
+
+.rb-icon-bold {
+    -webkit-mask-image: url("../images/icons/ribbon/fluent/bold.svg");
+    mask-image: url("../images/icons/ribbon/fluent/bold.svg");
+}
+
+.rb-icon-italic {
+    -webkit-mask-image: url("../images/icons/ribbon/fluent/italic.svg");
+    mask-image: url("../images/icons/ribbon/fluent/italic.svg");
+}
+
+.rb-icon-underline {
+    -webkit-mask-image: url("../images/icons/ribbon/fluent/underline.svg");
+    mask-image: url("../images/icons/ribbon/fluent/underline.svg");
+}
+
+.rb-icon-bullets {
+    -webkit-mask-image: url("../images/icons/ribbon/fluent/bullets.svg");
+    mask-image: url("../images/icons/ribbon/fluent/bullets.svg");
+}
+
+.rb-icon-search {
+    -webkit-mask-image: url("../images/icons/ribbon/fluent/search.svg");
+    mask-image: url("../images/icons/ribbon/fluent/search.svg");
+}
+
+.rb-icon-dictate {
+    -webkit-mask-image: url("../images/icons/ribbon/fluent/mic.svg");
+    mask-image: url("../images/icons/ribbon/fluent/mic.svg");
+}
+
+.rb-icon-page-break {
+    -webkit-mask-image: url("../images/icons/ribbon/fluent/page-break.svg");
+    mask-image: url("../images/icons/ribbon/fluent/page-break.svg");
+}
+
+.rb-icon-table {
+    -webkit-mask-image: url("../images/icons/ribbon/fluent/table.svg");
+    mask-image: url("../images/icons/ribbon/fluent/table.svg");
+}
+
+.rb-icon-picture {
+    -webkit-mask-image: url("../images/icons/ribbon/fluent/picture.svg");
+    mask-image: url("../images/icons/ribbon/fluent/picture.svg");
+}
+
+.rb-icon-link {
+    -webkit-mask-image: url("../images/icons/ribbon/fluent/link.svg");
+    mask-image: url("../images/icons/ribbon/fluent/link.svg");
+}
+
+.rb-icon-bookmarks {
+    -webkit-mask-image: url("../images/icons/ribbon/fluent/bookmarks.svg");
+    mask-image: url("../images/icons/ribbon/fluent/bookmarks.svg");
+}
+
+.rb-icon-page-numbers {
+    -webkit-mask-image: url("../images/icons/ribbon/fluent/page-numbers.svg");
+    mask-image: url("../images/icons/ribbon/fluent/page-numbers.svg");
+}
+
+.rb-icon-symbol {
+    -webkit-mask-image: url("../images/icons/ribbon/fluent/pi.svg");
+    mask-image: url("../images/icons/ribbon/fluent/pi.svg");
+}
+
+.rb-icon-copy {
+    -webkit-mask-image: url("../images/icons/ribbon/fluent/copy.svg");
+    mask-image: url("../images/icons/ribbon/fluent/copy.svg");
+}
+
+.rb-icon-cut {
+    -webkit-mask-image: url("../images/icons/ribbon/fluent/cut.svg");
+    mask-image: url("../images/icons/ribbon/fluent/cut.svg");
+}
+
+.rb-icon-document-blank {
+    -webkit-mask-image: url("../images/icons/ribbon/fluent/document-blank.svg");
+    mask-image: url("../images/icons/ribbon/fluent/document-blank.svg");
+}
+
+.rb-icon-folder-open {
+    -webkit-mask-image: url("../images/icons/ribbon/fluent/folder-open.svg");
+    mask-image: url("../images/icons/ribbon/fluent/folder-open.svg");
+}
+
+.rb-icon-print {
+    -webkit-mask-image: url("../images/icons/ribbon/fluent/print.svg");
+    mask-image: url("../images/icons/ribbon/fluent/print.svg");
+}
+
+.rb-icon-share {
+    -webkit-mask-image: url("../images/icons/ribbon/fluent/share.svg");
+    mask-image: url("../images/icons/ribbon/fluent/share.svg");
+}
+
+.rb-icon-save {
+    -webkit-mask-image: url("../images/icons/ribbon/fluent/save.svg");
+    mask-image: url("../images/icons/ribbon/fluent/save.svg");
+}
+
+.rb-icon-undo {
+    -webkit-mask-image: url("../images/icons/ribbon/berry/undo.svg");
+    mask-image: url("../images/icons/ribbon/berry/undo.svg");
+}
+
+.rb-icon-redo {
+    -webkit-mask-image: url("../images/icons/ribbon/berry/redo.svg");
+    mask-image: url("../images/icons/ribbon/berry/redo.svg");
+}
+
+.rb-icon-paste {
+    -webkit-mask-image: url("../images/icons/ribbon/berry/clipboard.svg");
+    mask-image: url("../images/icons/ribbon/berry/clipboard.svg");
+}
+
+.rb-icon-paint {
+    -webkit-mask-image: url("../images/icons/ribbon/berry/paint.svg");
+    mask-image: url("../images/icons/ribbon/berry/paint.svg");
+}
+
+.rb-icon-bold {
+    -webkit-mask-image: url("../images/icons/ribbon/berry/bold.svg");
+    mask-image: url("../images/icons/ribbon/berry/bold.svg");
+}
+
+.rb-icon-italic {
+    -webkit-mask-image: url("../images/icons/ribbon/berry/italic.svg");
+    mask-image: url("../images/icons/ribbon/berry/italic.svg");
+}
+
+.rb-icon-underline {
+    -webkit-mask-image: url("../images/icons/ribbon/berry/underline.svg");
+    mask-image: url("../images/icons/ribbon/berry/underline.svg");
+}
+
+.rb-icon-bullets {
+    -webkit-mask-image: url("../images/icons/ribbon/berry/bullets.svg");
+    mask-image: url("../images/icons/ribbon/berry/bullets.svg");
+}
+
+.rb-icon-search {
+    -webkit-mask-image: url("../images/icons/ribbon/berry/search.svg");
+    mask-image: url("../images/icons/ribbon/berry/search.svg");
+}
+
+.rb-icon-dictate {
+    -webkit-mask-image: url("../images/icons/ribbon/berry/mic.svg");
+    mask-image: url("../images/icons/ribbon/berry/mic.svg");
+}
+
+.rb-icon-page-break {
+    -webkit-mask-image: url("../images/icons/ribbon/berry/page-break.svg");
+    mask-image: url("../images/icons/ribbon/berry/page-break.svg");
+}
+
+.rb-icon-table {
+    -webkit-mask-image: url("../images/icons/ribbon/berry/table.svg");
+    mask-image: url("../images/icons/ribbon/berry/table.svg");
+}
+
+.rb-icon-picture {
+    -webkit-mask-image: url("../images/icons/ribbon/berry/picture.svg");
+    mask-image: url("../images/icons/ribbon/berry/picture.svg");
+}
+
+.rb-icon-link {
+    -webkit-mask-image: url("../images/icons/ribbon/berry/link.svg");
+    mask-image: url("../images/icons/ribbon/berry/link.svg");
+}
+
+.rb-icon-bookmarks {
+    -webkit-mask-image: url("../images/icons/ribbon/berry/bookmarks.svg");
+    mask-image: url("../images/icons/ribbon/berry/bookmarks.svg");
+}
+
+.rb-icon-page-numbers {
+    -webkit-mask-image: url("../images/icons/ribbon/berry/page-numbers.svg");
+    mask-image: url("../images/icons/ribbon/berry/page-numbers.svg");
+}
+
+.rb-icon-symbol {
+    -webkit-mask-image: url("../images/icons/ribbon/berry/pi.svg");
+    mask-image: url("../images/icons/ribbon/berry/pi.svg");
+}
+
+.rb-icon-copy {
+    -webkit-mask-image: url("../images/icons/ribbon/berry/copy.svg");
+    mask-image: url("../images/icons/ribbon/berry/copy.svg");
+}
+
+.rb-icon-cut {
+    -webkit-mask-image: url("../images/icons/ribbon/berry/cut.svg");
+    mask-image: url("../images/icons/ribbon/berry/cut.svg");
+}
+
+.rb-icon-document-blank {
+    -webkit-mask-image: url("../images/icons/ribbon/berry/document-blank.svg");
+    mask-image: url("../images/icons/ribbon/berry/document-blank.svg");
+}
+
+.rb-icon-folder-open {
+    -webkit-mask-image: url("../images/icons/ribbon/berry/folder-open.svg");
+    mask-image: url("../images/icons/ribbon/berry/folder-open.svg");
+}
+
+.rb-icon-print {
+    -webkit-mask-image: url("../images/icons/ribbon/berry/print.svg");
+    mask-image: url("../images/icons/ribbon/berry/print.svg");
+}
+
+.rb-icon-share {
+    -webkit-mask-image: url("../images/icons/ribbon/berry/share.svg");
+    mask-image: url("../images/icons/ribbon/berry/share.svg");
+}
+
+.rb-icon-save {
+    -webkit-mask-image: url("../images/icons/ribbon/berry/save.svg");
+    mask-image: url("../images/icons/ribbon/berry/save.svg");
+}

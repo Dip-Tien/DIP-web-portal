@@ -1,0 +1,13 @@
+﻿@code {
+    [Parameter]
+    public int Size { get; set; } = 16;
+
+    private int StrokeWidth => Math.Max(1, Size / 10);
+    private string Color => "#0d6efd";
+}
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="@Size" height="@Size" viewBox="0 0 24 24" fill="none"
+     stroke="@Color" stroke-width="@StrokeWidth" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="23 4 23 10 17 10" />
+    <path d="M20.49 15A9 9 0 1 1 12 3c2.14 0 4.09.75 5.61 2" />
+</svg>

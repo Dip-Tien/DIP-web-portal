@@ -1,0 +1,56 @@
+﻿@page "/"
+
+@* @attribute [Authorize] *@
+
+@using Microsoft.AspNetCore.Components.Authorization @*  Có lệnh này mới dùng được @context *@
+@using MyWebERP.Model
+
+@*Xử lý đăng nhập ở router rồi*@
+@if (AppState.Company == null)
+{
+    <div class="w-100">
+        <Login></Login>
+    </div>
+}
+else
+{
+    @* Test chọn màu theme*@
+    @* <ColorThemeManager></ColorThemeManager> *@
+    <MyWebERP.Base.Components.Pages.MainChart />
+}
+
+@* <CascadingAuthenticationState>
+    <AuthorizeView>
+        <Authorized>
+
+            @if(AppState.Company == null)
+            {
+                <div class="w-100">
+                    <Login></Login>
+                </div>
+            }
+            else
+            {
+                <MyWebERP.Base.Components.Pages.MainChart/>
+            }
+
+        </Authorized>
+        <NotAuthorized>
+            <div class="w-100">
+                <Login></Login>
+            </div>
+        </NotAuthorized>
+    </AuthorizeView>
+</CascadingAuthenticationState> *@
+
+@code {
+
+    [Inject]
+    public MyWebERP.Data.AppStateManager AppState { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        AppState.CurrentMenuItem = null;
+        await AppState.CurrentMenuItemChange();
+    }
+}

@@ -1,0 +1,69 @@
+is_global = true
+build_property.TargetFramework = net9.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = MyWebERP.SO001
+build_property.RootNamespace = MyWebERP.SO001
+build_property.ProjectDir = D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.SO001\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 9.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.SO001
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 9.0
+build_property.EnableCodeStyleSeverity = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.SO001/Components/Pages/SO001Edit.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xTTzAwMUVkaXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.SO001/Components/Pages/SO001EditBase.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xTTzAwMUVkaXRCYXNlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.SO001/Components/Pages/SO001EditPage.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xTTzAwMUVkaXRQYWdlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.SO001/Components/Pages/SO001EditPopup.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xTTzAwMUVkaXRQb3B1cC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.SO001/Components/Pages/SO001EditPopupBase.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xTTzAwMUVkaXRQb3B1cEJhc2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.SO001/Components/Pages/SO001List.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xTTzAwMUxpc3QucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.SO001/Components/Pages/SO001ListBase.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xTTzAwMUxpc3RCYXNlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.SO001/Components/Pages/SO001SmallEdit.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xTTzAwMVNtYWxsRWRpdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.SO001/Components/Pages/SO001SmallEditPopup.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xTTzAwMVNtYWxsRWRpdFBvcHVwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.SO001/Components/Pages/SO001SmallList.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xTTzAwMVNtYWxsTGlzdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.SO001/Components/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xfSW1wb3J0cy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.SO001/Components/Pages/SO001EditTEST.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xTTzAwMUVkaXRURVNULnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-eiuwd763xa

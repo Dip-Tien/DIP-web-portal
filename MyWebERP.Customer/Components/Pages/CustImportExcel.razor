@@ -1,0 +1,475 @@
+﻿@page "/listcustomer/import/{CompanyMenuId}"
+
+@using MyWebERP.Base.Components.Pages
+@using MyWebERP.Model
+@using OfficeOpenXml;
+@using System.Dynamic;
+
+@inherits ComponentBase0
+
+@* <div class="dock-body"> *@
+
+<div class="dock-header toolbar-box-tight">
+    <DxToolbar ItemRenderStyleMode="ToolbarRenderStyleMode.Contained" CssClass="toolbar-inner">
+        <!-- Bên trái: nút chức năng -->
+        <DxToolbarItem Text="@Language["Trở lại"]"
+                       IconCssClass="bi bi-arrow-left me-1"
+                       Click="@GoBackToCustomerList"
+                       BeginGroup="true" />
+
+            <!-- Chọn file Excel -->
+            <DxToolbarItem CssClass="p-0" BeginGroup="true">
+                <label class="btn btn-success btn-sm d-flex align-items-center mb-0"
+                       style="position: relative; cursor: pointer; height:100%; line-height:1; padding: 0 12px;">
+                    <i class="bi bi-file-earmark-excel me-1 text-white"></i> Chọn file
+                    <InputFile OnChange="@OnFileSelected"
+                               accept=".xlsx,.xls"
+                               style="opacity:0; position:absolute; left:0; top:0; width:100%; height:100%; cursor:pointer;" />
+                </label>
+
+                @if (SelectedFileName != null)
+                {
+                    <span class="ms-2 me-3">@SelectedFileName</span>
+                }
+            </DxToolbarItem>
+
+            <!-- Tạm ngưng / Tiếp tục -->
+        <DxToolbarItem Text="@Language["Tạm ngưng import"]" Click="@PauseImport" Visible="@(IsImporting && !IsPausedImport)"
+                       CssClass="tb tb-danger tb-outline me-1" IconCssClass="bi bi-pause" BeginGroup="true" />
+        <DxToolbarItem Text="@Language["Tiếp tục import"]" Click="@ResumeImport" Visible="@IsPausedImport"
+                       CssClass="tb tb-primary tb-outline" IconCssClass="bi bi-play-circle" BeginGroup="true" />
+
+        <DxToolbarItem BeginGroup="true" Visible="@(ImportTotalRows > 0)">
+
+            <div class="progress" style="width:200px; margin-left:10px; height:25px; position: relative;">
+                <div class="progress-bar @(ImportCurrentRowIndex == ImportTotalRows ? "bg-success" : "bg-primary")" role="progressbar"
+                     style="width:@(ImportTotalRows > 0 ? ((ImportCurrentRowIndex * 100 / ImportTotalRows) + "%") : "0%"); height:25px;"
+                     aria-valuenow="@ImportCurrentRowIndex"
+                     aria-valuemin="0"
+                     aria-valuemax="@ImportTotalRows">
+                </div>
+
+                @if (ImportTotalRows > 0)
+                {
+                    <span style="position:absolute; width:100%; text-align:center; font-size:0.9rem; line-height:25px; color:@(ImportCurrentRowIndex == ImportTotalRows ? "white" : "black");">
+                        @(ImportCurrentRowIndex == ImportTotalRows
+                                            ? $"Đã import: {ImportCurrentRowIndex}/{ImportTotalRows}"
+                                            : $"Đang import: {ImportCurrentRowIndex}/{ImportTotalRows}")
+                </span>
+                }
+            </div>
+        </DxToolbarItem>
+
+
+            @if (!string.IsNullOrEmpty(MyErrorMessage))
+            {
+                    <DxToolbarItem BeginGroup="true">
+                    <div style="color:red">@MyErrorMessage</div>
+                </DxToolbarItem>
+            }
+
+
+        <!-- Nhóm Lưu (align phải) -->
+        <DxToolbarItem Text="Lưu dữ liệu"
+                       Click="@OnStartSaveClicked"
+                       CssClass="tb tb-primary tb-outline me-1"
+                       IconCssClass="bi bi-cloud-upload"
+                       BeginGroup="true"
+                       Visible="@(!IsImporting && !IsSaving && !IsSavePaused && ImportTotalRows > 0)"
+                       Alignment="ToolbarItemAlignment.Right" />
+
+        <DxToolbarItem Text="Ngưng lưu"
+                       Click="@PauseSave"
+                       CssClass="tb tb-danger tb-outline me-1" IconCssClass="bi bi-pause"
+                       BeginGroup="true"
+                       Visible="@(IsSaving && !IsSavePaused)"
+                       Alignment="ToolbarItemAlignment.Right" />
+
+        <DxToolbarItem Text="Tiếp tục lưu"
+                       Click="@ResumeSave"
+                       CssClass="tb tb-primary tb-outline" IconCssClass="bi bi-play-circle" BeginGroup="true"
+                       Visible="@IsSavePaused"
+                       Alignment="ToolbarItemAlignment.Right" />
+
+
+        <DxToolbarItem BeginGroup="true" Alignment="ToolbarItemAlignment.Right" Visible="@(SaveTotalRows > 0)">
+            <div class="progress" style="width:200px; margin-left:10px; height:25px; position: relative;">
+                <div class="progress-bar @(SaveCurrentRowIndex == SaveTotalRows ? "bg-success" : "bg-info")" role="progressbar"
+                     style="width:@(SaveTotalRows > 0 ? ((SaveCurrentRowIndex * 100 / SaveTotalRows) + "%") : "0%"); height:25px;"
+                     aria-valuenow="@SaveCurrentRowIndex"
+                     aria-valuemin="0"
+                     aria-valuemax="@SaveTotalRows">
+                </div>
+
+                @if (SaveTotalRows > 0)
+                {
+                    <span style="position:absolute; width:100%; text-align:center; font-size:0.9rem; line-height:25px; color:@(SaveCurrentRowIndex == SaveTotalRows ? "white" : "black");">
+                        @(SaveCurrentRowIndex == SaveTotalRows
+                                            ? $"Đã lưu: {SaveCurrentRowIndex}/{SaveTotalRows}"
+                                            : $"Đang lưu: {SaveCurrentRowIndex}/{SaveTotalRows}")
+                </span>
+                                }
+            </div>
+        </DxToolbarItem>
+    </DxToolbar>
+</div>
+
+<div class="dock-body">
+    <DxGrid @ref="Grid"
+            Data="@Data"
+            CssClass="default-grid"
+            KeyFieldName="@nameof(CustomerImportModel.customer_code)"
+            ColumnResizeMode="GridColumnResizeMode.ColumnsContainer"
+            FooterDisplayMode="GridFooterDisplayMode.Never"
+            VirtualScrollingEnabled="true"
+            TextWrapEnabled="true"
+            FocusedRowEnabled="true"
+            HighlightRowOnHover="true"
+            ShowFilterRow="true"
+            FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Always"
+            ShowAllRows="true"
+            ValidationEnabled="true"
+            ColumnCaptionAlignment="GridTextAlignment.Center">
+            <Columns>
+                <!-- Số thứ tự -->
+                <DxGridDataColumn Width="40"
+                                  TextAlignment="GridTextAlignment.Center"
+                                  AllowSort="false"
+                                  FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never">
+                    <HeaderCaptionTemplate>
+                        <div style="text-align:center">#</div>
+                    </HeaderCaptionTemplate>
+                    <CellDisplayTemplate>@(context.VisibleIndex + 1)</CellDisplayTemplate>
+                </DxGridDataColumn>
+
+                <DxGridDataColumn FieldName="@nameof(CustomerImportModel.customer_code)" Caption="Mã KH" />
+                <DxGridDataColumn FieldName="@nameof(CustomerImportModel.customer_name)" Caption="Tên KH" />
+                <DxGridDataColumn FieldName="@nameof(CustomerImportModel.save_result)" Caption="Kết quả lưu" />
+            </Columns>
+                
+
+
+    </DxGrid>
+</div>
+
+@* </div> *@
+
+@code {
+
+    [Inject] protected IJSRuntime JS { get; set; } = default!;
+
+    List<CustCategoryLookupModel> ListCategory;
+    List<ProvinceLookupModel> ListProvince;
+    List<DistrictLookupModel> ListDistrict;
+    List<GenderLookupModel> ListGender;
+    List<VocativeLookupModel> ListVocative;
+
+    DxGrid Grid;
+    List<CustomerImportModel> Data = new();
+
+
+
+    protected override async Task InitCfg()
+    {
+        await base.InitCfg();
+
+        ListProvince = await DataService.LookupCode<ProvinceLookupModel>(CompanyId, 1, CompanyMenuId, "PROVINCE_LOOKUP");
+        ListDistrict = await DataService.LookupCode<DistrictLookupModel>(CompanyId, 1, "", 0, CompanyMenuId, "DISTRICT_LOOKUP");
+        ListCategory = await DataService.LookupCode<CustCategoryLookupModel>(CompanyId, 1, CompanyMenuId, "CUST_CATE_LOOKUP_W");
+        ListGender = await DataService.LookupCode<GenderLookupModel>(CompanyId, 1, CompanyMenuId, "GENDER_LOOKUP");
+        ListVocative = await DataService.LookupCode<VocativeLookupModel>(CompanyId, 1, CompanyMenuId, "VOCATIVE_LOOKUP");
+    }
+
+    void GoBackToCustomerList()
+    {
+        // Chuyển về trang danh sách khách hàng
+        NavigationManager.NavigateTo($"/listcustomer/{CompanyMenuId}");
+    }
+
+    #region Import
+    private int ImportTotalRows = 0;
+    private int ImportCurrentRowIndex = 0;
+
+    private MemoryStream ImportedFileMemoryStream;
+    private IBrowserFile ImportedFile;
+    private string SelectedFileName;
+
+    private CancellationTokenSource ImportCts;
+    private bool IsImporting = false;
+    private bool IsPausedImport = false;
+    private Stream ImportedFileStream = null;
+
+    private void PauseImport()
+    {
+        if (IsImporting && !IsPausedImport)
+        {
+            ImportCts.Cancel();
+        }
+    }
+
+    private async Task ResumeImport()
+    {
+        if (ImportedFileMemoryStream != null && IsPausedImport)
+        {
+            ImportCts = new CancellationTokenSource();
+            IsPausedImport = false;
+            IsImporting = true;
+            await ReadExcelFileAsync(ImportedFileMemoryStream, ImportCurrentRowIndex + 1, ImportCts.Token);
+        }
+    }
+
+    private async Task OnFileSelected(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+
+        // copy file vào MemoryStream để giữ cho suốt quá trình import
+        using var stream = file.OpenReadStream(long.MaxValue);
+        ImportedFileMemoryStream = new MemoryStream();
+        await stream.CopyToAsync(ImportedFileMemoryStream);
+        ImportedFileMemoryStream.Position = 0;
+
+        // bắt đầu import từ dòng 2
+        ImportCts = new CancellationTokenSource();
+        await ReadExcelFileAsync(ImportedFileMemoryStream, 2, ImportCts.Token);
+    }
+
+    private async Task<MemoryStream> CopyToMemoryStreamAsync(Stream source)
+    {
+        var ms = new MemoryStream();
+        await source.CopyToAsync(ms);
+        ms.Position = 0; // reset stream về đầu
+        return ms;
+    }
+
+    private async Task ReadExcelFileAsync(MemoryStream fileStream, int startRow, CancellationToken token)
+    {
+        try
+        {
+            // đảm bảo luôn dùng ImportedFileMemoryStream
+            ImportedFileMemoryStream.Position = 0;
+
+            // // Chỉ cần đặt 1 lần trước khi tạo ExcelPackage
+            // ExcelPackage.License.SetNonCommercialPersonal("NguyenDanhHieu"); //This will also set the Author property to the name provided in the argument.
+
+            MyErrorMessage = "";
+
+            //if (startRow == 2) Data.Clear(); // nếu bắt đầu từ đầu, clear data
+            if(startRow == 2)
+            {
+                Data = new();
+            }
+            else
+            {
+                Data = Data.ToList();
+            }
+
+            ImportTotalRows = 0;
+            ImportCurrentRowIndex = startRow - 1;
+
+            await InvokeAsync(StateHasChanged);
+
+            //ImportCts = new CancellationTokenSource();
+            IsImporting = true;
+            IsPausedImport = false;
+
+            using (var package = new ExcelPackage(fileStream))
+            {
+                var worksheet = package.Workbook.Worksheets[0];
+                if (worksheet == null) return;
+
+                ImportTotalRows = worksheet.Dimension.Rows - 1;
+                const int batchSize = 50; // mỗi lần xử lý 50 dòng
+
+
+                for (int row = startRow; row <= worksheet.Dimension.Rows; row++)
+                {
+                    if (token.IsCancellationRequested)
+                    {
+                        IsPausedImport = true;
+                        IsImporting = false;
+                        ImportCurrentRowIndex -= 1;// = row - 1;
+                        await InvokeAsync(StateHasChanged);
+                        return; // lúc này mới nên return để thoát hàm
+                    }
+
+                    var customer = new CustomerImportModel
+                    {
+                        data_code = menuItem.DataCode,
+                        company_id = CompanyId,                        
+                        customer_code = worksheet.Cells[row, 1].Text,
+                        customer_name = worksheet.Cells[row, 2].Text,
+                        import_result = "Đã xử lý"
+                    };
+
+                    Data.Add(customer);
+
+                    ImportCurrentRowIndex = row;// - 1;
+
+                    await InvokeAsync(StateHasChanged);
+
+                    // Mỗi batch thì nghỉ một chút để UI update + check cancel
+                    if ((row - startRow + 1) % batchSize == 0)
+                    {
+                        await InvokeAsync(StateHasChanged);
+                        await Task.Delay(100, token);
+                    }
+                }
+
+                ImportCurrentRowIndex -= 1;
+            }
+
+            IsImporting = false;
+            IsPausedImport = false;
+        }
+        catch (OperationCanceledException)
+        {
+            IsImporting = false;
+            IsPausedImport = true; // cho ResumeImport
+        }
+        catch (Exception ex)
+        {
+            MyErrorMessage = ex.Message;
+            IsImporting = false;
+            IsPausedImport = false;
+        }
+    }
+
+    #endregion Import
+
+    #region Save
+    // trạng thái lưu
+    private bool IsSaving = false;
+    private bool IsSavePaused = false;
+    private int SaveTotalRows = 0;
+    private int SaveCurrentRowIndex = 0; // Số dòng đã lưu (0..SaveTotalRows)
+    private CancellationTokenSource SaveCts;
+    private List<CustomerImportModel> SaveSnapshot; // snapshot cố định để save
+
+    // Bắt đầu lưu mới (restart = true) hoặc tiếp tục lưu từ snapshot hiện có (restart = false)
+    private async Task StartSave(bool restart = true)
+    {
+        if (restart)
+        {
+            // tạo snapshot từ Data hiện tại để tránh Data thay đổi trong khi save
+            SaveSnapshot = Data?.ToList() ?? new List<CustomerImportModel>();
+            SaveCurrentRowIndex = 0;
+        }
+
+        if (SaveSnapshot == null || SaveSnapshot.Count == 0)
+        {
+            // không có gì để lưu
+            SaveTotalRows = 0;
+            IsSaving = false;
+            IsSavePaused = false;
+            await InvokeAsync(StateHasChanged);
+            return;
+        }
+
+        SaveTotalRows = SaveSnapshot.Count;
+
+        // Tạo CancellationTokenSource mới (hủy token cũ nếu có)
+        SaveCts?.Dispose();
+        SaveCts = new CancellationTokenSource();
+
+        IsSaving = true;
+        IsSavePaused = false;
+        await InvokeAsync(StateHasChanged);
+
+        try
+        {
+            // vòng for dùng index để dễ resume
+            for (int idx = SaveCurrentRowIndex; idx < SaveTotalRows; idx++)
+            {
+                SaveCts.Token.ThrowIfCancellationRequested();
+
+                var item = SaveSnapshot[idx];
+
+                item.save_result = "Đã lưu";
+
+                // TODO: Thực tế: call API hoặc EF save item
+                // await SaveItemToDbAsync(item, SaveCts.Token);
+
+                // demo giả lập thời gian lưu
+                await Task.Delay(10, SaveCts.Token);
+
+                // cập nhật số dòng đã lưu
+                SaveCurrentRowIndex = idx + 1;
+
+                // update UI (mỗi vòng hoặc theo batch)
+                if (SaveCurrentRowIndex % 10 == 0 || SaveCurrentRowIndex == SaveTotalRows)
+                {
+                    await InvokeAsync(StateHasChanged);
+                }
+            }
+
+            // Hoàn tất lưu
+            IsSaving = false;
+            IsSavePaused = false;
+
+            // nếu cần, xóa snapshot sau khi lưu xong
+            SaveSnapshot = null;
+        }
+        catch (OperationCanceledException)
+        {
+            // Người dùng bấm Pause/Cancel - giữ SaveCurrentRowIndex để resume
+            IsSaving = false;
+            IsSavePaused = true;
+        }
+        catch (Exception ex)
+        {
+            // Xử lý lỗi khác
+            IsSaving = false;
+            IsSavePaused = false;
+            MyErrorMessage = ex.Message; // hoặc log
+        }
+        finally
+        {
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    // Nút bắt đầu lưu (fresh start)
+    private async Task OnStartSaveClicked()
+    {
+        // gọi StartSave(true) để bắt đầu lưu từ đầu, snapshot mới
+        await StartSave(restart: true);
+    }
+
+    // Pause lưu
+    private void PauseSave()
+    {
+        if (IsSaving && !IsSavePaused)
+        {
+            SaveCts?.Cancel();
+            // SaveCurrentRowIndex giữ nguyên (số dòng đã lưu)
+        }
+    }
+
+    // Resume lưu
+    private async Task ResumeSave()
+    {
+        if (IsSavePaused && SaveSnapshot != null)
+        {
+            // Không reset snapshot hay index, chỉ tiếp tục
+            await StartSave(restart: false);
+        }
+    }
+
+    // Ví dụ hàm lưu 1 item vào DB (thay phần async giả lập ở trên)
+    private async Task SaveItemToDbAsync(CustomerImportModel item, CancellationToken token)
+    {
+        // Ví dụ gọi WebAPI:
+        // await ApiClient.PostAsJsonAsync("api/customer", item, token);
+
+        // hoặc EF:
+        // _db.Customers.Add(map(item));
+        // await _db.SaveChangesAsync(token);
+
+        item.save_result = "Đã lưu";
+
+        await Task.Delay(50, token); // giả lập
+    }
+
+
+    #endregion Save
+}

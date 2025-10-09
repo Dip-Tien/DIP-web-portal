@@ -1,0 +1,319 @@
+﻿@using Blazored.LocalStorage;
+@using Model;
+@using Data;
+@using MyWebERP.Base.Components.Lookup
+
+@inherits CustEditBase
+
+<style>
+</style>
+
+<EditForm Model="@editItem"
+          OnValidSubmit="@FormSubmitted"
+          id="@FormId"
+          Context="EditFormContext">
+    <DataAnnotationsValidator />
+
+    <DxFormLayout CssClass="w-1000">
+        <div class="row w-100">
+        <div class="col-md-6" >
+        <DxFormLayoutGroup ColSpanMd="12"                            
+                            Caption="@Language["Thông tin chung"]"
+                                   CssClass="group-bg-nopm">
+            <DxFormLayoutItem ColSpanMd="12">
+                <CaptionTemplate>
+                            <i class="bi bi-upc icon-code me-1 align-middle"></i>
+                            <span class="align-middle me-2">@Language["Mã khách"]</span>
+                </CaptionTemplate>
+                <Template>
+                    <div>
+                        <DxTextBox @bind-Text="@editItem.customer_code" @ref="@txtCustomerCode" CssClass="enter-nav">
+                            <Buttons>
+                                <DxEditorButton IconCssClass="grid-toolbar-new"
+                                                tabindex="-1"
+                                                Tooltip="@Language["Tự động tạo mã mới"]"
+                                                Click="@(_ => OnNewDataCodeButtonClick())" />
+                            </Buttons>
+                        </DxTextBox>
+                    </div>
+                    <div class="text-danger editors-validation-text">
+                        <ValidationMessage For="@(() => editItem.customer_code)" />
+                    </div>
+                </Template>
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="@Language["Tên khách"]" ColSpanMd="12" ReadOnly="true">
+                <CaptionTemplate>
+                    <i class="bi bi-person icon-person me-1 align-middle"></i>
+                    <span class="align-middle me-2">@Language["Tên khách"]</span>
+                </CaptionTemplate>
+                <Template>
+                    <div>
+                        <DxTextBox @bind-Text="@editItem.customer_name" CssClass="enter-nav" />
+                    </div>
+                    <div class="text-danger editors-validation-text">
+                        <ValidationMessage For="@(() => editItem.customer_name)" />
+                    </div>
+                </Template>
+            </DxFormLayoutItem>
+        </DxFormLayoutGroup>
+
+        <DxFormLayoutGroup ColSpanSm="12" Caption="@Language["Thông tin liên hệ"]" CssClass="group-bg-nopm">
+            
+            <DxFormLayoutItem ColSpanMd="12" CaptionFor="tel_input">
+                <CaptionTemplate>
+                    <i class="bi bi-telephone icon-phone me-1 align-middle"></i>
+                    <span class="align-middle me-2">@Language["Điện thoại"]</span>
+                </CaptionTemplate>
+                <Template>
+                    <DxTextBox InputId="tel_input" @bind-Text="@editItem.tel" CssClass="enter-nav" />
+                </Template>
+            </DxFormLayoutItem>
+
+            <DxFormLayoutItem ColSpanMd="12" CaptionFor="email_input">
+                <CaptionTemplate>
+                    <i class="bi bi-envelope icon-email me-1 align-middle"></i>
+                    <span class="align-middle me-2">@Language["Email"]</span>
+                </CaptionTemplate>
+                <Template>
+                    <DxTextBox InputId="email_input" @bind-Text="@editItem.email" CssClass=" enter-nav" />
+                </Template>
+
+            </DxFormLayoutItem>
+            <DxFormLayoutItem ColSpanMd="12">
+                <CaptionTemplate>
+                    <i class="bi bi-geo-alt icon-province me-1 align-middle"></i>
+                    <span class="align-middle me-2">@Language["Tỉnh/TP"]</span>
+                </CaptionTemplate>
+                <Template>
+                            <ProvinceLookupDropdown CompanyId="@CompanyId" CompanyMenuId="@MenuItem.CompanyMenuId" ActiveOnly="1"
+                                                    TValue="string" @bind-Value="@editItem.province_id" CssClass="enter-nav" 
+                                            SelectedItemChanged="@(async (ProvinceLookupModel p)=> await OnProvinceLookupSelected(p))">
+                    </ProvinceLookupDropdown>
+                </Template>
+            </DxFormLayoutItem>
+            <DxFormLayoutItem ColSpanMd="12">
+                <CaptionTemplate>
+                    <i class="bi bi-pin-map icon-district me-1 align-middle"></i>
+                    <span class="align-middle me-2">@Language["Xã/phường"]</span>
+                </CaptionTemplate>
+                <Template>
+                            <DistrictLookupDropdown CompanyId="@CompanyId" 
+                                CompanyMenuId="@MenuItem.CompanyMenuId" 
+                                ActiveOnly="1" 
+                                CssClass="enter-nav"
+                                                 TValue="string" @bind-Value="@editItem.district_id" Parent="@editItem.province_id">
+                            </DistrictLookupDropdown>
+                </Template>
+            </DxFormLayoutItem>
+            <DxFormLayoutItem ColSpanMd="12">
+                <CaptionTemplate>
+                    <i class="bi bi-geo-alt icon-location me-1 align-middle"></i>
+                    <span class="align-middle me-2">@Language["Địa chỉ"]</span>
+                </CaptionTemplate>
+                <Template>
+                    <DxMemo @bind-Text="@editItem.address1" CssClass="enter-nav" />
+                </Template>
+            </DxFormLayoutItem>
+        </DxFormLayoutGroup>
+        
+        </div>
+
+            <div class="col-md-6">
+                <DxFormLayoutGroup ColSpanMd="12" Caption="@Language["Thông tin khác"]" CssClass="group-bg-nopm">
+                    <DxFormLayoutItem ColSpanMd="12">
+                        <CaptionTemplate>
+                            <i class="bbi bi-person icon-person me-1 align-middle"></i>
+                            <span class="align-middle me-2">@Language["Phân loại"]</span>
+                        </CaptionTemplate>
+                        <Template >
+                            <DxRadioGroup TData="CustomerTypeModel" TValue="Int16" @bind-Value="editItem.is_personal"
+                                          TextFieldName="@nameof(CustomerTypeModel.customer_type_name)"
+                                          ValueFieldName="@nameof(CustomerTypeModel.customer_type_id)"
+                                          Layout="RadioGroupLayout.Horizontal"
+                                          Items="@CustomerTypeModel.GetDefaultList()">
+                            <ItemTemplate Context="custType">
+                                    @if (custType.customer_type_id == 1)
+                                    {
+                                            <i class="bi bi-person-check icon-person me-1"></i>
+                                    }
+                                    else
+                                    {
+                                            <i class="bi bi-buildings icon-group me-1"></i>
+                                    }
+
+                                    @(Language[custType.customer_type_name])
+                            </ItemTemplate>
+                        </DxRadioGroup>
+                        </Template>
+                    </DxFormLayoutItem>
+
+                    <DxFormLayoutItem ColSpanMd="12">
+                        <CaptionTemplate>
+                            <i class="bi-gender-ambiguous me-1 align-middle"></i>
+                            <span class="align-middle me-2">@Language["Giới tính"]</span>
+                        </CaptionTemplate>
+                        <Template>
+                            <DxComboBox Data="@ListGender"
+                                        @bind-Value=@editItem.gender_id
+                                        SearchMode="@ListSearchMode.AutoSearch"
+                                        SearchFilterCondition="@ListSearchFilterCondition.Contains"
+                                        NullText="@Language["Chọn giới tính"]"
+                                        TextFieldName="@nameof(GenderLookupModel.gender)"
+                                        ValueFieldName="@nameof(GenderLookupModel.gender_id)"
+                                        AllowUserInput="false"
+                                        CssClass="enter-nav my-combobox">
+                                        
+                                <ItemTemplate Context = "gender">
+                                    @if (gender.gender == "Nam" | gender.gender == "Male")
+                                    {
+                                        <i class="bi bi-gender-male text-primary me-1"></i>
+                                    }
+                                    else if (gender.gender == "Nữ" | gender.gender == "Female")
+                                    {
+                                        <i class="bi bi-gender-female text-danger me-1"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="bi bi-gender-ambiguous me-1"></i>
+                                    }
+
+                                    @(Language[gender.gender])
+                                </ItemTemplate>
+                                
+                            </DxComboBox>
+                        </Template>
+                    </DxFormLayoutItem>
+
+                    <DxFormLayoutItem ColSpanMd="12" CssClass="border-bottom pb-2 mb-2">
+                        <CaptionTemplate>
+                            <i class="bi-person me-1 align-middle"></i>
+                            <span class="align-middle me-2">@Language["Xưng hô"]</span>
+                        </CaptionTemplate>
+                        <Template>
+                            <DxComboBox Data="@ListVocative"
+                                        @bind-Value=@editItem.vocative_id
+                                        SearchMode="@ListSearchMode.AutoSearch"
+                                        SearchFilterCondition="@ListSearchFilterCondition.Contains"
+                                        NullText="@Language["Chọn xưng hô"]"
+                                        TextFieldName="@nameof(VocativeLookupModel.vocative)"
+                                        ValueFieldName="@nameof(VocativeLookupModel.vocative_id)"
+                                        AllowUserInput="false"
+                                        CssClass="enter-nav my-combobox">
+                                <Columns>
+                                    <DxListEditorColumn FieldName="@nameof(VocativeLookupModel.vocative)" Caption="Xưng hô" Width="150" />
+                                </Columns>
+                            </DxComboBox>
+                        </Template>
+                    </DxFormLayoutItem>
+
+                    <DxFormLayoutItem ColSpanMd="12">
+                        <CaptionTemplate>
+                            <i class="bi bi-people icon-group me-1 align-middle"></i>
+                            <span class="align-middle me-2">@Language["Nhóm khách"]</span>
+                        </CaptionTemplate>
+                        <Template>
+                            <CustCategoryLookupDropdown CompanyId="@CompanyId"
+                                CompanyMenuId="@MenuItem.CompanyMenuId"
+                                ActiveOnly="1"
+                                TValue="string"
+                                CssClass="enter-nav"
+                                                        @bind-Value="@editItem.cust_category_id"
+                            >
+
+                            </CustCategoryLookupDropdown>
+                            @* <DxComboBox Data="@ListCategory"
+                                        @bind-Value=@editItem.cust_category_id
+                                        SearchMode="@ListSearchMode.AutoSearch"
+                                        SearchFilterCondition="@ListSearchFilterCondition.Contains"
+                                        NullText="@Language["Chọn nhóm"]"
+                                        TextFieldName="@nameof(CustCategoryLookupModel.cust_category_name)"
+                                        ValueFieldName="@nameof(CustCategoryLookupModel.cust_category_id)"
+                                        SelectedDataItemChanged="@((SelectedDataItemChangedEventArgs<CustCategoryLookupModel> arg) => SelectCategoryChanged(arg))"
+                                        CssClass="enter-nav my-combobox">
+                                <Columns>
+                                    <DxListEditorColumn FieldName="@nameof(CustCategoryLookupModel.cust_category_name)" Caption="Tên nhóm" Width="200" />
+                                </Columns>
+                                <ItemTemplate Context="cate">
+                                    <div class="d-flex flex-column">
+                                        <small class="text-muted">@cate.comment</small>
+                                    </div>
+                                </ItemTemplate>
+                                <Buttons>
+                                    @if (CheckLookupAddNew("CUST_CATE_LOOKUP_W") == true)
+                                    {
+                                        <DxEditorButton IconCssClass="toolbar-new"
+                                                        tabindex="-1"
+                                                        Tooltip="@Language["Thêm nhóm khách hàng"]"
+                                                        Click="@(_ => OnCustCategoryAddButtonClick())" />
+                                    }
+                                    @if (CheckLookupEdit("CUST_CATE_LOOKUP_W") == true)
+                                    {
+                                        <DxEditorButton IconCssClass="toolbar-edit"
+                                                        tabindex="-1"
+                                                        Tooltip="@Language["Sửa nhóm khách hàng"]"
+                                                        Click="@(_ => OnCustCategoryEditButtonClick())" />
+                                    }
+                                </Buttons>
+                            </DxComboBox> *@
+                        </Template>           
+                    </DxFormLayoutItem>
+
+                    <DxFormLayoutItem Caption="@Language["Ghi chú"]" ColSpanMd="12">
+                        <CaptionTemplate>
+                            <i class="bi bi-journal-text icon-note me-1 align-middle"></i>
+                            <span class="align-middle me-2">@Language["Ghi chú"]</span>
+                        </CaptionTemplate>
+                        <Template>
+                            <DxMemo @bind-Text="@editItem.comment" CssClass="enter-nav" />
+                        </Template>
+                    </DxFormLayoutItem>
+                    <!-- Check book muốn label luôn ngang checkbox thì phải làm kiểu này. -->
+                    <DxFormLayoutItem ColSpanMd="12" >
+
+                        <CaptionTemplate>
+                            <i class="bi bi-power me-1 align-middle"></i>
+                            <span class="align-middle me-2">@Language["Trạng thái"]</span>
+                        </CaptionTemplate>
+                        <Template>
+                            <DxRadioGroup TData="ActiveStatusModel" TValue="Int16" @bind-Value="editItem.inactive"
+                                          TextFieldName="@nameof(ActiveStatusModel.active_status_name)"
+                                          ValueFieldName="@nameof(ActiveStatusModel.active_status_id)"
+                                          Layout="RadioGroupLayout.Horizontal"
+                                          Items="@ActiveStatusModel.GetDefaultList()">
+                                <ItemTemplate Context="activeStatus">
+                                    @if (activeStatus.active_status_id == 1)
+                                    {
+                                        <i class="bi bi-slash-circle text-danger me-1"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="bi bi-check-circle text-success me-1"></i>
+                                    }
+
+                                    @(Language[activeStatus.active_status_name])
+                                </ItemTemplate>
+                            </DxRadioGroup>
+                        </Template>
+                    </DxFormLayoutItem>
+                </DxFormLayoutGroup>
+            </div>
+        </div>
+    </DxFormLayout>
+
+</EditForm>
+
+
+@if (ListLookup != null && ListLookup.FirstOrDefault(x => x.sp_code == "CUST_CATE_LOOKUP_W") != null)
+{
+    LookupItem lookupCustCate = ListLookup.FirstOrDefault(x => x.sp_code == "CUST_CATE_LOOKUP_W");
+    MenuItem menuItemCustCate = new MenuItem(lookupCustCate);
+
+    <CustCategoryEditPopup @bind-Visible="@CustCategoryEditPopupVisible"
+    CompanyId="@CompanyId"
+    EditDataId="@editItem?.cust_category_id"
+                           MenuItem="@menuItemCustCate"
+    LocalStorageService="@LocalStorageService"
+    DataService="@DataService"
+    FormStatus="@CustCategoryEditFormStatus"
+    PopupClosed="@OnCustCategorySubmit" />
+}

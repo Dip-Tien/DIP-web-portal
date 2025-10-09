@@ -1,0 +1,33 @@
+﻿@using DevExpress.Blazor
+@inject NavigationManager NavigationManager
+
+<div class="navigation-drawer-header">
+    <NavLink href="/" class="button-link">
+        <DxButton Text="DIP BMS PLUS"
+            RenderStyleMode="@ButtonRenderStyleMode.Text"
+            CssClass="footer-button"
+            IconCssClass="icon my-home-icon"
+            RenderStyle="@ButtonRenderStyle.Light">
+        </DxButton>
+    </NavLink>
+
+    @* Menu / Close (luôn hiện) *@
+    <NavLink href="@UrlGenerator.GetUrl(new Uri(NavigationManager.Uri).LocalPath, !ToggledSidebar)">
+        <DxButton RenderStyle="@ButtonRenderStyle.Light"
+                  RenderStyleMode="@ButtonRenderStyleMode.Text"
+                  CssClass="menu-button-nav ms-auto"
+                  IconCssClass="@MenuIcon"
+                  @onclick="ToggleSidebar" />
+    </NavLink>
+</div>
+
+@code {
+    [Parameter] public bool ToggledSidebar { get; set; }
+    [Parameter] public EventCallback<bool> ToggledSidebarChanged { get; set; }
+    [Parameter] public EventCallback OnMenuClick { get; set; }
+
+
+    private string MenuIcon => ToggledSidebar ? "icon icon-close" : "icon icon-menu";
+
+    private async Task ToggleSidebar() => await ToggledSidebarChanged.InvokeAsync(!ToggledSidebar);
+}

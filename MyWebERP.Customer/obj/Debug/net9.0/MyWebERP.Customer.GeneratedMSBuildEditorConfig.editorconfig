@@ -1,0 +1,97 @@
+is_global = true
+build_property.TargetFramework = net9.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = MyWebERP.Customer
+build_property.RootNamespace = MyWebERP.Customer
+build_property.ProjectDir = D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Customer\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 9.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Customer
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 9.0
+build_property.EnableCodeStyleSeverity = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.Customer/Components/Pages/CustCardViewMobile.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDdXN0Q2FyZFZpZXdNb2JpbGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.Customer/Components/Pages/CustCardViewMobileGrouped.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDdXN0Q2FyZFZpZXdNb2JpbGVHcm91cGVkLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.Customer/Components/Pages/CustCategoryEdit.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDdXN0Q2F0ZWdvcnlFZGl0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.Customer/Components/Pages/CustCategoryEditPopup.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDdXN0Q2F0ZWdvcnlFZGl0UG9wdXAucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.Customer/Components/Pages/CustCategoryList.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDdXN0Q2F0ZWdvcnlMaXN0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.Customer/Components/Pages/CustEditBase.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDdXN0RWRpdEJhc2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.Customer/Components/Pages/CustEditLarge.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDdXN0RWRpdExhcmdlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.Customer/Components/Pages/CustEditPopup.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDdXN0RWRpdFBvcHVwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.Customer/Components/Pages/CustEditSmall.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDdXN0RWRpdFNtYWxsLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.Customer/Components/Pages/CustFilterConditionPopup.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDdXN0RmlsdGVyQ29uZGl0aW9uUG9wdXAucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.Customer/Components/Pages/CustImportExcel.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDdXN0SW1wb3J0RXhjZWwucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.Customer/Components/Pages/CustList.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDdXN0TGlzdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.Customer/Components/Pages/CustListBase.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDdXN0TGlzdEJhc2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.Customer/Components/Pages/CustListContact.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDdXN0TGlzdENvbnRhY3QucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.Customer/Components/Pages/CustListLarge.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDdXN0TGlzdExhcmdlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.Customer/Components/Pages/CustListSmall.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDdXN0TGlzdFNtYWxsLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.Customer/Components/Pages/CustListSO001.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDdXN0TGlzdFNPMDAxLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.Customer/Components/Pages/CustList_Bak.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDdXN0TGlzdF9CYWsucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.Customer/Components/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xfSW1wb3J0cy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 

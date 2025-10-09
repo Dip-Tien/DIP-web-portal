@@ -1,0 +1,216 @@
+﻿@* @page "/listcustcategory/{CompanyMenuId}" *@
+
+@using MyWebERP.Base.Components.Pages
+@using Blazored.LocalStorage;
+@using MyWebERP.Data;
+@using MyWebERP.Services;
+@using MyWebERP.Model;
+@using System.Dynamic;
+@using DevExpress.Blazor
+
+@inherits ComponentBaseTabGrid0
+
+@rendermode InteractiveServer // Có thì mới popup
+
+    <DxSplitter CssClass="default-splitter" Orientation="Orientation.Horizontal">
+        <Panes>
+        <DxSplitterPane Size="50%" AllowCollapse="true" CssClass="default-splitter-pane">
+                <DxGrid @ref="Grid"
+                Data="@Data"
+                CssClass="default-grid"
+                VirtualScrollingEnabled="true"
+                KeyFieldName="@nameof(SO001Model.voucher_header_id)"
+                ColumnResizeMode="GridColumnResizeMode.ColumnsContainer"
+                CustomizeElement="Grid_CustomizeElement"
+                FocusedRowChanged="Grid_FocusedRowChanged"
+                TextWrapEnabled="true"
+                FocusedRowEnabled="true"
+                HighlightRowOnHover="true"
+                ShowFilterRow="true"
+                FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Always"
+                    ShowAllRows="true" ColumnCaptionAlignment="GridTextAlignment.Center"
+                SearchText="@GridSearchText">
+                    @* <ToolbarTemplate>
+                <DxToolbar ItemRenderStyleMode="ToolbarRenderStyleMode.Plain">
+                    <DxToolbarItem Text="Nạp" Click="RefreshItem_Click" IconCssClass="grid-toolbar-refresh" BeginGroup="true" />
+                    <DxToolbarItem Text="Column Chooser" BeginGroup="true" IconCssClass="grid-toolbar-column-chooser" />
+                    <DxToolbarItem Text="Xuất dữ liệu" IconCssClass="grid-toolbar-export" BeginGroup="true">
+                        <Items>
+                            <DxToolbarItem Text="Ra CSV" Click="ExportCsvItem_Click" />
+                            <DxToolbarItem Text="Ra XLSX" Click="ExportXlsxItem_Click" />
+                            <DxToolbarItem Text="Ra XLS" Click="ExportXlsItem_Click" />
+                        </Items>
+                    </DxToolbarItem>
+                    <DxToolbarItem BeginGroup="true">
+                        <Template Context="toolbar_item_context">
+                            <DxSearchBox @bind-Text="GridSearchText"
+                            BindValueMode="BindValueMode.OnInput"
+                            ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"
+                            aria-label="Search" />
+                        </Template>
+                    </DxToolbarItem>
+                </DxToolbar>
+            </ToolbarTemplate> *@
+                    <Columns>
+                        <DxGridDataColumn Width="25"
+                            Caption="#"
+                        TextAlignment="GridTextAlignment.Center"
+                        FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never" AllowSort="false">
+                            <CellDisplayTemplate>@(context.VisibleIndex + 1)</CellDisplayTemplate>
+                        </DxGridDataColumn>
+                        <DxGridDataColumn FieldName=@nameof(SO001Model.voucher_date) Width="100" Caption="Ngày CT" DisplayFormat="dd/MM/yyyy" />
+                        <DxGridDataColumn FieldName="@nameof(SO001Model.voucher_no)" Width="100" Caption="Số CT" />
+                        <DxGridDataColumn FieldName="@nameof(SO001Model.comment)" Width="200" Caption="Ghi chú" />
+                        <DxGridDataColumn FieldName="@nameof(SO001Model.amount_fc)" Width="120" Caption="Tiền hàng" />
+                        <DxGridDataColumn FieldName=@nameof(SO001Model.discount_amount_fc) Width="100" Caption="Tiền CK" />
+                        <DxGridDataColumn FieldName=@nameof(SO001Model.total_amount_fc) Width="120" Caption="Tổng tiền" />
+                    </Columns>
+                    <TotalSummary>
+                        <DxGridSummaryItem SummaryType="GridSummaryItemType.Count" FieldName="@nameof(SO001Model.voucher_no)" DisplayText="{0:N0} dòng" />
+                        <DxGridSummaryItem SummaryType="GridSummaryItemType.Sum" FieldName="@nameof(SO001Model.amount_fc)" DisplayText="{0:N0}" />
+                        <DxGridSummaryItem SummaryType="GridSummaryItemType.Sum" FieldName="@nameof(SO001Model.discount_amount_fc)" DisplayText="{0:N0}" />
+                        <DxGridSummaryItem SummaryType="GridSummaryItemType.Sum" FieldName="@nameof(SO001Model.total_amount_fc)" DisplayText="{0:N0}" />
+                    </TotalSummary>
+                </DxGrid>
+            </DxSplitterPane>
+        <DxSplitterPane AllowCollapse="true" CssClass="default-splitter-pane">
+                <DxGrid @ref="GridDetail"
+                Data="@DataDetail"
+                CssClass="default-grid"
+                VirtualScrollingEnabled="true"
+                KeyFieldName="@nameof(SO001DetailModel.voucher_detail_id)"
+                ColumnResizeMode="GridColumnResizeMode.ColumnsContainer"
+                CustomizeElement="Grid_CustomizeElement"
+                TextWrapEnabled="true"
+                FocusedRowEnabled="true"
+                HighlightRowOnHover="true"
+                ShowFilterRow="true"
+                FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Always"
+                ShowAllRows="true">
+                    <Columns>
+                        <DxGridDataColumn Width="25"
+                        TextAlignment="GridTextAlignment.Center"
+                        FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never" AllowSort="false">
+                            <CellDisplayTemplate>@(context.VisibleIndex + 1)</CellDisplayTemplate>
+                        </DxGridDataColumn>
+                        <DxGridDataColumn FieldName=@nameof(SO001DetailModel.sku) Width="100" Caption="Mã VT" />
+                        <DxGridDataColumn FieldName="@nameof(SO001DetailModel.product_name)" Width="200" Caption="Tên VT" />
+                        <DxGridDataColumn FieldName="@nameof(SO001DetailModel.unit_name)" Width="70" Caption="ĐVT" />
+                        <DxGridDataColumn FieldName="@nameof(SO001DetailModel.quantity)" Width="70" Caption="SL" />
+                        <DxGridDataColumn FieldName="@nameof(SO001DetailModel.price_fc)" Width="100" Caption="Đơn giá" />
+                        <DxGridDataColumn FieldName="@nameof(SO001DetailModel.amount_fc)" Width="120" Caption="Tiền hàng" />
+                        <DxGridDataColumn FieldName=@nameof(SO001DetailModel.discount_amount_fc) Width="100" Caption="Tiền CK" />
+                        <DxGridDataColumn FieldName=@nameof(SO001DetailModel.total_amount_fc) Width="120" Caption="Tổng tiền" />
+                        <DxGridDataColumn FieldName="@nameof(SO001DetailModel.comment)" Width="200" Caption="Ghi chú" />
+                    </Columns>
+                    <TotalSummary>
+                        <DxGridSummaryItem SummaryType="GridSummaryItemType.Count" FieldName="@nameof(SO001Model.voucher_no)" DisplayText="{0:N0} dòng" />
+                        <DxGridSummaryItem SummaryType="GridSummaryItemType.Sum" FieldName="@nameof(SO001Model.amount_fc)" DisplayText="{0:N0}" />
+                        <DxGridSummaryItem SummaryType="GridSummaryItemType.Sum" FieldName="@nameof(SO001Model.discount_amount_fc)" DisplayText="{0:N0}" />
+                        <DxGridSummaryItem SummaryType="GridSummaryItemType.Sum" FieldName="@nameof(SO001Model.total_amount_fc)" DisplayText="{0:N0}" />
+                    </TotalSummary>
+                </DxGrid>
+            </DxSplitterPane>
+        </Panes>
+    </DxSplitter>
+
+<DxWindow @ref=windowRef
+AllowResize="true"
+ShowCloseButton="true"
+CloseOnEscape="true"
+HeaderText="@MyHeaderErrorMessage"
+FooterText="Footer"
+ShowFooter="true"
+Width="max(25vw, 250px)"
+MinWidth="300"
+MinHeight="200"
+MaxWidth="800"
+MaxHeight="500">
+    <BodyContentTemplate>
+        <div style="color:red">@MyErrorMessage</div>
+    </BodyContentTemplate>
+    <FooterContentTemplate>
+        <DxButton CssClass="popup-button my-1 ms-2"
+        RenderStyle="ButtonRenderStyle.Primary" Text="OK" Click="@context.CloseCallback" />
+    </FooterContentTemplate>
+</DxWindow>
+
+@code {
+    List<SO001Model> Data;
+    List<SO001DetailModel> DataDetail;
+
+    // protected override string DelAPICode => ("");
+    // protected override string InsAPICode => ("");
+    // protected override string UpdAPICode => ("");
+    // protected override string FetAPICode => ("CUST_FET_SO001_W");
+    // protected override string FetSingleAPICode => ("");
+
+    /// <summary>
+    /// phải là string? nếu không sẽ bị báo lỗi
+    /// </summary>
+    [Parameter]
+    public string? CustomerId { get; set; }
+
+    public EventCallback<string> CustomerIdChanged { get; set; }
+
+    public DxGrid GridDetail { get; set; }
+
+    protected override async Task DataAsync()
+    {
+        // string _sParam = "{\"company_id\":\"" + CompanyId + "\",\"customer_id\":\"" + CustomerId + "\"}";
+        // APIResultDataModel resultData = await DataService.GetData(_sParam, FetAPICode);
+
+        dynamic dParam = new System.Dynamic.ExpandoObject();
+        dParam.company_id = CompanyId;
+        dParam.customer_id = CustomerId;
+
+        APIResultDataModel resultData = await DataService.GetDataSimple(dParam, FetAPICode);
+
+        if (resultData != null && resultData.data_details != null)
+        {
+            Data = System.Text.Json.JsonSerializer.Deserialize<List<SO001Model>>(resultData.data_details.ToString());
+
+            if(Data.Count > 0)
+            {
+                FocusedRowVisibleIndex = 0;
+                DataDetail = Data[0].details;
+            }
+        }
+        else
+        {
+            Data = new List<SO001Model>();
+        }
+
+        if(Data.Count == 0)
+        {
+            DataDetail = new List<SO001DetailModel>();
+        }
+    }
+
+    protected override async Task Grid_FocusedRowChanged(GridFocusedRowChangedEventArgs args)
+    {
+        await base.Grid_FocusedRowChanged(args);
+
+        if(Data == null || Data.Count == 0)
+        {
+            DataDetail = new List<SO001DetailModel>();
+            return;
+        }
+
+        SO001Model seletedItem = Data[FocusedRowVisibleIndex];
+
+        if(seletedItem == null)
+        {
+            DataDetail = new List <SO001DetailModel>();
+        }
+        {
+            DataDetail = seletedItem.details;
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await DataAsync();
+    }
+
+}

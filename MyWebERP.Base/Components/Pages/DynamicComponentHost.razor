@@ -1,0 +1,14 @@
+﻿@using Microsoft.AspNetCore.Components
+@using System.Reflection
+
+
+<DynamicComponent Type="@ComponentType" Parameters="@Parameters" />
+
+
+
+@code {
+    [Parameter] public string ComponentName { get; set; } = string.Empty;
+    [Parameter] public Dictionary<string, object>? Parameters { get; set; }
+
+    private Type? ComponentType => Type.GetType(ComponentName, throwOnError: false);
+}

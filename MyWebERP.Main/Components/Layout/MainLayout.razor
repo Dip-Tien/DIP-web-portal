@@ -1,0 +1,171 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization @*  Có lệnh này mới dùng được @context *@
+@using MyWebERP.Model
+@using MyWebERP.Services
+@using MyWebERP.Base.Components.Pages
+
+@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+@inject Data.AppStateManager AppState
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorageService
+
+@* @attribute [Microsoft.AspNetCore.Authorization.Authorize] *@
+
+@rendermode InteractiveServer // Có thì mới popup, dropdown ..... Để ở đây thì các trang con không cần nữa.
+
+<DxDialogProvider /> @* Phải có dòng này thì mới show được hộp thoại xác nhận xóa *@
+
+<div class="page">
+    <Drawer DrawerHeader="drawerHeader">
+        <DrawerBody>
+            <div class="w-100">
+                    <NavMenu @bind-Company="Company"></NavMenu>
+            </div>
+        </DrawerBody>
+        <DrawerTarget>
+            @* <div class="main-body-wrapper p-3" style="padding-top:0px !important; padding-bottom:0px !important; min-height:50vh;"> *@
+            @* <div class="main-body-wrapper p-3" 
+                style="padding-top:0 !important; padding-bottom:0 !important; min-height:50vh; display:flex; flex-direction: column; height:100%;"> *@
+            @*Căn cho cả phần nội dùng page này là 1 trang màn hình*@
+            <div class="main-body-wrapper p-3"
+                 style="padding-top:0 !important; padding-bottom:0 !important; min-height:50vh; display:flex; flex-direction: column; height:100vh;">
+                @if (new Uri(NavigationManager.Uri).LocalPath.Contains("reportdesigner") == false)
+                {
+                    <div class="row card-header" style="border-bottom:solid; border-bottom-width:1px; flex: 0 0 auto;">
+                        @* top left bottom right *@
+                        <WorkingInfo @bind-Year="Year" @bind-Company="Company" @bind-User="User" />
+                    </div>
+                }
+
+                @Body
+                                
+            </div>
+        </DrawerTarget>
+    </Drawer>
+</div>
+
+@code {
+
+    private LoginResultModel? User;
+    private int? Year;
+    private Model.CompanyItem? Company;
+
+    /// <summary>
+    /// Để đây để xử lý option sau này.
+    /// </summary>
+    protected bool UseNavMenu = false;
+
+    [SupplyParameterFromQuery(Name = UrlGenerator.ToggleSidebarName)]
+    public bool ToggledSidebar { get; set; }
+
+    // Chuẩn
+    // private RenderFragment drawerHeader => 
+    // @<div class="@((!ToggledSidebar | isXSmallScreenX) ? "navigation-drawer-header" : "navigation-drawer-header-mini")">
+    //     @if(!ToggledSidebar | isXSmallScreenX)
+    //     {
+    //         <NavLink href="/" class="button-link">
+    //             <DxButton Text="DIP BMS PLUS" 
+    //                 RenderStyleMode="@ButtonRenderStyleMode.Text" 
+    //                 CssClass="footer-button" 
+    //                 IconCssClass="icon my-home-icon" 
+    //                 RenderStyle="@ButtonRenderStyle.Light">
+    //             </DxButton>
+    //         </NavLink>
+    //     }
+
+    //     <NavLink href="@UrlGenerator.GetUrl(new Uri(NavigationManager.Uri).LocalPath, !ToggledSidebar)">
+    //         <DxButton RenderStyle="@ButtonRenderStyle.Light" 
+    //         RenderStyleMode="@ButtonRenderStyleMode.Text" 
+    //         CssClass="menu-button-nav" 
+    //         IconCssClass="@((ToggledSidebar & isXSmallScreenX) ? "icon icon-close" : "icon icon-menu")"></DxButton>
+    //     </NavLink>
+    // </div>;
+
+    /// <summary>
+    /// Chỉ cần xử lý desktop vì mobile gọi MainLayoutMobile
+    /// </summary>
+    private RenderFragment drawerHeader =>
+    @<div class="@(!ToggledSidebar ? "navigation-drawer-header" : "navigation-drawer-header-mini")">
+        @if (!ToggledSidebar)
+        {
+            <!-- Brand / Home khi sidebar đang mở -->
+            <NavLink href="/" class="button-link me-auto">
+                <DxButton Text="DIP BMS PLUS"
+                          RenderStyleMode="@ButtonRenderStyleMode.Text"
+                          CssClass="footer-button"
+                          IconCssClass="icon my-home-icon"
+                          RenderStyle="@ButtonRenderStyle.Light" />
+            </NavLink>
+        }
+        <!-- Nút thu / mở sidebar (luôn có) -->
+        <NavLink href="@UrlGenerator.GetUrl(new Uri(NavigationManager.Uri).LocalPath, !ToggledSidebar)">
+            <DxButton RenderStyle="@ButtonRenderStyle.Light"
+                      RenderStyleMode="@ButtonRenderStyleMode.Text"
+                      CssClass="menu-button-nav"
+                      IconCssClass="icon icon-menu"></DxButton>
+        </NavLink>
+    
+    </div>;
+
+    /* Chọn component thích hợp **mỗi lần** layout render */
+    /* --- chọn header tương ứng --- */
+    // private RenderFragment drawerHeader => builder =>
+    // {
+    //     builder.OpenComponent<DrawerHeaderDesktop>(0);
+    //     builder.AddAttribute(1, "ToggledSidebar", ToggledSidebar);
+    //     // builder.AddAttribute(2, "ToggledSidebarChanged",
+    //     //                      EventCallback.Factory.Create<bool>(this, v => ToggledSidebar = v));
+    //     builder.CloseComponent();
+    // };
+
+
+    private RenderFragment drawerFooter => 
+    @<div>
+        <NavLink href="https://docs.devexpress.com/Blazor/400725/blazor-components" class="button-link">
+            <DxButton Text="Docs" RenderStyleMode="@ButtonRenderStyleMode.Text" CssClass="footer-button" RenderStyle="@ButtonRenderStyle.Light" IconCssClass="icon docs-icon"></DxButton>
+        </NavLink>
+        <NavLink href="https://demos.devexpress.com/blazor/" class="button-link">
+            <DxButton Text="Demos" RenderStyleMode="@ButtonRenderStyleMode.Text" CssClass="footer-button" RenderStyle="@ButtonRenderStyle.Light" IconCssClass="icon demos-icon"></DxButton>
+        </NavLink>
+    </div>
+    ;
+
+    // protected override async Task OnInitializedAsync()
+    // {
+    //     try
+    //     {
+    //         User = await LocalStorageService.GetItemAsync<Model.LoginResultModel>(Data.LocalStorageName.USER);
+    //         Year = await LocalStorageService.GetItemAsync<int>(Data.LocalStorageName.YEAR);
+    //         Company = await LocalStorageService.GetItemAsync<Model.CompanyItem>(Data.LocalStorageName.COMPANY);
+    //     }
+    //     catch (Exception _ex)
+    //     {
+    //         //await LocalStorageService.ClearAsync();
+    //         NavigationManager.NavigateTo("/logout", true);
+    //     }
+    //     // Muốn cập nhật thay đổi gì thì phải gọi cái phương thức StateHasChanged này để cập nhật toàn cục.
+    //     AppState.OnCompanyChange += StateHasChanged;
+    //     AppState.OnYearChange += StateHasChanged;
+    //     AppState.OnCurrentMenuItemChange += StateHasChanged;
+    // }
+
+    protected override async void OnInitialized()
+    {
+        // await LocalStorageService.ClearAsync();
+        // NavigationManager.NavigateTo("/logout", true);
+        try
+        {
+            User = await LocalStorageService.GetItemAsync<Model.LoginResultModel>(Data.LocalStorageName.USER);
+            Year = await LocalStorageService.GetItemAsync<int>(Data.LocalStorageName.YEAR);
+            Company = await LocalStorageService.GetItemAsync<Model.CompanyItem>(Data.LocalStorageName.COMPANY);
+        }
+        catch(Exception _ex)
+        {
+            //await LocalStorageService.ClearAsync();
+            NavigationManager.NavigateTo("/logout", true);
+        }
+        // Muốn cập nhật thay đổi gì thì phải gọi cái phương thức StateHasChanged này để cập nhật toàn cục.
+        AppState.OnCompanyChange += StateHasChanged;
+        AppState.OnYearChange += StateHasChanged;
+        AppState.OnCurrentMenuItemChange += StateHasChanged;
+    }
+}

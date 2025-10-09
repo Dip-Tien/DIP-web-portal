@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "MyWebERP.SKU": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:23611;http://localhost:23612"
+    }
+  }
+}

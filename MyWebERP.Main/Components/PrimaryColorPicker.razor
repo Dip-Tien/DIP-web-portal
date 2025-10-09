@@ -1,0 +1,35 @@
+@inject IJSRuntime JS
+
+@* Chỉ chọn màu chủ đạo. *@
+
+<div class="d-flex align-items-center gap-2">
+    <label for="primary-color-picker" class="form-label m-0">🎨 Màu chủ đạo:</label>
+    <input id="primary-color-picker" type="color" @oninput="OnColorChanged" value="@CurrentColor" />
+    <button class="btn btn-sm btn-outline-secondary" @onclick="ResetColor">🔄 Mặc định</button>
+</div>
+
+@code {
+    private string CurrentColor = "#0d6efd"; // Bootstrap mặc định
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            CurrentColor = await JS.InvokeAsync<string>("getPrimaryColorFromStorage") ?? CurrentColor;
+            await JS.InvokeVoidAsync("changePrimaryColor", CurrentColor);
+            StateHasChanged();
+        }
+    }
+
+    private async Task OnColorChanged(ChangeEventArgs e)
+    {
+        CurrentColor = e.Value?.ToString() ?? "#0d6efd";
+        await JS.InvokeVoidAsync("changePrimaryColor", CurrentColor);
+    }
+
+    private async Task ResetColor()
+    {
+        CurrentColor = "#0d6efd";
+        await JS.InvokeVoidAsync("changePrimaryColor", CurrentColor);
+    }
+}

@@ -1,0 +1,34 @@
+﻿@using System.Dynamic
+
+@if (Data?.Any() == true)
+{
+    @* <DxChart @ref="chartRef" T="ExpandoObject" Data="@Data">
+        @SeriesContent
+    </DxChart> *@
+
+    <DxChart @ref="chartRef"
+             T="ExpandoObject"
+             Data="@Data">
+        @SeriesContent
+    </DxChart>
+}
+else
+{
+    <p>Không có dữ liệu hiển thị</p>
+}
+
+@code {
+    [Parameter] public List<ExpandoObject> Data { get; set; }
+    [Parameter] public RenderFragment SeriesContent { get; set; }
+    [Parameter] public EventCallback<DxChart<ExpandoObject>> OnChartRefReady { get; set; }
+
+    private DxChart<ExpandoObject> chartRef;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && chartRef != null)
+        {
+            await OnChartRefReady.InvokeAsync(chartRef);
+        }
+    }
+}

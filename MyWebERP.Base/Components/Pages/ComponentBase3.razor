@@ -1,0 +1,36 @@
+﻿@page "/testcomponentbase3/{CompanyMenuId}"
+
+@using MyWebERP.Data
+
+@inherits ComponentBase0
+
+<div class="row bg-secondary">
+    <div class="col-1">
+        <h5>@menuItem?.Title</h5>
+    </div>
+    <div class="col-5">
+        <PeriodComponent @bind-PeriodCode="PeriodCode" @bind-Date1="Date1" @bind-Date2="Date2"></PeriodComponent>
+    </div>
+    <div class="col-6">
+    </div>
+</div>
+
+<div>
+    Từ ngày @Date1 đến ngày @Date2
+</div>
+<div>
+    Mã kỳ @PeriodCode
+</div>
+
+@code
+{
+    String PeriodCode = "TN";
+    DateTime Date1;
+    DateTime Date2;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        // Gọi cái này lấy thông tin menu
+        await base.OnParametersSetAsync();
+    }
+}

@@ -1,0 +1,142 @@
+﻿@using System.Collections.ObjectModel
+@inject NavigationManager NavigationManager
+<style>
+    .mobile-footer-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 60px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        background: #fff;
+        border-top: 1px solid #ccc;
+        z-index: 1050
+    }
+
+        .mobile-footer-nav .nav-item {
+            flex: 1;
+            text-align: center;
+            text-decoration: none;
+            color: #555;
+            font-size: 12px;
+            padding: 6px 0;
+            transition: .2s;
+        }
+
+            .mobile-footer-nav .nav-item.active {
+                color: #0d6efd;
+                font-weight: 600;
+                transform: scale(1.1)
+            }
+
+            .mobile-footer-nav .nav-item i {
+                font-size: 20px;
+                display: block
+            }
+
+    .menu-hint {
+        position: fixed;
+        bottom: 70px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0,0,0,.75);
+        color: #fff;
+        padding: 6px 12px;
+        border-radius: 12px;
+        font-size: 13px;
+        z-index: 9999
+    }
+</style>
+
+@if (Show)
+{
+    <footer class="mobile-footer-nav"
+            style="background:@BackgroundColor; border-top:1px solid @BorderColor;">
+        @foreach (var (item, idx) in _items.Select((v, i) => (v, i)))
+        {
+            var isActive = NavigationManager.Uri.Contains(item.Url.Trim('/'), StringComparison.OrdinalIgnoreCase);
+            var color = isActive ? ActiveColor : TextColor;
+            var scale = isActive ? "scale(1.1)" : "scale(1.0)";
+            <a href="@item.Url" class="nav-item"
+               style="color:@color; transform:@scale;"
+               onmousedown="@(() => StartHold(item.Text))"
+               onmouseup="@StopHold">
+                <div><i class="@item.IconCss"></i></div>
+                <div>@item.Text</div>
+            </a>
+        }
+    </footer>
+
+
+    @if (ShowHint)
+    {
+        <div class="menu-hint">@HintText</div>
+    }
+}
+
+@code {
+    // ========== PUBLIC API ==========
+    /// <summary>Hiển thị thanh nav hay không (thường ràng buộc với isXSmallScreenX).</summary>
+    [Parameter] public bool Show { get; set; }
+
+    [Parameter] public string BackgroundColor { get; set; } = "white";
+    [Parameter] public string TextColor { get; set; } = "#555";
+    [Parameter] public string ActiveColor { get; set; } = "#0d6efd";
+    [Parameter] public string BorderColor { get; set; } = "#ccc";
+
+    /// <summary>Danh sách 5 menu; Url, Text, IconCss (bootstrap-icons, fa, …).</summary>
+    [Parameter]
+    public IEnumerable<MobileNavItem> Items { get; set; } =
+        new[] {
+            new MobileNavItem("/home",          "Trang chủ",    "bi bi-house"),
+            new MobileNavItem("/search",        "Tìm kiếm",     "bi bi-search"),
+            new MobileNavItem("/notifications", "Thông báo",    "bi bi-bell"),
+            new MobileNavItem("/stats",         "Báo cáo",      "bi bi-bar-chart"),
+            new MobileNavItem("/account",       "Tài khoản",    "bi bi-person")
+        };
+
+    // ========== PRIVATE ==========
+    private const int FixedSlots = 5;
+    private List<MobileNavItem> _items = new();
+
+    private bool ShowHint;
+    private string HintText = "";
+    private CancellationTokenSource? _cts;
+
+    protected override void OnParametersSet()
+    {
+        // Giữ đúng 5 ô:
+        _items = Items.Take(FixedSlots).ToList();
+        while (_items.Count < FixedSlots)
+            _items.Add(MobileNavItem.Empty);     // Placeholder vô hình
+    }
+
+    private void StartHold(string text)
+    {
+        _cts = new();
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                await Task.Delay(600, _cts.Token);
+                HintText = text;
+                ShowHint = true;
+                StateHasChanged();
+            }
+            catch { /* bị hủy */ }
+        });
+    }
+
+    private void StopHold()
+    {
+        _cts?.Cancel();
+        ShowHint = false;
+    }
+
+    public record MobileNavItem(string Url, string Text, string IconCss)
+    {
+        public static MobileNavItem Empty => new("#", "", "");
+    }
+}

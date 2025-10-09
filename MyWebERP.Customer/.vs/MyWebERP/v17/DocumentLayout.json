@@ -1,0 +1,54 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{9B73F7AD-23E9-4BD7-B422-A068622EEA24}|MyWebERP.csproj|d:\\00.works\\mycore\\bms_2024\\myweberp\\myweberp.system\\components\\pages\\selectcompany.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9B73F7AD-23E9-4BD7-B422-A068622EEA24}|MyWebERP.csproj|solutionrelative:components\\pages\\selectcompany.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9B73F7AD-23E9-4BD7-B422-A068622EEA24}|MyWebERP.csproj|d:\\00.works\\mycore\\bms_2024\\myweberp\\myweberp.system\\components\\routes.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9B73F7AD-23E9-4BD7-B422-A068622EEA24}|MyWebERP.csproj|solutionrelative:components\\routes.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SelectCompany.razor",
+              "DocumentMoniker": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\Components\\Pages\\SelectCompany.razor",
+              "RelativeDocumentMoniker": "Components\\Pages\\SelectCompany.razor",
+              "ToolTip": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\Components\\Pages\\SelectCompany.razor",
+              "RelativeToolTip": "Components\\Pages\\SelectCompany.razor",
+              "ViewState": "AgIAAIQAAAAAAAAAAAAAAJMAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-13T01:09:29.148Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Routes.razor",
+              "DocumentMoniker": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\Components\\Routes.razor",
+              "RelativeDocumentMoniker": "Components\\Routes.razor",
+              "ToolTip": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.System\\Components\\Routes.razor",
+              "RelativeToolTip": "Components\\Routes.razor",
+              "ViewState": "AgIAABsAAAAAAAAAAAAAAC0AAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-13T01:04:07.101Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

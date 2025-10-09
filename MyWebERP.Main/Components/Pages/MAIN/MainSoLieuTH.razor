@@ -1,0 +1,100 @@
+﻿@using MyWebERP.Model
+@using System.Dynamic
+@using MyWebERP.Base.Components.Pages
+
+@inherits ReportComponentGridBase
+
+<div class="main-dashboard-title">@ReportTitle</div>
+
+<div class="row" style="width:100%">
+    <DxToolbar ItemRenderStyleMode="ToolbarRenderStyleMode.Plain">
+
+        <DxToolbarItem CssClass="grid-toolbar-company-main-chart">
+            <Template Context="toolbar_item_context">
+
+                <div class="d-flex align-items-center gap-2">
+                    <DxTextBox ReadOnly="true"
+                               CssClass="selected-display-box"
+                               Text="@ListCompanyNameSelected">
+                        <Buttons>
+                            <DxEditorButton Click="@CompanySelectShow"
+                                            IconCssClass="oi oi-magnifying-glass"
+                                            Position="EditorButtonPosition.Right" />
+                        </Buttons>
+                    </DxTextBox>
+                </div>
+            </Template>
+        </DxToolbarItem>
+        <DxToolbarItem CssClass="grid-toolbar-period">
+            <Template Context="toolbar_item_context">
+                <DxComboBox Data="@ListPeriod"
+                            TextFieldName="@nameof(PeriodItem.PeriodName)"
+                            KeyFieldName="@nameof(PeriodItem.PeriodCode)"
+                            @bind-Value="@SelectedPeriodItem"
+                            SelectedItemChanged="@((PeriodItem item) => SelectedPeriodChanged(item))"
+                            InputId="cbPeriod" />
+            </Template>
+        </DxToolbarItem>
+        <DxToolbarItem CssClass="grid-toolbar-date">
+            <Template Context="toolbar_item_context">
+                <DxDateEdit @bind-Date="@Date1"
+                            DisplayFormat="dd/MM/yyyy"
+                            Format="dd/MM/yyyy"
+                            Mask="dd/MM/yyyy"
+                            InputId="deDate1">
+                    <DxDateTimeMaskProperties CaretMode="@MaskCaretMode.Advancing" UpdateNextSectionOnCycleChange="true" />
+                </DxDateEdit>
+
+            </Template>
+        </DxToolbarItem>
+        <DxToolbarItem CssClass="grid-toolbar-date">
+            <Template Context="toolbar_item_context">
+                <DxDateEdit @bind-Date="@Date2"
+                            DisplayFormat="dd/MM/yyyy"
+                            Mask="dd/MM/yyyy"
+                            Format="dd/MM/yyyy"
+                            InputId="deDate2">
+                    <DxDateTimeMaskProperties CaretMode="@MaskCaretMode.Advancing" UpdateNextSectionOnCycleChange="true" />
+                </DxDateEdit>
+            </Template>
+        </DxToolbarItem>
+
+        <DxToolbarItem Text="Nạp" Click="RefreshItem_Click" IconCssClass="grid-toolbar-refresh" />
+    </DxToolbar>
+</div>
+
+<DxGrid @ref="Grid"
+Data="@Data"
+        CssClass="main-dashboard-grid"
+VirtualScrollingEnabled="true"
+ColumnResizeMode="GridColumnResizeMode.NextColumn"
+TextWrapEnabled="true"
+FocusedRowEnabled="true"
+HighlightRowOnHover="true"
+ShowFilterRow="true"
+FooterDisplayMode="GridFooterDisplayMode.Always"
+CustomizeElement="Grid_CustomizeElement"
+FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Always">
+    <Columns>
+        <DxGridDataColumn Width="5%"
+                          TextAlignment="GridTextAlignment.Center"
+                          FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never" AllowSort="false">
+            <CellDisplayTemplate>@(context.VisibleIndex + 1)</CellDisplayTemplate>
+        </DxGridDataColumn>
+        <DxGridDataColumn FieldName="dien_giai" Caption="Nội dung" Width="70%" CaptionAlignment="GridTextAlignment.Center" />
+        <DxGridDataColumn FieldName="so_tien" Caption="Số tiền" Width="25%" CaptionAlignment="GridTextAlignment.Center" />
+
+    </Columns>
+    <TotalSummary>
+        <DxGridSummaryItem SummaryType="GridSummaryItemType.Count" FieldName="dien_giai" DisplayText="{0:N0} dòng" />
+        <DxGridSummaryItem SummaryType="GridSummaryItemType.Sum" FieldName="so_tien" DisplayText="{0:N0}" />
+    </TotalSummary>
+</DxGrid>
+@code
+{
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await DataAsync();
+    }
+}

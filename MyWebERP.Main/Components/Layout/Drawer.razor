@@ -1,0 +1,142 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+
+<DxLayoutBreakpoint DeviceSize="DeviceSize.XSmall" @bind-IsActive="@isXSmallScreenX" />
+<div>
+    @*không chạy được*@
+    @* <DxDrawer PanelWidth="@Width" CssClass="@(CssClass + " mobile")"
+              Mode="@DrawerMode.Overlap"
+              IsOpen="@ToggledSidebar"
+              HeaderTemplate="@DrawerHeader"
+              FooterTemplate="@DrawerFooter"
+              ApplyBackgroundShading="false">
+        <BodyTemplate>
+            @DrawerBody
+        </BodyTemplate>
+        <TargetContent>
+            <DxDrawer PanelWidth="@Width"
+                      CssClass="@CssClass"
+                      Mode="@DrawerMode.Shrink"
+                      @bind-IsOpen="@IsOpen"
+                      HeaderTemplate="@DrawerHeader"
+                      FooterTemplate="@DrawerFooter"
+                      MiniModeEnabled="@(!isXSmallScreenX)"
+                      MiniPanelWidth="@SmallMiniPanelWidth"
+                      MiniCssClass="demo-drawer-mini">
+                <BodyTemplate>
+                    @DrawerBody
+                </BodyTemplate>
+                <TargetContent>
+                    <div class="shading-copy" />
+                    @DrawerTarget
+                </TargetContent>
+            </DxDrawer>
+        </TargetContent>
+    </DxDrawer> *@
+
+    @if (isXSmallScreenX)
+    {
+        <DxDrawer PanelWidth="@Width" CssClass="@(CssClass + " mobile")" 
+            Mode="@DrawerMode.Overlap" 
+            IsOpen="@ToggledSidebar" 
+            HeaderTemplate="@DrawerHeader" 
+            FooterTemplate="@DrawerFooter" 
+            ApplyBackgroundShading="false" ClosedCssClass="panel-closed">
+            <BodyTemplate>
+                @DrawerBody
+            </BodyTemplate>
+            <TargetContent>
+                <DxDrawer PanelWidth="@Width" CssClass="@CssClass" Mode="@DrawerMode.Shrink" IsOpen="@(!ToggledSidebar)" HeaderTemplate="@DrawerHeader" FooterTemplate="@DrawerFooter" OpenCssClass="panel-open">
+                    <BodyTemplate>
+                        @DrawerBody
+                    </BodyTemplate>
+                    <TargetContent>
+                        <div class="shading-copy" />
+                        @DrawerTarget
+                    </TargetContent>
+                </DxDrawer>
+            </TargetContent>
+        </DxDrawer>
+    }
+    else
+    {
+        <DxDrawer PanelWidth="@Width" CssClass="@(CssClass + " mobile")"
+        Mode="@DrawerMode.Overlap"
+              IsOpen="@ToggledSidebar"
+              HeaderTemplate="@DrawerHeader"
+              FooterTemplate="@DrawerFooter"
+              
+              ApplyBackgroundShading="false">
+            <BodyTemplate>
+            @DrawerBody
+        </BodyTemplate>
+        <TargetContent>
+            <DxDrawer PanelWidth="@Width"
+                CssClass="@CssClass"
+                      Mode="@DrawerMode.Shrink"
+                      @bind-IsOpen="@IsOpen"
+                      HeaderTemplate="@DrawerHeader"
+                      FooterTemplate="@DrawerFooter"
+                      MiniModeEnabled="true"
+                          MiniPanelWidth="@SmallMiniPanelWidth"
+                      MiniCssClass="demo-drawer-mini">
+                <BodyTemplate>
+                    @DrawerBody
+                </BodyTemplate>
+                <TargetContent>
+                    @* <div class="shading-copy" /> *@
+                    @DrawerTarget
+                </TargetContent>
+            </DxDrawer>
+        </TargetContent>
+    </DxDrawer>
+    }
+</div>
+
+@code {
+    string Width => isXSmallScreenX?"100vw":"240px";// "240px";
+    string CssClass => "navigation-drawer";
+    protected bool isXSmallScreenX;
+
+    [SupplyParameterFromQuery(Name = UrlGenerator.ToggleSidebarName)]
+    public bool ToggledSidebar { get; set; }
+    [Parameter] public RenderFragment? DrawerTarget { get; set; }
+    [Parameter] public RenderFragment? DrawerBody { get; set; }
+    [Parameter] public RenderFragment? DrawerHeader { get; set; }
+    [Parameter] public RenderFragment? DrawerFooter { get; set; }
+
+    bool IsOpen
+    {
+        get
+        {
+            return !ToggledSidebar;
+        }
+        set
+        {
+            ToggledSidebar = !value;
+        }
+    }
+
+    #region Xử lý cho tùy chọn kích thước menu
+    /// <summary>
+    /// Lấy theo side mode của menu,nếu cố định thì không cần.
+    /// </summary>
+    /// <param name="sizeMode"></param>
+    /// <returns></returns>
+    string GetMiniPanelWidth(SizeMode sizeMode)
+    {
+        return sizeMode switch
+        {
+            SizeMode.Small => SmallMiniPanelWidth,
+            SizeMode.Large => LargeMiniPanelWidth,
+            _ => MiniPanelWidth
+        };
+    }
+
+    const string MiniPanelWidth = "2.9375rem";
+    const string SmallMiniPanelWidth = "2.6875rem";
+    const string LargeMiniPanelWidth = "3.1875rem";
+
+    //const string SmallMiniPanelWidth = "3rem";
+    #endregion
+}

@@ -1,0 +1,88 @@
+﻿/* Bọc riêng cho tab control này */
+.tab-full {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* fill hết splitter panel */
+    min-height: 0;
+}
+
+    /* Header tab giữ nguyên */
+    .tab-full .dxbl-tabs-header,
+    .tab-full .dxbl-tabstrip {
+        flex: 0 0 auto;
+    }
+
+    /* Panel nội dung chiếm phần còn lại */
+    .tab-full .dxbl-tabs-content-panel {
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow: auto;
+    }
+
+    /* Nếu trong tab có layout toolbar + grid */
+    .tab-full .tabpage-detail {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        min-height: 0;
+    }
+
+        .tab-full .tabpage-detail .toolbar-box-tight {
+            flex: 0 0 auto;
+        }
+
+        .tab-full .tabpage-detail .detail-grid {
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow: auto;
+        }
+
+
+
+/* Pane 2 — tabcontrol detail */
+.split-detail {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Fill toàn bộ panel do splitter tính */
+    min-height: 0; /* Quan trọng: cho phép con co giãn */
+}
+
+    /* TabControl bên trong panel 2 */
+    .split-detail .dxbl-tabcontrol,
+    .split-detail .dxbl-tabs {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        min-height: 0;
+    }
+
+    /* Header tab giữ kích thước tự nhiên */
+    .split-detail .dxbl-tabs-header,
+    .split-detail .dxbl-tabstrip {
+        flex: 0 0 auto;
+    }
+
+    /* Nội dung tabpage chiếm hết phần còn lại */
+    .split-detail .dxbl-tabs-content-panel {
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow: auto; /* scroll nếu dài */
+    }
+
+/* Mỗi tabpage chứa toolbar + grid */
+.tabpage-detail {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+}
+
+    .tabpage-detail .toolbar-box-tight {
+        flex: 0 0 auto; /* toolbar cao cố định */
+    }
+
+    .tabpage-detail .detail-grid {
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow: auto;
+    }

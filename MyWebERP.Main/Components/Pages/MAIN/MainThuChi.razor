@@ -1,0 +1,190 @@
+﻿@* @page "/mainthuchi/{CompanyMenuId}" *@
+@using MyWebERP.Model
+@using System.Dynamic
+@using MyWebERP.Base.Components.Pages
+
+@inherits ReportComponentChartBase<MainThuChiModel>
+
+@* @inject IJSRuntime JS *@
+
+@* Lưu ý: cho toolbar vào trong biểu đồ để vẽ border cho tiện dụng, để ngoài khó vẽ
+    Popup company cho ở ngoài vì nếu cho ở trong toolbar thì bị lỗi capture gì đó của DX.
+*@
+
+<div class="main-dashboard-title">@ReportTitle</div>
+
+<div class="row" style="width:100%">
+    <DxToolbar ItemRenderStyleMode="ToolbarRenderStyleMode.Plain">
+
+        <DxToolbarItem CssClass="grid-toolbar-company-main-chart">
+            <Template Context="toolbar_item_context">
+
+                <div class="d-flex align-items-center gap-2">
+                    <DxTextBox ReadOnly="true"
+                               CssClass="selected-display-box"
+                               Text="@ListCompanyNameSelected">
+                        <Buttons>
+                            <DxEditorButton Click="@CompanySelectShow"
+                                            IconCssClass="oi oi-magnifying-glass"
+                                            Position="EditorButtonPosition.Right" />
+                        </Buttons>
+                    </DxTextBox>
+                </div>
+            </Template>
+        </DxToolbarItem>
+        <DxToolbarItem CssClass="grid-toolbar-period">
+            <Template Context="toolbar_item_context">
+                <DxComboBox Data="@ListPeriod"
+                            TextFieldName="@nameof(PeriodItem.PeriodName)"
+                            KeyFieldName="@nameof(PeriodItem.PeriodCode)"
+                            @bind-Value="@SelectedPeriodItem"
+                            SelectedItemChanged="@((PeriodItem item) => SelectedPeriodChanged(item))"
+                            InputId="cbPeriod" />
+            </Template>
+        </DxToolbarItem>
+        <DxToolbarItem CssClass="grid-toolbar-date">
+            <Template Context="toolbar_item_context">
+                <DxDateEdit @bind-Date="@Date1"
+                            DisplayFormat="dd/MM/yyyy"
+                            Format="dd/MM/yyyy"
+                            Mask="dd/MM/yyyy"
+                            InputId="deDate1">
+                    <DxDateTimeMaskProperties CaretMode="@MaskCaretMode.Advancing" UpdateNextSectionOnCycleChange="true" />
+                </DxDateEdit>
+
+            </Template>
+        </DxToolbarItem>
+        <DxToolbarItem CssClass="grid-toolbar-date">
+            <Template Context="toolbar_item_context">
+                <DxDateEdit @bind-Date="@Date2"
+                            DisplayFormat="dd/MM/yyyy"
+                            Mask="dd/MM/yyyy"
+                            Format="dd/MM/yyyy"
+                            InputId="deDate2">
+                    <DxDateTimeMaskProperties CaretMode="@MaskCaretMode.Advancing" UpdateNextSectionOnCycleChange="true" />
+                </DxDateEdit>
+            </Template>
+        </DxToolbarItem>
+
+        <DxToolbarItem Text="Nạp" Click="RefreshItem_Click" IconCssClass="grid-toolbar-refresh" />
+    </DxToolbar>
+</div>
+
+@* Đối với biểu đồ phải để Height:100% trực tiếp ở thuộc tính này thì mới có hiệu lực.*@
+<DxChart T="MainThuChiModel" Height="35vh" 
+Data="@Data" @ref="Chart" CssClass="main-dashboard-chart">    
+    <DxChartBarSeries Name="Tiền thu"
+        T="MainThuChiModel"
+        TArgument="string"
+        TValue="decimal"
+        ArgumentField="x => x.thang"
+        ValueField="x => x.tien_thu"
+        Filter="x => x.tien_thu != 0" />
+    <DxChartBarSeries Name="Tiền chi"
+        T="MainThuChiModel"
+        TArgument="string"
+        TValue="decimal"
+        ArgumentField="x => x.thang"
+        ValueField="x => x.tien_chi"
+        Filter="x => x.tien_chi != 0" />
+        <DxChartLegend Position="RelativePosition.Outside"
+        HorizontalAlignment="HorizontalAlignment.Center"
+        VerticalAlignment="VerticalEdge.Bottom"/>
+    <DxChartTooltip Enabled="true"
+        Position="RelativePosition.Outside">
+        <div style="margin: 0.75rem">
+            <div class="fw-bold">@context.Point.Argument</div>
+            <div>@($"{context.Point.SeriesName}: {context.Point.Value:N0}")</div>
+        </div>
+    </DxChartTooltip>
+</DxChart>
+
+@* popup company *@
+<DxPopup @bind-Visible="@CompanySelectPopupVisible"
+Width="400px"
+ShowHeader="true"
+ShowFooter="true"
+ShowCloseButton="true"
+CloseOnEscape="true" Shown="OnCompanySelectPopupShown"
+CloseOnOutsideClick="true">
+
+    <BodyContentTemplate>
+        <DxTreeView Data="@ListCompany"
+        CheckAllVisible="true"
+        CheckMode="TreeViewCheckMode.Multiple"
+        CheckAllText="Chọn hết"
+        CheckedChanged="@OnCompanyCheckedNodesChanged"
+        @ref="treeViewCompany">
+            <DataMappings>
+                <DxTreeViewDataMapping Text="CompanyName" Key="CompanyId" ParentKey="ParentId" />
+            </DataMappings>
+        </DxTreeView>
+    </BodyContentTemplate>
+    <FooterContentTemplate>
+        <DxButton Text="Xác nhận" Click="@CompanyConfirmSelection" />
+        <DxButton Text="Hủy" Click="@CompanyCancelSelection" />
+    </FooterContentTemplate>
+</DxPopup>
+
+@code {
+
+    // List<MainThuChiModel> Data = new List<MainThuChiModel>();
+
+    // DxChart chart;
+
+    // protected override async Task InitCfg()
+    // {
+    //     await base.InitCfg();
+    //     SelectedPeriodItem = ListPeriod.FirstOrDefault(x => x.PeriodCode == "NAM");
+    // }
+
+    protected override async Task SetDefaultPeriod()
+    {
+        SelectedPeriodItem = ListPeriod.FirstOrDefault(x => x.PeriodCode == "NAM");
+        await SetDate(SelectedPeriodItem);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        if(String.IsNullOrEmpty(CompanyId))
+        {
+            return;
+        }
+
+        // SelectedPeriodItem = ListPeriod.FirstOrDefault(x => x.PeriodCode == "NAM");
+        // // Gán cả năm nhưng chưa gán vào Date1, Date2 nên gọi lấy data lỗi
+        // // Chạy gán cho chuẩn
+        // await SetDate(SelectedPeriodItem);
+
+        await DataAsync();
+    }
+
+    // protected override async Task DataAsync()
+    // {
+    //     dynamic _param = new ExpandoObject();
+    //     _param.company_id = ListCompanyIdSelected;
+    //     _param.company_menu_id = "";
+    //     _param.date1 = this.Date1;
+    //     _param.date2 = this.Date2;
+
+    //     // APIResultModel _result = await DataService.CallMyApiSimple(_param, "CA_RPT_THU_CHI_MAIN");
+    //     APIResultModel _result = await DataService.CallMyApiSimple(_param, menuItem.FetDataCode);
+
+    //     Data.Clear();
+
+    //     if(_result.Status == 0)
+    //     {
+    //         APIResultDataModel _resultData = Newtonsoft.Json.JsonConvert.DeserializeObject<APIResultDataModel>(_result.Data.ToString());
+
+    //         if (_resultData.count_of_items > 0)
+    //         {
+    //             Data = Newtonsoft.Json.JsonConvert.DeserializeObject<List<MainThuChiModel>>(_resultData.data_details.ToString());
+    //         }
+    //     }
+
+    //     chart.RefreshData();
+    // }
+
+}

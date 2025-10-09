@@ -1,0 +1,105 @@
+﻿@using MyWebERP.Base.Components.Pages
+@inherits MyEditFormBase
+
+<EditForm Model="@CustCategory"
+OnValidSubmit="@FormSubmitted"
+id="@FormId"
+Context="EditFormContext">
+    <DataAnnotationsValidator />
+    <div>
+        <DxFormLayout>
+            <DxFormLayoutItem Caption="Mã nhóm:" ColSpanMd="12">
+                <div>
+                    <DxTextBox @bind-Text="@CustCategory.cust_category_code" @ref="txtCustCategoryCode" CssClass="enter-nav" />
+                </div>
+                <div class="text-danger editors-validation-text">
+                    <ValidationMessage For="@(() => CustCategory.cust_category_code)" />
+                </div>
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Tên nhóm:" ColSpanMd="12">
+                <div>
+                    <DxTextBox @bind-Text="@CustCategory.cust_category_name" CssClass="enter-nav" />
+                </div>
+                <div class="text-danger editors-validation-text">
+                    <ValidationMessage For="@(() => CustCategory.cust_category_name)" />
+                </div>
+            </DxFormLayoutItem>
+
+            <DxFormLayoutItem Caption="Ghi chú:" ColSpanMd="12">
+                <div>
+                    <DxTextBox @bind-Text="@CustCategory.comment" CssClass="enter-nav">
+                    </DxTextBox>
+                </div>
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Không SD:" ColSpanMd="12" CaptionPosition="CaptionPosition.Horizontal">
+                <DxCheckBox @bind-Checked="@CustCategory.inactive" ValueChecked="@((Int16)1)" ValueUnchecked="@((Int16)0)" CssClass="enter-nav"></DxCheckBox>
+            </DxFormLayoutItem>
+            @if (String.IsNullOrEmpty(MyErrorMessage) == false)
+            {
+                <div style="color:red">@MyErrorMessage</div>
+            }
+        </DxFormLayout>
+    </div>
+</EditForm>
+
+@* Test thôi - để tham khảo *@
+@* <CustCategoryEditPopup @bind-Visible="@CustCategoryAddNewPopupVisible"
+PopupClosed="@OnCategoryAdded" /> *@
+
+@code {
+    string MyErrorMessage = "";
+
+    DxTextBox txtCustCategoryCode;
+
+    Model.CustCategoryModel CustCategory { get; set; } = new Model.CustCategoryModel();
+
+    protected override async Task OnInitializedAsync()
+    {
+        MyErrorMessage = "";
+
+        //CustCategory = new Model.CustCategoryModel();
+
+        if(FormStatus == Data.EditFormStatus.NEW)
+        {
+            // CustCategory = new Model.CustCategoryModel();
+            CustCategory.data_code = MenuItem.DataCode;
+            CustCategory.company_id = CompanyId;
+        }
+        else
+        {
+            string _sFetSingleParam = await Data.MyLib.CreateFetSingleParam(CompanyId, MenuItem.IdColumnName, EditDataId);
+            Model.APIResultModel _resultFetSingle = await DataService.CallMyApiSimple(_sFetSingleParam, MenuItem.FetSingleDataCode);
+
+            if (_resultFetSingle.Status == 0)
+            {
+                string _sData = _resultFetSingle.Data.ToString();
+                Model.CustCategoryModel custCategoryTmp = System.Text.Json.JsonSerializer.Deserialize<Model.CustCategoryModel>(_sData);
+
+                if (custCategoryTmp != null)
+                {
+                    await Data.MyLib.MapObject<Model.CustCategoryModel>(CustCategory, custCategoryTmp);
+                }
+                else
+                {
+                    MyErrorMessage = "Không tìm thấy [Nhóm khách hàng] cần sửa. Có thể đã bị xóa.";
+                }
+            }
+
+            // if(CustCategory == null)
+            // {
+            //     MyErrorMessage = "Không tìm thấy [Nhóm khách hàng] cần sửa. Có thể đã bị xóa.";
+            // }
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Phải nhớ cho vào đây, kẻo mỗi lần enter nó render lại thì nó lại nhảy về đầu tiên
+            await txtCustCategoryCode.FocusAsync();
+        };
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+}

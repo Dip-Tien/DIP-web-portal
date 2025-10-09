@@ -1,0 +1,267 @@
+﻿@page "/listmenu/{CompanyMenuId}"
+
+@using MyWebERP.Base.Components.Pages
+@using Blazored.LocalStorage;
+@using MyWebERP.Data;
+@using MyWebERP.Services;
+@using MyWebERP.Model;
+@using System.Dynamic;
+@* @using DevExpress.Blazor; *@
+
+@inherits ComponentBaseGrid0
+
+@rendermode InteractiveServer // Có thì mới popup
+
+@* @inject ILocalStorageService LocalStorageService *@
+@* @inject IDataService DataService *@
+
+<style>
+    .dxbl-grid {
+        height: 522px;
+    }
+</style>
+
+@* <h3>@menuItem?.MenuName</h3> *@
+
+<div class="grid-container">
+    <DxGrid @ref="Grid" Data="@Data"
+    CssClass="flexGrid"
+    VirtualScrollingEnabled="true"
+    KeyFieldName ="@nameof(MenuModel.web_menu_id)"
+    ColumnResizeMode="GridColumnResizeMode.NextColumn"
+    TextWrapEnabled="true"
+    FocusedRowEnabled="true"
+    HighlightRowOnHover="true"
+    FocusedRowChanged="Grid_FocusedRowChanged"
+    ShowFilterRow = "true"
+    FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Always"
+    ShowAllRows="true"
+    PopupEditFormCssClass="pw-800"
+    PopupEditFormHeaderText="@menuItem?.Title"
+    EditMode="GridEditMode.PopupEditForm"
+    ValidationEnabled ="true"
+
+    CustomizeEditModel="Grid_CustomizeEditModel"
+    EditModelSaving="Grid_EditModelSaving"
+    DataItemDeleting="Grid_DataItemDeleting"
+    SearchText="@GridSearchText">
+        <ToolbarTemplate>
+            <DxToolbar ItemRenderStyleMode="ToolbarRenderStyleMode.Plain" >
+                <DxToolbarItem Text="@menuItem?.Title" style="te"/>
+                <DxToolbarItem Text="Refresh" Click="RefreshItem_Click" IconCssClass="grid-toolbar-refresh" BeginGroup="true" />
+                <DxToolbarItem Text="New" Click="NewItem_Click" IconCssClass="grid-toolbar-new" BeginGroup="true" />
+                <DxToolbarItem Text="Edit" Click="EditItem_Click" IconCssClass="grid-toolbar-edit" Enabled="EditItemsEnabled" />
+                <DxToolbarItem Text="Delete" Click="DeleteItem_Click" IconCssClass="grid-toolbar-delete" Enabled="EditItemsEnabled" />
+
+                <DxToolbarItem Text="Column Chooser" BeginGroup="true"  IconCssClass="grid-toolbar-column-chooser" />
+                <DxToolbarItem Text="Export" IconCssClass="grid-toolbar-export" BeginGroup="true">
+                    <Items>
+                        <DxToolbarItem Text="To CSV" Click="ExportCsvItem_Click" />
+                        <DxToolbarItem Text="To XLSX" Click="ExportXlsxItem_Click" />
+                        <DxToolbarItem Text="To XLS" Click="ExportXlsItem_Click" />
+                    </Items>
+                </DxToolbarItem>
+                <DxToolbarItem BeginGroup="true">
+                    <Template Context="toolbar_item_context">
+                        <DxSearchBox @bind-Text="GridSearchText"
+                        BindValueMode="BindValueMode.OnInput"
+                        ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"
+                        aria-label="Search" />
+                    </Template>
+
+                </DxToolbarItem>
+            </DxToolbar>
+        </ToolbarTemplate>
+        <Columns>
+            @* Hiện chữ New, Edit, Delete *@
+            @*  <DxGridCommandColumn Width="140px" /> *@
+            <DxGridCommandColumn Width="80">
+                <HeaderTemplate>
+                    <a class="oi oi-plus" @onclick="@(() => Grid.StartEditNewRowAsync())" style="text-decoration: none;" href="javascript:void(0);"></a>
+                </HeaderTemplate>
+                <CellDisplayTemplate>
+                    <a class="oi oi-pencil" @onclick="@(() => Grid.StartEditRowAsync(context.VisibleIndex))" style="text-decoration: none;" href="javascript:void(0);"></a>
+                    <a class="oi oi-x" @onclick="@(() => Grid.ShowDataItemDeleteConfirmation(context.DataItem))" style="text-decoration: none;" href="javascript:void(0);"></a>
+                </CellDisplayTemplate>
+            </DxGridCommandColumn>
+            <DxGridDataColumn FieldName="web_menu_name" MinWidth="100" Width="150" Caption="Tên menu" />
+            <DxGridDataColumn FieldName=@nameof(MenuModel.title) MinWidth="100" Width="150" Caption="Tiêu đề" />
+            <DxGridDataColumn FieldName=@nameof(MenuModel.url) MinWidth="100" Width="150" Caption="Url" />
+            <DxGridDataColumn FieldName=@nameof(MenuModel.data_code) MinWidth="100" Width="100" Caption="Data code" />
+            <DxGridDataColumn FieldName=@nameof(MenuModel.fet_data_code) MinWidth="100" Width="150" Caption="Fet data code" />
+            <DxGridDataColumn FieldName=@nameof(MenuModel.fet_single_data_code) MinWidth="100" Width="150" Caption="Fet single data code" />
+            <DxGridDataColumn FieldName=@nameof(MenuModel.ins_data_code) MinWidth="100" Width="150" Caption="Ins data code" />
+            <DxGridDataColumn FieldName=@nameof(MenuModel.upd_data_code) MinWidth="100" Width="150" Caption="Upd data code" />
+            <DxGridDataColumn FieldName=@nameof(MenuModel.del_data_code) MinWidth="100" Width="150" Caption="Del data code" />
+            <DxGridDataColumn FieldName=@nameof(MenuModel.order) MinWidth="60" Width="60" Caption="Order" 
+            FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never" />
+            <DxGridDataColumn FieldName=@nameof(MenuModel.is_super_user) Caption="Super user" MinWidth="60" Width="80"
+                              TextAlignment="GridTextAlignment.Center"
+                              CaptionAlignment="GridTextAlignment.Center">
+                <CellDisplayTemplate>
+                    <DxCheckBox Checked="@((Int16)context.Value == 1)" ReadOnly="true" />
+                </CellDisplayTemplate>
+            </DxGridDataColumn>
+            <DxGridDataColumn FieldName=@nameof(MenuModel.inactive) Caption="Inactive" MinWidth="60" Width="80" 
+                              TextAlignment="GridTextAlignment.Center"
+                              CaptionAlignment="GridTextAlignment.Center">
+                <CellDisplayTemplate>
+                    <DxCheckBox Checked="@((Int16)context.Value == 1)" ReadOnly="true"/>
+                </CellDisplayTemplate>
+            </DxGridDataColumn>
+        </Columns>
+        <EditFormTemplate Context="EditFormContext">
+            @{
+
+                var editItem = (MenuModel)EditFormContext.EditModel;
+            }
+            <DxFormLayout CssClass="w-1000" >
+                <DxFormLayoutItem Caption="Menu name:" ColSpanMd="12">
+                    @EditFormContext.GetEditor("web_menu_name")
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Title:" ColSpanMd="12">
+                    @EditFormContext.GetEditor(nameof(MenuModel.title))
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Url:" ColSpanMd="12">
+                    @EditFormContext.GetEditor(nameof(MenuModel.url))
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Data code:" ColSpanMd="12" >
+                    <DxTextBox @bind-Text="@editItem.data_code" CssClass="uppercase-text" />
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Fet data code:" ColSpanMd="12">
+                    <DxTextBox @bind-Text="@editItem.fet_data_code" CssClass="uppercase-text" />
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Fet single data code:" ColSpanMd="12">
+                    <DxTextBox @bind-Text="@editItem.fet_single_data_code" CssClass="uppercase-text" />
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Ins data code:" ColSpanMd="12">
+                    <DxTextBox @bind-Text="@editItem.ins_data_code" CssClass="uppercase-text" />
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Upd data code:" ColSpanMd="12">
+                    <DxTextBox @bind-Text="@editItem.upd_data_code" CssClass="uppercase-text" />
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Del data code:" ColSpanMd="12">
+                    <DxTextBox @bind-Text="@editItem.del_data_code" CssClass="uppercase-text" />
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Order:" ColSpanMd="12">
+                    @EditFormContext.GetEditor(nameof(MenuModel.order))
+                </DxFormLayoutItem>                
+
+                <DxFormLayoutItem Caption="Parent id:" ColSpanMd="12">
+                    <DxComboBox Data="@Parent" 
+                    NullText="Chọn menu cha"
+                                @bind-Value="@editItem.parent_id"
+                    TextFieldName="@nameof(MenuModel.web_menu_name)"
+                    ValueFieldName="@nameof(MenuModel.web_menu_id)"/>
+                </DxFormLayoutItem>
+
+                <DxFormLayoutItem Caption="Super user:" ColSpanMd="6">
+                    <DxCheckBox @bind-Checked="@editItem.is_super_user" ValueChecked="@((Int16)1)" ValueUnchecked="@((Int16)0)"></DxCheckBox>
+                </DxFormLayoutItem>
+                <DxFormLayoutItem Caption="Inactive:" ColSpanMd="6">
+                    <DxCheckBox @bind-Checked="@editItem.inactive" ValueChecked="@((Int16)1)" ValueUnchecked="@((Int16)0)"></DxCheckBox>
+                </DxFormLayoutItem>
+
+            </DxFormLayout>
+        </EditFormTemplate>
+    </DxGrid>
+</div>
+
+@* Muốn dùng toast phải có cả provider này *@
+@* <DxToastProvider Name="Template"
+MaxToastCount="3"
+FreezeOnClick="true" />
+
+<DxToast @ref=toastDelete
+Title="Không cho xóa"
+Text="@toastDeleteMessage"
+ProviderName="Template"
+/> *@
+
+@* <ComponentBase0></ComponentBase0> *@
+<DxWindow @ref=windowRef
+AllowResize="true"
+ShowCloseButton="true"
+CloseOnEscape="true"
+HeaderText="@MyHeaderErrorMessage"
+FooterText="Footer"
+ShowFooter="true"
+Width="max(25vw, 250px)"
+MinWidth="300"
+MinHeight="200"
+MaxWidth="800"
+MaxHeight="500">
+    <BodyContentTemplate>
+        <div style="color:red">@MyErrorMessage</div>
+    </BodyContentTemplate>
+    <FooterContentTemplate>
+        <DxButton CssClass="popup-button my-1 ms-2" 
+        RenderStyle="ButtonRenderStyle.Primary" Text="OK" Click="@context.CloseCallback" />
+    </FooterContentTemplate>
+</DxWindow>
+
+@code {
+
+    List<MenuModel> Data { get; set; }
+    List<MenuModel> Parent { get; set; }
+
+    async void Grid_CustomizeEditModel(GridCustomizeEditModelEventArgs e)
+    {
+        MyHeaderErrorMessage = "";
+        MyErrorMessage = "";
+
+        var _menuModel = (MenuModel)e.EditModel;
+
+        if (e.IsNew)
+        {
+            _menuModel.web_menu_name = "Menu mới";
+            _menuModel.title = "Menu mới nhé";
+
+        }
+        else
+        {
+            // Lấy lại dữ liệu trước khi sửa.
+            string _sFetSingleParam = await MyLib.CreateFetSingleParam(LocalStorageService, nameof(MenuModel.web_menu_id), _menuModel.web_menu_id);
+            APIResultModel _resultFetSingle = await DataService.CallMyApi(_sFetSingleParam, menuItem.FetSingleDataCode);
+
+            if(_resultFetSingle.Status == 0)
+            {
+                string _sData = _resultFetSingle.Data.ToString();
+                MenuModel _menuModelTmp = System.Text.Json.JsonSerializer.Deserialize<MenuModel>(_sData);
+                await MyLib.MapObject<MenuModel>(_menuModel, _menuModelTmp);
+            }
+        }
+    }
+
+    // async Task Grid_EditModelSaving(GridEditModelSavingEventArgs e)
+    // {
+    //     var menu = (MenuModel)e.EditModel;
+    //     string _sApiCode = e.IsNew ? menuItem.InsDataCode : menuItem.UpdDataCode;
+
+    //     APIResultModel _resultIns = await DataService.CallMyApi(menu, _sApiCode);
+
+    //     if (_resultIns.Status != 0)
+    //     {
+    //         MyErrorMessage = _resultIns.StatusDetails;
+    //         e.Cancel = true;
+    //         return;
+    //     }
+
+    //     await DataAsync();
+    // }
+
+
+    protected override async Task DataAsync()
+    {
+        string _sParam = "{\"company_id\":\"" + CompanyId + "\",\"page_number\":1,\"page_size\":50}";
+        APIResultDataModel resultData = await DataService.GetData(_sParam, menuItem.FetDataCode);
+
+        if (resultData != null)
+        {
+            Data = System.Text.Json.JsonSerializer.Deserialize<List<MenuModel>>(resultData.data_details.ToString());
+
+            Parent = Data.Where(x => x.is_super_user == 1).ToList();
+        }
+    }
+
+}

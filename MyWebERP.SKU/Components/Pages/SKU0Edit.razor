@@ -1,0 +1,185 @@
+﻿@using Blazored.LocalStorage;
+@using Model;
+@using Data;
+@using MyWebERP.Base.Components.Pages
+
+@inherits MyEditFormBase
+
+<EditForm Model="@editItem"
+OnValidSubmit="@FormSubmitted"
+id="@FormId"
+Context="EditFormContext">
+    <DataAnnotationsValidator />
+    <div>
+        <DxFormLayout CssClass="w-1000">
+
+            <DxFormLayoutItem Caption="Mã VT:" ColSpanMd="12">
+                <div>
+                    <DxTextBox @bind-Text="@editItem.sku" CssClass="enter-nav" @ref="txtSku">
+                        <Buttons>
+                            <DxEditorButton IconCssClass="grid-toolbar-new"
+                            Tooltip="Tự động tạo mã mới"
+                            Click="@(_ => OnNewDataCodeButtonClick())" />
+                        </Buttons>
+                    </DxTextBox>
+                </div>
+                <div class="text-danger editors-validation-text">
+                    <ValidationMessage For="@(() => editItem.sku)" />
+                </div>
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Tên VT:" ColSpanMd="12" >
+                <div>
+                    <DxTextBox @bind-Text="@editItem.sku_name" CssClass="enter-nav" />
+                </div>
+                <div class="text-danger editors-validation-text">
+                    <ValidationMessage For="@(() => editItem.sku_name)" />
+                </div>
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Mô tả:" ColSpanMd="12">
+                <div>
+                    <DxTextBox @bind-Text="@editItem.sku_description" CssClass="enter-nav" />
+                </div>
+            </DxFormLayoutItem>
+
+            <DxFormLayoutItem Caption="Mã nhóm:" ColSpanMd="12">
+                <DxComboBox Data="@ListCategory"
+                @bind-Value=@editItem.prd_category_id
+                SearchMode="@ListSearchMode.AutoSearch"
+                SearchFilterCondition="@ListSearchFilterCondition.Contains"
+                NullText="Chọn nhóm"
+                CssClass="enter-nav my-combobox"
+                TextFieldName="@nameof(PrdCategoryLookupModel.prd_category_code)"
+                ValueFieldName="@nameof(PrdCategoryLookupModel.prd_category_id)"
+                SelectedItemChanged="@((PrdCategoryLookupModel arg) => SelectCategoryChanged(arg, editItem))">
+                    <Columns>
+                        <DxListEditorColumn FieldName="@nameof(PrdCategoryLookupModel.prd_category_code)" Caption="Mã nhóm" Width="120" />
+                        <DxListEditorColumn FieldName="@nameof(PrdCategoryLookupModel.prd_category_name)" Caption="Tên nhóm" Width="200" />
+                    </Columns>
+                </DxComboBox>
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Tên nhóm:" ColSpanMd="12" ReadOnly="true">
+                <DxTextBox @bind-Text=editItem.prd_category_name ReadOnly="true"></DxTextBox>
+            </DxFormLayoutItem>
+
+            <DxFormLayoutItem Caption="PP giá vốn:" ColSpanMd="12">
+                <DxComboBox Data="@ListCostMethod"
+                @bind-Value=@editItem.cost_method_id
+                SearchMode="@ListSearchMode.AutoSearch"
+                SearchFilterCondition="@ListSearchFilterCondition.Contains"
+                NullText="Chọn phương pháp tính giá vốn"
+                CssClass="enter-nav my-combobox"
+                TextFieldName="@nameof(CostMethodLookupModel.cost_method_name)"
+                ValueFieldName="@nameof(CostMethodLookupModel.cost_method_id)"
+                SelectedItemChanged="@((CostMethodLookupModel arg) => SelectCostMethodChanged(arg, editItem))" />
+            </DxFormLayoutItem>
+
+            <DxFormLayoutItem Caption="ĐVT:" ColSpanMd="12">
+                <DxComboBox Data="@ListUnit"
+                @bind-Value=@editItem.unit_id
+                SearchMode="@ListSearchMode.AutoSearch"
+                SearchFilterCondition="@ListSearchFilterCondition.Contains"
+                NullText="Chọn đơn vị tính"
+                CssClass="enter-nav my-combobox"
+                TextFieldName="@nameof(UnitLookupModel.unit_name)"
+                ValueFieldName="@nameof(UnitLookupModel.unit_id)"
+                SelectedItemChanged="@((UnitLookupModel arg) => SelectUnitChanged(arg, editItem))" />
+            </DxFormLayoutItem>
+
+
+            <DxFormLayoutItem Caption="Đơn giá:" ColSpanMd="12">
+                <div>
+                    <DxSpinEdit @bind-value="@editItem.sale_price" Mask="N0" CssClass="enter-nav" />
+                </div>
+            </DxFormLayoutItem>
+
+            <DxFormLayoutItem Caption="Không SD:" ColSpanMd="6">
+                <DxCheckBox @bind-Checked="@editItem.inactive" ValueChecked="@((Int16)1)" ValueUnchecked="@((Int16)0)" CssClass="enter-nav"></DxCheckBox>
+            </DxFormLayoutItem>
+
+        </DxFormLayout>
+    </div>
+</EditForm>
+
+@code {
+    Model.SKU0Model editItem { get; set; } = new Model.SKU0Model();
+
+    List<PrdCategoryLookupModel> ListCategory;
+    List<UnitLookupModel> ListUnit;
+    List<CostMethodLookupModel> ListCostMethod;
+
+    DxTextBox txtSku;
+
+    protected async Task InitCfg()
+    {
+        ListCategory = await DataService.LookupCode<PrdCategoryLookupModel>(CompanyId, 1, MenuItem.CompanyMenuId, "PRD_CATE_LOOKUP_W");
+        ListUnit = await DataService.LookupCode<UnitLookupModel>(CompanyId, 1, MenuItem.CompanyMenuId, "UNIT_LOOKUP_W");
+        ListCostMethod = await DataService.LookupCode<CostMethodLookupModel>(CompanyId, 1, MenuItem.CompanyMenuId, "COST_METHOD_LOOKUP");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        MyErrorMessage = "";
+
+        await InitCfg();
+
+        if(FormStatus == Data.EditFormStatus.NEW)
+        {
+            editItem.data_code = MenuItem.DataCode;
+            editItem.company_id = CompanyId;
+            editItem.cost_method_id = 2;
+            editItem.sku = await DataService.CreateDataCode(CompanyId, MenuItem.DataCode, "");
+        }
+        else
+        {
+            string _sFetSingleParam = await Data.MyLib.CreateFetSingleParam(CompanyId, MenuItem.IdColumnName, EditDataId);
+            Model.APIResultModel _resultFetSingle = await DataService.CallMyApiSimple(_sFetSingleParam, MenuItem.FetSingleDataCode);
+
+            if (_resultFetSingle.Status == 0)
+            {
+                string _sData = _resultFetSingle.Data.ToString();
+                Model.SKU0Model custTmp = System.Text.Json.JsonSerializer.Deserialize<Model.SKU0Model>(_sData);
+
+                if (custTmp != null)
+                {
+                    await Data.MyLib.MapObject<Model.SKU0Model>(editItem, custTmp);
+                }
+                else
+                {
+                    MyErrorMessage = "Không tìm thấy [sản phẩm/vật tư] cần sửa. Có thể đã bị xóa.";
+                }
+            }
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Phải nhớ cho vào đây, kẻo mỗi lần enter nó render lại thì nó lại nhảy về đầu tiên
+            await txtSku.FocusAsync();
+        };
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    async Task OnNewDataCodeButtonClick()
+    {
+        editItem.sku = await DataService.CreateDataCode(CompanyId, MenuItem.DataCode, "");
+    }
+
+    async Task SelectCategoryChanged(PrdCategoryLookupModel cate, SKU0Model sku)
+    {
+        sku.prd_category_code = cate.prd_category_code;
+        sku.prd_category_name = cate.prd_category_name;
+    }
+
+    async Task SelectUnitChanged(UnitLookupModel unit, SKU0Model sku)
+    {
+        sku.unit_name = unit.unit_name;
+    }
+
+    async Task SelectCostMethodChanged(CostMethodLookupModel costMethod, SKU0Model sku)
+    {
+        sku.cost_method_name = costMethod.cost_method_name;
+    }
+}

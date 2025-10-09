@@ -1,0 +1,108 @@
+﻿@page "/apartments-old"
+
+@using MyWebERP.Model;
+
+<h3>Sơ đồ chung cư nhiều tầng</h3>
+
+@* <div class="space-y-6">
+    @foreach (var floorGroup in Apartments.GroupBy(a => a.Floor).OrderBy(g => g.Key))
+    {
+        <div class="floor-block">
+            <h4>Tầng @floorGroup.Key</h4>
+            <svg width="600" height="120" style="border:1px solid #ccc">
+                @foreach (var apt in floorGroup)
+                {
+                    <g>
+                        <rect id="apt-@apt.Id"
+                              x="@apt.X" y="@apt.Y"
+                              width="@apt.Width" height="@apt.Height"
+                              class="apartment @(SelectedApartment?.Id == apt.Id ? "selected" : "")"
+                              @onclick="() => SelectApartment(apt)" />
+
+                        <title>
+                            @($"Căn hộ: {apt.Name}\nTầng: {apt.Floor}\nDiện tích: {apt.Area} m²\nTrạng thái: {apt.Status}")
+                        </title>
+                    </g>
+                }
+            </svg>
+        </div>
+    }
+</div> *@
+
+<div class="space-y-6">
+    @foreach (var floorGroup in Apartments.GroupBy(a => a.Floor).OrderBy(g => g.Key))
+    {
+        <div class="floor-block">
+            <h4>Tầng @floorGroup.Key</h4>
+            <svg width="600" height="120" style="border:1px solid #ccc">
+                @foreach (var apt in floorGroup)
+                {
+                    <g>
+                        <rect id="apt-@apt.Id"
+                              x="@apt.X" y="@apt.Y"
+                              width="@apt.Width" height="@apt.Height"
+                              fill="@apt.Color"
+                              stroke="black"
+                              class="apartment @(SelectedApartment?.Id == apt.Id ? "selected" : "")"
+                              @onclick="() => SelectApartment(apt)" />
+
+                        <title>
+                            @($"Căn hộ: {apt.Name}\nTầng: {apt.Floor}\nDiện tích: {apt.Area} m²\nTrạng thái: {apt.Status}")
+                            @if (!string.IsNullOrEmpty(apt.ImageUrl))
+                            {
+                                @($"\nHình: {apt.ImageUrl}")
+                            }
+                        </title>
+                    </g>
+                }
+            </svg>
+        </div>
+    }
+</div>
+
+<!-- Panel thông tin -->
+<div class="mt-4">
+    @if (SelectedApartment is not null)
+    {
+        <h4>Chi tiết căn hộ đã chọn</h4>
+        <p><b>Mã:</b> @SelectedApartment.Name</p>
+        <p><b>Tầng:</b> @SelectedApartment.Floor</p>
+        <p><b>Diện tích:</b> @SelectedApartment.Area m²</p>
+        <p><b>Trạng thái:</b> @SelectedApartment.Status</p>
+    }
+    else
+    {
+        <p>Chọn 1 căn hộ trên sơ đồ</p>
+    }
+</div>
+
+@code {
+    private List<Apartment> Apartments = new();
+    private Apartment? SelectedApartment;
+
+    protected override void OnInitialized()
+    {
+        Apartments = new List<Apartment>
+        {
+            // Tầng 1
+            new Apartment { Id=1, Name="101", Floor=1, Area=75, X=10, Y=10, Width=80, Height=60, Status="Available", ImageUrl="D:/10.Downloads/iCloud Photos/466394_394146280609678_445494063_o.jpg" },
+            new Apartment { Id=2, Name="102", Floor=1, Area=80, X=100, Y=10, Width=80, Height=60, Status="Sold", ImageUrl=null },
+            new Apartment { Id=3, Name="103", Floor=1, Area=65, X=190, Y=10, Width=80, Height=60, Status="Reserved", ImageUrl="D:/10.Downloads/iCloud Photos/456920624_8806455656035834_6024418074485567765_n.jpg" },
+
+            // Tầng 2
+            new Apartment { Id=4, Name="201", Floor=2, Area=75, X=10, Y=10, Width=80, Height=60, Status="Available", ImageUrl="D:/10.Downloads/iCloud Photos/IMG_3829.JPEG" },
+            new Apartment { Id=5, Name="202", Floor=2, Area=90, X=100, Y=10, Width=80, Height=60, Status="Sold", ImageUrl=null },
+            new Apartment { Id=6, Name="203", Floor=2, Area=70, X=190, Y=10, Width=80, Height=60, Status="Available", ImageUrl=null },
+
+            // Tầng 3
+            new Apartment { Id=7, Name="301", Floor=3, Area=85, X=10,  Y=10, Width=80, Height=60, Status="Reserved" },
+            new Apartment { Id=8, Name="302", Floor=3, Area=75, X=100, Y=10, Width=80, Height=60, Status="Available" },
+            new Apartment { Id=9, Name="303", Floor=3, Area=95, X=190, Y=10, Width=80, Height=60, Status="Sold" }
+        };
+    }
+
+    private void SelectApartment(Apartment apt)
+    {
+        SelectedApartment = apt;
+    }
+}

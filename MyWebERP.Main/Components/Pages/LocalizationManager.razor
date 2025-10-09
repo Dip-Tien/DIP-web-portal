@@ -1,0 +1,140 @@
+﻿@page "/localization-manager/{CompanyMenuId}"
+@using Microsoft.AspNetCore.Components.Forms
+@inject MyWebERP.Services.JsonLocalizationProvider LocProv
+@inject NavigationManager Nav
+
+<h3>Quản lý Localization JSON</h3>
+
+<div class="mb-3">
+    <label>Culture:</label>
+    <select @bind="SelectedCulture" class="form-select">
+        @foreach (var c in Cultures)
+        {
+            <option value="@c">@c</option>
+        }
+    </select>
+    <button class="btn btn-outline-secondary ms-2" @onclick="Reload">Reload cache</button>
+    <a class="btn btn-outline-success ms-2"
+       href="@($"/localization-download/{SelectedCulture}")">Export JSON</a>
+</div>
+
+<EditForm Model="@this" OnValidSubmit="AddOrUpdate">
+    <div class="row g-2">
+        <div class="col-5">
+            <InputText @bind-Value="Key" class="form-control" placeholder="Key" />
+        </div>
+        <div class="col-5">
+            <InputText @bind-Value="Value" class="form-control" placeholder="Value" />
+        </div>
+        <div class="col-2 d-grid">
+            <button class="btn btn-primary" type="submit">Thêm / Cập nhật</button>
+        </div>
+    </div>
+</EditForm>
+
+@if (!string.IsNullOrEmpty(Message))
+{
+    <div class="alert alert-info mt-2">@Message</div>
+}
+
+<hr />
+
+<h4>Danh sách key (@Items.Count) – @SelectedCulture</h4>
+
+<InputFile OnChange="Upload" class="mb-2" />
+
+<table class="table table-striped table-sm">
+    <thead>
+        <tr><th>Key</th><th>Value</th><th style="width:1px;">X</th></tr>
+    </thead>
+    <tbody>
+        @foreach (var kv in Items)
+        {
+            <tr>
+                <td>@kv.Key</td>
+                <td>@kv.Value</td>
+                <td>
+                    <button class="btn btn-danger btn-sm"
+                            @onclick="() => DeleteKey(kv.Key)">
+                        ×
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+
+    [Parameter]
+    public string CompanyMenuId { get; set; }
+
+    /* ---------- state ---------- */
+    private readonly List<string> Cultures = new() { "vi-VN", "en-US" };
+    private string _selectedCulture = "vi-VN";
+    private string SelectedCulture
+    {
+        get => _selectedCulture;
+        set
+        {
+            if (_selectedCulture != value)
+            {
+                _selectedCulture = value;
+                _ = LoadAsync();
+            }
+        }
+    }
+
+    private string? Key;
+    private string? Value;
+    private string? Message;
+    private Dictionary<string, string> Items = new();
+
+    /* ---------- life‑cycle ---------- */
+    protected override async Task OnInitializedAsync() => await LoadAsync();
+
+    private async Task LoadAsync()
+    {
+        Items = await LocProv.LoadAsync(SelectedCulture);
+        StateHasChanged();
+    }
+
+    /* ---------- CRUD ---------- */
+    private async Task AddOrUpdate()
+    {
+        if (string.IsNullOrWhiteSpace(Key) || string.IsNullOrWhiteSpace(Value))
+        {
+            Message = "Key/Value không được để trống"; return;
+        }
+
+        var existed = Items.ContainsKey(Key);
+        Items[Key] = Value;
+
+        await LocProv.SaveAsync(SelectedCulture, Items);
+        Message = existed ? "Đã cập nhật." : "Đã thêm mới.";
+        Key = Value = string.Empty;
+    }
+
+    private async Task DeleteKey(string key)
+    {
+        if (!Items.Remove(key)) return;
+        await LocProv.SaveAsync(SelectedCulture, Items);
+    }
+
+    /* ---------- Reload ---------- */
+    private void Reload()
+    {
+        LocProv.ClearCache(SelectedCulture);
+        _ = LoadAsync();
+    }
+
+    /* ---------- Upload ---------- */
+    private async Task Upload(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        await using var stream = file.OpenReadStream(maxAllowedSize: 2 * 1024 * 1024);
+        var ok = await LocProv.ImportFromStreamAsync(SelectedCulture, stream, overwrite: false);
+        Message = ok ? "Đã nhập dữ liệu." : "Lỗi nhập.";
+        await LoadAsync();
+    }
+}

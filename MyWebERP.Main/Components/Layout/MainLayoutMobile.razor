@@ -1,0 +1,132 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization @*  Có lệnh này mới dùng được @context *@
+@using MyWebERP.Model
+@using MyWebERP.Services
+@using MyWebERP.Base.Components.Pages
+@using Microsoft.Extensions.Localization
+
+@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+@inject Data.AppStateManager AppState
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorageService
+@inject IDataService DataService
+@inject IStringLocalizer L
+
+@* @attribute [Microsoft.AspNetCore.Authorization.Authorize] *@
+
+@rendermode InteractiveServer // Có thì mới popup, dropdown ..... Để ở đây thì các trang con không cần nữa.
+
+<DxDialogProvider /> @* Phải có dòng này thì mới show được hộp thoại xác nhận xóa *@
+
+<div class="page">
+    <Drawer >
+        @* <DrawerBody>
+            <DxButton IconCssClass="fas fa-bars" CssClass="btn w-100 text-start" RenderStyle="ButtonRenderStyle.None"
+                      Click="@OpenMobileMenu">
+                @L["Menu"]
+            </DxButton>
+        </DrawerBody> *@
+
+        <DrawerTarget>
+            @* @if (MyMenuItems != null && MyMenuItems.Count > 0)
+            {
+                <PageHeaderMobile OnMenuClick="@OpenMobileMenu" />
+            } *@
+
+            @* <div class="main-body-wrapper p-3" style="padding-top:0px !important; padding-bottom:0px !important; min-height:50vh;">
+                    @Body
+            </div> *@
+
+            @* Lưu ý cho height:100vh; height: 100dvh;*@
+            @* vh = chiều cao lý thuyết của viewport (không tính dynamic thanh nav).*@
+            @* dvh = dynamic viewport height (chuẩn mới, iOS 16+ và hầu hết Android cũng hỗ trợ), tính đúng khi thanh địa chỉ ẩn/hiện.*@
+            @* Nếu muốn tương thích mấy máy iOS cũ (<16), anh có thể thêm fallback: *@
+            @* .dock-container {
+            height: 100vh;              /* fallback */
+            height: 100dvh;             /* iOS 16+, Android mới */
+            height: -webkit-fill-available; /* iOS cũ */
+            }*@
+            <div class="main-body-wrapper p-3"
+                 style="padding-top:0 !important; padding-bottom:0 !important; min-height:50vh; display:flex; flex-direction: column; height:100vh; height:100dvh;">                
+
+                 @if (MyMenuItems != null && MyMenuItems.Count > 0)
+            {
+                <PageHeaderMobile OnMenuClick="@OpenMobileMenu" />
+            }
+
+                <div class="main-body-wrapper" style="padding-top:5px">
+                @Body
+                </div>
+
+            </div>
+        </DrawerTarget>        
+    </Drawer>
+</div>
+
+<MobileMenuPopup MenuItems="@MyMenuItems"
+                 MenuStyle="list"
+                 @bind-IsVisible="@ShowMenu"/>
+
+@code {
+
+    private List<MobileFooterNav.MobileNavItem> MyMenus = new()
+    {
+        new("/home",          "Trang chủ",    "bi bi-house"),
+        new("/products",      "Sản phẩm",     "bi bi-box"),
+        new("/orders",        "Đơn hàng",     "bi bi-receipt"),
+        new("/notifications", "Thông báo",    "bi bi-bell"),
+        new("/account",       "Tài khoản",    "bi bi-person")
+    };
+
+    [CascadingParameter]
+    protected Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    private Model.CompanyItem? Company;
+    List<MenuItem> MyMenuItems;
+    private bool ShowMenu = false;
+
+    System.Security.Claims.ClaimsPrincipal user;
+
+    [SupplyParameterFromQuery(Name = UrlGenerator.ToggleSidebarName)]
+    public bool ToggledSidebar { get; set; }
+
+    /* Chọn component thích hợp **mỗi lần** layout render */
+    /* --- chọn header tương ứng --- */
+    private RenderFragment drawerHeader => builder =>
+    {
+        builder.OpenComponent<DrawerHeaderMobile>(0);
+        builder.AddAttribute(1, "ToggledSidebar", ToggledSidebar);
+        builder.AddAttribute(2, "ToggledSidebarChanged", EventCallback.Factory.Create<bool>(this, v => ToggledSidebar = v));
+        builder.CloseComponent();
+    };
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            Company = await LocalStorageService.GetItemAsync<Model.CompanyItem>(Data.LocalStorageName.COMPANY);
+
+            var authState = await authenticationStateTask;
+            user = authState.User;
+
+            if (user != null && user.Identity.IsAuthenticated)
+            {
+                MyMenuItems = await DataService.GetMenus();
+            }
+        }
+        catch (Exception _ex)
+        {
+            //await LocalStorageService.ClearAsync();
+            NavigationManager.NavigateTo("/logout", true);
+        }
+        // Muốn cập nhật thay đổi gì thì phải gọi cái phương thức StateHasChanged này để cập nhật toàn cục.
+        AppState.OnCompanyChange += StateHasChanged;
+    }
+
+    private async Task OpenMobileMenu()
+    {
+        ShowMenu = true;
+        await Task.CompletedTask;
+    }
+
+}

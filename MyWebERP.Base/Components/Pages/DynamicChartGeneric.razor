@@ -1,0 +1,60 @@
+﻿@using MyWebERP.Data
+
+@typeparam TItem
+
+<DxChart Data="@Data">
+    @foreach (var prop in ValueProperties)
+    {
+        @SeriesBuilder(prop)
+    }
+</DxChart>
+
+@code {
+    [Parameter] public List<TItem> Data { get; set; }
+    [Parameter] public string ArgumentField { get; set; }
+    [Parameter] public string[] ValueFields { get; set; }
+    [Parameter] public ChartType ChartType { get; set; } = ChartType.Bar;
+
+    private List<System.Reflection.PropertyInfo> ValueProperties;
+
+    protected override void OnParametersSet()
+    {
+        var t = typeof(TItem);
+        ValueProperties = new List<System.Reflection.PropertyInfo>();
+        if (ValueFields != null)
+        {
+            foreach (var vf in ValueFields)
+            {
+                var prop = t.GetProperty(vf);
+                if (prop != null)
+                    ValueProperties.Add(prop);
+            }
+        }
+    }
+
+    RenderFragment SeriesBuilder(System.Reflection.PropertyInfo prop) => builder =>
+    {
+        int seq = 0;
+        var seriesType = ChartType switch
+        {
+            ChartType.Bar => typeof(DxChartBarSeries<TItem, object, object>),
+            ChartType.Line => typeof(DxChartLineSeries<TItem, object, object>),
+            ChartType.Area => typeof(DxChartAreaSeries<TItem, object, object>),
+            _ => typeof(DxChartBarSeries<TItem, object, object>)
+        };
+
+        builder.OpenComponent(seq++, seriesType);
+        builder.AddAttribute(seq++, "ArgumentField", ArgumentField);
+        builder.AddAttribute(seq++, "ValueField", prop.Name);
+        builder.AddAttribute(seq++, "Name", prop.Name);
+        builder.AddAttribute(seq++, "ShowPointMarkers", true);
+        builder.AddAttribute(seq++, "TooltipEnabled", true);
+        builder.AddAttribute(seq++, "Color", GetColorForIndex(seq));
+        builder.CloseComponent();
+    };
+
+    string[] colors = new[] { "#3f51b5", "#e91e63", "#009688", "#ff5722", "#607d8b" };
+    string GetColorForIndex(int index) => colors[(index - 1) % colors.Length];
+
+    
+}

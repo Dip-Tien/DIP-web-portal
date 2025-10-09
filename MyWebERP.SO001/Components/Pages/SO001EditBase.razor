@@ -1,0 +1,463 @@
+﻿@using DevExpress.Blazor;
+@using Microsoft.JSInterop;
+@using MyWebERP.Base.Components.Pages;
+@using MyWebERP.Data;
+@using MyWebERP.Model
+
+@inherits MyVoucherEditFormBase1
+
+@code
+{
+    protected Model.SO001Model editItem { get; set; } = new Model.SO001Model();
+    protected Model.SO001DetailModel editDetailItem { get; set; }
+    protected DxComboBox<CustomerLookupModel, string> cboCustomerCode;
+    // DxComboBox<SKU0LookupModel, string> cboSKU0Code;
+
+    // private ElementReference divSku0;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await cboCustomerCode.FocusAsync();
+            dotNetRef = DotNetObjectReference.Create((MyEditFormBase)this);
+            await JS.InvokeVoidAsync("registerEnterKeyHandler", ".dxbl-grid", dotNetRef);
+        }
+        ;
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    protected override async Task InitCfg()
+    {
+        await base.InitCfg();
+
+        ListLookup = await DataService.GetLookup("CUST_LOOKUP_W,SKU0_LOOKUP_W");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        MyErrorMessage = "";
+
+        await InitCfg();
+
+        if (FormStatus == Data.EditFormStatus.NEW)
+        {
+            editItem.voucher_header_id = await DataService.GetRowId(CompanyId, MenuItem.CompanyMenuId);
+            editItem.voucher_code = MenuItem.DataCode;
+            editItem.company_id = CompanyId;
+            editItem.voucher_date = DateTime.Now;
+            editItem.voucher_no = await DataService.CreateVoucherNo(CompanyId, MenuItem.DataCode, editItem.voucher_date);
+            editItem.currency_id = ListCurrency.FirstOrDefault(x => x.currency_code == "VND")?.currency_id;
+
+            editItem.details = new List<SO001DetailModel>();
+            await NewDetail();
+        }
+        else
+        {
+            string _sFetSingleParam = await Data.MyLib.CreateFetSingleParam(CompanyId, MenuItem.IdColumnName, EditDataId);
+            Model.APIResultModel _resultFetSingle = await DataService.CallMyApiSimple(_sFetSingleParam, MenuItem.FetSingleDataCode);
+
+            if (_resultFetSingle.Status == 0)
+            {
+                string _sData = _resultFetSingle.Data.ToString();
+                Model.SO001Model tmpItem = System.Text.Json.JsonSerializer.Deserialize<Model.SO001Model>(_sData);
+
+                if (tmpItem != null)
+                {
+                    //await Data.MyLib.MapObject<Model.SO001Model>(editItem, tmpItem);
+                    editItem = tmpItem;
+                }
+                else
+                {
+                    MyErrorMessage = "Không tìm thấy [Đơn hàng] cần sửa. Có thể đã bị xóa.";
+                }
+            }
+        }
+    }
+
+    protected async Task OnNewVoucherNoButtonClick()
+    {
+        editItem.voucher_no = await DataService.CreateVoucherNo(CompanyId, MenuItem.DataCode, editItem.voucher_date);
+    }
+
+    protected async Task SelectCustomerChanged(CustomerLookupModel customer, SO001Model voucherHeader)
+    {
+        editItem.customer_code = customer.customer_code;
+        editItem.customer_name = customer.customer_name;
+        editItem.customer_tel = customer.tel;
+        editItem.customer_address = customer.address1;
+    }
+
+    protected async Task SelectCurrencyChanged(CurrencyLookupModel currency, VoucherHeaderBaseModel voucherHeader)
+    {
+        editItem.currency_id = currency.currency_id;
+        editItem.currency_code = currency.currency_code;
+        editItem.currency_name = currency.currency_name;
+        editItem.currency_rate = await DataService.GetCurrencyRate(CompanyId, currency.currency_code, editItem.voucher_date);
+
+        CurrencyIsBase = (currency.currency_code == "VND");
+    }
+
+    protected async Task OnCustomerSubmit(CustomerModel customer)
+    {
+        // Nạp lại
+        ListCustomer = await DataService.LookupCode<CustomerLookupModel>(CompanyId, 1, MenuItem.CompanyMenuId, "CUST_LOOKUP_W");
+        editItem.customer_id = customer.customer_id;
+    }
+
+    // [JSInvokable]
+    // public async Task AddNewDetailFromJS(string gridName)
+    // {
+    //     if (gridName == "GridDetail")
+    //     {
+    //         await OnNewDetailButtonClick();
+    //     }
+    // }
+
+    // [JSInvokable]
+    // public async Task DeleteDetailFromJS(string gridName)
+    // {
+    //     if (gridName == "GridDetail")
+    //     {
+    //         await OnDeleteDetailButtonClick();
+    //     }
+    // }
+
+    [JSInvokable]
+    public async Task Shortcut_KeyDown(string objectName, string key)
+    {
+        // switch(objectName)
+        // {
+        //     case "GridDetail":
+        //         switch (key)
+        //         {
+        //             case "F2":
+        //                 await OnNewDetailButtonClick();
+        //                 break;
+        //             // case "F8":
+        //             //     await OnDeleteDetailButtonClick();
+        //             //     break;
+        //             default:
+        //                 break;
+        //         }
+        //         break;
+        // }
+
+        switch (key)
+        {
+            case "F2":
+                await OnNewDetailButtonClick();
+                break;
+            // case "F8":
+            //     await OnDeleteDetailButtonClick();
+            //     break;
+            default:
+                break;
+        }
+    }
+
+    #region Detail
+    Dictionary<SO001DetailModel, DataChange> DetailUnsavedChanges { get; } = new();
+    protected bool DetailBatchItemsEnabled => DetailUnsavedChanges.Count > 0 || GridDetail.IsEditing();
+
+    protected async Task OnNewDetailButtonClick()
+    {
+        await NewDetail();
+        GridDetail.Reload();
+        //GridDetail.SetFocusedRowIndex(editItem.details.Count - 1);
+        await GridDetail.StartEditDataItemAsync(editItem.details[editItem.details.Count - 1]);
+    }
+
+    protected async Task NewDetail()
+    {
+        Model.SO001DetailModel detailModel = new SO001DetailModel();
+        detailModel.voucher_detail_id = await DataService.GetRowId(CompanyId, MenuItem.CompanyMenuId);
+        detailModel.voucher_header_id = editItem.voucher_header_id;
+        detailModel.company_id = editItem.company_id;
+        detailModel.quantity = 1;
+        detailModel.coefficient = 1;
+        detailModel.quantity_base = 1;
+
+        editItem.details.Add(detailModel);
+        DetailUnsavedChanges[detailModel] = new(DataChangeType.Addition, new());
+
+        GridDetail.Reload();
+
+    }
+
+    protected async Task OnDeleteDetailCommandButtonClick(object dataItem)
+    {
+        Model.SO001DetailModel detailModel = (Model.SO001DetailModel)dataItem;
+        if (detailModel != null)
+        {
+            DetailUnsavedChanges[detailModel] = new(DataChangeType.Delete, new());
+            editItem.details.Remove(detailModel);
+            GridDetail.Reload();
+            await CalcHeaderSum();
+        }
+    }
+
+    protected async Task OnDeleteDetailButtonClick()
+    {
+        Model.SO001DetailModel detailModel = (Model.SO001DetailModel)GridDetail.GetFocusedDataItem();
+        if (detailModel != null)
+        {
+            DetailUnsavedChanges[detailModel] = new(DataChangeType.Delete, new());
+            editItem.details.Remove(detailModel);
+            GridDetail.Reload();
+        }
+    }
+
+    /// <summary>
+    /// Gọi từ js để focus vào ô đầu tiên trong grid
+    /// </summary>
+    /// <returns></returns>
+    [JSInvokable]
+    public async Task FocusFirstEditableCell()
+    {
+        // Make sure data exists
+        if (editItem.details.Count > 0)
+        {
+            await GridDetail.StartEditDataItemAsync(editItem.details[0]);
+            // Register F4 key: when pressed in the DxComboBox input, open the popup
+            // lúc này có render combobox nào thì đăng ký cho cái đó
+            await JS.InvokeVoidAsync("registerDxComboBoxF4KeyHandler", ".my-combobox input");
+            // enter move next, nhưng nó bị grid chặn để kết thúc sửa, nên không chạy
+            //await JS.InvokeVoidAsync("registerEnterKeyHandler", ".enter-nav input", dotNetRef);
+
+        }
+        else
+        {
+            // Nếu không có thì thêm dòng mới
+            // Chắc không xảy ra vì lúc nào cũng thêm sẵn 1 dòng.
+            await GridDetail.StartEditNewRowAsync();
+        }
+    }
+
+    #region SKU
+
+    // protected virtual void OnSKU0AddButtonClick()
+    // {
+    //     SKU0EditPopupVisible = true;
+    //     SKU0EditFormStatus = EditFormStatus.NEW;
+    // }
+
+
+    // protected virtual void SKU0AddButtonClick()
+    // {
+    //     SKU0EditPopupVisible = true;
+    //     SKU0EditFormStatus = EditFormStatus.NEW;
+    // }
+
+    // protected virtual void SKU0EditButtonClick()
+    // {
+    //     SKU0EditPopupVisible = true;
+    //     SKU0EditFormStatus = EditFormStatus.EDIT;
+    // }
+
+
+
+    protected async Task SelectSKU0Changed(SKU0LookupModel sku, SO001DetailModel data)
+    {
+        // SO001DetailModel orgModel = editItem.details.FirstOrDefault(x => x.voucher_detail_id == data.voucher_detail_id);
+
+        data.sku_id = sku.sku_id;
+        data.sku = sku.sku;
+        data.product_name = sku.sku_name;
+        data.unit_id = sku.unit_id;
+        data.unit_name = sku.unit_name;
+
+        // orgModel.sku_id = sku.sku_id;
+        // orgModel.sku = sku.sku;
+        // orgModel.product_name = sku.sku_name;
+        // orgModel.unit_id = sku.unit_id;
+        // orgModel.unit_name = sku.unit_name;
+
+        // var changedFields = MyLib.ApplyModifiedFields(data, orgModel);
+
+        // if (changedFields.Count > 0)
+        // {
+        //     if (DetailUnsavedChanges.TryGetValue(orgModel, out var changes))
+        //         changes.ChangedFields.UnionWith(changedFields);
+        //     else
+        //         DetailUnsavedChanges.Add(orgModel, new(DataChangeType.Modification, changedFields));
+        // }
+
+
+        //GridDetail.Reload();
+
+        // Model.SO001DetailModel detailModel = (Model.SO001DetailModel)GridDetail.GetFocusedDataItem();
+        // if (detailModel != null)
+        // {
+        //     DetailUnsavedChanges[detailModel] = new(DataChangeType.Delete, new());
+        //     editItem.details.Remove(detailModel);
+        //     GridDetail.Reload();
+        // }
+    }
+
+    protected virtual async Task OnSKU0Submit(SKU0Model sku)
+    {
+        // Nạp lại
+        ListSKU0 = await DataService.LookupCode<SKU0LookupModel>(CompanyId, 1, MenuItem.CompanyMenuId, "SKU0_LOOKUP_W");
+
+        // Phải lấy lại từ list, chứ cái editDetailItem chỉ là cái view
+        SO001DetailModel detailx = editItem.details.FirstOrDefault(x => x.voucher_detail_id == editDetailItem.voucher_detail_id);
+        detailx.sku_id = sku.sku_id;
+        detailx.sku = sku.sku;
+        detailx.product_code = sku.sku;
+        detailx.product_name = sku.sku_name;
+        detailx.unit_id = sku.unit_id;
+        detailx.unit_name = sku.unit_name;
+
+    }
+    #endregion SKU
+
+    protected void GridDetail_CustomizeElement(GridCustomizeElementEventArgs ea)
+    {
+        if (ea.ElementType == GridElementType.DataCell)
+        {
+            var detail = (SO001DetailModel)GridDetail.GetDataItem(ea.VisibleIndex);
+            var column = (IGridDataColumn)ea.Column;
+            bool isNew = detail == null;
+            if (!isNew && DetailUnsavedChanges.TryGetValue(detail, out var changes))
+            {
+                if (changes.Type == DataChangeType.Addition || changes.ChangedFields.Contains(column.FieldName))
+                    ea.CssClass = "grid-modified-cell";
+            }
+        }
+    }
+
+    protected async Task GridDetail_EditModelSaving(GridEditModelSavingEventArgs e)
+    {
+        var detailModel = (SO001DetailModel)e.EditModel;
+        var detailDataItem = (SO001DetailModel)e.DataItem;
+        if (e.IsNew)
+        {
+            editItem.details.Add(detailModel);
+            DetailUnsavedChanges[detailModel] = new(DataChangeType.Addition, new());
+        }
+        else
+        {
+            // var changedFields = MyLib.ApplyModifiedFields(detailModel, detailDataItem);
+
+            // if (changedFields.Count > 0)
+            // {
+            //     if (DetailUnsavedChanges.TryGetValue(detailDataItem, out var changes))
+            //         changes.ChangedFields.UnionWith(changedFields);
+            //     else
+            //         DetailUnsavedChanges.Add(detailDataItem, new(DataChangeType.Modification, changedFields));
+            // }
+
+            await SubmitDetailChanges(detailModel);
+        }
+
+        //await CalcHeaderSum();
+    }
+
+    protected async Task SubmitDetailChanges(SO001DetailModel editingItem)
+    {
+        SO001DetailModel dataItem = editItem.details.First(x => x.voucher_detail_id == editingItem.voucher_detail_id);
+        var changedFields = MyLib.ApplyModifiedFields(editingItem, dataItem);
+
+        if (changedFields.Count > 0)
+        {
+            if (DetailUnsavedChanges.TryGetValue(dataItem, out var changes))
+                changes.ChangedFields.UnionWith(changedFields);
+            else
+                DetailUnsavedChanges.Add(dataItem, new(DataChangeType.Modification, changedFields));
+        }
+    }
+
+    protected async Task ClearDetailUnsavedChangesAsync()
+    {
+        DetailUnsavedChanges.Clear();
+        //editItem.details.Clear();
+
+        if (FormStatus == EditFormStatus.EDIT)
+        {
+            // Sửa thì mới lấy lại
+            string _sFetSingleParam = await Data.MyLib.CreateFetSingleParam(CompanyId, MenuItem.IdColumnName, EditDataId);
+            Model.APIResultModel _resultFetSingle = await DataService.CallMyApiSimple(_sFetSingleParam, MenuItem.FetSingleDataCode);
+
+            if (_resultFetSingle.Status == 0)
+            {
+                string _sData = _resultFetSingle.Data.ToString();
+                Model.SO001Model tmpItem = System.Text.Json.JsonSerializer.Deserialize<Model.SO001Model>(_sData);
+
+                if (tmpItem != null)
+                {
+                    editItem.details.Clear();
+                    editItem.details.AddRange(tmpItem.details.ToArray());
+                    GridDetail.Reload();
+                }
+                else
+                {
+                    MyErrorMessage = "Không tìm thấy [Đơn hàng] cần sửa. Có thể đã bị xóa.";
+                }
+            }
+        }
+    }
+
+    protected async Task DetailRevert_Click()
+    {
+        await ClearDetailUnsavedChangesAsync();
+    }
+
+    protected async Task DetailQuantityOrPriceChange(SO001DetailModel editingItem)
+    {
+        editingItem.quantity_base = editingItem.quantity * editingItem.coefficient;
+        editingItem.amount_fc = editingItem.quantity * editingItem.price_fc;
+        editingItem.total_amount_fc = editingItem.amount_fc - editingItem.discount_amount_fc;
+
+        editingItem.price = editItem.currency_rate * editingItem.price_fc;
+        editingItem.amount = editItem.currency_rate * editingItem.amount_fc;
+        editingItem.total_amount = editItem.currency_rate * editingItem.total_amount_fc;
+
+        SO001DetailModel dataItem = editItem.details.First(x => x.voucher_detail_id == editingItem.voucher_detail_id);
+        // dataItem.quantity = editingItem.quantity;
+        // dataItem.quantity_base = editingItem.quantity_base;
+        // dataItem.price_fc = editingItem.price_fc;
+        // dataItem.price = editingItem.price;
+        // dataItem.amount_fc = editingItem.amount_fc;
+        // dataItem.amount = editingItem.amount;
+        // dataItem.total_amount_fc = editingItem.total_amount_fc;
+        // dataItem.total_amount = editingItem.total_amount;
+
+        await SubmitDetailChanges(editingItem);
+        await CalcHeaderSum();
+    }
+
+    protected async Task DetailDiscountRateChage(SO001DetailModel editingItem)
+    {
+        editingItem.discount_amount_fc = editingItem.amount_fc * editingItem.discount_rate / 100;
+        editingItem.total_amount_fc = editingItem.amount_fc - editingItem.discount_amount_fc;
+        editingItem.discount_amount = editItem.currency_rate * editingItem.discount_amount_fc;
+        editingItem.total_amount = editItem.currency_rate * editingItem.total_amount_fc;
+
+        await SubmitDetailChanges(editingItem);
+        await CalcHeaderSum();
+    }
+
+    protected async Task DetailDiscountAmountChage(SO001DetailModel editingItem)
+    {
+        editingItem.total_amount_fc = editingItem.amount_fc - editingItem.discount_amount_fc;
+        editingItem.discount_amount = editItem.currency_rate * editingItem.discount_amount_fc;
+        editingItem.total_amount = editItem.currency_rate * editingItem.total_amount_fc;
+
+        await SubmitDetailChanges(editingItem);
+        await CalcHeaderSum();
+    }
+
+    protected async Task CalcHeaderSum()
+    {
+        editItem.amount_fc = editItem.details.Sum(x => x.amount_fc);
+        editItem.amount = editItem.details.Sum(x => x.amount);
+        editItem.discount_amount_fc = editItem.details.Sum(x => x.discount_amount_fc);
+        editItem.discount_amount = editItem.details.Sum(x => x.discount_amount);
+        editItem.total_amount_fc = editItem.details.Sum(x => x.total_amount_fc);
+        editItem.total_amount = editItem.details.Sum(x => x.total_amount);
+    }
+
+    #endregion Detail
+}

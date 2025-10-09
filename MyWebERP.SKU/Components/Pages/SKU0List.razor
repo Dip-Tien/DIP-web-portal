@@ -1,0 +1,339 @@
+﻿@page "/listsku0/{CompanyMenuId}"
+@using MyWebERP.Base.Components.Pages
+@using System.Text.Json;
+
+
+@using Blazored.LocalStorage;
+@using MyWebERP.Data;
+@using MyWebERP.Services;
+@using MyWebERP.Model;
+@using System.Dynamic;
+@using DevExpress.Blazor
+
+@inherits ComponentBaseGrid1
+
+@* Kiểm tra kích thước màn hình *@
+<DxLayoutBreakpoint DeviceSize="DeviceSize.XSmall" @bind-IsActive="@isXSmallScreen" />
+<div class="dock-body">
+    <DxGrid @ref="Grid"
+            Data="@Data"
+            KeyFieldName="@nameof(SKU0Model.sku_id)"
+            ColumnResizeMode="GridColumnResizeMode.ColumnsContainer"
+            FooterDisplayMode="GridFooterDisplayMode.Never"
+            CustomizeElement="Grid_CustomizeElement"
+            CssClass="default-grid"
+            VirtualScrollingEnabled="true"
+            TextWrapEnabled="true"
+            FocusedRowEnabled="true"
+            HighlightRowOnHover="true"
+            FocusedRowChanged="Grid_FocusedRowChanged"
+            ShowFilterRow="true"
+            FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Always"
+            ShowAllRows="true"
+            ValidationEnabled="true"
+            DetailRowDisplayMode="GridDetailRowDisplayMode"
+            SearchText="@GridSearchText">
+        <ToolbarTemplate>
+            <DxToolbar ItemRenderStyleMode="ToolbarRenderStyleMode.Plain">
+
+                <DxToolbarItem Text="Nạp" Click="RefreshItem_Click" IconCssClass="grid-toolbar-refresh" BeginGroup="true" />
+                <DxToolbarItem Text="Thêm" Click="NewItem_Click" IconCssClass="grid-toolbar-new" BeginGroup="true" />
+                <DxToolbarItem Text="Sửa" Click="EditItem_Click" IconCssClass="grid-toolbar-edit" Enabled="EditItemsEnabled" />
+                <DxToolbarItem Text="Xóa" Click="DeleteItem_Click" IconCssClass="grid-toolbar-delete" Enabled="EditItemsEnabled" />
+
+                <DxToolbarItem Text="Chọn cột" BeginGroup="true" IconCssClass="grid-toolbar-column-chooser" Click="ColumnChooserItem_Click" />
+                <DxToolbarItem Text="Xuất dữ liệu" IconCssClass="grid-toolbar-export" BeginGroup="true">
+                    <Items>
+                        <DxToolbarItem Text="Ra CSV" Click="ExportCsvItem_Click" />
+                        <DxToolbarItem Text="Ra XLSX" Click="ExportXlsxItem_Click" />
+                        <DxToolbarItem Text="Ra XLS" Click="ExportXlsItem_Click" />
+                    </Items>
+                </DxToolbarItem>
+                <DxToolbarItem BeginGroup="true">
+                    <Template Context="toolbar_item_context">
+                        <DxSearchBox @bind-Text="GridSearchText" BindValueMode="BindValueMode.OnInput"
+                                     ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" aria-label="Search" />
+                    </Template>
+                </DxToolbarItem>
+            </DxToolbar>
+        </ToolbarTemplate>
+        <Columns>
+            <DxGridDataColumn Width="25"
+                              TextAlignment="GridTextAlignment.Center"
+                              FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never" AllowSort="false">
+                <CellDisplayTemplate>@(context.VisibleIndex + 1)</CellDisplayTemplate>
+            </DxGridDataColumn>
+            <DxGridDataColumn FieldName="@nameof(SKU0Model.sku)" Width="100" Caption="Mã VT/SP" />
+            <DxGridDataColumn FieldName="@nameof(SKU0Model.sku_name)" Width="150" Caption="Tên VT/SP" >
+                @* <CellDisplayTemplate Context="cellContext">
+                    <span @onmouseover="(e) => ShowTooltip(e, cellContext.DataItem)"
+                          @onmousemove="OnTooltipMove"
+                          @onmouseout="HideTooltip"
+                          style="cursor:pointer;">
+                        @cellContext.DisplayText
+                    </span>                    
+
+                </CellDisplayTemplate> *@
+
+                <CellDisplayTemplate Context="cell">
+                    <span @onmouseenter="(e) => ShowTooltip(e, cell.DataItem)"
+                          @onmouseleave="HideTooltip"
+                          style="cursor:pointer;">
+                        @cell.DisplayText
+                    </span>
+                </CellDisplayTemplate>
+                </DxGridDataColumn>
+            <DxGridDataColumn FieldName=@nameof(SKU0Model.sku_description) Width="150" Caption="Mô tả" />
+            <DxGridDataColumn FieldName=@nameof(SKU0Model.unit_name) Width="80" Caption="ĐVT" Visible="@(isXSmallScreen == false)" />
+            <DxGridDataColumn FieldName=@nameof(SKU0Model.prd_category_code) Width="100" Caption="Mã nhóm" Visible="@(isXSmallScreen == false)" />
+            <DxGridDataColumn FieldName=@nameof(SKU0Model.prd_category_name) Width="150" Caption="Tên nhóm" Visible="@(isXSmallScreen == false)" />
+            <DxGridDataColumn FieldName=@nameof(SKU0Model.sale_price) Width="120" Caption="Giá bán" Visible="@(isXSmallScreen == false)" />
+            <DxGridDataColumn FieldName=@nameof(SKU0Model.cost_method_name) Width="150" Caption="PP tính giá vốn" Visible="@(isXSmallScreen == false)" />
+
+            <DxGridDataColumn FieldName=@nameof(SKU0Model.inactive)
+                              Caption="Không SD" Width="100" ReadOnly="true"
+                              Visible="@(isXSmallScreen==false)"
+                              TextAlignment="GridTextAlignment.Center"
+                              CaptionAlignment="GridTextAlignment.Center">
+                <CellDisplayTemplate>
+                    <DxCheckBox Checked="@((Int16)context.Value == 1)" ReadOnly="true" />
+                </CellDisplayTemplate>
+            </DxGridDataColumn>
+
+
+            <DxGridDataColumn FieldName=@nameof(SKU0Model.created_on_date) DisplayFormat="dd/MM/yyyy HH:mm" Width="130" Caption="Ngày tạo" Visible="@(isXSmallScreen == false)" />
+            <DxGridDataColumn FieldName=@nameof(SKU0Model.created_by_display_name) Width="130" Caption="Người tạo" Visible="@(isXSmallScreen == false)" />
+            <DxGridDataColumn FieldName=@nameof(SKU0Model.last_modified_on_date) DisplayFormat="dd/MM/yyyy HH:mm" Width="130" Caption="Ngày sửa" Visible="@(isXSmallScreen == false)" />
+            <DxGridDataColumn FieldName=@nameof(SKU0Model.last_modified_by_display_name) Width="130" Caption="Người sửa" Visible="@(isXSmallScreen == false)" />
+        </Columns>
+        <TotalSummary>
+            <DxGridSummaryItem SummaryType="GridSummaryItemType.Count" FieldName="@nameof(SKU0Model.sku)" DisplayText="{0:N0} dòng" />
+        </TotalSummary>
+
+        <DetailRowTemplate>
+            @{
+                var sku = (SKU0Model)context.DataItem;
+                <div class="row">
+                    <div class="col-2">Nhóm:</div><div class="col-2">@sku.prd_category_code</div><div class="col">@sku.prd_category_name</div>
+                </div>
+                <div class="row">
+                    <div class="col-2">ĐVT:</div>
+                    <div class="col-4">@sku.unit_name</div>
+                    <div class="col-2">Giá bán:</div>
+                    <div class="col-4" style="text-align:right">@sku.sale_price.ToString("N0")</div>
+                </div>
+                <div class="row">
+                    <div class="col-4">PP tính giá vốn:</div><div class="col">@sku.cost_method_name</div>
+                </div>
+            }
+        </DetailRowTemplate>
+    </DxGrid>
+</div>
+
+<div class="dock-footer">
+    <DxToolbar ItemRenderStyleMode="ToolbarRenderStyleMode.Plain">
+
+        @* <DxToolbarItem Click="OnPrevPageButtonClick" IconCssClass="editor-icon editor-icon-chevron-lef" Tooltip="Trang trước" /> *@
+
+        <DxToolbarItem Text="Trang "></DxToolbarItem>
+        <DxToolbarItem Text="Trang" CssClass="grid-toolbar-page-no">
+            <Template Context="toolbar_item_context">
+                <DxComboBox Data="@Pages"
+                            TData="int"
+                            TValue="int"
+                            @bind-Value="@pageNo"
+                            CssClass="cw-60"
+                            InputId="cbPageNo">
+                    <Buttons>
+                        <DxEditorButton IconCssClass=" toolbar-icon-chevron-left"
+                                        Tooltip="Trang trước"
+                                        Click="@(_ => OnPrevPageButtonClick())" />
+                        <DxEditorButton IconCssClass="toolbar-icon-chevron-right"
+                                        Tooltip="Trang sau"
+                                        Click="@(_ => OnNextPageButtonClick())" />
+                    </Buttons>
+                </DxComboBox>
+            </Template>
+        </DxToolbarItem>
+
+        <DxToolbarItem Text=" / " />
+
+        <DxToolbarItem Enabled="false" CssClass="grid-toolbar-page-count">
+            <Template Context="toolbar_item_context">
+                <DxTextBox Text="@pageCountText" ReadOnly="true"></DxTextBox>
+            </Template>
+        </DxToolbarItem>
+
+        <DxToolbarItem Text="Số dòng">
+        </DxToolbarItem>
+
+        <DxToolbarItem Text="Số dòng" CssClass="grid-toolbar-page-size">
+            <Template Context="toolbar_item_context">
+                <DxComboBox Data="@PageSizes"
+                            TData="int"
+                            TValue="int"
+                            @bind-Value="@pageSize"
+                            CssClass="cw-80"
+                            InputId="cbPageSize">
+                </DxComboBox>
+            </Template>
+        </DxToolbarItem>
+    </DxToolbar>
+</div>
+
+<DxWindow @ref=windowRef
+AllowResize="true"
+ShowCloseButton="true"
+CloseOnEscape="true"
+HeaderText="@MyHeaderErrorMessage"
+FooterText="Footer"
+ShowFooter="true"
+Width="max(25vw, 250px)"
+MinWidth="300"
+MinHeight="200"
+MaxWidth="800"
+MaxHeight="500">
+    <BodyContentTemplate>
+        <div style="color:red">@MyErrorMessage</div>
+    </BodyContentTemplate>
+    <FooterContentTemplate>
+        <DxButton CssClass="popup-button my-1 ms-2"
+        RenderStyle="ButtonRenderStyle.Primary" Text="OK" Click="@context.CloseCallback" />
+    </FooterContentTemplate>
+</DxWindow>
+
+@if (menuItem != null)
+{
+    <SKU0EditPopup @bind-Visible="@EditFormVisible"
+
+    CompanyId="@CompanyId"
+    EditDataId="@FocusedDataId"
+    MenuItem="@menuItem"
+    LocalStorageService="@LocalStorageService"
+    DataService="@DataService"
+    FormStatus="@EditFormStatus"
+    PopupClosed="@OnDataSubmit" />
+}
+
+@* @if (TooltipVisible)
+{
+    <div @ref="tooltipRef" class="grid-cell-tooltip-div"
+         style=@($"left:{@TooltipX}px; top:{@TooltipY}px;")>
+        <b>@popupSkuModel?.sku_name</b><br />
+        Mô tả: @popupSkuModel?.sku_description<br />
+        @if (!string.IsNullOrEmpty(popupSkuModel?.image_url))
+        {
+            <img src="@popupSkuModel.image_url" width="300" />
+        }
+    </div>
+} *@
+
+<div class="grid-cell-tooltip-div">
+    <b>@popupSkuModel?.sku_name</b><br />
+    Mô tả: @popupSkuModel?.sku_description<br />
+    @if (!string.IsNullOrEmpty(popupSkuModel?.image_url))
+    {
+        <img src="@popupSkuModel.image_url" width="300" />
+    }
+</div>
+
+@code {
+
+    SKU0Model? popupSkuModel;
+
+    int ActiveTabIndex { get; set; } = 0;
+
+    SKU0Model selectedModel;
+
+    List<SKU0Model> Data { get; set; }
+
+    async Task ShowTooltip(MouseEventArgs e, object row)
+    {
+        popupSkuModel = (SKU0Model)row;
+
+        // Lấy size tooltip & window
+        var rect = await JS.InvokeAsync<JsonElement>("getTooltipSize", ".grid-cell-tooltip-div");
+        int tooltipWidth = (int)Math.Round(rect.GetProperty("width").GetDouble());
+        int tooltipHeight = (int)Math.Round(rect.GetProperty("height").GetDouble());
+
+        var win = await JS.InvokeAsync<JsonElement>("getWindowSize");
+        int windowWidth = (int)Math.Round(win.GetProperty("width").GetDouble());
+        int windowHeight = (int)Math.Round(win.GetProperty("height").GetDouble());
+
+        // Lấy size tooltip & window
+        int offset = 10;
+        int x = (int)e.ClientX + offset;
+        int y = (int)e.ClientY + offset;
+
+        // Smart X/Y
+        if (x + tooltipWidth > windowWidth) x = (int)e.ClientX - tooltipWidth - offset;
+        if (y + tooltipHeight > windowHeight) y = (int)e.ClientY - tooltipHeight - offset;
+
+        await JS.InvokeVoidAsync("showTooltipAt", ".grid-cell-tooltip-div", x, y);
+    }
+
+    void HideTooltip(MouseEventArgs e)
+    {
+        popupSkuModel = null;
+        JS.InvokeVoidAsync("hideTooltip", ".grid-cell-tooltip-div");
+    }
+
+    protected override async Task DataAsync()
+    {
+        dynamic dParam = new System.Dynamic.ExpandoObject();
+        dParam.company_id = CompanyId;
+        dParam.data_code = menuItem.DataCode;
+        dParam.page_size = pageSize;
+        dParam.page_number = pageNo;
+
+        APIResultDataModel resultData = await DataService.GetDataSimple(dParam, menuItem.FetDataCode);
+
+        if (resultData != null)
+        {
+            int _iRowCount = resultData.count_of_items;
+
+            if (_iRowCount > 0)
+            {
+                Data = System.Text.Json.JsonSerializer.Deserialize<List<SKU0Model>>(resultData.data_details.ToString());
+            }
+
+            this.SetPageInfo(_iRowCount);
+        }
+    }
+
+    protected override async Task EditItem_Click()
+    {
+        if(Grid.GetFocusedDataItem() != null)
+        {
+            FocusedDataId = ((SKU0Model)Grid.GetFocusedDataItem()).sku_id;
+        }
+        await base.EditItem_Click();
+    }
+
+    protected override async Task Grid_FocusedRowChanged(GridFocusedRowChangedEventArgs args)
+    {
+        await base.Grid_FocusedRowChanged(args);
+        if(Data == null)
+        {
+            FocusedDataId = "";
+            return;
+        }
+
+        selectedModel = (SKU0Model)Grid.GetFocusedDataItem();// Data[args.VisibleIndex];
+        if (selectedModel == null)
+        {
+            FocusedDataId = "";
+        }
+        else
+        {
+            FocusedDataId = selectedModel.sku_id;
+        }
+    }
+
+    async Task OnDataSubmit(SKU0Model sku)
+    {
+        // Nạp lại
+        await DataAsync();
+    }    
+
+}

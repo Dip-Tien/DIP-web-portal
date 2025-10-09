@@ -1,0 +1,101 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Base\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C783D664-DA54-4B74-B4A5-06A3E62D95B3}|MyWebERP.Base.csproj|d:\\00.works\\mycore\\bms_2024\\myweberp\\myweberp.base\\components\\pages\\componentbasegrid2.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{C783D664-DA54-4B74-B4A5-06A3E62D95B3}|MyWebERP.Base.csproj|solutionrelative:components\\pages\\componentbasegrid2.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C783D664-DA54-4B74-B4A5-06A3E62D95B3}|MyWebERP.Base.csproj|d:\\00.works\\mycore\\bms_2024\\myweberp\\myweberp.base\\components\\pages\\myvouchereditformbase.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{C783D664-DA54-4B74-B4A5-06A3E62D95B3}|MyWebERP.Base.csproj|solutionrelative:components\\pages\\myvouchereditformbase.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C783D664-DA54-4B74-B4A5-06A3E62D95B3}|MyWebERP.Base.csproj|d:\\00.works\\mycore\\bms_2024\\myweberp\\myweberp.base\\components\\pages\\myeditformbase.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{C783D664-DA54-4B74-B4A5-06A3E62D95B3}|MyWebERP.Base.csproj|solutionrelative:components\\pages\\myeditformbase.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C783D664-DA54-4B74-B4A5-06A3E62D95B3}|MyWebERP.Base.csproj|d:\\00.works\\mycore\\bms_2024\\myweberp\\myweberp.base\\components\\pages\\myeditformbase1.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{C783D664-DA54-4B74-B4A5-06A3E62D95B3}|MyWebERP.Base.csproj|solutionrelative:components\\pages\\myeditformbase1.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C783D664-DA54-4B74-B4A5-06A3E62D95B3}|MyWebERP.Base.csproj|d:\\00.works\\mycore\\bms_2024\\myweberp\\myweberp.base\\components\\pages\\myeditformbase0.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{C783D664-DA54-4B74-B4A5-06A3E62D95B3}|MyWebERP.Base.csproj|solutionrelative:components\\pages\\myeditformbase0.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ComponentBaseGrid2.razor",
+              "DocumentMoniker": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Base\\Components\\Pages\\ComponentBaseGrid2.razor",
+              "RelativeDocumentMoniker": "Components\\Pages\\ComponentBaseGrid2.razor",
+              "ToolTip": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Base\\Components\\Pages\\ComponentBaseGrid2.razor",
+              "RelativeToolTip": "Components\\Pages\\ComponentBaseGrid2.razor",
+              "ViewState": "AgIAAEMAAAAAAAAAAAAkwFEAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-15T01:44:54.592Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MyVoucherEditFormBase.razor",
+              "DocumentMoniker": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Base\\Components\\Pages\\MyVoucherEditFormBase.razor",
+              "RelativeDocumentMoniker": "Components\\Pages\\MyVoucherEditFormBase.razor",
+              "ToolTip": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Base\\Components\\Pages\\MyVoucherEditFormBase.razor",
+              "RelativeToolTip": "Components\\Pages\\MyVoucherEditFormBase.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-15T01:28:44.6Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MyEditFormBase1.razor",
+              "DocumentMoniker": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Base\\Components\\Pages\\MyEditFormBase1.razor",
+              "RelativeDocumentMoniker": "Components\\Pages\\MyEditFormBase1.razor",
+              "ToolTip": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Base\\Components\\Pages\\MyEditFormBase1.razor",
+              "RelativeToolTip": "Components\\Pages\\MyEditFormBase1.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-15T01:28:28.273Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "MyEditFormBase0.razor",
+              "DocumentMoniker": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Base\\Components\\Pages\\MyEditFormBase0.razor",
+              "RelativeDocumentMoniker": "Components\\Pages\\MyEditFormBase0.razor",
+              "ToolTip": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Base\\Components\\Pages\\MyEditFormBase0.razor",
+              "RelativeToolTip": "Components\\Pages\\MyEditFormBase0.razor",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAsAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-15T01:28:20.078Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MyEditFormBase.razor",
+              "DocumentMoniker": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Base\\Components\\Pages\\MyEditFormBase.razor",
+              "RelativeDocumentMoniker": "Components\\Pages\\MyEditFormBase.razor",
+              "ToolTip": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Base\\Components\\Pages\\MyEditFormBase.razor",
+              "RelativeToolTip": "Components\\Pages\\MyEditFormBase.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-15T01:28:13.411Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

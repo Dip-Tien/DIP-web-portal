@@ -1,0 +1,78 @@
+﻿@inject IJSRuntime JS
+
+<div class="collapse-group-mobile mb-@(MarginBottom) @(isOpen ? "open" : "")">
+    @if(Collapsible)
+    {
+        <button type="button"
+                class="collapse-header d-flex justify-content-between align-items-center px-3 py-2 bg-light w-100 text-start border-0 shadow-0 rounded-0 @HeaderClass"
+                @onclick="Toggle"
+                @onclick:stopPropagation="true">
+            <div class="d-flex align-items-center">
+                @if (!string.IsNullOrEmpty(Icon))
+                {
+                    <i class="bi @Icon text-primary me-2"></i>
+                }
+                <span>@Caption</span>
+            </div>
+            <i class="bi @(isOpen ? "bi-chevron-up" : "bi-chevron-down") text-muted"></i>
+        </button>
+    }
+    else
+    {
+        <div class="collapse-header d-flex align-items-center px-3 py-2 w-100 border-0 shadow-0 rounded-0 bg-light @HeaderClass">
+            @if (!string.IsNullOrEmpty(Icon))
+            {
+                <i class="bi @Icon me-2"></i>
+            }
+            <span>@Caption</span>
+        </div>
+
+    }
+    <div class="collapse-body-wrapper mb-0">
+        <div class="collapse-body-content pb-0">
+            @ChildContent
+        </div>
+    </div>
+</div>
+
+
+
+@code {
+    [Parameter] public string Id { get; set; } = Guid.NewGuid().ToString();
+    [Parameter] public string Caption { get; set; }
+    [Parameter] public string Icon { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public Func<Task>? OnShowAsync { get; set; }
+    // 👇 thêm thuộc tính này
+    [Parameter] public bool DefaultOpen { get; set; }
+    // 👇 thêm parameter margin
+    [Parameter] public int MarginBottom { get; set; } = 0; // mặc định mb-0
+    [Parameter] public bool Collapsible { get; set; } = true;
+    [Parameter] public string HeaderClass { get; set; }
+
+    private bool isOpen;
+    //private string headerClass = "collapse-header d-flex justify-content-between align-items-center px-3 py-2 bg-light w-100 text-start border-0 shadow-0 rounded-0";
+
+    protected override async Task OnInitializedAsync()
+    {
+        // 👇 khi component được khởi tạo, nếu có DefaultOpen thì mở sẵn
+        if (DefaultOpen | Collapsible == false)
+        {
+            isOpen = true;
+
+            if (OnShowAsync is not null)
+                await OnShowAsync.Invoke();
+        }
+    }
+
+    private async Task Toggle()
+    {
+        isOpen = !isOpen;
+
+        if (isOpen && OnShowAsync is not null)
+        {
+            await OnShowAsync.Invoke();
+        }
+    }
+
+}

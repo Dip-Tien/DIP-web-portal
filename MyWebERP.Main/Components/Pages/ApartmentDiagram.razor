@@ -1,0 +1,91 @@
+﻿@page "/apartments"
+@using MyWebERP.Model
+@inject IJSRuntime JS
+
+<DxGrid Data="@apartments" @ref="grid">
+    <Columns>
+        <DxGridDataColumn FieldName="@nameof(Apartment.Name)" Caption="Căn hộ">
+            <CellDisplayTemplate Context="cell">
+                <span @onmouseover="(e) => ShowTooltip(e, (Apartment)cell.DataItem)"
+                      @onmousemove="OnTooltipMove"
+                      @onmouseout="HideTooltip"
+                      style="cursor: pointer;">
+                    @cell.DisplayText
+                </span>
+            </CellDisplayTemplate>
+        </DxGridDataColumn>
+    </Columns>
+</DxGrid>
+
+
+@if (TooltipVisible)
+{
+    <div class="tooltip-div"
+         style=@($"left:{@TooltipX}px; top:{@TooltipY}px;")>
+        <b>@TooltipApartment.Name</b><br />
+        Tầng: @TooltipApartment.Floor<br />
+        Diện tích: @TooltipApartment.Area m²<br />
+        Trạng thái: @TooltipApartment.Status<br />
+        Vị trí: @($"{TooltipX} - {TooltipY}")<br/>
+        @if (!string.IsNullOrEmpty(TooltipApartment.ImageUrl))
+        {
+            <img src="@TooltipApartment.ImageUrl" width="80" />
+        }
+    </div>
+}
+
+@code {
+    private List<Apartment> apartments = new List<Apartment>
+        {
+            new Apartment { Id=1, Name="101", Floor=1, Area=75, Width=80, Height=60, Status="Available", ImageUrl=@"https://dip.vn/wp-content/uploads/2022/10/ilu-overall-company.svg" },
+            new Apartment { Id=2, Name="102", Floor=1, Area=80, Width=80, Height=60, Status="Sold", ImageUrl=null },
+            new Apartment { Id=3, Name="103", Floor=1, Area=65, Width=80, Height=60, Status="Reserved", ImageUrl=null },
+
+            new Apartment { Id=4, Name="201", Floor=2, Area=75, Width=80, Height=60, Status="Available", ImageUrl=null },
+            new Apartment { Id=5, Name="202", Floor=2, Area=90, Width=80, Height=60, Status="Sold", ImageUrl=null },
+            new Apartment { Id=6, Name="203", Floor=2, Area=70, Width=80, Height=60, Status="Available", ImageUrl=null }
+        };
+
+    DxGrid? grid;
+    Apartment TooltipApartment = new();
+
+    int windowHeight;
+    bool TooltipVisible;
+    int TooltipX, TooltipY;
+
+    void ShowTooltip(MouseEventArgs e, Apartment apt)
+    {
+        TooltipApartment = apt;
+        TooltipX = (int)e.ClientX + 10;
+        TooltipY = (int)e.ClientY + 10;
+        TooltipVisible = true;
+        //StateHasChanged(); // ép Blazor render lại ngay
+
+    }
+
+    void OnTooltipMove(MouseEventArgs e)
+    {
+        TooltipX = (int)e.ClientX + 10;
+
+        int tooltipHeight = 120; // hoặc ước lượng thực tế
+        int offset = 10;
+
+        if (e.ClientY + tooltipHeight + offset > windowHeight)
+            TooltipY = (int)e.ClientY - tooltipHeight - offset;
+        else
+            TooltipY = (int)e.ClientY + offset;
+
+        //StateHasChanged(); // Đóng mà vẫn thấy chạy tốt
+    }
+
+    void HideTooltip(MouseEventArgs e)
+    {
+        TooltipVisible = false;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+            windowHeight = await JS.InvokeAsync<int>("eval", "window.innerHeight");
+    }
+}

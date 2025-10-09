@@ -1,0 +1,1482 @@
+﻿@import url('open.iconic/font/css/open-iconic-bootstrap.min.css');
+@import url('Grid.css');
+@import url('toolbar.css');
+/*@import url('ribbon.css');*/
+
+html, body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    max-width:100vw; /* Mới thêm 21/6/25 để xử lý tràn trang mà chưa được*/
+}
+
+.valid.modified:not([type=checkbox]) {
+    outline: 1px solid #26b050;
+}
+
+.invalid {
+    outline: 1px solid red;
+}
+
+.validation-message {
+    color: red;
+}
+
+.button-link {
+    text-decoration: unset;
+}
+
+#blazor-error-ui {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+    #blazor-error-ui .dismiss {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }
+
+.title {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-bottom: 0.625rem;
+}
+
+    .title.title-secondary {
+        padding-top: 0.313rem;
+        padding-bottom: 0;
+        color: var(--bs-secondary-color);
+    }
+
+.title-header-text {
+    font-size: 2.5rem;
+    line-height: 3rem;
+    font-weight: 600;
+    letter-spacing: 0rem;
+    padding: 0.3125rem 0;
+}
+
+.title-content-text {
+    font-size: 1.75rem;
+    font-weight: 400;
+    line-height: 2.5rem;
+    letter-spacing: 0rem;
+}
+
+.main-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.block-content {
+    width: 31.25rem;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    max-width: 100%;
+}
+
+/* Của tôi */
+.uppercase-text input {
+    text-transform: uppercase;
+}
+
+.default-grid {
+    height: 100% !important;
+    width: 100% !important;
+}
+
+.default-detail-grid {
+    height: calc(0.4*87vh - 100px) !important;
+    width: 100% !important;
+}
+
+/*dùng cho mobie*/
+.default-small-card-listbox {
+    height: 100%; /* DxListBox chiếm hết cha */
+    overflow-y: auto; /* scroll dọc */
+}
+
+/*.main-splitter {
+    height: 87vh;
+    width: 100%;
+    padding: 0 0 0 0;
+}*/
+
+/* Đây là AI xử lý để căn phần page thông tin đơn hàng cho chuẩn */
+/*Không cần cái này*/
+/*.splitter-container {
+    flex: 1 1 auto !important;  chiếm toàn bộ phần còn lại 
+    display: flex !important;
+    flex-direction: column !important;
+}*/
+
+.main-splitter {
+    flex-grow: 1 !important;
+    height: 100% !important;
+    width: 100% !important;
+    padding: 0 !important;
+}
+/* Kết thúc AI xử lý để căn phần page thông tin đơn hàng cho chuẩn */
+
+
+/*splitter để 100% nằm trong drawer sẽ bị thu nhỏ lại - Cứ để đây tính sau*/
+.default-splitter {
+    height: 100%;
+    width: 100%;
+    padding: 0 0 0 0;
+}
+
+.default-splitter-pane {
+    padding: 0 0 0 0 !important;
+    /*margin:0 0 0 0 !important;*/
+}
+
+.default-tab {
+    height: 100% !important;
+    width: 100% !important;
+    padding: 0 0 0 0;
+    /*border:solid;*/ /*test*/
+}
+
+.editor-icon-chevron-right {
+    -webkit-mask-image: url("../images/icons/chevron-right-fluent.svg");
+    mask-image: url("../images/icons/chevron-right-fluent.svg");
+    opacity: 1;
+    width: 20px;
+    height: 20px;
+    background-color: currentColor;
+}
+
+.editor-icon-chevron-left {
+    -webkit-mask-image: url("../images/icons/chevron-left-fluent.svg");
+    mask-image: url("../images/icons/chevron-left-fluent.svg");
+    opacity: 1;
+    width: 20px;
+    height: 20px;
+    background-color: currentColor;
+}
+
+.toolbar-icon-chevron-right {
+    -webkit-mask-image: url("../images/icons/chevron-right-fluent.svg");
+    mask-image: url("../images/icons/chevron-right-fluent.svg");
+    opacity: 0.7;
+    width: 16px;
+    height: 16px;
+    background-color: currentColor;
+}
+
+.toolbar-icon-chevron-left {
+    -webkit-mask-image: url("../images/icons/chevron-left-fluent.svg");
+    mask-image: url("../images/icons/chevron-left-fluent.svg");
+    opacity: 0.7;
+    width: 16px;
+    height: 16px;
+    background-color: currentColor;
+}
+
+.my-spin input {
+    text-align: right;
+}
+
+/*Chỉ là mũi tên in đậm thôi*/
+/*.editor-icon-chevron-right-small {
+    -webkit-mask-image: url("../images/icons/chevron-right-small.svg");
+    mask-image: url("../images/icons/chevron-right-small.svg");
+    opacity: 1;
+    width: 20px;
+    height: 20px;
+    background-color: currentColor;
+}
+
+.editor-icon-chevron-left-small {
+    -webkit-mask-image: url("../images/icons/chevron-left-small.svg");
+    mask-image: url("../images/icons/chevron-left-small.svg");
+    opacity: 1;
+    width: 20px;
+    height: 20px;
+    background-color: currentColor;
+}*/
+
+.my-voucher-small-popup {
+    height: calc(100vh - 3.5rem) !important;
+    width: 90vw !important;
+}
+
+.my-voucher-popup {
+    height: calc(100vh - 3.5rem) !important;
+    width: 95vw !important;
+}
+/*Đây là đoạn di chuyển popup về giữa màn hình, đóng lại thấy vẫn bình thường*/
+/*.my-voucher-popup > .modal-content {
+    min-width: 500px;
+    position: absolute;
+    float: left;
+    left: 40%;
+    transform: translate(-40%);
+}*/
+
+/*Phải nhỏ hơn popup my-voucher-popup*/
+.edit-voucher-splitter {
+    /*height: 500px;
+    width: 1200px*/
+    height: 92vh; /*calc(100vh - 9.5rem);*/
+    width: 95vw; /*calc(100vw-15rem);*/
+}
+
+/*Sửa ngày 04/05/25 -- cũ:padding:0px */
+.div-toolbar {
+    height: 32px;
+    padding: 5px 0px 5px 0px;
+}
+
+.my-toolbar-control {
+    height: 100%;
+    width: 100%;
+}
+
+.default-control-size {
+    height: 100%;
+    width: 100%;
+}
+
+.main-body-row {
+    height: 90vh !important;
+    padding: 0 0 0 0 !important;
+}
+
+.main-dashboard-row {
+    padding-top: 0px;
+    height: 45vh;
+    padding-bottom: 0px;
+    /*border:solid;*/ /*Để test*/
+}
+
+/*.main-dashboard-col {
+    height: 45vh;
+}*/
+
+.main-dashboard-chart {
+    /*border-top: solid;
+    border-left: solid;
+    border-right: solid;
+    border-width: 1px;*/
+    padding: 0px 0px 0px 0px;
+    height: 100%;
+    width: 100%;
+}
+
+/*Độ cao, rộng của grid kết quả báo cáo ở main. Lưu ý trừ độ cao của toolbar và title*/
+.main-dashboard-grid {
+    height: 35vh;
+    width: 100%;
+    /*border-left: solid;
+    border-right: solid;
+    border-bottom: solid;
+    border-width: 1px;*/
+    padding: 0px 0px 0px 0px;
+}
+/*toolbar báo cáo ở main*/
+.main-dashboard-grid-toolbar {
+    width: 100%;
+    /*border-left: solid;
+    border-right: solid;
+    border-top: solid;
+    border-width: 1px;*/
+}
+
+/*title báo cáo ở main*/
+.main-dashboard-title {
+    width: 100%;
+    /*border-left: solid;
+    border-right: solid;
+    border-top: solid;
+    border-width: 1px;*/
+    text-align: center;
+    font-size: large;
+    font-weight: 400;
+}
+
+.main-dashboard-col {
+    border: solid;
+    border-width: 1px;
+    padding-top: 5px;
+}
+
+.div-padding-0
+{
+    padding: 0 0 0 0 !important;
+}
+
+.div-width-100 {
+    padding: 0 0 0 0;
+}
+
+.button-text {
+    color: #0d6efd;
+    font-weight: 600;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.button-icon-gap {
+    display: flex;
+    align-items: center;
+    gap: 4px; /* Mặc định */
+}
+
+/* Responsive: tăng khoảng cách ở màn hình nhỏ */
+@media (max-width: 768px) {
+    .button-icon-gap {
+        gap: 5px;
+    }
+}
+
+/**/
+.ellipsis-text {
+    display: inline-block; /* hoặc block nếu cần */
+    width: 100%; /* giới hạn chiều rộng */
+    white-space: nowrap; /* không cho xuống dòng */
+    overflow: hidden; /* ẩn phần tràn ra ngoài */
+    text-overflow: ellipsis; /* hiển thị dấu "..." */
+}
+
+/*Lấy màu chủ đạo css5. Để đây chưa dùng*/
+.primary-color {
+    color: var(--primary-color);
+}
+
+/* Độ cao mặc định grid báo cáo*/
+.default-report-grid {
+    height: 87vh;
+}
+
+/* Chiều cao giữa các dòng - đang dùng để canh khoảng cách control ở popup ở mobile*/
+.my-row-height {
+    height: 64px;
+}
+
+/* Xử lý độ cao listbox trong popup ở trên có checkbox "Chọn hết"*/
+.popup-filter-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+/* Xử lý độ cao listbox trong popup ở trên có checkbox "Chọn hết"*/
+.popup-filter-wrapper .popup-listbox {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    min-height: 0;
+}
+
+/*Xử lý dòng dữ liệu chi tiết (detail template) ở grid cho đẹp - lấy theo ChatGPT*/
+/* Detail row: padding, màu nền nhẹ */
+.dxbs-detail-row {
+    background-color: #fdfdfd;
+    padding: 12px;
+}
+
+/* Bảng con trong detail */
+.detail-inner-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    margin-top: 8px;
+}
+
+    /* Header */
+    .detail-inner-table thead {
+        background-color: #f0f0f0;
+    }
+
+    .detail-inner-table th {
+        padding: 10px;
+        font-weight: bold;
+        font-size: 14px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    /* Dòng dữ liệu */
+    .detail-inner-table td {
+        padding: 10px;
+        font-size: 14px;
+        border-bottom: 1px solid #eee;
+    }
+
+        /* Căn phải cho số */
+        .detail-inner-table td.align-right,
+        .detail-inner-table th.align-right {
+            text-align: right;
+        }
+
+    /* Dòng tổng cộng chuyển xuống tfoot */
+    /*.detail-inner-table tr:last-child td {
+        font-weight: bold;
+        background-color: #f9f9f9;
+        border-top: 2px solid #ccc;
+    }*/
+
+    .detail-inner-table tfoot td {
+        font-weight: bold;
+        background-color: #f9f9f9;
+        border-top: 1px solid #ccc;
+    }
+
+/* Mobile tối ưu */
+@media (max-width: 768px) {
+    .detail-inner-table th,
+    .detail-inner-table td {
+        font-size: 13px;
+        padding: 8px;
+    }
+}
+
+/* Đây là xử lý các dòng có 2 cột label và giá trị*/
+.metrics-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+
+.metrics-summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    white-space: nowrap;
+}
+
+    .metrics-summary-row .label {
+        font-weight: 500;
+        color: #555;
+    }
+
+    .metrics-summary-row .value {
+        font-weight: 600;
+        text-align: right;
+    }
+
+/*Kết thúc xử lý dòng dữ liệu chi tiết (detail template) ở grid cho đẹp - lấy theo ChatGPT*/
+
+/*Report icon - Chưa dùng, đang dùng hình trực tiếp*/
+/*.report-icon {
+    position: relative;
+    width: 32px;
+    height: 40px;
+    background-color: var(--bs-primary);
+    clip-path: polygon(0 0, 70% 0, 100% 30%, 100% 100%, 0 100%);
+    border-radius: 4px;
+}
+
+    .report-icon::before {
+        content: "";
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        width: 10px;
+        height: 10px;
+        background-color: white;
+        clip-path: polygon(0 0, 100% 0, 100% 100%);
+    }
+
+    .report-icon::after {
+        content: "";
+        position: absolute;
+        bottom: 6px;
+        left: 6px;
+        width: 20px;
+        height: 12px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .report-icon::after {
+        display: flex;
+        gap: 3px;
+    }
+
+        .report-icon::after > div {
+            background-color: white;
+            width: 4px;
+            border-radius: 1px;
+        }
+
+            .report-icon::after > div:nth-child(1) {
+                height: 6px;
+                margin-top: 6px;
+            }
+
+            .report-icon::after > div:nth-child(2) {
+                height: 9px;
+                margin-top: 3px;
+            }
+
+            .report-icon::after > div:nth-child(3) {
+                height: 12px;
+            }*/
+
+/*Kết thúc report icon*/
+
+/* Xử lý màn hình mobile */
+@media (max-width: 768px) {
+    /* Áp dụng chung cho các editor DevExpress */
+    .form-control-mobile .dxbl-input,
+    .form-control-mobile .dxbl-date-edit-input,
+    .form-control-mobile .dxbl-combobox-input,
+    .form-control-mobile .dxbl-editor-input,
+    .form-control-mobile .dxbl-btn,
+    .form-control-mobile input {
+        height: 44px;
+        font-size: 16px;
+        padding: 6px 12px;
+    }
+
+    .dxbl-btn.form-control-mobile {
+        height: 44px !important;
+        font-size: 16px !important;
+        line-height: 44px !important;
+        padding: 6px 12px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    /* Container chứa input (hữu ích cho combo/dateedit) */
+    .form-control-mobile .dxbl-editor-content {
+        min-height: 44px;
+    }
+
+    /* Nút/icon bên trong control */
+    .form-control-mobile .dxbl-editor-buttons-container {
+        height: 44px;
+    }
+
+    /* Các nút DxButton */
+    .form-control-mobile .dxbl-btn {
+        height: 44px;
+        font-size: 16px;
+        width: 100%;
+    }
+
+    
+}
+
+/* Kết thúc xử lý màn hình mobile */
+
+/* Căn khoảng cách các control trong form (login, chọn cty, .....)*/
+.form-group {
+    margin-bottom: 1rem;
+}
+
+/*Xử lý menu text xuống dòng*/
+/* Đóng vì chỉ dùng cho mobile mà chuyển mobile sang dùng menu khác rồi.*/
+/*.dxbl-menu-item-text {*/ /* Class cho nội dung text của menu item */
+    /*white-space: normal !important;
+    word-break: break-word;
+    line-height: 1.3;
+    min-height: auto;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}*/
+
+/* Bỏ khoảng trắng ở trên đầu menu */
+.dxbl-drawer.mobile .dxbl-drawer-header {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    min-height: auto !important;
+}
+
+/* Mũi tên chung - dùng cho các báo cáo, ví dụ: để thể hiện tăng/giảm doanh số */
+.trend {
+    margin-left: 4px;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+    /* Dùng ký tự Unicode ↑ ↓ */
+    .trend.up::before {
+        content: "↑ ";
+        color: var(--bs-primary);
+    }
+    /*xanh*/
+    .trend.down::before {
+        content: "↓ ";
+        color: #dc3545;
+    }
+/*đỏ*/ 
+
+/* --- Nếu bạn thích Font Awesome / DevExpress icon ---
+.trend.up::after   { content: "\f062"; font-family: "Font Awesome 6 Free"; font-weight: 900; color:#28a745;}
+.trend.down::after { content: "\f063"; font-family: "Font Awesome 6 Free"; font-weight: 900; color:#dc3545;}
+-----------------------------------------------------*/
+
+/* Đoạn này xử lý cho menu hiển thị ở footer (trong điện thoại nhưng chưa dùng)*/
+/*.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    border-top: 1px solid #ccc;
+    display: flex;
+    justify-content: space-around;
+    padding: 0.3rem 0;
+    z-index: 1000;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
+}
+
+.nav-item {
+    flex: 1;
+    text-align: center;
+    font-size: 0.85rem;
+    position: relative;
+    cursor: pointer;
+    padding: 0.2rem 0;
+}
+
+    .nav-item .icon i {
+        font-size: 1.2rem;
+    }
+
+.submenu {
+    position: absolute;
+    bottom: 2.6rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    max-height: 250px;*/ /* Giới hạn chiều cao để scroll */
+    /*overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    z-index: 1100;
+    min-width: 160px;
+}
+
+.submenu-item {
+    padding: 0.4rem 0.6rem;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+    .submenu-item:last-child {
+        border-bottom: none;
+    }
+
+    .submenu-item:hover {
+        background-color: #f8f9fa;
+    }
+
+.submenu-child {
+    margin-left: 1rem;
+    border-left: 2px solid #ddd;
+    margin-top: 0.2rem;
+    padding-left: 0.4rem;
+}*/
+
+/* Kết thúc xử lý cho menu hiển thị ở footer (trong điện thoại nhưng chưa dùng)*/
+
+/*=======================POPUP MENU MOBILE==========================*/
+.mobile-menu-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1100;
+    background: var(--bs-primary);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    animation: fadeIn 0.25s ease-in-out;
+    touch-action: pan-y;
+}
+
+.mobile-menu-container {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    flex: 1;
+    width: 100%;
+    max-width: 100vw;
+}
+
+.menu-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.menu-item {
+    position: relative;
+    text-align: center;
+}
+
+.square-style .menu-item {
+    width: 30%;
+    min-width: 90px;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.square-style .item-main {
+    flex-direction: column !important;
+    justify-content: center;
+    align-items: center;
+}
+
+.square-style .icon-container {
+    position: relative;
+}
+
+    .square-style .icon-container > i,
+    .square-style .icon-container > img {
+        width: 2.4rem;
+        height: 2.4rem;
+        font-size: 2.4rem;
+        object-fit: contain;
+    }
+
+.square-style .submenu-badge-grid {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%);
+    background-color: rgba(255,255,255,0.8);
+    color: #000;
+    border-radius: 50%;
+    width: 1.2rem;
+    height: 1.2rem;
+    font-size: 0.75rem;
+    line-height: 1.2rem;
+    text-align: center;
+    pointer-events: none;
+}
+
+.list-style .menu-item {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    text-align: start;
+}
+
+.list-style .item-main {
+    flex-direction: row;
+    align-items: center;
+}
+
+.list-style .icon-container > i,
+.list-style .icon-container > img {
+    width: 1.6rem;
+    height: 1.6rem;
+    font-size: 1.6rem;
+    object-fit: contain;
+}
+
+.list-style .submenu-indicator {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+}
+
+.list-style .submenu-badge {
+    background: rgba(255,255,255,0.3);
+    color: #000;
+    border-radius: 0.75rem;
+    padding: 0 0.4rem;
+    font-size: 0.75rem;
+    font-weight: bold;
+    margin-right: 0.25rem;
+}
+
+.list-style .submenu-arrow {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.8);
+}
+
+.mobile-menu-container::before,
+.mobile-menu-container::after {
+    content: "";
+    position: sticky;
+    left: 0;
+    right: 0;
+    height: 1rem;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.mobile-menu-container::before {
+    top: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.15), transparent);
+}
+
+.mobile-menu-container::after {
+    bottom: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.15), transparent);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInLevel {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutLevel {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeDown {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.zoom-in {
+    animation: zoomIn 0.3s ease-in-out;
+}
+
+.animate-slide-in .slide-level {
+    animation: slideInLevel 0.3s ease-out;
+    animation-fill-mode: both;
+}
+
+.animate-slide-out .slide-level {
+    animation: slideOutLevel 0.3s ease-in-out;
+    animation-fill-mode: both;
+}
+
+.menu-title.fade-title.fade-up,
+.menu-title.fade-title.fade-down {
+    display: inline-block;
+    font-weight: 500;
+    font-size: 1rem;
+    color: white;
+}
+
+.menu-title.fade-title.fade-up {
+    animation: fadeUp 0.3s ease-in-out;
+}
+
+.menu-title.fade-title.fade-down {
+    animation: fadeDown 0.3s ease-in-out;
+}
+/* ======== kết thúc CSS additions for animation and transition hiệu ứng mở menu mobile ======= */
+
+/* 3 style div thường dùng trong trường hợp cố định header/footer, body ở giữa cố định trong giữa
+    khung màn hình máy tính
+*/
+/* Vùng header */
+.dock-header {
+    flex-shrink: 0; /* Không bị co khi màn hình nhỏ */
+}
+
+/* Vùng body (kéo giãn chiếm hết phần còn lại) */
+.dock-body {
+    flex: 1 1 auto;
+    overflow: auto; /* Cho phép scroll nếu nội dung dài */
+}
+
+/* Vùng footer */
+.dock-footer {
+    flex-shrink: 0; /* Giữ nguyên chiều cao */
+}
+
+/*Kết thúc*/
+
+/*styl của tooltip grid cell - đang dùng cho sơ đồ sản phẩm MGL*/
+.grid-cell-tooltip-div {
+    position: fixed;
+    pointer-events: none;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out; /* fade-in/out mượt */
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 6px 10px;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    z-index: 9999;
+    max-width: 300px;
+}
+
+    .grid-cell-tooltip-div img {
+        max-width: 200px;
+        display: block;
+        margin-top: 6px;
+    }
+
+    /*Hiển thị khi xử lý dữ liệu (đang load) ở grid*/
+    /* Skeleton container */
+    .skeleton-wrapper {
+        padding: 20px;
+        animation: fadeIn 0.3s ease-in-out;
+    }
+
+    /* Skeleton row */
+    .skeleton-row {
+        display: grid;
+        grid-template-columns: 150px 1fr 100px 100px;
+        gap: 12px;
+        margin-bottom: 14px;
+    }
+
+    /* Skeleton cell */
+    .skeleton {
+        background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+        background-size: 200% 100%;
+        animation: shimmer 1.2s infinite;
+        height: 20px;
+        border-radius: 6px;
+    }
+
+    /* Different sizes */
+    .skeleton-sm {
+        height: 20px;
+    }
+
+    .skeleton-lg {
+        height: 20px;
+        width: 100%;
+    }
+
+    /* Shimmer effect */
+    @keyframes shimmer {
+        0% { background-position: -200% 0; }
+        100% { background-position: 200% 0; }
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+/*Kết thúc Hiển thị khi xử lý dữ liệu (đang load) ở grid*/
+
+/* Nền xám nhạt cho dòng Không SD */
+.inactive-row {
+    background-color: #f8f9fa !important; /* Bootstrap bg-light */
+}
+
+    /* Nếu muốn hover khác biệt */
+    .inactive-row:hover {
+        background-color: #ececec !important;
+    }
+
+/* phần này xử lý panel chi tiết ở splitercontrol để các control ở trong nó fill */
+
+/* Áp dụng riêng cho Pane có tên detail-pane */
+.detail-pane.dxbl-splitter-pane-content {
+    height: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex; /* để tabcontrol giãn */
+    flex-direction: column; /* tab header trên + content fill */
+}
+.detail-pane .dxbl-tabcontrol,
+.detail-pane .dxbl-tabs {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+}
+
+    /* Nội dung tabpage chiếm hết phần còn lại */
+.detail-pane .dxbl-tabs-content-panel {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto; /* scroll nếu dài */
+}
+
+/* Mỗi tabpage chứa toolbar + grid */
+.detail-tabpage {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+}
+
+    .detail-tabpage .toolbar-box-tight {
+        flex: 0 0 auto; /* toolbar cao cố định */
+    }
+
+    .detail-tabpage .detail-grid {
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow: auto;
+    }
+
+
+/* Kết thúc xử lý panel chi tiết ở splitercontrol để các control ở trong nó fill */
+
+/* Thu nhỏ và làm mờ icon filter trong header */
+/* --- Make filter funnel button smaller & muted --- */
+.dxbl-grid-filter-menu-funnel-btn {
+    font-size: 0.72rem !important; /* nhỏ hơn */
+    opacity: 0.42 !important; /* nhạt đi */
+    padding: 0.12rem 0.22rem !important; /* ít padding để bớt "to" */
+    width: 1.6rem !important;
+    height: 1.6rem !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 0.25rem !important;
+    line-height: 1 !important;
+    margin-left: 0.25rem !important; /* đỡ chiếm chỗ header */
+    transition: opacity .12s ease, transform .08s ease !important;
+    color: #6c757d !important; /* màu secondary (muted) */
+    background-color: transparent !important;
+    border-color: transparent !important; /* bỏ viền mạnh */
+}
+
+    /* nếu icon nằm trong <i> hoặc svg */
+    .dxbl-grid-filter-menu-funnel-btn i,
+    .dxbl-grid-filter-menu-funnel-btn svg {
+        font-size: 0.95rem !important;
+    }
+
+    /* hover nhẹ hơn (vẫn nhìn thấy khi rê chuột) */
+    .dxbl-grid-filter-menu-funnel-btn:hover {
+        opacity: 0.72 !important;
+    }
+
+    /* Khi filter đang bật — làm nổi bật lại */
+    .dxbl-grid-filter-menu-funnel-btn.dxbl-state-active,
+    .dxbl-grid-filter-menu-funnel-btn[aria-pressed="true"],
+    .dxbl-grid-filter-menu-funnel-btn.is-filtered {
+        opacity: 1 !important;
+        transform: scale(1.04) !important;
+        color: #0d6efd !important; /* xanh Bootstrap */
+        border-color: rgba(13,110,253,0.16) !important;
+        background-color: rgba(13,110,253,0.06) !important;
+    }
+
+    /* Nếu button có text node, ẩn text chỉ show icon */
+    .dxbl-grid-filter-menu-funnel-btn .dxbl-btn-text {
+        display: none !important;
+    }
+
+/* Phủ mờ khi đang load dữ liệu*/
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.7); /* mờ toàn bộ */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100; /* đủ cao để phủ Toolbar + Grid */
+    pointer-events: all; /* chặn click */
+}
+
+    .loading-overlay .spinner-border {
+        width: 2rem;
+        height: 2rem;
+    }
+    /* Kết thúc phủ mờ*/
+
+/* xử lý button trong control khác (ví dụ textbox) cho nó cao rộng theo kích thước control cha */
+.btn-in-other-lg {
+    height: 100%;
+    aspect-ratio: 1 / 1; /* vuông */
+}
+
+/* Cách 1: Block nền xám, không viền */
+.group-bg {
+    background-color: var(--bs-light); /* dùng màu bg-light của bootstrap */
+    border-radius: 0.5rem; /* bo tròn giống rounded */
+    padding: 1rem; /* = p-3 */
+    margin-bottom: 1rem; /* = mb-3 */
+}
+
+/* Cách 2: Chỉ nhấn border bên trái */
+.group-border {
+    border-left: 4px solid var(--bs-primary); /* thanh màu chủ đạo */
+    padding-left: 1rem; /* ps-3 */
+    margin-bottom: 1rem; /* mb-3 */
+}
+
+/* Gom nhóm control nhập liệu, không padding/margin */
+.group-bg-nopm {
+    padding: 0 !important;
+    margin: 0.3rem !important;
+    background-color: var(--bs-light); /* dùng màu bg-light của bootstrap */
+    border-radius: 0.5rem; /* bo tròn giống rounded */
+    border: none; /* bỏ border */
+    margin-bottom:0.5rem !important; /* chiều dọc các group hơi gần nhau nên cho cái này vào. */
+}
+
+/* Cài đặt popup content để không vượt quá màn hình, nếu vượt quá thì hiện scroll */
+/* 75dvh tạm ổn*/
+.popup-body-scroll {
+    max-height: 75dvh;  /*chiều cao tối đa */
+    overflow-y: auto;  /*scroll dọc nếu cần */
+    overflow-x: hidden;  /*ẩn scroll ngang */
+    padding: 8px;
+    box-sizing: border-box;  /*tính padding vào width */
+    width: 100%;  /*đảm bảo div vừa width popup */
+}
+
+/* Cài đặt khoảng cách nhóm/trường ở form nhập liệu */
+.form-group {
+    margin-bottom: 16px; /* desktop */
+    padding: 12px; /* nội dung group */
+    border-radius: 6px;
+    background-color: #f8f9fa; /* group tách biệt nhẹ */
+}
+
+@media (max-width: 768px) {
+    .form-group {
+        margin-bottom: 12px;
+        padding: 8px;
+    }
+}
+
+.form-field {
+    margin-bottom: 12px;
+}
+
+.form-row {
+    display: flex;
+    gap: 16px; /* khoảng cách giữa 2 field */
+}
+
+@media (max-width: 768px) {
+    .form-field {
+        margin-bottom: 8px;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 8px;
+    }
+}
+
+
+/* Một số icon thông dụng */
+/* Điện thoại */
+/* Điện thoại → thường là hành động liên hệ, dễ thấy, nên để xanh */
+.icon-phone {
+    color: var(--bs-primary);
+}
+
+/* Email → cũng là liên hệ, dùng xanh cho đồng bộ với phone */
+.icon-email {
+    color: var(--bs-primary);
+}
+
+/* Địa chỉ chung → vị trí, bản đồ, cũng để xanh */
+.icon-location {
+    color: var(--bs-primary);
+}
+
+/* Tỉnh/Thành phố → cấp lớn, nổi bật, dùng xanh */
+.icon-province {
+    color: var(--bs-primary);
+}
+
+/* Quận/Huyện → cấp trung bình, cho nhẹ nhàng hơn, dùng secondary */
+.icon-district {
+    color: var(--bs-secondary);
+}
+
+/* Nhóm khách hàng → đối tượng quản lý, dùng xanh cho thân thiện */
+.icon-group {
+    color: var(--bs-primary);
+}
+
+/* Người dùng → cá nhân, cũng để xanh */
+.icon-user {
+    color: var(--bs-primary);
+}
+/* Cá nhân / Person */
+.icon-person {
+    color: var(--bs-primary);
+}
+
+/* Ghi chú → thông tin phụ, không quan trọng, để secondary (xám nhạt) */
+.icon-note {
+    color: var(--bs-secondary);
+}
+
+/* Mã số (ID, code) → dữ liệu hệ thống, kỹ thuật → secondary */
+.icon-code {
+    color: var(--bs-secondary);
+}
+
+/* Khóa / Không sử dụng → cảnh báo → đỏ */
+.icon-lock {
+    color: var(--bs-danger);
+}
+
+/* Tiền → gắn liền với tài chính → xanh lá (success) */
+.icon-money {
+    color: var(--bs-success);
+}
+
+/* Ngày tháng → thường thông tin bổ sung → info (xanh nhạt) */
+.icon-date {
+    color: var(--bs-info);
+}
+
+/* Khác / chưa xác định */
+.icon-other {
+    color: var(--bs-dark); /* hoặc var(--bs-secondary) nếu muốn nhẹ hơn */
+}
+
+
+/* Kết thúc icon thông dụng*/
+
+/* Xử lý DxComboBox DxTextBox khi dùng form-control thì button bị xuống dòng */
+/* Áp dụng cho DxComboBox khi gán CssClass="dx-form-control" */
+/*.dx-form-control {
+    width: 100%;
+    max-width: 100%;
+}*/
+
+    /* Input bên trong DxComboBox */
+    /*.dx-form-control input {
+        border-radius: var(--bs-border-radius, .25rem);
+        border: 1px solid var(--bs-border-color, #ced4da);
+        padding: .375rem .75rem;
+        font-size: 1rem;
+        line-height: 1.5;*/
+        /* CHIỀU CAO giống form-control Bootstrap */
+        /*height: calc(2.55rem + 2px);*/ /* ~38px */
+    /*}*/
+
+    /* Nút dropdown */
+    /*.dx-form-control .dxbs-cb-btn {
+        border: 1px solid var(--bs-border-color, #ced4da);
+        border-left: none;
+        border-radius: 0 var(--bs-border-radius, .25rem) var(--bs-border-radius, .25rem) 0;
+        height: calc(2.25rem + 2px);*/ /* đồng bộ chiều cao */
+    /*}*/
+
+    /* Chỉ áp dụng khi anh gán dx-form-control */
+    /*.dx-form-control .dxbs-text-editor {
+        display: flex;
+        align-items: center;
+        height: calc(2.25rem + 2px);*/ /* ~38px */
+        /*border: 1px solid var(--bs-border-color, #ced4da);
+        border-radius: var(--bs-border-radius, .25rem);
+        background-color: var(--bs-body-bg);
+        padding: 0 .375rem;
+    }*/
+
+    /* Button bên trong DxTextBox */
+    /*.dx-form-control .dxbs-editor-btn {
+        border: none !important;
+        background-color: transparent;
+        color: var(--bs-body-color);
+        height: 100%;
+        display: flex;
+        align-items: center;
+        padding: 0 .5rem;
+    }*/
+
+/* Đảm bảo mọi control đồng bộ chiều cao với Bootstrap */
+.dx-form-control {
+    width: 100%;
+    max-width: 100%;
+}
+
+    /* Input chính */
+    .dx-form-control input {
+        border-radius: var(--bs-border-radius, .25rem);
+        border: 1px solid var(--bs-border-color, #ced4da);
+        padding: .375rem .75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        height: calc(2.55rem + 2px); /* ~38px */
+    }
+
+    /* Nút trong ComboBox hoặc TextBox */
+    .dx-form-control .dxbs-cb-btn,
+    .dx-form-control .dxbs-editor-btn {
+        border: 1px solid var(--bs-border-color, #ced4da);
+        border-left: none;
+        border-radius: 0 var(--bs-border-radius, .25rem) var(--bs-border-radius, .25rem) 0;
+        height: calc(2.55rem + 2px); /* đồng bộ chiều cao */
+        background-color: var(--bs-body-bg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 .5rem;
+    }
+
+    /* Bọc ngoài của editor */
+    .dx-form-control .dxbs-text-editor {
+        display: flex;
+        align-items: center;
+        border: 1px solid var(--bs-border-color, #ced4da);
+        border-radius: var(--bs-border-radius, .25rem);
+        background-color: var(--bs-body-bg);
+        padding: 0 .375rem;
+        height: calc(2.55rem + 2px);
+    }
+
+    /* Bọc ngoài của text */
+    .dx-form-control .dxbl-text-edit {
+        display: flex;
+        align-items: center;
+        border: 1px solid var(--bs-border-color, #ced4da);
+        border-radius: var(--bs-border-radius, .25rem);
+        background-color: var(--bs-body-bg);
+        padding: 0 .375rem;
+        height: calc(2.55rem + 2px);
+    }
+
+/* Xử lý DxComboBox khi dùng form-control thì button dropdown bị xuống dòng */
+
+/* Badge STT mặc định (vừa) */
+.stt-badge {
+    border: 1px solid var(--bs-primary);
+    color: var(--bs-primary);
+    border-radius: 50rem;
+    padding: .25rem .5rem; /* py-1 px-2 */
+    font-size: .75rem; /* ~12px */
+    font-weight: 500;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+}
+
+/* Badge STT nhỏ (mini) */
+.stt-badge-sm {
+    border: 1px solid var(--bs-primary);
+    color: var(--bs-primary);
+    border-radius: 50rem;
+    padding: .15rem .4rem;
+    font-size: .65rem; /* ~10px */
+    font-weight: 500;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+}
+
+/* Badge STT to (như avatar số) */
+.stt-badge-lg {
+    border: 2px solid var(--bs-primary);
+    color: var(--bs-primary);
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    font-size: 1rem; /* ~16px */
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+/* Mấy nút đóng mở nhóm */
+.collapse-body-wrapper {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.collapse-group-mobile.open .collapse-body-wrapper {
+    max-height: 1000px; /* tuỳ độ dài nội dung */
+}
+
+.toggle-icon {
+    transition: transform 0.25s ease;
+}
+
+.collapse-group-mobile.open .toggle-icon {
+    transform: rotate(180deg);
+}
+/* Kết thúc mấy nút đóng mở nhóm */
+

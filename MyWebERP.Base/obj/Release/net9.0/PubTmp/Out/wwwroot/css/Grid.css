@@ -1,0 +1,190 @@
+﻿/*BeginHide*/
+.grid-toolbar-refresh,
+.grid-toolbar-new,
+.grid-toolbar-delete,
+.grid-toolbar-edit,
+.grid-toolbar-print,
+.grid-toolbar-column-chooser,
+/*.grid-toolbar-export,
+.grid-toolbar-page-size,
+.grid-toolbar-page-no,
+.grid-toolbar-page-count,*/
+.grid-toolbar-cancel {
+    background-size: contain;
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+    background-position: center center;
+    background-color: currentColor;
+    height: 16px;
+    width: 16px;
+    opacity: 0.7;
+}
+
+.grid-toolbar-refresh {
+    -webkit-mask-image: url("../images/icons/grid-toolbar-refresh.svg");
+    mask-image: url("../images/icons/grid-toolbar-refresh.svg");
+}
+
+.grid-toolbar-new {
+    -webkit-mask-image: url("../images/icons/grid-toolbar-new.svg");
+    mask-image: url("../images/icons/grid-toolbar-new.svg");
+}
+
+.grid-toolbar-delete {
+    -webkit-mask-image: url("../images/icons/grid-toolbar-delete.svg");
+    mask-image: url("../images/icons/grid-toolbar-delete.svg");
+}
+
+.grid-toolbar-edit {
+    -webkit-mask-image: url("../images/icons/grid-toolbar-edit.svg");
+    mask-image: url("../images/icons/grid-toolbar-edit.svg");
+}
+
+.grid-toolbar-cancel {
+    -webkit-mask-image: url("../images/icons/undo.svg");
+    mask-image: url("../images/icons/undo.svg");
+}
+
+.grid-toolbar-column-chooser {
+    -webkit-mask-image: url("../images/icons/column-chooser.svg");
+    mask-image: url("../images/icons/column-chooser.svg");
+}
+
+.grid-toolbar-export {
+    -webkit-mask-image: url("../images/icons/export.svg");
+    mask-image: url("../images/icons/export.svg");
+}
+
+.grid-toolbar-search-icon {
+    background-color: currentColor;
+    width: 16px;
+    height: 16px;
+    mask-image: url("../images/icons/search.svg");
+    -webkit-mask-image: url("../images/icons/search.svg");
+    opacity: 0.6;
+}
+
+.grid-toolbar-print {
+    -webkit-mask-image: url("../images/icons/ribbon/fluent/print.svg");
+    mask-image: url("../images/icons/ribbon/fluent/print.svg");
+}
+
+.grid-toolbar-search{
+    width: 10rem;
+}
+
+.grid-toolbar-page-size{
+    width:80px;
+}
+
+.grid-toolbar-page-no {
+    width: 130px;
+}
+
+.grid-toolbar-page-count {
+    width: 150px;
+}
+
+.grid-toolbar-page-count-4-small {
+    width: 200px;
+}
+
+.grid-toolbar-period {
+    width: 120px;
+}
+
+/*Nếu chỉ để company thôi thì bị lỗi, thêm ký tự vào thì hết lỗi -> thêm -t*/
+.grid-toolbar-company-t{
+    width: 200px;
+}
+
+.grid-toolbar-report_file {
+    width: 200px;
+}
+
+.grid-toolbar-date {
+    width: 120px;
+}
+
+.grid-container {
+    display: contents;
+}
+
+/* Đổi màu dòng xen kẽ 
+/* DevExpress and Bootstrap Themes */
+.grid-alt-item > td:not(.dxbl-grid-empty-cell),
+.grid-alt-item > td:not(.dxbl-grid-indent-cell) {
+    background-color: color-mix(in srgb, var(--bs-gray-300), transparent 50%);
+}
+/* Fluent Themes */
+.grid-alt-item {
+    --dxbl-grid-row-bg: var(--DS-color-surface-neutral-subdued-rest);
+}
+
+.grid-toolbar-company-dropdown-body {
+    width:200px;    
+    height: 300px !important; /* Set the desired height */
+}
+
+.grid-modified-cell {
+    background-color: rgba(var(--bs-primary-rgb), 0.15) !important;
+}
+
+.grid-icon {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    min-width: 1rem;
+    min-height: 1rem;
+    background-size: contain;
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+    background-position: center center;
+    background-color: currentColor;
+    vertical-align: middle;
+}
+
+.grid-icon-delete {
+    -webkit-mask-image: url("../images/icons/delete.svg");
+    mask-image: url("../images/icons/delete.svg");
+}
+
+.grid-icon-add {
+    -webkit-mask-image: url("../images/icons/add.svg");
+    mask-image: url("../images/icons/add.svg");
+}
+
+.grid-wrapper {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.fab-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    user-select: none;
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+}
+
+.fab {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,.35) !important;
+}
+
+.flex-grid {
+    flex: 1 1 auto;
+    overflow-y: auto;
+}
+
+/*.grid-100 {
+    height: 10vh !important;
+}*/

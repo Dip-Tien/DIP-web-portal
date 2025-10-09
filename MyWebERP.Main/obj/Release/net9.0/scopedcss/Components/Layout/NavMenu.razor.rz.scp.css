@@ -1,0 +1,81 @@
+#sidebar[b-vjlbsj4oji] {
+    min-width: 15rem;
+    max-width: 15rem;
+    transition: transform 0.1s ease-out;
+    height: 100%;
+    max-height: 100%;
+    display: block;
+    background: inherit;
+}
+
+.logo[b-vjlbsj4oji] {
+    text-align: center;
+}
+
+[b-vjlbsj4oji] .menu.display-mobile {
+    margin-bottom: 2rem;
+}
+
+[b-vjlbsj4oji] .menu.display-iam {
+    margin-bottom: 2rem;
+}
+
+[b-vjlbsj4oji] .menu {
+    background-color: inherit;
+}
+
+    [b-vjlbsj4oji] .menu .dxbl-menu-item-list {
+        gap: 0.5rem;
+    }
+
+[b-vjlbsj4oji] .menu-item {
+    color: var(--bs-white);
+}
+
+[b-vjlbsj4oji] .icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-left: 0.1rem; /*Cũ = 0.5 icon hơi lệch bên phải khi thu nhỏ*/
+}
+
+[b-vjlbsj4oji] .home-icon {
+    background-image: url("images/home.svg");
+}
+
+[b-vjlbsj4oji] .weather-icon {
+    background-image: url("images/weather.svg");
+}
+
+[b-vjlbsj4oji] .counter-icon {
+    background-image: url("images/counter.svg");
+}
+
+[b-vjlbsj4oji] .settings-icon {
+    background-image: url("images/account/settings.svg");
+}
+
+[b-vjlbsj4oji] .log-in-icon {
+    background-image: url("images/account/log-in.svg");
+}
+
+[b-vjlbsj4oji] .log-out-icon {
+    background-image: url("images/account/log-out.svg");
+}
+
+[b-vjlbsj4oji] .user-icon {
+    background-image: url("images/account/user.svg");
+}
+
+@media (max-width: 768px) {
+    #sidebar[b-vjlbsj4oji] {
+        min-width: inherit;
+        max-width: inherit;
+        display: block;
+    }
+
+    .logo[b-vjlbsj4oji] {
+        text-align: inherit;
+    }
+}

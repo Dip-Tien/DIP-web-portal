@@ -1,0 +1,108 @@
+﻿@* Có thông tin trang*@
+
+@inherits ComponentBaseGrid0
+
+@code {
+    protected List<int> PageSizes = new List<int>(new int[] { 100, 500, 1000, 2000, 3000, 4000, 5000 });
+    protected List<int> Pages = new List<int>(new int[] { 1 });
+    protected int pageSize = 1000;
+
+    // private int _pageSize = 1000;
+    // protected int pageSize
+    // {
+    //     get => _pageSize;
+    //     set
+    //     {
+    //         if (_pageSize != value)
+    //         {
+    //             _pageSize = value;
+    //             _ = SelectPageSizeChanged(_pageSize); // gọi bất đồng bộ logic khi thay đổi
+    //         }
+    //     }
+    // }
+
+    protected int pageNo = 1;
+    protected int pageCount = 0;
+    protected int rowCount = 0;
+    protected string pageCountText = $"1 trang (0 dòng)";
+
+    protected async Task OnPrevPageButtonClick()
+    {
+        if (pageNo > 1)
+        {
+            pageNo -= 1;
+            await DataAsync();
+        }
+    }
+
+    protected async Task OnNextPageButtonClick()
+    {
+        if (pageNo < pageCount)
+        {
+            pageNo += 1;
+            await DataAsync();
+        }
+    }
+
+    protected async Task SelectPageNoChanged(int p_pageNo)
+    {
+        if(pageNo != p_pageNo)
+        {
+            pageNo = p_pageNo;
+            await DataAsync();
+        }
+    }
+
+    protected async Task SelectPageSizeChanged(int p_pageSize)
+    {
+        if(pageSize != p_pageSize)
+        {
+            pageSize = p_pageSize;
+            // Tính lại số trang dựa trên totalRows hiện tại
+            var newPageCount = (int)Math.Ceiling(rowCount / (double)pageSize);
+            if (newPageCount < 1)
+                newPageCount = 1;
+
+            // Nếu pageNo > newPageCount thì ép về cuối
+            if (pageNo > newPageCount)
+                pageNo = newPageCount;
+
+            // pageSize = p_pageSize;
+            await DataAsync();
+        }
+    }
+
+    protected void SetPageInfo(int p_rowCount)
+    {
+        Pages.Clear();
+
+        if (p_rowCount == 0)
+        {
+            pageCountText = $"1 {Language["trang"]}";
+            Pages.Add(1);
+        }
+        else
+        {
+            pageCount = (p_rowCount / pageSize) + 1;
+            pageCountText = pageCount.ToString() + $" {Language["trang"]} ({p_rowCount.ToString("N0")} {Language["dòng"]})";
+
+            if(pageNo > pageCount)
+            {
+                // Trường hợp thay đổi điều kiện lọc, kích thước trang,...
+                pageNo = pageCount;
+            }
+
+            for (int _i = 1; _i <= pageCount; _i++)
+            {
+                Pages.Add(_i);
+            }
+        }
+    }
+
+    protected string GetRowRange(int p_pageNo)
+    {
+        int from = ((p_pageNo - 1) * pageSize) + 1;
+        int to = Math.Min(p_pageNo * pageSize, rowCount);
+        return $"({from.ToString("N0")}–{to.ToString("N0")} / {rowCount.ToString("N0")})";
+    }
+}

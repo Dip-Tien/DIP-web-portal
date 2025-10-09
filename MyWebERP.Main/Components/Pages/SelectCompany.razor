@@ -1,0 +1,109 @@
+﻿@page "/selectcompany"
+@using MyWebERP.Lib
+@using Blazored.LocalStorage;
+@using System.Text.Json;
+@using MyWebERP.Model;
+@using MyWebERP.Data;
+
+@inject ILocalStorageService LocalStorageService
+@inject IConfiguration Configuration
+@inject MyWebERP.Services.IDataService DataService
+@inject NavigationManager NavigationManager
+@inject AppStateManager AppState
+@inject Microsoft.Extensions.Localization.IStringLocalizer Lang
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-sm-8 col-md-6 col-lg-4">
+            <hr />
+            <h3>
+                @Lang["Chọn công ty"]</h3>
+            <hr />
+            <form asp-action="Login" asp-controller="User">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group border-1">
+                    <label for="cbLang" class="demo-text w-100 mb-1">
+                        @Lang["Công ty"];
+                    </label>
+                    <DxComboBox Data="@Companies"
+                                TextFieldName="@nameof(Model.CompanyItem.CompanyName)"
+                                KeyFieldName="@nameof(Model.CompanyItem.CompanyName)"
+                                @bind-Value="@SelectedCompany"
+                                SelectedItemChanged="@((Model.CompanyItem company) => SelectedCompanyChanged(company))"
+                                CssClass="w-100 form-control-mobile"
+                                InputId="cbLang" />
+                </div>
+
+                <div class="row form-group">
+                    <div class="col">
+                        <DxButton RenderStyle="ButtonRenderStyle.Secondary"
+                                  Text="@Lang["Trở lại"]"
+                                  Click="@btnBack_click"
+                                  CssClass="w-100 form-control-mobile" />
+                    </div>
+                    <div class="col">
+                        <DxButton RenderStyle="ButtonRenderStyle.Primary"
+                                  Text="@Lang["Chọn"]"
+                                  Click="@btnOk_click"
+                                  CssClass="w-100 form-control-mobile" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@code {
+    List<Model.CompanyItem> Companies { get; set; }
+    Model.CompanyItem SelectedCompany { get; set; }
+
+    // DxTreeView tvCompany;
+    // DxDropDownBox ddCompany;
+
+    // DxTreeView tvCompany2;
+
+    protected override async Task OnInitializedAsync()
+    {
+        String _sDefaultCompanyId = Configuration.GetValue<String>("DefaultCompanyId");
+
+        dynamic dData = new System.Dynamic.ExpandoObject();
+        dData.company_id = _sDefaultCompanyId;
+
+        Model.APIResultModel _result = await DataService.CallMyApiSimple(dData, "GET_COMPANY_BY_USER_4_LOGIN");
+        Model.APIResultDataModel _data = JsonSerializer.Deserialize<Model.APIResultDataModel>(_result.Data.ToString());
+        //List<SelectListItem> _lstCompany = Newtonsoft.Json.JsonConvert.DeserializeObject<List<SelectListItem>>(_dataResult.data_details.ToString());
+
+        List<Model.CompanyItem> _lstCompany = JsonSerializer.Deserialize<List<Model.CompanyItem>>(_data.data_details.ToString());
+        this.Companies = _lstCompany;
+
+        SelectedCompany = await LocalStorageService.GetItemAsync<Model.CompanyItem?>(Data.LocalStorageName.COMPANY);
+        if (SelectedCompany == null)
+        {
+            SelectedCompany = _lstCompany.FirstOrDefault(x => x.CompanyId == _sDefaultCompanyId);
+        }
+    }
+
+    private async Task btnOk_click(MouseEventArgs args)
+    {
+        AppState.Company = SelectedCompany;
+        await LocalStorageService.SetItemAsync<Model.CompanyItem>(LocalStorageName.COMPANY, SelectedCompany);
+        await LocalStorageService.SetItemAsync<string>(LocalStorageName.COMPANY_ID, SelectedCompany.CompanyId);
+        await AppState.CompanyState();
+
+        //StateHasChanged();
+
+        NavigationManager.NavigateTo("/", forceLoad:true);
+    }
+
+    void btnBack_click(MouseEventArgs args)
+    {
+        NavigationManager.NavigateTo("/login");
+    }
+
+    void SelectedCompanyChanged(Model.CompanyItem company)
+    {
+        // SelectedCompany = company;
+        // WorkingInfoComponent.Parameters[nameof(WorkingInfo.SelectedCompanyName)] = SelectedCompany.CompanyName;
+
+    }
+}

@@ -1,0 +1,48 @@
+﻿@using Blazored.LocalStorage;
+@using Model;
+@using Data;
+@using MyWebERP.Data;
+
+@inherits MyVoucherEditFormBase
+
+@code {
+
+    protected List<SKU0LookupModel> ListSKU0;
+
+    protected Boolean SKU0EditPopupVisible { get; set; }
+    protected EditFormStatus SKU0EditFormStatus { get; set; }
+    protected string SelectedSkuId { get; set; }
+
+    protected override async Task InitCfg()
+    {
+        await base.InitCfg();
+        ListSKU0 = await DataService.LookupCode<SKU0LookupModel>(CompanyId, 1, MenuItem.CompanyMenuId, "SKU0_LOOKUP_W");
+    }
+
+    // protected virtual void OnSKU0AddButtonClick()
+    // {
+    //     SKU0EditPopupVisible = true;
+    //     SKU0EditFormStatus = EditFormStatus.NEW;
+    // }
+
+    // protected virtual void OnSKU0EditButtonClick()
+    // {
+    //     SKU0EditPopupVisible = true;
+    //     SKU0EditFormStatus = EditFormStatus.EDIT;
+    // }
+
+    // async Task SelectSKU0Changed(SKU0LookupModel sku, SO001DetailModel data)
+    // {
+    //     data.product_name = sku.sku_name;
+    //     data.unit_id = sku.unit_id;
+    //     data.unit_name = sku.unit_name;
+    // }
+
+    // protected virtual async Task OnSKU0Submit(SKU0LookupModel sku)
+    // {
+    //     // Nạp lại
+    //     ListSKU0 = await DataService.LookupCode<SKU0LookupModel>(CompanyId, 1, CompanyMenuId, "SKU0_LOOKUP_W");
+    //     //EditItem.customer_id = customer.customer_id;
+
+    // }
+}

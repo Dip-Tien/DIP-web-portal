@@ -1,0 +1,18 @@
+﻿@page "/logout"
+@using MyWebERP.Authentication
+@using MyWebERP.Data
+
+@inject ILoginService LoginService
+@inject NavigationManager _navigationManager
+@* @inject AppStateManager AppState *@
+
+<h3>Logout</h3>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await LoginService.Logout();
+        // await AppState.CompanyState();
+        _navigationManager.NavigateTo("/login", true);
+    }
+}

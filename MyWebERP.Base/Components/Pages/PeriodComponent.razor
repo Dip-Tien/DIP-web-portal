@@ -1,0 +1,91 @@
+﻿@using Blazored.LocalStorage
+@using MyWebERP.Data;
+@using MyWebERP.Model;
+@using MyWebERP.Services;
+
+@inject ILocalStorageService LocalStorageService
+@inject IDataService DataService
+
+<div class="row">
+    <div class="col-4">
+        <DxComboBox Data="@PeriodItems"
+        TextFieldName="@nameof(PeriodItem.PeriodName)"
+        KeyFieldName="@nameof(PeriodItem.PeriodCode)"
+        @bind-Value="@SelectedPeriodItem"
+        SelectedItemChanged="@((PeriodItem item) => SelectedPeriodChanged(item))"
+        CssClass="cw-120"
+        InputId="cbPeriod" />
+    </div>
+    <div class="col-4">
+        <DxDateEdit @bind-Date="@Date1"
+        CssClass="cw-320"
+        DisplayFormat="dd/MM/yyyy"
+        Format="dd/MM/yyyy"
+        InputId="deDate1" />
+    </div>
+    <div class="col-4">
+        <DxDateEdit @bind-Date="@Date2"
+        CssClass="cw-320"
+        DisplayFormat="dd/MM/yyyy"
+        Format="dd/MM/yyyy"
+        InputId="deDate2" />
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public string? PeriodCode { get; set; }
+    [Parameter]
+    public EventCallback<string> PeriodCodeChanged { get; set; }
+    [Parameter]
+    public DateTime Date1 { get; set; }
+    [Parameter]
+    public EventCallback<DateTime> Date1Changed { get; set; }
+    [Parameter]
+    public DateTime Date2 { get; set; }
+    [Parameter]
+    public EventCallback<DateTime> Date2Changed { get; set; }
+
+    List<PeriodItem>? PeriodItems;
+    PeriodItem? SelectedPeriodItem;
+
+    protected override async Task OnInitializedAsync()
+    {
+        PeriodItems = await DataService.PeriodLookup("111111");
+
+        String _sDefaultPeriodCode = String.IsNullOrEmpty(PeriodCode) ? "NGAY" : PeriodCode;
+        SelectedPeriodItem = PeriodItems.FirstOrDefault(x => x.PeriodCode == _sDefaultPeriodCode);
+
+    }
+
+    private async Task SelectedPeriodChanged(PeriodItem periodItem)
+    {
+        int _iYear = await LocalStorageService.GetItemAsync<int>(LocalStorageName.YEAR);
+        DateTime _dtmNow = DateTime.Now;
+        DateTime _dtmWorking = new DateTime(_iYear, _dtmNow.Month, _dtmNow.Day);
+        SelectedPeriodItem = periodItem;
+
+        DateTime _dtmDate1 = _dtmNow;
+        DateTime _dtmDate2 = _dtmNow;
+        MyLib.GetDataFromPeriod(periodItem, _iYear, _dtmWorking, ref _dtmDate1, ref _dtmDate2);
+
+        Date1 = _dtmDate1;
+        Date2 = _dtmDate2;
+
+        await Date1Changed.InvokeAsync(_dtmDate1);
+        await Date2Changed.InvokeAsync(_dtmDate2);
+        await PeriodCodeChanged.InvokeAsync(SelectedPeriodItem.PeriodCode);
+    }
+
+    private async Task Date1ChangedX(DateTime date)
+    {
+        Date1 = date;
+        await Date1Changed.InvokeAsync(date);
+    }
+
+    private async Task Date2ChangedX()
+    {
+        await Date2Changed.InvokeAsync(Date2);
+    }
+}

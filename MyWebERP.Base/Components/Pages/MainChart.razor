@@ -1,0 +1,79 @@
+﻿@using MyWebERP.Base.Components.Pages
+@using Blazored.LocalStorage;
+@using MyWebERP.Data;
+@using MyWebERP.Services;
+@using MyWebERP.Model;
+
+@inject IDataService DataService;
+@inject ILocalStorageService LocalStorageService;
+@inject AppStateManager AppState;
+
+@* <div class="container px-3"> *@
+    @* @foreach (var row in MyLayout)
+    {
+        <div class="row main-dashboard-row">
+            @foreach (var widget in row)
+            {
+                <div class="@widget.Col main-dashboard-col">
+                    <DynamicComponentHost ComponentName="@widget.ComponentFullName" Parameters="@widget.Parameters" />
+                </div>
+            }
+        </div>
+    } *@
+@* </div>*@
+
+@* <div class="container"> *@
+    @foreach (var row in MyLayout)
+    {
+        <div class="row ">
+            @foreach (var widget in row)
+            {
+                <div class="@widget.Col main-dashboard-col" >
+                    <DynamicComponentHost ComponentName="@widget.ComponentFullName" Parameters="@widget.Parameters" />
+                </div>
+            }
+        </div>
+    }
+@* </div> *@
+
+
+
+@code{
+
+    public List<List<WidgetConfig>> MyLayout { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        //string _sCompanyId = AppState.Company.CompanyId;
+        List<MenuItem> _listMenu = await DataService.GetMenus(true);
+
+        if(_listMenu != null && _listMenu.Count > 0)
+        {
+            List<int> _listRow = _listMenu.DistinctBy(x => x.Row).OrderBy(x => x.Row).Select(x => x.Row).ToList();
+
+            foreach(int _iRow in _listRow)
+            {
+                List<WidgetConfig> _listWC = new List<WidgetConfig>();
+
+                foreach(MenuItem _mnu in _listMenu.Where(x => x.Row == _iRow).OrderBy(x => x.Order))
+                {
+                    WidgetConfig _x = new WidgetConfig
+                    {
+                        // "MyApp.Components.ChartWidget, MyApp",
+                        ComponentFullName = $"{_mnu.Url}, {_mnu.Assembly.Replace(".dll", "")}",
+                        Col = $"col-md-{_mnu.ColWidth}",
+                        Parameters = new Dictionary<string, object>
+                        {
+                            { "CompanyMenuId", _mnu.CompanyMenuId }
+                        }
+                    };
+
+
+                    _listWC.Add(_x);
+                }
+
+                MyLayout.Add(_listWC);
+            }
+        }
+    }
+}

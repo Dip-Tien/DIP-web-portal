@@ -1,0 +1,135 @@
+﻿@using DevExpress.Blazor
+@using MyWebERP.Base.Components.Pages
+@using MyWebERP.Base.Data
+@inject NavigationManager NavigationManager
+
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorageService
+
+<style>
+    .nav-buttons-container {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr); /* 5 cột đều nhau */
+        background-color: var(--bs-primary); /* màu chủ đạo */
+        /* padding: 0.5rem 0; bỏ đi cho nó vào giữa */
+        padding: 0 0;
+        color: white;
+        height: 48px; /* hoặc 56px tùy thiết kế */
+    }
+    .nav-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+    }
+
+    .flyout-nav .list-group-item {
+        width: 100%;
+        display: block;
+        padding: 10px 16px;
+        text-align: left;
+        border: none;
+        background: white;
+    }
+
+        .flyout-nav .list-group-item:hover {
+            background-color: #f0f0f0;
+        }
+
+    .flyout-link-menu {
+        display: flex;
+        flex-direction: column;
+        padding: 8px;
+    }
+
+</style>
+<div class="nav-buttons-container">
+    <div class="nav-icon">
+        @* <NavLink href="@UrlGenerator.GetUrl(new Uri(NavigationManager.Uri).LocalPath, !ToggledSidebar)">
+            <CircleIconButton Size="32" BgColor="white" ShowCircle="false" IconRatio="1" Icon="AppIcon.Menu" />
+        </NavLink> *@
+
+        <DxButton RenderStyle="@ButtonRenderStyle.Light"
+                  RenderStyleMode="@ButtonRenderStyleMode.Text"
+                  CssClass="menu-button-nav ms-auto"
+                  @onclick="() => OnMenuClick.InvokeAsync()">
+            <CircleIconButton Size="32" BgColor="white" ShowCircle="false" IconRatio="1" Icon="AppIcon.Menu" />
+        </DxButton>
+    </div>
+    <!-- Vị trí 2: Chừa sẵn -->
+    <div class="nav-icon">
+        @* Bạn có thể đặt icon/search ở đây sau *@
+    </div>
+
+    @* Icon Home nền xanh dùng cho header nền trắng, tạm không dùng*@
+    <NavLink class="nav-icon" href="/" Match="NavLinkMatch.All">
+        @* <HomeCircleButton Size="32" /> *@
+        <CircleIconButton Size="32" ShowCircle="true" UseStrokeOnly="true" BgColor="white" IconColor="white" Icon="AppIcon.Home" />
+    </NavLink>
+
+    <!-- Vị trí 4: Chừa sẵn -->
+    <div class="nav-icon">
+        @* Thêm icon báo cáo chẳng hạn *@
+        @* <HomeCircleButton Size="32" UseStrokeOnly="true" /> *@
+    </div>
+
+    <!-- Vị trí 5: User -->
+    <div class="nav-icon">
+        @* Ví dụ profile, thông báo *@
+                
+        <DxButton id="userMenuButton" Click="@(() => IsUserMenuVisible = !IsUserMenuVisible)">
+            <CircleIconButton Size="32" ShowCircle="true" UseStrokeOnly="true" BgColor="white" IconColor="white" Icon="AppIcon.User" />
+        </DxButton>
+    </div>
+
+</div>
+
+@* <DxDropDown @bind-IsOpen="IsUserMenuVisible"
+            PositionTarget="#userMenuButton"
+            PositionMode="DropDownPositionMode.Bottom"
+            Width="200px">
+    <ChildContent>
+        <div class="list-group">
+            <NavLink href="/profile" class="list-group-item" @onclick="() => IsUserMenuVisible = false">Hồ sơ</NavLink>
+            <NavLink href="/notifications" class="list-group-item" @onclick="() => IsUserMenuVisible = false">Thông báo</NavLink>
+            <NavLink href="/logout" class="list-group-item" @onclick="() => IsUserMenuVisible = false">Đăng xuất</NavLink>
+        </div>
+    </ChildContent>
+</DxDropDown> *@
+
+<DxFlyout @bind-IsOpen="IsUserMenuVisible"
+          PositionTarget="#userMenuButton"
+          Position="FlyoutPosition.BottomStart"
+          Width="200px">
+    <ChildContent>
+        <div class="list-group flyout-nav">
+            <NavLink href="/login" class="list-group-item" @onclick="() => IsUserMenuVisible = false">@User?.display_name</NavLink>
+            <NavLink href="/logout" class="list-group-item" @onclick="() => IsUserMenuVisible = false">Đăng xuất</NavLink>
+            <NavLink href="/selectcompany" class="list-group-item" @onclick="() => IsUserMenuVisible = false">Đơn vị: @Company?.CompanyName</NavLink>
+            <NavLink href="/selectyear" class="list-group-item" @onclick="() => IsUserMenuVisible = false">Năm làm việc: @Year</NavLink>
+        </div>
+    </ChildContent>
+</DxFlyout>
+
+@code
+{
+    [Parameter] public bool ToggledSidebar { get; set; }
+    [Parameter] public EventCallback<bool> ToggledSidebarChanged { get; set; }
+
+    bool IsUserMenuVisible = false;
+
+    private async Task ToggleSidebar() => await ToggledSidebarChanged.InvokeAsync(!ToggledSidebar);
+
+    
+    public MyWebERP.Model.LoginResultModel? User { get; set; }
+    public int? Year { get; set; }
+    public Model.CompanyItem? Company { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        User = await LocalStorageService.GetItemAsync<MyWebERP.Model.LoginResultModel?>(Data.LocalStorageName.USER);
+        Year = await LocalStorageService.GetItemAsync<int?>(Data.LocalStorageName.YEAR);
+        Company = await LocalStorageService.GetItemAsync<Model.CompanyItem?>(Data.LocalStorageName.COMPANY);
+    }
+
+    [Parameter] public EventCallback OnMenuClick { get; set; }
+}

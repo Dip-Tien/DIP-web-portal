@@ -1,0 +1,946 @@
+﻿@import url('open.iconic/font/css/open-iconic-bootstrap.min.css');
+@import url('Grid.css');
+@import url('Toolbar.css');
+/*@import url('ribbon.css');*/
+
+html, body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    max-width:100vw; /* Mới thêm 21/6/25 để xử lý tràn trang mà chưa được*/
+}
+
+.valid.modified:not([type=checkbox]) {
+    outline: 1px solid #26b050;
+}
+
+.invalid {
+    outline: 1px solid red;
+}
+
+.validation-message {
+    color: red;
+}
+
+.button-link {
+    text-decoration: unset;
+}
+
+#blazor-error-ui {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+    #blazor-error-ui .dismiss {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }
+
+.title {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-bottom: 0.625rem;
+}
+
+    .title.title-secondary {
+        padding-top: 0.313rem;
+        padding-bottom: 0;
+        color: var(--bs-secondary-color);
+    }
+
+.title-header-text {
+    font-size: 2.5rem;
+    line-height: 3rem;
+    font-weight: 600;
+    letter-spacing: 0rem;
+    padding: 0.3125rem 0;
+}
+
+.title-content-text {
+    font-size: 1.75rem;
+    font-weight: 400;
+    line-height: 2.5rem;
+    letter-spacing: 0rem;
+}
+
+.main-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.block-content {
+    width: 31.25rem;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    max-width: 100%;
+}
+
+/* Của tôi */
+.uppercase-text input {
+    text-transform: uppercase;
+}
+
+.default-grid {
+    height: 100% !important;
+    width: 100% !important;
+}
+
+.default-detail-grid {
+    height: calc(0.4*87vh - 100px) !important;
+    width: 100% !important;
+}
+
+.main-splitter {
+    height: 87vh;
+    width: 100%;
+    padding: 0 0 0 0;
+}
+
+/*splitter để 100% nằm trong drawer sẽ bị thu nhỏ lại - Cứ để đây tính sau*/
+.default-splitter {
+    height: 100%;
+    width: 100%;
+    padding: 0 0 0 0;
+}
+
+.default-splitter-pane {
+    padding: 0 0 0 0 !important;
+    /*margin:0 0 0 0 !important;*/
+}
+
+.default-tab {
+    height: 100% !important;
+    width: 100% !important;
+    padding: 0 0 0 0;
+    /*border:solid;*/ /*test*/
+}
+
+.editor-icon-chevron-right {
+    -webkit-mask-image: url("../images/icons/chevron-right-fluent.svg");
+    mask-image: url("../images/icons/chevron-right-fluent.svg");
+    opacity: 1;
+    width: 20px;
+    height: 20px;
+    background-color: currentColor;
+}
+
+.editor-icon-chevron-left {
+    -webkit-mask-image: url("../images/icons/chevron-left-fluent.svg");
+    mask-image: url("../images/icons/chevron-left-fluent.svg");
+    opacity: 1;
+    width: 20px;
+    height: 20px;
+    background-color: currentColor;
+}
+
+.toolbar-icon-chevron-right {
+    -webkit-mask-image: url("../images/icons/chevron-right-fluent.svg");
+    mask-image: url("../images/icons/chevron-right-fluent.svg");
+    opacity: 0.7;
+    width: 16px;
+    height: 16px;
+    background-color: currentColor;
+}
+
+.toolbar-icon-chevron-left {
+    -webkit-mask-image: url("../images/icons/chevron-left-fluent.svg");
+    mask-image: url("../images/icons/chevron-left-fluent.svg");
+    opacity: 0.7;
+    width: 16px;
+    height: 16px;
+    background-color: currentColor;
+}
+
+.my-spin input {
+    text-align: right;
+}
+
+/*Chỉ là mũi tên in đậm thôi*/
+/*.editor-icon-chevron-right-small {
+    -webkit-mask-image: url("../images/icons/chevron-right-small.svg");
+    mask-image: url("../images/icons/chevron-right-small.svg");
+    opacity: 1;
+    width: 20px;
+    height: 20px;
+    background-color: currentColor;
+}
+
+.editor-icon-chevron-left-small {
+    -webkit-mask-image: url("../images/icons/chevron-left-small.svg");
+    mask-image: url("../images/icons/chevron-left-small.svg");
+    opacity: 1;
+    width: 20px;
+    height: 20px;
+    background-color: currentColor;
+}*/
+
+.my-voucher-small-popup {
+    height: calc(100vh - 3.5rem) !important;
+    width: 90vw !important;
+}
+
+.my-voucher-popup {
+    height: calc(100vh - 3.5rem) !important;
+    width: 95vw !important;
+}
+/*Đây là đoạn di chuyển popup về giữa màn hình, đóng lại thấy vẫn bình thường*/
+/*.my-voucher-popup > .modal-content {
+    min-width: 500px;
+    position: absolute;
+    float: left;
+    left: 40%;
+    transform: translate(-40%);
+}*/
+
+/*Phải nhỏ hơn popup my-voucher-popup*/
+.edit-voucher-splitter {
+    /*height: 500px;
+    width: 1200px*/
+    height: 92vh; /*calc(100vh - 9.5rem);*/
+    width: 95vw; /*calc(100vw-15rem);*/
+}
+
+/*Sửa ngày 04/05/25 -- cũ:padding:0px */
+.div-toolbar {
+    height: 32px;
+    padding: 5px 0px 5px 0px;
+}
+
+.my-toolbar-control {
+    height: 100%;
+    width: 100%;
+}
+
+.default-control-size {
+    height: 100%;
+    width: 100%;
+}
+
+.main-body-row {
+    height: 90vh !important;
+    padding: 0 0 0 0 !important;
+}
+
+.main-dashboard-row {
+    padding-top: 0px;
+    height: 45vh;
+    padding-bottom: 0px;
+    /*border:solid;*/ /*Để test*/
+}
+
+/*.main-dashboard-col {
+    height: 45vh;
+}*/
+
+.main-dashboard-chart {
+    /*border-top: solid;
+    border-left: solid;
+    border-right: solid;
+    border-width: 1px;*/
+    padding: 0px 0px 0px 0px;
+    height: 100%;
+    width: 100%;
+}
+
+/*Độ cao, rộng của grid kết quả báo cáo ở main. Lưu ý trừ độ cao của toolbar và title*/
+.main-dashboard-grid {
+    height: 35vh;
+    width: 100%;
+    /*border-left: solid;
+    border-right: solid;
+    border-bottom: solid;
+    border-width: 1px;*/
+    padding: 0px 0px 0px 0px;
+}
+/*toolbar báo cáo ở main*/
+.main-dashboard-grid-toolbar {
+    width: 100%;
+    /*border-left: solid;
+    border-right: solid;
+    border-top: solid;
+    border-width: 1px;*/
+}
+
+/*title báo cáo ở main*/
+.main-dashboard-title {
+    width: 100%;
+    /*border-left: solid;
+    border-right: solid;
+    border-top: solid;
+    border-width: 1px;*/
+    text-align: center;
+    font-size: large;
+    font-weight: 400;
+}
+
+.main-dashboard-col {
+    border: solid;
+    border-width: 1px;
+    padding-top: 5px;
+}
+
+.div-padding-0
+{
+    padding: 0 0 0 0 !important;
+}
+
+.div-width-100 {
+    padding: 0 0 0 0;
+}
+
+.button-text {
+    color: #0d6efd;
+    font-weight: 600;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.button-icon-gap {
+    display: flex;
+    align-items: center;
+    gap: 4px; /* Mặc định */
+}
+
+/* Responsive: tăng khoảng cách ở màn hình nhỏ */
+@media (max-width: 768px) {
+    .button-icon-gap {
+        gap: 5px;
+    }
+}
+
+/**/
+.ellipsis-text {
+    display: inline-block; /* hoặc block nếu cần */
+    width: 100%; /* giới hạn chiều rộng */
+    white-space: nowrap; /* không cho xuống dòng */
+    overflow: hidden; /* ẩn phần tràn ra ngoài */
+    text-overflow: ellipsis; /* hiển thị dấu "..." */
+}
+
+/*Lấy màu chủ đạo css5. Để đây chưa dùng*/
+.primary-color {
+    color: var(--primary-color);
+}
+
+/* Độ cao mặc định grid báo cáo*/
+.default-report-grid {
+    height: 87vh;
+}
+
+/* Chiều cao giữa các dòng - đang dùng để canh khoảng cách control ở popup ở mobile*/
+.my-row-height {
+    height: 64px;
+}
+
+/* Xử lý độ cao listbox trong popup ở trên có checkbox "Chọn hết"*/
+.popup-filter-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+/* Xử lý độ cao listbox trong popup ở trên có checkbox "Chọn hết"*/
+.popup-filter-wrapper .popup-listbox {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    min-height: 0;
+}
+
+/*Xử lý dòng dữ liệu chi tiết (detail template) ở grid cho đẹp - lấy theo ChatGPT*/
+/* Detail row: padding, màu nền nhẹ */
+.dxbs-detail-row {
+    background-color: #fdfdfd;
+    padding: 12px;
+}
+
+/* Bảng con trong detail */
+.detail-inner-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    margin-top: 8px;
+}
+
+    /* Header */
+    .detail-inner-table thead {
+        background-color: #f0f0f0;
+    }
+
+    .detail-inner-table th {
+        padding: 10px;
+        font-weight: bold;
+        font-size: 14px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    /* Dòng dữ liệu */
+    .detail-inner-table td {
+        padding: 10px;
+        font-size: 14px;
+        border-bottom: 1px solid #eee;
+    }
+
+        /* Căn phải cho số */
+        .detail-inner-table td.align-right,
+        .detail-inner-table th.align-right {
+            text-align: right;
+        }
+
+    /* Dòng tổng cộng chuyển xuống tfoot */
+    /*.detail-inner-table tr:last-child td {
+        font-weight: bold;
+        background-color: #f9f9f9;
+        border-top: 2px solid #ccc;
+    }*/
+
+    .detail-inner-table tfoot td {
+        font-weight: bold;
+        background-color: #f9f9f9;
+        border-top: 1px solid #ccc;
+    }
+
+/* Mobile tối ưu */
+@media (max-width: 768px) {
+    .detail-inner-table th,
+    .detail-inner-table td {
+        font-size: 13px;
+        padding: 8px;
+    }
+}
+
+/* Đây là xử lý các dòng có 2 cột label và giá trị*/
+.metrics-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+
+.metrics-summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    white-space: nowrap;
+}
+
+    .metrics-summary-row .label {
+        font-weight: 500;
+        color: #555;
+    }
+
+    .metrics-summary-row .value {
+        font-weight: 600;
+        text-align: right;
+    }
+
+/*Kết thúc xử lý dòng dữ liệu chi tiết (detail template) ở grid cho đẹp - lấy theo ChatGPT*/
+
+/*Report icon - Chưa dùng, đang dùng hình trực tiếp*/
+/*.report-icon {
+    position: relative;
+    width: 32px;
+    height: 40px;
+    background-color: var(--bs-primary);
+    clip-path: polygon(0 0, 70% 0, 100% 30%, 100% 100%, 0 100%);
+    border-radius: 4px;
+}
+
+    .report-icon::before {
+        content: "";
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        width: 10px;
+        height: 10px;
+        background-color: white;
+        clip-path: polygon(0 0, 100% 0, 100% 100%);
+    }
+
+    .report-icon::after {
+        content: "";
+        position: absolute;
+        bottom: 6px;
+        left: 6px;
+        width: 20px;
+        height: 12px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .report-icon::after {
+        display: flex;
+        gap: 3px;
+    }
+
+        .report-icon::after > div {
+            background-color: white;
+            width: 4px;
+            border-radius: 1px;
+        }
+
+            .report-icon::after > div:nth-child(1) {
+                height: 6px;
+                margin-top: 6px;
+            }
+
+            .report-icon::after > div:nth-child(2) {
+                height: 9px;
+                margin-top: 3px;
+            }
+
+            .report-icon::after > div:nth-child(3) {
+                height: 12px;
+            }*/
+
+/*Kết thúc report icon*/
+
+/* Xử lý màn hình mobile */
+@media (max-width: 768px) {
+    /* Áp dụng chung cho các editor DevExpress */
+    .form-control-mobile .dxbl-input,
+    .form-control-mobile .dxbl-date-edit-input,
+    .form-control-mobile .dxbl-combobox-input,
+    .form-control-mobile .dxbl-editor-input,
+    .form-control-mobile .dxbl-btn,
+    .form-control-mobile input {
+        height: 44px;
+        font-size: 16px;
+        padding: 6px 12px;
+    }
+
+    .dxbl-btn.form-control-mobile {
+        height: 44px !important;
+        font-size: 16px !important;
+        line-height: 44px !important;
+        padding: 6px 12px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    /* Container chứa input (hữu ích cho combo/dateedit) */
+    .form-control-mobile .dxbl-editor-content {
+        min-height: 44px;
+    }
+
+    /* Nút/icon bên trong control */
+    .form-control-mobile .dxbl-editor-buttons-container {
+        height: 44px;
+    }
+
+    /* Các nút DxButton */
+    .form-control-mobile .dxbl-btn {
+        height: 44px;
+        font-size: 16px;
+        width: 100%;
+    }
+
+    
+}
+
+/* Kết thúc xử lý màn hình mobile */
+
+/* Căn khoảng cách các control trong form (login, chọn cty, .....)*/
+.form-group {
+    margin-bottom: 1rem;
+}
+
+/*Xử lý menu text xuống dòng*/
+.dxbl-menu-item-text { /* Class cho nội dung text của menu item */
+    white-space: normal !important;
+    word-break: break-word;
+    line-height: 1.3;
+    min-height: auto;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+/* Bỏ khoảng trắng ở trên đầu menu */
+.dxbl-drawer.mobile .dxbl-drawer-header {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    min-height: auto !important;
+}
+
+/* Mũi tên chung - dùng cho các báo cáo, ví dụ: để thể hiện tăng/giảm doanh số */
+.trend {
+    margin-left: 4px;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+    /* Dùng ký tự Unicode ↑ ↓ */
+    .trend.up::before {
+        content: "↑ ";
+        color: var(--bs-primary);
+    }
+    /*xanh*/
+    .trend.down::before {
+        content: "↓ ";
+        color: #dc3545;
+    }
+/*đỏ*/ 
+
+/* --- Nếu bạn thích Font Awesome / DevExpress icon ---
+.trend.up::after   { content: "\f062"; font-family: "Font Awesome 6 Free"; font-weight: 900; color:#28a745;}
+.trend.down::after { content: "\f063"; font-family: "Font Awesome 6 Free"; font-weight: 900; color:#dc3545;}
+-----------------------------------------------------*/
+
+/* Đoạn này xử lý cho menu hiển thị ở footer (trong điện thoại nhưng chưa dùng)*/
+/*.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    border-top: 1px solid #ccc;
+    display: flex;
+    justify-content: space-around;
+    padding: 0.3rem 0;
+    z-index: 1000;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
+}
+
+.nav-item {
+    flex: 1;
+    text-align: center;
+    font-size: 0.85rem;
+    position: relative;
+    cursor: pointer;
+    padding: 0.2rem 0;
+}
+
+    .nav-item .icon i {
+        font-size: 1.2rem;
+    }
+
+.submenu {
+    position: absolute;
+    bottom: 2.6rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    max-height: 250px;*/ /* Giới hạn chiều cao để scroll */
+    /*overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    z-index: 1100;
+    min-width: 160px;
+}
+
+.submenu-item {
+    padding: 0.4rem 0.6rem;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+    .submenu-item:last-child {
+        border-bottom: none;
+    }
+
+    .submenu-item:hover {
+        background-color: #f8f9fa;
+    }
+
+.submenu-child {
+    margin-left: 1rem;
+    border-left: 2px solid #ddd;
+    margin-top: 0.2rem;
+    padding-left: 0.4rem;
+}*/
+
+/* Kết thúc xử lý cho menu hiển thị ở footer (trong điện thoại nhưng chưa dùng)*/
+/* =======================================
+   MOBILE MENU POPUP - BASE LAYOUT
+========================================== */
+.mobile-menu-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1100;
+    background: var(--bs-primary);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    animation: fadeIn 0.25s ease-in-out;
+    touch-action: pan-y;
+}
+
+.mobile-menu-container {
+    position: relative;
+    scroll-behavior: smooth;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    flex: 1;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (prefers-color-scheme: dark) {
+    .mobile-menu-overlay {
+        background: #212529;
+    }
+}
+
+/* =======================================
+   MENU GRID + ITEM LAYOUT
+========================================== */
+.menu-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.menu-item {
+    position: relative;
+    text-align: center;
+}
+
+/* === Square / Grid Style === */
+.square-style .menu-item {
+    width: 30%;
+    min-width: 90px;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.square-style .item-main {
+    flex-direction: column !important;
+    justify-content: center;
+    align-items: center;
+}
+
+.square-style .icon-container {
+    position: relative;
+}
+
+    .square-style .icon-container > i,
+    .square-style .icon-container > img {
+        width: 2.4rem;
+        height: 2.4rem;
+        font-size: 2.4rem;
+        object-fit: contain;
+    }
+
+.square-style .submenu-badge-grid {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%);
+    background-color: rgba(255,255,255,0.8);
+    color: #000;
+    border-radius: 50%;
+    width: 1.2rem;
+    height: 1.2rem;
+    font-size: 0.75rem;
+    line-height: 1.2rem;
+    text-align: center;
+    pointer-events: none;
+}
+
+/* === List Style === */
+.list-style .menu-item {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    text-align: start;
+}
+
+.list-style .item-main {
+    flex-direction: row;
+    align-items: center;
+}
+
+.list-style .icon-container > i,
+.list-style .icon-container > img {
+    width: 1.6rem;
+    height: 1.6rem;
+    font-size: 1.6rem;
+    object-fit: contain;
+}
+
+.list-style .submenu-indicator {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+}
+
+.list-style .submenu-badge {
+    background: rgba(255,255,255,0.3);
+    color: #000;
+    border-radius: 0.75rem;
+    padding: 0 0.4rem;
+    font-size: 0.75rem;
+    font-weight: bold;
+    margin-right: 0.25rem;
+}
+
+.list-style .submenu-arrow {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.8);
+}
+
+/* =======================================
+   SHADOW EFFECTS WHEN SCROLLING
+========================================== */
+.mobile-menu-container::before,
+.mobile-menu-container::after {
+    content: "";
+    position: sticky;
+    left: 0;
+    right: 0;
+    height: 1rem;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.mobile-menu-container::before {
+    top: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.15), transparent);
+}
+
+.mobile-menu-container::after {
+    bottom: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.15), transparent);
+}
+
+/* =======================================
+   ANIMATION / TRANSITIONS
+========================================== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInLevel {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutLevel {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeDown {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.zoom-in {
+    animation: zoomIn 0.3s ease-in-out;
+}
+
+.animate-slide-in .slide-level {
+    animation: slideInLevel 0.3s ease-out;
+    animation-fill-mode: both;
+}
+
+.animate-slide-out .slide-level {
+    animation: slideOutLevel 0.3s ease-in-out;
+    animation-fill-mode: both;
+}
+
+.menu-title.fade-title.fade-up,
+.menu-title.fade-title.fade-down {
+    display: inline-block;
+    font-weight: 500;
+    font-size: 1rem;
+    color: white;
+}
+
+.menu-title.fade-title.fade-up {
+    animation: fadeUp 0.3s ease-in-out;
+}
+
+.menu-title.fade-title.fade-down {
+    animation: fadeDown 0.3s ease-in-out;
+}
+
+
+/* ======== kết thúc CSS additions for animation and transition hiệu ứng mở menu mobile ======= */

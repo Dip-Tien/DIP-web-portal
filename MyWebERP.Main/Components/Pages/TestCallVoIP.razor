@@ -1,0 +1,63 @@
+﻿@page "/voip/{CompanyMenuId}"
+
+@inject IJSRuntime JS
+
+<h3>Test Call VoIP</h3>
+
+<div>
+    <DxTextBox @bind-Text="@phoneNumber"></DxTextBox>
+</div>
+<div>
+    <button class="btn btn-primary me-2" @onclick="InitSip">Init</button>
+    <button class="btn btn-success me-2" @onclick="CallSip">Call</button>
+    <button class="btn btn-danger" @onclick="HangupSip">Hangup</button>
+</div>
+
+@code {
+
+    [Parameter] public string CompanyMenuId { get; set; }
+
+    string phoneNumber = "0985830440";
+
+    async Task CallPhone()
+    {
+        // Init UA
+        await JS.InvokeVoidAsync("sipInterop.init",
+            "wss://kam-01.api-connect.io:7443/ws", // wsServer = WSS endpoint
+            "sip:20813@kam-01.api-connect.io",            // uri
+            "hMX5tRfH36",                       // password
+            "stun.l.google.com:19302");         // stun server
+
+        // Thực hiện cuộc gọi
+        await JS.InvokeVoidAsync("sipInterop.call", $"sip:0915868279@dip-01.vn");
+
+        // Đợi 10 giây
+        await Task.Delay(10000);
+
+        // Tự động ngắt
+        await JS.InvokeVoidAsync("sipInterop.hangup");
+    }
+
+
+    private async Task InitSip()
+    {
+        Console.WriteLine("🔧 Init SIP UA...");
+        await JS.InvokeVoidAsync("sipInterop.init",
+            "wss://kam-01.api-connect.io:7443/ws", // wsServer
+            "sip:20813@kam-01.api-connect.io",     // uri (user)
+            "hMX5tRfH36",                          // password
+            "stun.l.google.com:19302");            // stun server
+    }
+
+    private async Task CallSip()
+    {
+        Console.WriteLine($"📞 Thực hiện gọi: {phoneNumber}");
+        await JS.InvokeVoidAsync("sipInterop.call", $"sip:{phoneNumber}@kam-01.api-connect.io");
+    }
+
+    private async Task HangupSip()
+    {
+        Console.WriteLine("⏹️ Kết thúc cuộc gọi");
+        await JS.InvokeVoidAsync("sipInterop.hangup");
+    }
+}

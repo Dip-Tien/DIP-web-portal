@@ -1,0 +1,510 @@
+﻿
+@using Blazored.LocalStorage;
+@using MyWebERP.Data;
+@using MyWebERP.Services;
+@using MyWebERP.Model;
+@using System.Dynamic;
+@using DevExpress.Blazor
+@using MyWebERP.Base.Components.Pages
+@using Newtonsoft.Json;
+@using Newtonsoft.Json.Linq;
+
+@inherits CustListBase
+
+@* <script>
+    window.showOffcanvas = (selector) => {
+        var myOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(document.querySelector(selector));
+        myOffcanvas.show();
+    }
+</script> *@
+
+<style>
+</style>
+
+<div class="dock-header">
+    <div class="col">
+        <div class="d-flex align-items-center">
+            <!-- Nút Filter -->
+            <button class="btn btn-sm btn-outline-secondary me-2" @onclick="async () => await ShowFilterPopup()">
+                <i class="bi bi-funnel"></i>
+                <span class="d-none d-sm-inline"> @Language["Lọc"]</span>
+            </button>
+
+            <!-- Ô Search -->
+            <input type="text" class="form-control form-control-sm me-2"
+                   placeholder="@Language["Tìm kiếm..."]"
+                   @bind="@FilterText"
+                   @onblur="OnSearchBlur" />
+
+            <!-- Nút Nạp -->
+            <button class="btn btn-sm btn-outline-primary" @onclick="RefreshItem_Click">
+                <i class="bi bi-arrow-clockwise"></i>
+                <span class="d-none d-sm-inline"> @Language["Nạp"]</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="dock-body" style="padding-top:5px;position: relative;">
+
+    @if (IsLoading)
+    {
+        @* Làm mờ khi load dữ liệu*@
+        <div class="loading-overlay">
+            <div class="spinner-border text-primary"></div>
+            <span class="ms-2">Đang tải dữ liệu...</span>
+        </div>
+    }
+
+    <DxListBox Data="@FilteredData"
+               SelectionMode="ListBoxSelectionMode.Single" 
+            CssClass="default-small-card-listbox"
+                   TextFieldName="@nameof(CustomerModel.customer_name)"
+            TData="CustomerModel" 
+            TValue="CustomerModel"
+            @bind-Value="@selectedModel"
+        >
+        <ItemTemplate Context="item">
+                <div class="col">
+                    <div class="card shadow-sm rounded-3">
+                        <div class="card-body p-2">
+                            <!-- Nút ⋮ menu góc phải -->
+                            <button class="btn btn-sm btn-light position-absolute top-0 end-0 m-1"
+                                    @onclick="() => OpenMenu(item)">
+                                <i class="bi bi-three-dots-vertical"></i>
+                            </button>
+
+                            <!-- Thông tin cơ bản -->
+                            <h6 class="card-title mb-2 text-primary">
+                                <i class="bi bi-person-badge icon-persion me-1"></i>@item.customer_name
+                            </h6>
+                            <div class="small mb-1 d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="text-muted me-1">@Language["Mã khách"]:</span>
+                                    <i class="bi bi-upc icon-code me-1"></i>@item.customer_code
+                                </div>
+                                <div>
+                                    <span class="stt-badge">
+                                    <i class="bi bi-hash me-1"></i>@(FilteredData.IndexOf(item) + 1)
+                                    </span>
+
+                                </div>
+                            </div>
+                            <div class="small mb-1">
+                                <span class="text-muted me-1">@Language["Địa chỉ"]:</span>
+                                <i class="bi bi-geo-alt icon-location me-1"></i>@DisplayOrEmpty(item.full_address)
+                            </div>
+                            <div class="small mb-2">
+                                <span class="text-muted me-1">@Language["Phân loại"]:</span>
+                                @if (item.is_personal == 1)
+                                {
+                                    <i class="bi bi-person-check text-success me-1"></i>
+                                    @Language["Cá nhân"]
+                                }
+                                else
+                                {
+                                    <i class="bi bi-buildings text-info me-1"></i>
+                                    @Language["Tổ chức"]
+                                }
+                            </div>
+
+                            <hr class="my-2" />
+
+                            <!-- Thông tin liên hệ -->
+                            <div class="small mb-1">
+                                <span class="text-muted me-1">@Language["Điện thoại"]:</span>
+                                <i class="bi bi-telephone me-1"></i>@DisplayOrEmpty(item.tel)
+                            </div>
+                            <div class="small mb-1">
+                                <span class="text-muted me-1">@Language["Email"]:</span>
+                                <i class="bi bi-envelope me-1"></i>@DisplayOrEmpty(item.email)
+                            </div>
+                            <div class="small mb-1">
+                                <span class="text-muted me-1">@Language["Xưng hô / Giới tính"]:</span>
+                                <i class="bi bi-person-circle me-1"></i>@item.vocative
+                                @if (!string.IsNullOrWhiteSpace(item.gender))
+                                {
+                                    if (item.gender == "Nam" || item.gender == "Male")
+                                    {
+                                        <span class="ms-2"><i class="bi bi-gender-male text-primary me-1"></i>@Language["Nam"]</span>
+                                    }
+                                    else if (item.gender == "Nữ" || item.gender == "Female")
+                                    {
+                                        <span class="ms-2"><i class="bi bi-gender-female text-danger me-1"></i>@Language["Nữ"]</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="ms-2"><i class="bi bi-gender-ambiguous me-1"></i>@Language["Khác"]</span>
+                                    }
+                                }
+                            </div>
+                            <div class="small mb-1">
+                                <span class="text-muted me-1">@Language["Nhóm khách"]:</span>
+                                <i class="bi bi-people me-1"></i>@item.cust_category_name
+                            </div>
+                            <div class="small mb-2">
+                                <span class="text-muted me-1">@Language["Ghi chú"]:</span>
+                                <i class="bi bi-journal-text me-1"></i>@item.comment
+                            </div>
+
+                            <hr class="my-2" />
+
+                            <!-- Quản lý -->
+                            <div class="small mb-1">
+                                <span class="text-muted me-1">@Language["Trạng thái"]:</span>
+                                @if (item.inactive == 1)
+                                {
+                                    <span class="text-danger"><i class="bi bi-slash-circle me-1"></i>@Language["Không SD"]</span>
+                                }
+                                else
+                                {
+                                    <span class="text-success"><i class="bi bi-check-circle me-1"></i>@Language["Đang SD"]</span>
+                                }
+                            </div>
+                            <div class="small mb-1">
+                                <span class="text-muted me-1">@Language["Người tạo"]:</span>
+                                <i class="bi bi-person-badge me-1"></i>@item.created_by_display_name
+                            </div>
+                            <div class="small">
+                                <span class="text-muted me-1">@Language["Người sửa"]:</span>
+                                <i class="bi bi-person-fill-gear me-1"></i>@item.last_modified_by_display_name
+                            </div>
+
+                        <hr class="my-2" />
+
+                        <CollapseGroup Id="@($"groupLienHe_{item.customer_id}")"
+                                             Caption="@Language["Người liên hệ"]"
+                                             Icon="bi-person-lines-fill"
+                                             OnShowAsync="() => LoadContact(item)">
+                            @* Nội dung liên hệ *@
+                            @if (item.is_loading_contacts)
+                            {
+                                <div class="text-center text-muted py-2">
+                                    <div class="spinner-border spinner-border-sm text-primary me-2" role="status"></div>
+                                    @Language["Đang tải dữ liệu..."]
+                                </div>
+                            }
+                            else if (item.contacts?.Any() == true)
+                            {
+                                @foreach (var c in item.contacts)
+                                {
+                                    <div class="border rounded-3 p-2 mb-2 bg-white shadow-sm">
+                                        <div class="fw-bold">@c.contact_name</div>
+                                        <div class="small text-muted"><i class="bi bi-telephone me-1"></i>@c.tel</div>
+                                        <div class="small text-muted"><i class="bi bi-envelope me-1"></i>@c.email</div>
+                                    </div>
+                                }
+                            }
+                            else if (item.contacts_loaded)
+                            {
+                                <div class="text-center text-muted py-2">@Language["Không có liên hệ"]</div>
+                            }
+                        </CollapseGroup>
+                        </div>
+                    </div>
+                </div>
+        </ItemTemplate>
+
+        <EmptyDataAreaTemplate>
+            @* Không hiển thị gì, hoặc hiển thị custom text *@
+            <div style="height:0;">@Language["Không có dữ liệu"]</div>
+            @* Hoặc muốn custom thông báo: <span>Chưa có dữ liệu</span> *@
+        </EmptyDataAreaTemplate>
+    </DxListBox>
+    
+</div>
+
+<!-- Paging -->
+<div class="dock-footer">
+    <div class="d-flex justify-content-between align-items-center mt-3 w-100">
+        <!-- Trang trước -->
+        <button class="mobile-page-btn"
+                disabled="@(pageNo == 1)"
+                @onclick="() => SelectPageNoChanged(pageNo - 1)">
+            «
+        </button>
+
+        <!-- Nút mở modal chọn trang (fill giữa) -->
+        <button class="mobile-page-info-btn flex-fill"
+                @onclick="() => showPageModal = true">
+            Trang @pageNo / @pageCountText
+        </button>
+
+        <!-- Trang sau -->
+        <button class="mobile-page-btn"
+                disabled="@(pageNo == pageCount)"
+                @onclick="() => SelectPageNoChanged(pageNo + 1)">
+            »
+        </button>
+    </div>
+</div>
+
+<!-- Modal chọn trang -->
+@if (showPageModal)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Chọn trang</h5>
+                    <button type="button" class="btn-close" @onclick="() => showPageModal = false"></button>
+                </div>
+                <div class="modal-body" style="max-height: 300px; overflow-y: auto;">
+                    <ul class="list-group">
+                        @for (int i = 1; i <= pageCount; i++)
+                        {
+                            var page = i; <!-- tránh capture sai -->
+                            <li>
+                                <button class="list-group-item list-group-item-action @(pageNo == page ? "active" : "")"
+                                        @onclick="() => GoToPage(page)">
+                                    @($"Trang {page:N0}/{pageCount:N0} {GetRowRange(page)}")
+                                </button>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+<!-- FAB thêm mới -->
+<button class="btn btn-primary rounded-circle position-fixed"
+        style="bottom:70px; right:20px; width:56px; height:56px;"
+        @onclick="async () => await NewItem_Click()">
+    <i class="bi bi-plus-lg fs-4"></i>
+</button>
+
+<!-- Offcanvas Action Menu -->
+<div class="offcanvas offcanvas-bottom" tabindex="-1" id="actionMenuOffcanvas">
+    <div class="offcanvas-body p-0">
+        <div class="list-group list-group-flush">
+            <button class="list-group-item list-group-item-action py-3"
+                    data-bs-dismiss="offcanvas"
+                    @onclick="() => OnView(selectedModel)">
+                <i class="bi bi-eye me-2"></i>@Language["Xem chi tiết"]
+            </button>
+
+            <button class="list-group-item list-group-item-action"
+                    data-bs-dismiss="offcanvas"
+                    @onclick="async () => await OnEdit(selectedModel)">
+                <i class="bi bi-pencil-square me-2"></i>@Language["Sửa"]
+            </button>
+
+            <button class="list-group-item list-group-item-action text-danger"
+                    data-bs-dismiss="offcanvas"
+                    @onclick="async () => await OnDelete(selectedModel)">
+                <i class="bi bi-trash me-2"></i>@Language["Xóa"]
+            </button>
+        </div>
+    </div>
+</div>
+
+<CustFilterConditionPopup @ref="filterPopup"
+                          CompanyId="@CompanyId"
+                          CompanyMenuId="@CompanyMenuId"
+                          SelectedProvinces="ListProvinceSelected"
+                          SelectedDistricts="ListDistrictSelected"
+                          FilterText="@FilterText"
+                          OnConfirm="HandleFilterConfirm" />
+
+<DxWindow @ref=windowRef
+          AllowResize="true"
+          ShowCloseButton="true"
+          CloseOnEscape="true"
+          HeaderText="@MyHeaderErrorMessage"
+          FooterText="Footer"
+          ShowFooter="true"
+          Width="max(25vw, 250px)"
+          MinWidth="300"
+          MinHeight="200"
+          MaxWidth="800"
+          MaxHeight="500">
+    <BodyContentTemplate>
+        <div style="color:red">@MyErrorMessage</div>
+    </BodyContentTemplate>
+    <FooterContentTemplate>
+        <DxButton CssClass="popup-button my-1 ms-2"
+                  RenderStyle="ButtonRenderStyle.Primary" Text="OK" Click="@context.CloseCallback" />
+    </FooterContentTemplate>
+</DxWindow>
+
+@if (menuItem != null)
+{
+    <CustEditPopup @bind-Visible="@EditFormVisible"
+                   CompanyId="@CompanyId"
+                   EditDataId="@FocusedDataId"
+                   
+                   MenuItem="@menuItem"
+                   PopupWidth="85vw"
+                   LocalStorageService="@LocalStorageService"
+                   DataService="@DataService"
+                   @bind-FormStatus="@EditFormStatus"
+                   PopupClosed="@OnCustomerSubmit" />
+}
+
+@code {
+
+    // [Inject]
+    // protected IJSRuntime JS { get; set; }
+
+    bool isMenuVisible;
+    private List<CustomerModel> FilteredData = new();   // data hiển thị
+
+    protected override async Task InitCfg()
+    {
+        // App lấy ít thôi
+        pageSize = 100;
+
+        await base.InitCfg();
+    }
+
+    protected override async Task DataAsync()
+    {
+        await base.DataAsync();
+        FilteredData = Data;
+    }
+
+    async Task OpenMenu(CustomerModel item)
+    {
+        selectedModel = item;
+        //isMenuVisible = true;
+
+        await JS.InvokeVoidAsync("showOffcanvas", "#actionMenuOffcanvas");
+
+    }
+
+    void OnView(CustomerModel? item)
+    {
+        isMenuVisible = false;
+        // xử lý xem chi tiết
+    }
+
+    async Task OnEdit(CustomerModel? item)
+    {
+        isMenuVisible = false;
+        // xử lý sửa
+
+        selectedModel = item;
+        FocusedDataId = selectedModel.customer_id;
+        EditFormStatus = EditFormStatus.EDIT;
+        EditFormVisible = true;
+    }
+
+    async Task OnDelete(CustomerModel? item)
+    {
+        isMenuVisible = false;
+
+        if (item == null)
+        {
+            MyHeaderErrorMessage = Language["Chưa có khách nào được chọn"];
+            MyErrorMessage = Language["Chưa có khách nào được chọn"];
+
+            await windowRef.ShowAsync();
+            return;
+        }
+
+        // Tự xử lý để ra hộp thoại Tiếng Việt
+        bool _blnConfirm = await DialogService.ConfirmAsync(new MessageBoxOptions()
+            {
+                Title = Language["Xác nhận xóa dữ liệu"],
+                Text = Language["Quý khách có chắc chắn muốn xóa khách này không?"],
+                RenderStyle = MessageBoxRenderStyle.Danger,
+                OkButtonText = Language["Có"],
+            CancelButtonText = Language["Không"],
+            });
+
+        if (_blnConfirm)
+        {
+            // xử lý xóa
+            selectedModel = item;
+
+            string _sId = selectedModel.customer_id;
+            string _sParam = await MyLib.CreateDeleteDataParam(LocalStorageService, "customer_id", _sId);
+
+            APIResultModel _resultDel = await DataService.CallMyApiSimple(_sParam, DelAPICode);
+
+            if (_resultDel.Status != 0)
+            {
+                MyHeaderErrorMessage = Language["Lỗi xóa dữ liệu"];
+                MyErrorMessage = _resultDel.StatusDetails;
+
+                await windowRef.ShowAsync();
+
+                return;
+            }
+
+            await DataAsync();
+        }
+    }
+
+    private bool showPageModal = false;
+
+    private async Task GoToPage(int page)
+    {
+        showPageModal = false; // Đóng modal - để trước cho nó ẩn trước khi load lại data.
+        //Data = null;
+        StateHasChanged();     // Refresh lại UI ngay
+        await SelectPageNoChanged(page);
+        /* StateHasChanged(); */     // Refresh lại UI ngay
+    }
+
+    private void OnSearchBlur(FocusEventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(FilterText))
+        {
+            // Nếu trống thì show toàn bộ
+            FilteredData = Data;
+        }
+        else
+        {
+            // Filter đơn giản theo tên hoặc mã
+            FilteredData = Data
+                .Where(c => c.customer_name.Contains(FilterText, StringComparison.OrdinalIgnoreCase)
+                         || c.customer_code.Contains(FilterText, StringComparison.OrdinalIgnoreCase)
+                         || c.tel.Contains(FilterText, StringComparison.OrdinalIgnoreCase)
+                         || c.email.Contains(FilterText, StringComparison.OrdinalIgnoreCase)
+                         || c.address1.Contains(FilterText, StringComparison.OrdinalIgnoreCase)
+                         || c.comment.Contains(FilterText, StringComparison.OrdinalIgnoreCase)
+                ).ToList();
+        }
+    }
+
+    private async Task LoadContact(CustomerModel customer)
+    {
+        if (customer.contacts_loaded || customer.is_loading_contacts)
+            return;
+
+        customer.is_loading_contacts = true;
+
+        StateHasChanged(); // refresh UI để hiện spinner
+
+        try
+        {
+
+            dynamic dParam = new System.Dynamic.ExpandoObject();
+            dParam.company_id = CompanyId;
+            dParam.customer_id = customer.customer_id;
+
+            APIResultDataModel resultData = await DataService.GetDataSimple(dParam, "CUST_FET_CONTACT_W");
+
+            if (resultData != null && resultData.data_details != null)
+            {
+                customer.contacts = System.Text.Json.JsonSerializer.Deserialize<List<CustContactModel>>(resultData.data_details.ToString());
+            }
+            else
+            {
+                customer.contacts = new();
+            }
+        }
+        finally
+        {
+            customer.is_loading_contacts = false;
+            customer.contacts_loaded = true;
+        }
+
+        StateHasChanged();
+    }
+
+}

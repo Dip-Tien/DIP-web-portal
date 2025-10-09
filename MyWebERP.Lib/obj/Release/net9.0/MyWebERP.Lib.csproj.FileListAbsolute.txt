@@ -1,0 +1,11 @@
+D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Lib\bin\Release\net9.0\MyWebERP.Lib.deps.json
+D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Lib\bin\Release\net9.0\MyWebERP.Lib.dll
+D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Lib\bin\Release\net9.0\MyWebERP.Lib.pdb
+D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Lib\obj\Release\net9.0\MyWebERP.Lib.GeneratedMSBuildEditorConfig.editorconfig
+D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Lib\obj\Release\net9.0\MyWebERP.Lib.AssemblyInfoInputs.cache
+D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Lib\obj\Release\net9.0\MyWebERP.Lib.AssemblyInfo.cs
+D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Lib\obj\Release\net9.0\MyWebERP.Lib.csproj.CoreCompileInputs.cache
+D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Lib\obj\Release\net9.0\MyWebERP.Lib.dll
+D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Lib\obj\Release\net9.0\refint\MyWebERP.Lib.dll
+D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Lib\obj\Release\net9.0\MyWebERP.Lib.pdb
+D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Lib\obj\Release\net9.0\ref\MyWebERP.Lib.dll

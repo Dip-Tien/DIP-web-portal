@@ -1,0 +1,59 @@
+﻿@using MyWebERP.Data;
+@code {
+
+    protected string FormTitle = "Thêm dữ liệu";
+
+    [Inject] protected Microsoft.Extensions.Localization.IStringLocalizer Language { get; set; }
+
+    [Parameter] public bool Visible { get; set; }
+    [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
+    [Parameter] public SizeMode? SizeMode { get; set; }
+    
+
+    [Parameter] public string CompanyId { get; set; }
+    [Parameter] public string EditDataId { get; set; }
+    [Parameter] public EditFormStatus FormStatus { get; set; }
+
+    // [Parameter] public string CompanyMenuId { get; set; }
+    // [Parameter] public string DataCode { get; set; }
+    // [Parameter] public string IdColumnName { get; set; }
+    // [Parameter] public string FetSingleAPICode { get; set; }
+    // [Parameter] public string InsAPICode { get; set; }
+    // [Parameter] public string UpdAPICode { get; set; }
+    [Parameter] public MyWebERP.Model.MenuItem MenuItem { get; set; }
+
+    [Parameter] public Blazored.LocalStorage.ILocalStorageService LocalStorageService { get; set; }
+    [Parameter] public Services.IDataService DataService { get; set; }
+
+    [Parameter] public EventCallback<string> CompanyIdChanged { get; set; }
+    [Parameter] public EventCallback<EditFormStatus> FormStatusChanged { get; set; }
+
+    // [Parameter] public EventCallback<string> CompanyMenuIdChanged { get; set; }
+    // [Parameter] public EventCallback<string> FetSingleAPICodeChanged { get; set; }
+    // [Parameter] public EventCallback<string> InsAPICodeChanged { get; set; }
+    // [Parameter] public EventCallback<string> UpdAPICodeChanged { get; set; }
+    // [Parameter] public EventCallback<string> DataCodeChanged { get; set; }
+    // [Parameter] public EventCallback<string> IdColumnNameChanged { get; set; }
+    [Parameter] public EventCallback<string> EditDataIdChanged { get; set; }
+    [Parameter] public EventCallback<MyWebERP.Model.MenuItem> MenuItemChanged { get; set; }
+
+    protected string MyErrorMessage = "";
+    protected bool isXSmallScreen;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        MyErrorMessage = "";
+    }
+
+    protected virtual async Task NewItem_Click()
+    {
+        FormStatus = EditFormStatus.NEW;
+    }
+    protected virtual async Task EditItem_Click()
+    {
+        FormStatus = EditFormStatus.EDIT;
+    }
+    protected virtual async Task DeleteItem_Click()
+    {
+    }
+}

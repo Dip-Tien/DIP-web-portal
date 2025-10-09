@@ -1,0 +1,154 @@
+﻿@using MyWebERP.Model
+
+@inject Microsoft.Extensions.Localization.IStringLocalizer Language;
+
+@typeparam TValue
+
+@inherits BaseClasses.CustCategoryLookup<TValue>
+
+<div class="position-relative">
+    <div class="@CssClass" id="@DropdownId">
+        <DxTextBox Text="@CurrentText"
+                   TextChanged="OnSearchTextChanged"
+                   ValidationEnabled="false"
+                   NullText="@Language["Chọn nhóm khách"]"
+                   CssClass="w-100"
+                   InputDelay="300"
+                   BindValueMode="BindValueMode.OnDelayedInput">
+            <Buttons>
+                <DxEditorButton IconCssClass="bi bi-x-lg text-muted" 
+                                Visible="IsPopupVisible && !string.IsNullOrEmpty(SearchText)"
+                                Click="@(() => SearchText = string.Empty)" />
+
+                @if (CheckLookupAddNew("CUST_CATE_LOOKUP_W") == true)
+                {
+                    <DxEditorButton IconCssClass="toolbar-new"
+                                    tabindex="-1"
+                                    Tooltip="@Language["Thêm nhóm khách hàng"]"
+                                    Click="@(_ => OnCustCategoryAddButtonClick())" />
+                }
+                @if (CheckLookupEdit("CUST_CATE_LOOKUP_W") == true)
+                {
+                    <DxEditorButton IconCssClass="toolbar-edit"
+                                    tabindex="-1"
+                                    Tooltip="@Language["Sửa nhóm khách hàng"]"
+                                    Click="@(_ => OnCustCategoryEditButtonClick())" />
+                }
+                <DxEditorButton IconCssClass="bi bi-chevron-down"
+                                Click="@ToggleDropdown" />
+            </Buttons>
+        </DxTextBox>
+
+    </div>
+
+    <DxDropDown @bind-IsOpen="@IsPopupVisible"
+                CloseOnOutsideClick="true"
+                PositionTarget="@($"#{DropdownId}")"
+                PositionMode="DropDownPositionMode.Bottom"
+                Width="350px"
+                CssClass="shadow-lg border-0 rounded-3 p-0 mt-1"
+                BodyCssClass="p-0">
+        <BodyContentTemplate>
+            <div class="list-group list-group-flush" style="max-height:300px; overflow-y:auto;">
+                @if (IsLoading)
+                {
+                    <div class="text-center text-muted py-3 small">@($"{Language["Đang tải dữ liệu"]}...")</div>
+                }
+                else if (!FilteredList.Any())
+                {
+                    <div class="text-center text-muted py-3 small">@Language["Không tìm thấy dữ liệu"]</div>
+                }
+                else
+                {
+                    @foreach (var item in FilteredList)
+                    {
+                        <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center border-0 border-bottom py-2 px-3"
+                             style="cursor:pointer;"
+                             @onclick="@(() => SelectItem(item))">
+                            <div class="flex-grow-1">
+                                <div class="fw-semibold text-truncate" style="max-width: 280px;">@item.cust_category_name</div>
+                                @if (!string.IsNullOrWhiteSpace(item.comment))
+                                {
+                                    <div class="text-muted small">@item.comment</div>
+                                }
+                            </div>
+                            <i class="bi bi-chevron-right text-muted small ms-2"></i>
+                        </div>
+                    }
+                }
+            </div>
+        </BodyContentTemplate>
+    </DxDropDown>
+</div>
+
+
+
+
+@code {
+
+    [Inject] IJSRuntime JS { get; set; } = default!;
+
+    // [Parameter] public string ParentID { get; set; } = string.Empty;
+
+    bool SkipFirstFilter = false; // 👈 cờ kiểm soát
+    string _searchText = string.Empty;
+
+    string CurrentText => IsPopupVisible ? SearchText : SelectedItem?.cust_category_name ?? string.Empty;
+
+    protected override string SearchText
+    {
+        get => IsPopupVisible ? _searchText : SelectedItem?.cust_category_name ?? string.Empty;
+        set
+        {
+            // Nếu vừa mở dropdown mà người dùng chưa gõ gì => bỏ qua filter
+            if (SkipFirstFilter && value == SelectedItem?.cust_category_name)
+                return;
+
+            _searchText = value;
+        }
+    }
+
+
+    private async Task ToggleDropdown()
+    {
+        IsPopupVisible = !IsPopupVisible;
+
+        if (IsPopupVisible)
+        {
+            // Lần đầu mở: hiển thị giá trị đã chọn
+            _searchText = SelectedItem?.cust_category_name ?? string.Empty;
+            SkipFirstFilter = true; // 👈 set cờ để không filter ngay
+        }
+        else
+        {
+            SkipFirstFilter = false;
+        }
+    }
+
+    protected override void OnSearchTextChanged(string value)
+    {
+        base.OnSearchTextChanged(value);
+
+        if(IsPopupVisible == false)
+        {
+            IsPopupVisible = true;
+        }
+
+        SkipFirstFilter = false; // 👈 tắt cờ, từ đây trở đi filter hoạt động bình thường
+        _searchText = value;
+
+    }
+
+    protected override async Task SelectItem(CustCategoryLookupModel item)
+    {
+        await base.SelectItem(item);
+        SearchText = "";
+    }
+
+    protected override IEnumerable<CustCategoryLookupModel> FilteredList =>
+        (string.IsNullOrWhiteSpace(SearchText) | SkipFirstFilter)
+        ? Data
+        : Data.Where(i =>
+            i.cust_category_name.Contains(SearchText, StringComparison.OrdinalIgnoreCase)
+            || i.comment.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
+}

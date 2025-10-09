@@ -1,0 +1,105 @@
+﻿@using MyWebERP.Base.Data
+@inject IJSRuntime JS
+
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="@Size" height="@Size" viewBox="0 0 24 24" fill="none">
+    @if (ShowCircle)
+    {
+        @if (UseStrokeOnly)
+        {
+            <circle cx="12" cy="12" r="11" fill="none"
+                    stroke="@ResolvedBgColor" stroke-width="2" />
+        }
+        else
+        {
+            <circle cx="12" cy="12" r="12" fill="@ResolvedBgColor" />
+        }
+    }
+
+    <g transform="@IconTransform">
+        @RawSvgPath
+    </g>
+</svg>
+
+@code {
+    [Parameter] public int Size { get; set; } = 24;
+    [Parameter] public double IconRatio { get; set; } = 0.6;
+    [Parameter] public string IconColor { get; set; } = "white";
+    [Parameter] public string? BgColor { get; set; }
+    [Parameter] public bool UseStrokeOnly { get; set; } = false;
+    [Parameter] public AppIcon Icon { get; set; } = AppIcon.Home;
+    [Parameter] public bool ShowCircle { get; set; } = true; // 👈 MỚI
+
+    private string ResolvedBgColor = "#0d6efd";
+
+    private string IconTransform => string.Format(
+        System.Globalization.CultureInfo.InvariantCulture,
+        "translate({0} {0}) scale({1})",
+        12 * (1 - IconRatio),
+        IconRatio
+    );
+
+    private MarkupString RawSvgPath => new(GetIconSvgPath(Icon.ToIconName(), IconColor));
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!ShowCircle) return; // không cần lấy màu nếu không vẽ vòng tròn
+
+        if (!string.IsNullOrWhiteSpace(BgColor))
+        {
+            ResolvedBgColor = BgColor!;
+        }
+        else
+        {
+            var color = await JS.InvokeAsync<string>("getCssVariable", "--bs-primary");
+            if (!string.IsNullOrWhiteSpace(color))
+                ResolvedBgColor = color;
+        }
+    }
+
+    private static string GetIconSvgPath(string name, string color)
+    {
+        return name switch
+        {
+            "home" => $"<path d='M3 12 L12 3 L21 12 V21 H15 V15 H9 V21 H3 Z' fill='{color}' />",
+            "user" => $"<path d='M12 12a5 5 0 1 0-0.001-10.001A5 5 0 0 0 12 12zm0 2c-4 0-6 2-6 4v2h12v-2c0-2-2-4-6-4z' fill='{color}' />",
+            "bell" => $"<path d='M18 8a6 6 0 0 0-12 0c0 7-3 7-3 7h18s-3 0-3-7zM13.73 21a2 2 0 0 1-3.46 0' fill='{color}' />",
+            "search" => $@"<circle cx='11' cy='11' r='8' stroke='{color}' stroke-width='2' fill='none' />
+               <line x1='21' y1='21' x2='16.65' y2='16.65' stroke='{color}' stroke-width='2' stroke-linecap='round' />",
+            "menu" => $@"""<rect x='4' y='6' width='16' height='2' rx='1' fill='{color}' />
+                <rect x='4' y='11' width='16' height='2' rx='1' fill='{color}' />
+                <rect x='4' y='16' width='16' height='2' rx='1' fill='{color}' />""",
+            "plus" => $@"<line x1='12' y1='5' x2='12' y2='19' stroke='{color}' stroke-width='2' stroke-linecap='round' />
+             <line x1='5' y1='12' x2='19' y2='12' stroke='{color}' stroke-width='2' stroke-linecap='round' />",
+
+            "check" => $@"<polyline points='20 6 9 17 4 12' fill='none' stroke='{color}' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />",
+
+            "edit" => $@"<path d='M12 20h9' stroke='{color}' stroke-width='2' stroke-linecap='round'/>
+             <path d='M16.5 3.5l4 4L7 21H3v-4L16.5 3.5z' fill='none' stroke='{color}' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />",
+
+            "trash" => $@"<polyline points='3 6 5 6 21 6' stroke='{color}' stroke-width='2' stroke-linecap='round' />
+              <path d='M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6' stroke='{color}' stroke-width='2' />
+              <path d='M10 11v6M14 11v6' stroke='{color}' stroke-width='2' />",
+
+            "arrow-left" => $@"<line x1='19' y1='12' x2='5' y2='12' stroke='{color}' stroke-width='2' stroke-linecap='round' />
+                   <polyline points='12 19 5 12 12 5' fill='none' stroke='{color}' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />",
+
+            "arrow-right" => $@"<line x1='5' y1='12' x2='19' y2='12' stroke='{color}' stroke-width='2' stroke-linecap='round' />
+                    <polyline points='12 5 19 12 12 19' fill='none' stroke='{color}' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />",
+
+            "log-in" => $@"<path d='M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4' stroke='{color}' stroke-width='2' fill='none'/>
+               <polyline points='10 17 15 12 10 7' fill='none' stroke='{color}' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />",
+
+            "log-out" => $@"<path d='M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4' stroke='{color}' stroke-width='2' fill='none'/>
+                <polyline points='16 17 21 12 16 7' fill='none' stroke='{color}' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />",
+
+            "settings" => $@"<circle cx='12' cy='12' r='3' stroke='{color}' stroke-width='2' fill='none' />
+                 <path d='M19.4 15a1.65 1.65 0 0 0 .33 1.82l0 0a2 2 0 1 1-2.83 2.83l0 0a1.65 1.65 0 0 0-1.82.33 1.65 1.65 0 0 0-.5 1.17V21a2 2 0 1 1-4 0v0a1.65 1.65 0 0 0-.5-1.17 1.65 1.65 0 0 0-1.82-.33l0 0a2 2 0 1 1-2.83-2.83l0 0a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.17-.5H3a2 2 0 1 1 0-4h0a1.65 1.65 0 0 0 1.17-.5 1.65 1.65 0 0 0 .33-1.82l0 0a2 2 0 1 1 2.83-2.83l0 0a1.65 1.65 0 0 0 1.82-.33 1.65 1.65 0 0 0 .5-1.17V3a2 2 0 1 1 4 0v0a1.65 1.65 0 0 0 .5 1.17 1.65 1.65 0 0 0 1.82.33l0 0a2 2 0 1 1 2.83 2.83l0 0a1.65 1.65 0 0 0-.33 1.82c.12.38.31.74.5 1.17v0a2 2 0 1 1 0 4z' stroke='{color}' stroke-width='2' fill='none' />",
+
+            "eye" => $@"<path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z' fill='none' stroke='{color}' stroke-width='2'/>
+            <circle cx='12' cy='12' r='3' fill='none' stroke='{color}' stroke-width='2' />",
+
+            _ => $"<text x='6' y='16' font-size='10' fill='{color}'>?</text>"
+        };
+    }
+}

@@ -1,0 +1,97 @@
+﻿@using Microsoft.AspNetCore.Components;
+@using System.Dynamic;
+@* @using System.Text.Json; *@
+@using MyWebERP.Data;
+@using Blazored.LocalStorage;
+@using MyWebERP.Services;
+@using MyWebERP.Model;
+@using DevExpress.Blazor;
+@using MyWebERP.Lib;
+
+@inherits ReportComponentBase
+
+@typeparam TItem
+
+@code {
+    protected DxChart Chart;
+
+    protected List<TItem> Data = new List<TItem>();
+
+    protected List<ChartType> ListChartType = new List<ChartType> { ChartType.Bar, ChartType.Line };
+    protected ChartType SelectedChartType = ChartType.Bar;
+
+    protected bool ChartTypeSelectPopupVisible { get; set; }
+
+    protected override async Task DataAsync()
+    {
+        dynamic _param = new ExpandoObject();
+        _param.company_id = this.ListCompanyIdSelected;
+        _param.company_menu_id = menuItem.CompanyMenuId;
+        _param.date1 = this.Date1;
+        _param.date2 = this.Date2;
+
+        APIResultModel _result = await DataService.CallMyApiSimple(_param, menuItem.FetDataCode);
+
+        Data.Clear();
+
+        if (_result.Status == 0)
+        {
+            // APIResultDataModel _resultData = Newtonsoft.Json.JsonConvert.DeserializeObject<APIResultDataModel>(_result.Data.ToString());
+
+            // if (_resultData.count_of_items > 0)
+            // {
+            //     // Newtonsoft.Json.Linq.JArray array = Newtonsoft.Json.Linq.JArray.Parse(_resultData.data_details.ToString());
+
+            //     // Data = MyWebERP.Data.MyLib.ConvertListJObjectToListExpando(array);
+            //     Data = Newtonsoft.Json.JsonConvert.DeserializeObject < List < TItem >>(_resultData.data_details.ToString());
+            // }
+
+            this.DeserializeResult(_result);
+        }
+
+        //Chart.RefreshData();
+        this.RefreshChart();
+    }
+
+    protected virtual void DeserializeResult(APIResultModel result)
+    {
+        APIResultModel _result = result;
+
+        APIResultDataModel _resultData = Newtonsoft.Json.JsonConvert.DeserializeObject<APIResultDataModel>(_result.Data.ToString());
+
+        if (_resultData.count_of_items > 0)
+        {
+            // Data = MyWebERP.Data.MyLib.ConvertListJObjectToListExpando(array);
+            Data = Newtonsoft.Json.JsonConvert.DeserializeObject<List<TItem>>(_resultData.data_details.ToString());
+        }
+    }
+
+    protected void RefreshChart()
+    {
+        if (Chart != null)
+        {
+            Chart.RefreshData();
+        }
+    }
+
+    protected virtual void chartTypeSelectPopupShow()
+    {
+        ChartTypeSelectPopupVisible = true;
+    }
+
+    protected void ChartTypeConfirmSelection()
+    {
+        ChartTypeSelectPopupVisible = false;
+    }
+
+    protected void ChartTypeCancelSelection()
+    {
+        ChartTypeSelectPopupVisible = false;
+    }
+
+    protected virtual async Task SelectedChartTypeChanged(ChartType type)
+    {
+        SelectedChartType = type;
+        RefreshChart();
+    }
+}

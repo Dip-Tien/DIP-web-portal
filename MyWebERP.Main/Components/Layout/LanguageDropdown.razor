@@ -1,0 +1,117 @@
+﻿@inject NavigationManager NavigationManager
+@inject IHttpContextAccessor HttpContextAccessor
+
+<style>
+    .language-dropdown {
+        display: flex;
+        align-items: center;
+        height: 100%;
+    }
+
+        .language-dropdown .dropdown-toggle {
+            background-color: transparent;
+            border: none;
+            font-size: 0.85rem;
+            padding: 2px 8px;
+            line-height: 1.2;
+        }
+
+        .language-dropdown .dropdown-menu {
+            min-width: 140px;
+            font-size: 0.85rem;
+        }
+</style>
+
+<div class="language-dropdown dropdown">
+    <button class="btn dropdown-toggle d-flex align-items-center"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false">
+
+        <img src="@GetFlagSrc(CurrentCulture)" alt="Flag"
+             style="height: 1.2em; vertical-align: middle;"
+             class="me-1" />
+
+        <span class="lang-name">@GetDisplayName(CurrentCulture)</span>
+    </button>
+
+    <ul class="dropdown-menu dropdown-menu-end">
+        @foreach (var lang in Languages)
+        {
+            <li>
+                <a href="#" class="dropdown-item d-flex align-items-center" @onclick="() => ChangeLanguage(lang.Code)">
+                    <img src="@GetFlagSrc(lang.Code)"
+                         alt="@lang.Code"
+                         width="16" height="16"
+                         class="me-2"
+                         style="object-fit: cover; vertical-align: middle;" />
+
+                    <span>@lang.Name</span>
+                </a>
+            </li>
+        }
+    </ul>
+
+</div>
+
+@code {
+    private string CurrentCulture = "vi-VN";
+
+    private List<(string Code, string Name)> Languages = new()
+    {
+        ("vi-VN", "Tiếng Việt"),
+        ("en-US", "English")
+    };
+
+    protected override void OnInitialized()
+    {
+        // var cookie = HttpContextAccessor.HttpContext?.Request.Cookies[".AspNetCore.Culture"];
+        // if (!string.IsNullOrEmpty(cookie))
+        // {
+        //     var culturePart = cookie.Split('|').FirstOrDefault(p => p.StartsWith("c="));
+        //     if (!string.IsNullOrEmpty(culturePart))
+        //     {
+        //         CurrentCulture = culturePart.Replace("c=", "");
+        //     }
+        // }
+
+        // Lệnh này up lên server mới chạy đúng
+        CurrentCulture = System.Globalization.CultureInfo.CurrentUICulture.Name;
+    }
+
+    private MarkupString GetFlag(string culture)
+    {
+        var flagFile = culture switch
+        {
+            "vi-VN" => "vn.svg",
+            "en-US" => "us.svg",
+            _ => "vn.svg"
+        };
+
+        return (MarkupString)$@"<img src=""/images/{flagFile}"" alt=""{culture}"" width=""16"" class=""me-2"" style=""height: 1.2em; vertical - align: middle; ""/>";
+    }
+
+    private string GetFlagSrc(string culture)
+    {
+        var flagFile = culture switch
+        {
+            "vi-VN" => "vn.svg",
+            "en-US" => "us.svg",
+            _ => "vn.svg"
+        };
+
+        return $"/images/{flagFile}";
+    }
+
+    private string GetDisplayName(string culture)
+        => Languages.FirstOrDefault(l => l.Code == culture).Name ?? culture;
+
+    private void ChangeLanguage(string culture)
+    {
+        if (culture == CurrentCulture)
+            return;
+
+        var returnUrl = Uri.EscapeDataString(NavigationManager.Uri);
+        NavigationManager.NavigateTo($"/set-culture?culture={culture}&returnUrl={returnUrl}", forceLoad: true);
+    }
+}

@@ -1,0 +1,69 @@
+﻿
+@using MyWebERP.Model;
+
+<DxPopup @bind-Visible="@IsPopupVisible" Width="400px" ShowCloseButton="true" CloseOnEscape="true" CloseOnOutsideClick="true">
+    <DxTreeView Data="@ListCompany"
+    CheckAllVisible="true"
+    CheckMode="TreeViewCheckMode.Multiple"
+    CheckAllText="Chọn hết"
+    CheckedChanged="@OnCheckedChanged"
+    @ref="treeView">
+        <DataMappings>
+            <DxTreeViewDataMapping Text="CompanyName" Key="CompanyId" ParentKey="ParentId" />
+        </DataMappings>
+    </DxTreeView>
+    <div class="mt-2" style="text-align:right;">
+        <DxButton Text="Xác nhận" Click="@ConfirmSelection" />
+        <DxButton Text="Hủy" Click="@CancelSelection" />
+    </div>
+</DxPopup>
+
+@code
+{
+    DxTreeView treeView;
+
+
+
+    string SelectedNames = "";
+
+    // Danh sách node đang checked
+    List<CompanyItem> CheckedNodes = new();
+
+    [Parameter] public List<CompanyItem> ListCompany { get; set; }
+    [Parameter] public bool IsPopupVisible { get; set; }
+
+    void OpenPopup()
+    {
+        IsPopupVisible = true;
+    }
+
+    void ConfirmSelection()
+    {
+        // Hiển thị tên node đã chọn
+        SelectedNames = string.Join(", ", CheckedNodes.Select(x => x.CompanyName));
+        IsPopupVisible = false;
+    }
+
+    void CancelSelection()
+    {
+        IsPopupVisible = false;
+    }
+
+    void OnCheckedNodesChanged(IEnumerable<object> checkedNodes)
+    {
+        // Cast các node checked về ItemModel
+        CheckedNodes = checkedNodes.Cast<CompanyItem>().ToList();
+    }
+
+    private void OnCheckedChanged(TreeViewCheckedChangedEventArgs e)
+    {
+        CheckedNodes = e.CheckedItems
+            .OfType<DevExpress.Blazor.Navigation.Internal.TreeViewItemModel>()
+            .Select(x => x.Data)
+            .OfType<CompanyItem>()
+            .ToList();
+    }
+
+    // Lấy danh sách ID các node đã chọn
+    public List<string> GetSelectedIds() => CheckedNodes.Select(x => x.CompanyId).ToList();
+}

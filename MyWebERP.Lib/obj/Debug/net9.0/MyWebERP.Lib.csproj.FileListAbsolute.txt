@@ -1,0 +1,16 @@
+D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Lib\bin\Debug\net9.0\MyWebERP.Lib.deps.json
+D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Lib\bin\Debug\net9.0\MyWebERP.Lib.dll
+D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Lib\bin\Debug\net9.0\MyWebERP.Lib.pdb
+D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Lib\obj\Debug\net9.0\MyWebERP.Lib.GeneratedMSBuildEditorConfig.editorconfig
+D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Lib\obj\Debug\net9.0\MyWebERP.Lib.AssemblyInfoInputs.cache
+D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Lib\obj\Debug\net9.0\MyWebERP.Lib.AssemblyInfo.cs
+D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Lib\obj\Debug\net9.0\MyWebERP.Lib.csproj.CoreCompileInputs.cache
+D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Lib\obj\Debug\net9.0\MyWebERP.Lib.dll
+D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Lib\obj\Debug\net9.0\refint\MyWebERP.Lib.dll
+D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Lib\obj\Debug\net9.0\MyWebERP.Lib.pdb
+D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Lib\obj\Debug\net9.0\ref\MyWebERP.Lib.dll
+D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Main\bin\Debug\net9.0\MyWebERP.Lib.deps.json
+D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Main\bin\Debug\net9.0\MyWebERP.Lib.dll
+D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Main\bin\Debug\net9.0\MyWebERP.Lib.pdb
+D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Lib\obj\Debug\net9.0\MyWebERP.Lib.csproj.AssemblyReference.cache
+D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Lib\obj\Debug\net9.0\MyWebERP.1E631D55.Up2Date

@@ -1,0 +1,28 @@
+﻿<DxPopup Visible="@Visible"
+CloseOnOutsideClick="false"
+ShowFooter="false"
+ShowHeader="true"
+ShowCloseButton = "true"
+HeaderText=@FormTitle
+Width="80vw"
+VisibleChanged="@VisibleChanged">
+    <BodyContentTemplate>
+        <MyReportViewer ReportParam="@ReportParam"></MyReportViewer>
+    </BodyContentTemplate>
+</DxPopup>
+
+@code
+{
+    readonly string FormId = "ReportViewPopup";
+    protected string FormTitle = "Xem";
+    [Parameter] public bool Visible { get; set; }
+    [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
+    [Parameter] public SizeMode? SizeMode { get; set; }
+    [Parameter] public string ReportParam { get; set; }
+    [Parameter] public Model.MenuItem MenuItem { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        FormTitle = MenuItem.Title;
+    }
+}

@@ -1,0 +1,175 @@
+﻿@using Blazored.LocalStorage;
+@using Model;
+@using Data;
+@using MyWebERP.Base.Components.Pages
+
+@inherits MyEditFormBase
+
+@code {
+
+    protected Model.CustomerModel editItem { get; set; } = new Model.CustomerModel();
+    protected bool IsLoading { get; set; } = false;
+
+    protected Boolean CustCategoryEditPopupVisible { get; set; }
+    protected EditFormStatus CustCategoryEditFormStatus { get; set; }
+
+    protected DxTextBox txtCustomerCode;
+
+    protected List<GenderLookupModel> ListGender;
+    protected List<VocativeLookupModel> ListVocative;
+    protected List<ProvinceLookupModel> ListProvince;
+    protected List<DistrictLookupModel> ListDistrict;
+    protected List<CustCategoryLookupModel> ListCategory;
+
+    protected async Task InitCfg()
+    {
+        ListCategory = await DataService.LookupCode<CustCategoryLookupModel>(CompanyId, 1, MenuItem.CompanyMenuId, "CUST_CATE_LOOKUP_W");
+        ListGender = await DataService.LookupCode<GenderLookupModel>(CompanyId, 1, MenuItem.CompanyMenuId, "GENDER_LOOKUP");
+        ListVocative = await DataService.LookupCode<VocativeLookupModel>(CompanyId, 1, MenuItem.CompanyMenuId, "VOCATIVE_LOOKUP");
+        ListProvince = await DataService.LookupCode<ProvinceLookupModel>(CompanyId, 1, MenuItem.CompanyMenuId, "PROVINCE_LOOKUP");
+        ListDistrict = await DataService.LookupCode<DistrictLookupModel>(CompanyId, 1, MenuItem.CompanyMenuId, "DISTRICT_LOOKUP");
+        ListLookup = await DataService.GetLookup("CUST_CATE_LOOKUP_W,GENDER_LOOKUP,VOCATIVE_LOOKUP");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        IsLoading = true;
+        MyErrorMessage = "";
+
+        await InitCfg();
+
+        if(FormStatus == Data.EditFormStatus.NEW)
+        {
+            editItem.data_code = MenuItem.DataCode;
+            editItem.company_id = CompanyId;
+            editItem.customer_code = await DataService.CreateDataCode(CompanyId, MenuItem.DataCode, "");
+        }
+        else
+        {
+            string _sFetSingleParam = await Data.MyLib.CreateFetSingleParam(CompanyId, MenuItem.IdColumnName, EditDataId);
+            Model.APIResultModel _resultFetSingle = await DataService.CallMyApiSimple(_sFetSingleParam, MenuItem.FetSingleDataCode);
+
+            if (_resultFetSingle.Status == 0)
+            {
+                string _sData = _resultFetSingle.Data.ToString();
+                Model.CustomerModel custTmp = System.Text.Json.JsonSerializer.Deserialize<Model.CustomerModel>(_sData);
+
+                if (custTmp != null)
+                {
+                    await Data.MyLib.MapObject<Model.CustomerModel>(editItem, custTmp);
+                }
+                else
+                {
+                    MyErrorMessage = "Không tìm thấy [Khách hàng] cần sửa. Có thể đã bị xóa.";
+                }
+            }
+        }
+
+        IsLoading = false;
+    }
+
+    // protected override void OnAfterRender(bool firstRender)
+    // {
+    //     // focus vào ô này
+    //     txtCustomerCode.FocusAsync();
+    // }
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Phải nhớ cho vào đây, kẻo mỗi lần enter nó render lại thì nó lại nhảy về đầu tiên
+            await txtCustomerCode.FocusAsync();
+        };
+
+        await base.OnAfterRenderAsync(firstRender);
+
+    }
+
+    protected async Task OnNewDataCodeButtonClick()
+    {
+        editItem.customer_code = await DataService.CreateDataCode(CompanyId, MenuItem.DataCode, "");
+    }
+
+    protected virtual async Task OnProvinceLookupSelected(ProvinceLookupModel province)
+    {
+        if (IsLoading == false)
+        {
+            ListDistrict = await DataService.LookupCode<DistrictLookupModel>(CompanyId, 1, province.province_id, 0, MenuItem.CompanyMenuId, "DISTRICT_LOOKUP");
+            editItem.district_id = "";
+            editItem.ward_id = "";
+        }
+    }
+
+    protected async Task OnDistrictLookupSelected(DistrictLookupModel district)
+    {
+        if (IsLoading == false)
+        {
+            // selectedProvince = province;
+            //editItem.ward_id = "";
+
+            // if(txtAddress != null)
+            // {
+            //     await Task.Delay(100); // đợi popup đóng hẳn
+            //     //await txtAddress.FocusAsync();
+            //     await JS.InvokeVoidAsync("focusElement", "txtAddress");
+            // }
+
+            await Task.Delay(100); // đợi popup đóng hẳn
+                                   //await txtAddress.FocusAsync();
+            await JS.InvokeVoidAsync("focusElement", "txtAddress");
+        }
+    }
+
+    protected async Task SelectCategoryChanged(SelectedDataItemChangedEventArgs<CustCategoryLookupModel> cate)
+    {
+        //editItem.cust_category_name = cate.DataItem.cust_category_name;
+    }
+
+    protected void OnCustCategoryAddButtonClick()
+    {
+        CustCategoryEditPopupVisible = true;
+        CustCategoryEditFormStatus = EditFormStatus.NEW;
+    }
+
+    protected async Task OnCustCategoryEditButtonClick()
+    {
+        if (String.IsNullOrEmpty(editItem.cust_category_id))
+        {
+            return;
+        }
+        else
+        {
+            CustCategoryEditPopupVisible = true;
+            CustCategoryEditFormStatus = EditFormStatus.EDIT;
+        }
+    }
+
+    protected async Task OnCustCategorySubmit(CustCategoryModel custCategory)
+    {
+        // Nạp lại
+        ListCategory = await DataService.LookupCode<CustCategoryLookupModel>(CompanyId, 1, MenuItem.CompanyMenuId, "CUST_CATE_LOOKUP_W");
+        editItem.cust_category_id = custCategory.cust_category_id;
+    }
+
+    protected void KeyDownHandler(KeyboardEventArgs args)
+    {
+        // if (args.Key == "Backspace" && CurrentValueAsString.Length >= 1)
+        // {
+        //     CurrentValueAsString = CurrentValueAsString.Substring(0,
+        //                                CurrentValueAsString.Length - 1);
+        // }
+    }
+
+    protected void KeyPressHandler(KeyboardEventArgs args)
+    {
+
+        if (args.Key == "Enter")
+        {
+            
+            return;
+        }
+    }
+
+}

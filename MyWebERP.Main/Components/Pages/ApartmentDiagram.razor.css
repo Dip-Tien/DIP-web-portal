@@ -1,0 +1,22 @@
+﻿/*.tooltip-div {
+    position: absolute;
+    z-index: 1000;
+    background-color: white;
+    border: 1px solid gray;
+    border-radius: 6px;
+    padding: 5px;
+    font-size: 12px;
+    pointer-events: none;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+}
+*/
+
+.tooltip-div {
+    position: fixed; /* phải là fixed */
+    z-index: 9999;
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 6px;
+    border-radius: 6px;
+    pointer-events: none;
+}

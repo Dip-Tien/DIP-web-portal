@@ -1,0 +1,60 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+
+@inject IConfiguration Config;
+@inject AuthenticationStateProvider AuthProvider
+@inject NavigationManager NavigationManager
+
+
+<Router AppAssembly="@typeof(Program).Assembly"
+        AdditionalAssemblies="AdditionalAssemblies">
+    @* <Found Context="routeData">
+        <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+        </AuthorizeRouteView>
+    </Found> *@
+
+    <Found Context="routeData">
+        <!-- 1. Xác định breakpoint -->
+        <DxLayoutBreakpoint DeviceSize="DeviceSize.XSmall"
+                            @bind-IsActive="@isXSmallScreenX" />
+
+        <!-- 2. Dùng layout phù hợp với kích thước -->
+        <AuthorizeRouteView RouteData="@routeData"
+                            DefaultLayout="@CurrentLayout" />
+    </Found>
+
+    <NotFound>
+        <CascadingAuthenticationState>
+            <LayoutView Layout="@typeof(MainLayout)">
+                <p>Sorry, there's nothing at this address.</p>
+            </LayoutView>
+        </CascadingAuthenticationState>
+    </NotFound>
+</Router>
+
+
+
+@code
+{
+    System.Reflection.Assembly[] AdditionalAssemblies;
+
+    private bool isXSmallScreenX;   // cập nhật tự động nhờ @bind
+
+    // 3. Chuyển layout động
+    private Type CurrentLayout =>
+        isXSmallScreenX ? typeof(MainLayoutMobile)
+                        : typeof(MainLayout);
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if(!user.Identity.IsAuthenticated && !NavigationManager.Uri.EndsWith("/login", StringComparison.OrdinalIgnoreCase))
+        {
+            NavigationManager.NavigateTo("/login", true);
+        }
+
+        string assemblyNames = Config.GetValue<string>("AdditionalAssemblies");
+        AdditionalAssemblies = MyWebERP.Data.MyLib.GetAdditionalAssemblies(assemblyNames);
+    }
+}

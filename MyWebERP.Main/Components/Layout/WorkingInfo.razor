@@ -1,0 +1,156 @@
+﻿@* @page "/workinginfo" *@
+@using Microsoft.AspNetCore.Components.Authorization @*  Có lệnh này mới dùng được @context *@
+@using Blazored.LocalStorage;
+@using MyWebERP.Model;
+@using MyWebERP.Services
+
+@inherits LayoutComponentBase
+
+@* @inject NavigationManager NavigationManager *@
+@inject ILocalStorageService LocalStorageService
+@inject Data.AppStateManager AppState;
+@inject Microsoft.Extensions.Localization.IStringLocalizer Lang
+@inject IJSRuntime JS
+
+@rendermode InteractiveServer
+
+<CascadingAuthenticationState>
+    <AuthorizeView>
+        <Authorized>
+            <div class="d-flex justify-content-between align-items-start px-3 py-2 border-bottom" style="font-size: smaller;">
+                <!-- Bên trái: Đơn vị & năm -->
+                <div>
+                    <div>
+                        @Lang["Đơn vị"]: <b><a href="/selectcompany" title="@Lang["Chọn chi nhánh làm việc"]">@Company?.CompanyName</a></b>
+                    </div>
+                    <div>
+                        @Lang["Năm làm việc"]: <a href="/selectyear" title="@Lang["Chọn năm làm việc"]">@Year</a>
+                    </div>
+                </div>
+
+                <!-- Ở giữa: Để trống cho tùy biến sau -->
+                <div>
+                    <!-- có thể thêm nội dung hoặc để rỗng -->
+                    
+                    @* Chọn màu chủ đạo. *@
+                    @* <PrimaryColorPicker /> *@
+                    @* @if(User?.username == "1")
+                    {
+                        <button class="btn btn-primary me-2" @onclick="InitSip">Init</button>
+                        <button class="btn btn-success me-2" @onclick="CallSip">Call</button>
+                        <button class="btn btn-danger" @onclick="HangupSip">Hangup</button>
+                    } *@
+                    
+                </div>
+
+                <!-- Bên phải: Ngôn ngữ + Xin chào -->
+                <!-- Bên phải: cột đứng -->
+                <div class="d-flex flex-column align-items-end text-end" style="gap: 4px;">
+                    
+                    <div>
+                        @Lang["Xin chào"],
+                        <a href="/login" title="@Lang["Đăng nhập lại"]">@User?.display_name</a>
+                        <a href="/logout">@Lang["Đăng xuất"]</a>
+                    </div>
+                    <LanguageDropdown />
+                </div>
+            </div>
+
+
+        </Authorized>
+        <NotAuthorized>
+            <NavLink href="/login" class="button-link">
+                <DxButton RenderStyle="@ButtonRenderStyle.Dark" Text="Login" RenderStyleMode="@ButtonRenderStyleMode.Text" CssClass="menu-button"></DxButton>
+            </NavLink>
+        </NotAuthorized>
+    </AuthorizeView>
+</CascadingAuthenticationState>
+
+@code {
+
+
+    [Parameter]
+    public LoginResultModel? User { get; set; }
+    [Parameter]
+    public int? Year { get; set; }
+    [Parameter]
+    public Model.CompanyItem? Company { get; set; }
+
+    [Parameter] public Model.MenuItem CurrentMenuItem { get; set; }
+
+    [Parameter]
+    public EventCallback<LoginResultModel?> UserChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<int?> YearChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<Model.CompanyItem?> CompanyChanged { get; set; }
+
+    // protected string CurrentPath
+    // {
+    //     get
+    //     {
+    //         if (CurrentMenuItem == null) return "";
+
+    //         return CurrentMenuItem.PathTitle;
+    //     }
+    // }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        User = await LocalStorageService.GetItemAsync<LoginResultModel?>(Data.LocalStorageName.USER);
+        Year = await LocalStorageService.GetItemAsync<int?>(Data.LocalStorageName.YEAR);
+        Company = await LocalStorageService.GetItemAsync<Model.CompanyItem?>(Data.LocalStorageName.COMPANY);
+        CurrentMenuItem = AppState.CurrentMenuItem;
+    }
+
+    #region Test tổng đài
+
+    async Task CallPhone()
+    {
+        // Init UA
+        await JS.InvokeVoidAsync("sipInterop.init",
+            "wss://kam-01.api-connect.io:7443/ws", // wsServer = WSS endpoint
+            "sip:20813@kam-01.api-connect.io",            // uri
+            "hMX5tRfH36",                       // password
+            "stun.l.google.com:19302");         // stun server
+
+        // Thực hiện cuộc gọi
+        await JS.InvokeVoidAsync("sipInterop.call", $"sip:0915868279@dip-01.vn");
+
+        // Đợi 10 giây
+        await Task.Delay(10000);
+
+        // Tự động ngắt
+        await JS.InvokeVoidAsync("sipInterop.hangup");
+    }
+
+
+    private string phoneNumber = "0915868279";
+
+    private async Task InitSip()
+    {
+        Console.WriteLine("🔧 Init SIP UA...");
+        await JS.InvokeVoidAsync("sipInterop.init",
+            "wss://kam-01.api-connect.io:7443/ws", // wsServer
+            "sip:20813@kam-01.api-connect.io",     // uri (user)
+            "hMX5tRfH36",                          // password
+            "stun.l.google.com:19302");            // stun server
+    }
+
+    private async Task CallSip()
+    {
+        Console.WriteLine($"📞 Thực hiện gọi: {phoneNumber}");
+        await JS.InvokeVoidAsync("sipInterop.call", $"sip:{phoneNumber}@kam-01.api-connect.io");
+    }
+
+    private async Task HangupSip()
+    {
+        Console.WriteLine("⏹️ Kết thúc cuộc gọi");
+        await JS.InvokeVoidAsync("sipInterop.hangup");
+    }
+
+    #endregion Test tổng đài
+
+}

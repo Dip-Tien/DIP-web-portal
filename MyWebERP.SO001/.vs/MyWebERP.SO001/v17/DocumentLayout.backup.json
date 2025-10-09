@@ -1,0 +1,103 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.SO001\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A9F85BB4-3F89-AF3A-35D8-374ADFD2A892}|MyWebERP.SO001.csproj|d:\\00.works\\mycore\\bms_2024\\myweberp\\myweberp.so001\\components\\pages\\so001smalllist.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A9F85BB4-3F89-AF3A-35D8-374ADFD2A892}|MyWebERP.SO001.csproj|solutionrelative:components\\pages\\so001smalllist.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A9F85BB4-3F89-AF3A-35D8-374ADFD2A892}|MyWebERP.SO001.csproj|d:\\00.works\\mycore\\bms_2024\\myweberp\\myweberp.so001\\components\\pages\\so001list.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A9F85BB4-3F89-AF3A-35D8-374ADFD2A892}|MyWebERP.SO001.csproj|solutionrelative:components\\pages\\so001list.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A9F85BB4-3F89-AF3A-35D8-374ADFD2A892}|MyWebERP.SO001.csproj|d:\\00.works\\mycore\\bms_2024\\myweberp\\myweberp.so001\\components\\pages\\so001editbase.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A9F85BB4-3F89-AF3A-35D8-374ADFD2A892}|MyWebERP.SO001.csproj|solutionrelative:components\\pages\\so001editbase.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A9F85BB4-3F89-AF3A-35D8-374ADFD2A892}|MyWebERP.SO001.csproj|d:\\00.works\\mycore\\bms_2024\\myweberp\\myweberp.so001\\components\\pages\\so001edit.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A9F85BB4-3F89-AF3A-35D8-374ADFD2A892}|MyWebERP.SO001.csproj|solutionrelative:components\\pages\\so001edit.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A9F85BB4-3F89-AF3A-35D8-374ADFD2A892}|MyWebERP.SO001.csproj|d:\\00.works\\mycore\\bms_2024\\myweberp\\myweberp.so001\\components\\pages\\so001listbase.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A9F85BB4-3F89-AF3A-35D8-374ADFD2A892}|MyWebERP.SO001.csproj|solutionrelative:components\\pages\\so001listbase.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SO001SmallList.razor",
+              "DocumentMoniker": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.SO001\\Components\\Pages\\SO001SmallList.razor",
+              "RelativeDocumentMoniker": "Components\\Pages\\SO001SmallList.razor",
+              "ToolTip": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.SO001\\Components\\Pages\\SO001SmallList.razor",
+              "RelativeToolTip": "Components\\Pages\\SO001SmallList.razor",
+              "ViewState": "AgIAAGYAAAAAAAAAAAAAAHEAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-09T08:12:25.128Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "SO001Edit.razor",
+              "DocumentMoniker": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.SO001\\Components\\Pages\\SO001Edit.razor",
+              "RelativeDocumentMoniker": "Components\\Pages\\SO001Edit.razor",
+              "ToolTip": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.SO001\\Components\\Pages\\SO001Edit.razor",
+              "RelativeToolTip": "Components\\Pages\\SO001Edit.razor",
+              "ViewState": "AgIAAMMAAAAAAAAAAAAAANEAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-07T13:30:36.206Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SO001List.razor",
+              "DocumentMoniker": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.SO001\\Components\\Pages\\SO001List.razor",
+              "RelativeDocumentMoniker": "Components\\Pages\\SO001List.razor",
+              "ToolTip": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.SO001\\Components\\Pages\\SO001List.razor",
+              "RelativeToolTip": "Components\\Pages\\SO001List.razor",
+              "ViewState": "AgIAAGYBAAAAAAAAAAAkwIABAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-07T04:04:27.227Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "SO001ListBase.razor",
+              "DocumentMoniker": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.SO001\\Components\\Pages\\SO001ListBase.razor",
+              "RelativeDocumentMoniker": "Components\\Pages\\SO001ListBase.razor",
+              "ToolTip": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.SO001\\Components\\Pages\\SO001ListBase.razor",
+              "RelativeToolTip": "Components\\Pages\\SO001ListBase.razor",
+              "ViewState": "AgIAABUAAAAAAAAAAAAAAMAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-07T03:31:18.271Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SO001EditBase.razor",
+              "DocumentMoniker": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.SO001\\Components\\Pages\\SO001EditBase.razor",
+              "RelativeDocumentMoniker": "Components\\Pages\\SO001EditBase.razor",
+              "ToolTip": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.SO001\\Components\\Pages\\SO001EditBase.razor",
+              "RelativeToolTip": "Components\\Pages\\SO001EditBase.razor",
+              "ViewState": "AgIAAOsAAAAAAAAAAAAYwCoBAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-07T03:30:39.984Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

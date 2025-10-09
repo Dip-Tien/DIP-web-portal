@@ -1,0 +1,105 @@
+﻿@using Blazored.LocalStorage;
+@using Model;
+@using Data;
+@using MyWebERP.Base.Components.Pages
+
+@inherits MyEditFormBase1
+
+<EditForm Model="@editItem"
+OnValidSubmit="@FormSubmitted"
+id="@FormId"
+Context="EditFormContext">
+    <DataAnnotationsValidator />
+    <div>
+        <DxFormLayout CssClass="w-1000">
+
+            <DxFormLayoutItem Caption="Report ID (bắt buộc):" ColSpanMd="12" >
+                <div>
+                    <DxTextBox @bind-Text="@editItem.report_file_id" CssClass="enter-nav">
+                    </DxTextBox>
+                </div>
+                <div class="text-danger editors-validation-text">
+                    <ValidationMessage For="@(() => editItem.report_file_id)" />
+                </div>
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Report name:" ColSpanMd="12">
+                <div>
+                    <DxTextBox @bind-Text="@editItem.report_name" CssClass="enter-nav" ReadOnly = "true"/>
+                </div>
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Report title:" ColSpanMd="12">
+                <div>
+                    <DxTextBox @bind-Text ="@editItem.report_title" CssClass="enter-nav"/>
+                </div>
+            </DxFormLayoutItem>
+
+            <DxFormLayoutItem Caption="Desc:" ColSpanMd="12">
+                <div>
+                    <DxTextBox @bind-Text="@editItem.report_desc" CssClass="enter-nav" />
+                </div>
+            </DxFormLayoutItem>
+
+            <DxFormLayoutItem Caption="Order:" ColSpanMd="12">
+                <div>
+                    <DxSpinEdit @bind-value="@editItem.order" CssClass="enter-nav" />
+                </div>
+            </DxFormLayoutItem>
+
+            <DxFormLayoutItem Caption="Inactive:" ColSpanMd="12">
+                <DxCheckBox @bind-Checked ="@editItem.inactive" ValueChecked="@((Int16)1)" ValueUnchecked="@((Int16)0)" CssClass="enter-nav"></DxCheckBox>
+            </DxFormLayoutItem>
+
+        </DxFormLayout>
+    </div>
+</EditForm>
+
+@code {
+    Model.MenuReportFileModel editItem { get; set; } = new Model.MenuReportFileModel();
+
+    protected override async Task OnInitializedAsync()
+    {
+        MyErrorMessage = "";
+
+        if(FormStatus == Data.EditFormStatus.EDIT)
+        {
+            string _sFetSingleParam = await Data.MyLib.CreateFetSingleParam(CompanyId, "web_company_menu_report_file_id", EditDataId);
+            Model.APIResultModel _resultFetSingle = await DataService.CallMyApiSimple(_sFetSingleParam, "WEB_MENU_REPORT_FILE_FET_SINGLE");
+
+            if (_resultFetSingle.Status == 0)
+            {
+                string _sData = _resultFetSingle.Data.ToString();
+                Model.MenuReportFileModel modelTmp = System.Text.Json.JsonSerializer.Deserialize<Model.MenuReportFileModel>(_sData);
+
+                if (modelTmp != null)
+                {
+                    await Data.MyLib.MapObject<Model.MenuReportFileModel>(editItem, modelTmp);
+                }
+                else
+                {
+                    MyErrorMessage = "Không tìm thấy [mẫu in/báo cáo] cần sửa. Có thể đã bị xóa.";
+                }
+            }
+        }
+    }
+
+    void KeyDownHandler(KeyboardEventArgs args)
+    {
+        // if (args.Key == "Backspace" && CurrentValueAsString.Length >= 1)
+        // {
+        //     CurrentValueAsString = CurrentValueAsString.Substring(0,
+        //                                CurrentValueAsString.Length - 1);
+        // }
+    }
+
+    void KeyPressHandler(KeyboardEventArgs args)
+    {
+
+        if (args.Key == "Enter")
+        {
+            
+            return;
+        }
+        // var key = (string)args.Key;
+        // CurrentValueAsString += key;
+    }
+}

@@ -1,0 +1,90 @@
+﻿@using MyWebERP.Base.Components.Pages
+@* @using Blazored.LocalStorage; *@
+@using MyWebERP.Data;
+@* @using MyWebERP.Services; *@
+@* @using MyWebERP.Model; *@
+@* @using System.Dynamic;
+@using DevExpress.Blazor *@
+
+@inherits SO001EditPopupBase
+
+<DxPopup CssClass=".my-voucher-small-popup"
+Visible="@Visible"
+CloseOnOutsideClick = "false"
+ShowFooter="false"
+HeaderText=@FormTitle
+VisibleChanged="@VisibleChanged">
+    <HeaderContentTemplate>
+        <DxToolbar>
+            <DxToolbarItem Text="Thêm" Click="NewItem_Click" IconCssClass="toolbar-new" BeginGroup="true" Enabled="@(FormStatus == EditFormStatus.VIEW)" />
+            <DxToolbarItem Text="Sửa" Click="EditItem_Click" IconCssClass="toolbar-edit" Enabled="@(FormStatus == EditFormStatus.VIEW)" />
+            <DxToolbarItem Text="Xóa" Click="DeleteItem_Click" IconCssClass="toolbar-delete" Enabled="@(FormStatus == EditFormStatus.VIEW)" />
+            <DxToolbarItem
+            RenderStyle="ButtonRenderStyle.Primary"
+            Text="Lưu"
+            Id="btnSubmit"
+            SubmitFormOnClick="true"
+            form="@FormId"
+            Enabled="@(FormStatus!= EditFormStatus.VIEW)" />
+
+            <DxToolbarItem
+            RenderStyle="ButtonRenderStyle.Secondary"
+            Text="Hủy"
+            Enabled="@(FormStatus != EditFormStatus.VIEW)"
+            Click="@(async() => await VisibleChanged.InvokeAsync(false))" 
+            />
+        </DxToolbar>
+    </HeaderContentTemplate>
+    <BodyContentTemplate>
+        <SO001SmallEdit FormId="@FormId"
+        FormSubmitted="@OnFormSubmitted"
+
+        CompanyId="@CompanyId"
+        EditDataId="@EditDataId"
+        FormStatus="@FormStatus"
+                        MenuItem="@MenuItem"
+        LocalStorageService="@LocalStorageService"
+        DataService="@DataService"
+        />
+    </BodyContentTemplate>
+    @* <FooterContentTemplate>
+        @if (String.IsNullOrEmpty(MyErrorMessage) == false)
+        {
+            <div style="color:red">@MyErrorMessage</div>
+        }
+        <DxButton CssClass="popup-button my-1 ms-2"
+            RenderStyle="ButtonRenderStyle.Primary"
+            Text="Lưu (F10 hoặc (Ctrl + s))"
+            Id="btnSubmit"
+            SubmitFormOnClick="true"
+            form="@FormId" />
+        <DxButton CssClass="popup-button my-1 ms-2"
+            RenderStyle="ButtonRenderStyle.Secondary"
+            Text="Hủy"
+            Click="@(async() => await VisibleChanged.InvokeAsync(false))" />
+    </FooterContentTemplate> *@
+</DxPopup>
+
+<DxWindow @ref=windowRef
+AllowResize="true"
+ShowCloseButton="true"
+CloseOnEscape="true"
+HeaderText="@MyHeaderErrorMessage"
+FooterText="Footer"
+ShowFooter="true"
+Width="max(25vw, 250px)"
+MinWidth="300"
+MinHeight="200"
+MaxWidth="800"
+MaxHeight="500">
+    <BodyContentTemplate>
+        <div style="color:red">@MyErrorMessage</div>
+    </BodyContentTemplate>
+    <FooterContentTemplate>
+        <DxButton CssClass="popup-button my-1 ms-2"
+        RenderStyle="ButtonRenderStyle.Primary" Text="OK" Click="@context.CloseCallback" />
+    </FooterContentTemplate>
+</DxWindow>
+
+@code {
+}

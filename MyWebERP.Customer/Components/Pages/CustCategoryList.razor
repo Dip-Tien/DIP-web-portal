@@ -1,0 +1,197 @@
+﻿@page "/listcustcategory/{CompanyMenuId}"
+
+@using Blazored.LocalStorage;
+@using MyWebERP.Data;
+@using MyWebERP.Services;
+@using MyWebERP.Model;
+@using MyWebERP.Base.Components.Pages
+@using System.Dynamic;
+@using DevExpress.Blazor
+
+@inherits ComponentBaseGrid0
+
+@* <style>
+    .dxbl-grid {
+    height: 522px;
+    }
+</style> *@
+
+@* Kiểm tra kích thước màn hình *@
+<DxLayoutBreakpoint DeviceSize="DeviceSize.XSmall" @bind-IsActive="@isXSmallScreen" />
+@* <div class="h-100 grid-wrapper"> *@
+<div style="flex: 1 1 auto; overflow: hidden;">
+    <DxGrid @ref="Grid" 
+    Data="@Data"
+    CssClass="flexGrid"
+    VirtualScrollingEnabled="true"
+    KeyFieldName="@nameof(CustCategoryModel.cust_category_id)"
+    ColumnResizeMode="GridColumnResizeMode.ColumnsContainer"
+    TextWrapEnabled="true"
+    FocusedRowEnabled="true"
+    HighlightRowOnHover="true"
+    FocusedRowChanged="Grid_FocusedRowChanged"
+    CustomizeElement="Grid_CustomizeElement"
+    ShowFilterRow="true"
+    FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Always"
+    ShowAllRows="true"
+    PopupEditFormCssClass="pw-800"
+    PopupEditFormHeaderText="@menuItem?.Title"
+    EditMode="GridEditMode.PopupEditForm"
+    ValidationEnabled="true"
+            DetailRowDisplayMode="@(isXSmallScreen?GridDetailRowDisplayMode.Always:GridDetailRowDisplayMode.Never)"
+    EditModelSaving="Grid_EditModelSaving"
+    
+    SearchText="@GridSearchText">
+        <ToolbarTemplate>
+            <DxToolbar ItemRenderStyleMode="ToolbarRenderStyleMode.Plain">
+                <DxToolbarItem Text="Nạp" Click="RefreshItem_Click" IconCssClass="grid-toolbar-refresh" BeginGroup="true" />
+                <DxToolbarItem Text="Thêm" Click="NewItem_Click" IconCssClass="grid-toolbar-new" BeginGroup="true" />
+                <DxToolbarItem Text="Sửa" Click="EditItem_Click" IconCssClass="grid-toolbar-edit" Enabled="EditItemsEnabled" />
+                <DxToolbarItem Text="Xóa" Click="DeleteItem_Click" IconCssClass="grid-toolbar-delete" Enabled="EditItemsEnabled" />
+
+                <DxToolbarItem Text="Chọn cột" BeginGroup="true" IconCssClass="grid-toolbar-column-chooser" Click="ColumnChooserItem_Click" />
+                <DxToolbarItem Text="Xuất dữ liệu" IconCssClass="grid-toolbar-export" BeginGroup="true">
+                    <Items>
+                        <DxToolbarItem Text="To CSV" Click="ExportCsvItem_Click" />
+                        <DxToolbarItem Text="To XLSX" Click="ExportXlsxItem_Click" />
+                        <DxToolbarItem Text="To XLS" Click="ExportXlsItem_Click" />
+                    </Items>
+                </DxToolbarItem>
+                <DxToolbarItem BeginGroup="true">
+                    <Template Context="toolbar_item_context">
+                        <DxSearchBox @bind-Text="GridSearchText"
+                        BindValueMode="BindValueMode.OnInput"
+                        ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"
+                        aria-label="Search" />
+                    </Template>
+                </DxToolbarItem>
+            </DxToolbar>
+        </ToolbarTemplate>
+        <Columns>            
+            <DxGridDataColumn FieldName="@nameof(CustCategoryModel.cust_category_code)" MinWidth="100" Width="15%" Caption="Mã nhóm"/>
+            <DxGridDataColumn FieldName=@nameof(CustCategoryModel.cust_category_name) MinWidth="100" Width="30%" Caption="Tên nhóm"/>
+            <DxGridDataColumn FieldName=@nameof(CustCategoryModel.comment) MinWidth="100" Caption="Ghi chú" />
+            <DxGridDataColumn FieldName=@nameof(CustCategoryModel.inactive)
+                Caption="Không SD" Width="100" MinWidth="60" ReadOnly="true"
+                              Visible="@(isXSmallScreen == false)"
+                TextAlignment="GridTextAlignment.Center"
+                CaptionAlignment="GridTextAlignment.Center">
+                    <CellDisplayTemplate>
+                        <DxCheckBox Checked="@((Int16)context.Value == 1)" ReadOnly="true"/>
+                    </CellDisplayTemplate>
+            </DxGridDataColumn>
+        </Columns>
+        <DetailRowTemplate>
+            @{
+                var custCategory = (CustCategoryModel)context.DataItem;
+                // if (string.IsNullOrEmpty(custCategory.comment) == false)
+                // {
+                //     <div class="row"><text>@custCategory.comment</text></div>
+                // }
+
+                if(custCategory.inactive == 1)
+                {
+                    <div class="row">
+                    <DxCheckBox LabelPosition="LabelPosition.Left" Checked="@((Int16)custCategory.inactive == 1)" ReadOnly="true" >Không SD:</DxCheckBox>
+                    </div>
+                }                
+            }
+        </DetailRowTemplate>
+    </DxGrid>
+</div>
+
+<DxWindow @ref=windowRef
+AllowResize="true"
+ShowCloseButton="true"
+CloseOnEscape="true"
+HeaderText="@MyHeaderErrorMessage"
+FooterText="Footer"
+ShowFooter="true"
+Width="max(25vw, 250px)"
+MinWidth="300"
+MinHeight="200"
+MaxWidth="800"
+MaxHeight="500">
+    <BodyContentTemplate>
+        <div style="color:red">@MyErrorMessage</div>
+    </BodyContentTemplate>
+    <FooterContentTemplate>
+        <DxButton CssClass="popup-button my-1 ms-2"
+        RenderStyle="ButtonRenderStyle.Primary" Text="OK" Click="@context.CloseCallback" />
+    </FooterContentTemplate>
+</DxWindow>
+
+@if (menuItem != null)
+{
+    <CustCategoryEditPopup @bind-Visible="@EditFormVisible"
+CompanyId="@CompanyId"
+EditDataId="@FocusedDataId"
+MenuItem="@menuItem"
+LocalStorageService="@LocalStorageService"
+DataService="@DataService"
+FormStatus="@EditFormStatus"
+PopupClosed="@OnCustCategorySubmit" />
+}
+
+@code {
+    List<CustCategoryModel> Data;
+    
+    protected override async Task DataAsync()
+    {
+        string _sParam = "{\"company_id\":\"" + CompanyId + "\",\"data_code\":\"" + menuItem.DataCode + "\"}";
+        APIResultDataModel resultData = await DataService.GetData(_sParam, menuItem.FetDataCode);
+
+        if (resultData != null)
+        {
+            Data = System.Text.Json.JsonSerializer.Deserialize<List<CustCategoryModel>>(resultData.data_details.ToString());
+        }
+    }
+
+    // async void Grid_CustomizeEditModel(GridCustomizeEditModelEventArgs e)
+    // {
+    //     MyHeaderErrorMessage = "";
+    //     MyErrorMessage = "";
+
+    //     var _editItem = (CustCategoryModel)e.EditModel;
+
+    //     if (e.IsNew)
+    //     {
+    //         _editItem.data_code = menuItem.DataCode;
+    //     }
+    //     else
+    //     {
+
+    //         // Lấy lại dữ liệu trước khi sửa.
+    //         string _sFetSingleParam = await MyLib.CreateFetSingleParam(LocalStorageService, Grid.KeyFieldName, _editItem.cust_category_id);
+    //         APIResultModel _resultFetSingle = await DataService.CallMyApi(_sFetSingleParam, menuItem.FetSingleDataCode);
+
+    //         if (_resultFetSingle.Status == 0)
+    //         {
+    //             string _sData = _resultFetSingle.Data.ToString();
+    //             CustCategoryModel _editItemTmp = System.Text.Json.JsonSerializer.Deserialize<CustCategoryModel>(_sData);
+    //             if (_editItemTmp != null)
+    //             {
+    //                 await MyLib.MapObject<CustCategoryModel>(_editItem, _editItemTmp);
+    //             }
+    //         }
+    //     }
+    // }
+
+    protected override async Task Grid_FocusedRowChanged(GridFocusedRowChangedEventArgs args)
+    {
+        await base.Grid_FocusedRowChanged(args);
+
+        if (FocusedRowVisibleIndex >= 0)
+        {
+            FocusedDataId = Data[FocusedRowVisibleIndex].cust_category_id;
+        }
+    }
+
+    async Task OnCustCategorySubmit(CustCategoryModel custCategory)
+    {
+        // Nạp lại
+        await DataAsync();
+        // ListCategory = await DataService.LookupCode<CustCategoryLookupModel>(CompanyId, 1, CompanyMenuId, "CUST_CATE_LOOKUP_W");
+        // EditItem.cust_category_id = custCategory.cust_category_id;
+    }
+}

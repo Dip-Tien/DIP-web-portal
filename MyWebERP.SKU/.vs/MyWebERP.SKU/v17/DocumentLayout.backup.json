@@ -1,0 +1,53 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.SKU\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{6EBF0F36-DBAA-315A-0ABA-F44A2C45BBDC}|MyWebERP.SKU.csproj|d:\\00.works\\mycore\\bms_2024\\myweberp\\myweberp.sku\\myweberp.sku.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{6EBF0F36-DBAA-315A-0ABA-F44A2C45BBDC}|MyWebERP.SKU.csproj|solutionrelative:myweberp.sku.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6EBF0F36-DBAA-315A-0ABA-F44A2C45BBDC}|MyWebERP.SKU.csproj|d:\\00.works\\mycore\\bms_2024\\myweberp\\myweberp.sku\\components\\pages\\sku0list.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{6EBF0F36-DBAA-315A-0ABA-F44A2C45BBDC}|MyWebERP.SKU.csproj|solutionrelative:components\\pages\\sku0list.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MyWebERP.SKU",
+              "DocumentMoniker": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.SKU\\MyWebERP.SKU.csproj",
+              "RelativeDocumentMoniker": "MyWebERP.SKU.csproj",
+              "ToolTip": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.SKU\\MyWebERP.SKU.csproj",
+              "RelativeToolTip": "MyWebERP.SKU.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-06-01T07:29:01.627Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SKU0List.razor",
+              "DocumentMoniker": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.SKU\\Components\\Pages\\SKU0List.razor",
+              "RelativeDocumentMoniker": "Components\\Pages\\SKU0List.razor",
+              "ToolTip": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.SKU\\Components\\Pages\\SKU0List.razor",
+              "RelativeToolTip": "Components\\Pages\\SKU0List.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAABaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-01T07:26:21.264Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
