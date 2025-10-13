@@ -19,10 +19,11 @@ namespace MyWebERP.Model
         public System.String parent_id { get; set; }
         public System.String comment { get; set; }
         public System.Int16 inactive { get; set; }
+        public string inactive_status => inactive == 0 ? "Đang SD" : "Không SD";
         public System.String created_by_display_name { get; set; }
-        public System.DateTime created_on_date { get; set; }
+        public System.DateTime? created_on_date { get; set; }
         public System.String last_modified_by_display_name { get; set; }
-        public System.DateTime last_modified_on_date { get; set; }
+        public System.DateTime? last_modified_on_date { get; set; }
     }
 
     public class CustCategoryLookupModel

@@ -1,0 +1,75 @@
+﻿@using System.Threading.Tasks
+
+@if (CheckMenuPermission("NEW"))
+{
+    <!-- FAB thêm mới -->
+    <button class="btn btn-primary rounded-circle position-fixed shadow"
+            style="bottom:70px; right:20px; width:56px; height:56px;"
+            @onclick="async () => await OnNew.InvokeAsync()">
+        <i class="bi bi-plus-lg fs-4"></i>
+    </button>
+}
+
+@if (CheckMenuPermission("EDIT") || CheckMenuPermission("DELETE"))
+{
+    <!-- Offcanvas Action Menu -->
+    <div class="offcanvas offcanvas-bottom" tabindex="-1" id="@Id">
+        <div class="offcanvas-body p-0">
+            <div class="list-group list-group-flush">
+
+                @if (MenuItem?.CheckPerission("EDIT") == true)
+                {
+                    <button class="list-group-item list-group-item-action"
+                            data-bs-dismiss="offcanvas"
+                            @onclick="async () => await OnEdit.InvokeAsync(SelectedModel)">
+                        <i class="bi bi-pencil-square me-2"></i>@Language["Sửa"]
+                    </button>
+                }
+
+                @if (MenuItem?.CheckPerission("DELETE") == true)
+                {
+                    <button class="list-group-item list-group-item-action text-danger"
+                            data-bs-dismiss="offcanvas"
+                            @onclick="async () => await OnDelete.InvokeAsync(SelectedModel)">
+                        <i class="bi bi-trash me-2"></i>@Language["Xóa"]
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public object? SelectedModel { get; set; }
+
+    [Parameter] public EventCallback OnNew { get; set; }
+    [Parameter] public EventCallback<object?> OnEdit { get; set; }
+    [Parameter] public EventCallback<object?> OnDelete { get; set; }
+
+    [Parameter] public Model.MenuItem? MenuItem { get; set; }
+
+    [Parameter] public string Id { get; set; } = "actionMenuOffcanvas";
+
+    [Inject] public Microsoft.Extensions.Localization.IStringLocalizer? Language { get; set; } // nếu anh dùng đa ngôn ngữ
+
+
+    private bool CheckMenuPermission(string perm)
+    {
+        try
+        {
+            // "NEW", "EDIT", "DELETE" nên để riêng vì trong đó còn phải kiểm tra cả api tương ứng nữa
+            if (perm == "NEW")
+                return MenuItem==null?false: MenuItem.NewPermission;
+            else if (perm == "EDIT")
+                return MenuItem == null ? false : MenuItem.EditPermission;
+            else if (perm == "DELETE")
+                return MenuItem == null ? false : MenuItem.DeletePermission;
+
+            return MenuItem?.CheckPerission(perm) == true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+}

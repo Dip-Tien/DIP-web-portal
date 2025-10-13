@@ -1,0 +1,18 @@
+﻿@using Microsoft.AspNetCore.Components
+
+<div>
+    <i class="bi bi-person-badge me-1"></i>@Creator
+</div>
+<div class="small text-muted">
+    <i class="bi bi-calendar3 me-1"></i>@CreatedDateText
+</div>
+
+@code {
+    [Parameter] public object? Creator { get; set; }
+    [Parameter] public object? CreatedOn { get; set; }
+
+    private string CreatedDateText =>
+        CreatedOn is DateTime dt
+            ? dt.ToString("g")
+            : Convert.ToString(CreatedOn) ?? "";
+}

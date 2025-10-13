@@ -3,38 +3,31 @@
   "WorkspaceRootPath": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Main\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{ADF8C718-8034-65B0-AEB8-F0E771729505}|..\\MyWebERP.Customer\\MyWebERP.Customer.csproj|d:\\00.works\\mycore\\bms_2024\\myweberp\\myweberp.customer\\components\\pages\\custeditlarge.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{ADF8C718-8034-65B0-AEB8-F0E771729505}|..\\MyWebERP.Customer\\MyWebERP.Customer.csproj|d:\\00.works\\mycore\\bms_2024\\myweberp\\myweberp.customer\\components\\pages\\custlistsmall.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A7B78B4E-D393-4E2A-18D4-04886700A81A}|..\\MyWebERP.Base\\MyWebERP.Base.csproj|d:\\00.works\\mycore\\bms_2024\\myweberp\\myweberp.base\\components\\pages\\myeditformbase0.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{ADF8C718-8034-65B0-AEB8-F0E771729505}|..\\MyWebERP.Customer\\MyWebERP.Customer.csproj|d:\\00.works\\mycore\\bms_2024\\myweberp\\myweberp.customer\\components\\pages\\custcategorylistsmall.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A7B78B4E-D393-4E2A-18D4-04886700A81A}|..\\MyWebERP.Base\\MyWebERP.Base.csproj|d:\\00.works\\mycore\\bms_2024\\myweberp\\myweberp.base\\components\\lookup\\custcategorylookupdropdown.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{A7B78B4E-D393-4E2A-18D4-04886700A81A}|..\\MyWebERP.Base\\MyWebERP.Base.csproj|d:\\00.works\\mycore\\bms_2024\\myweberp\\myweberp.base\\components\\pages\\componentbase0.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A7B78B4E-D393-4E2A-18D4-04886700A81A}|..\\MyWebERP.Base\\MyWebERP.Base.csproj|d:\\00.works\\mycore\\bms_2024\\myweberp\\myweberp.base\\components\\pages\\myeditformbase.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{ADF8C718-8034-65B0-AEB8-F0E771729505}|..\\MyWebERP.Customer\\MyWebERP.Customer.csproj|d:\\00.works\\mycore\\bms_2024\\myweberp\\myweberp.customer\\components\\pages\\custeditsmall.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A7B78B4E-D393-4E2A-18D4-04886700A81A}|..\\MyWebERP.Base\\MyWebERP.Base.csproj|d:\\00.works\\mycore\\bms_2024\\myweberp\\myweberp.base\\components\\lookup\\provincelookupdropdown.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{99FECAC8-21E7-43F3-AE83-3B472B3725B3}|..\\MyWebERP.Model\\MyWebERP.Model.csproj|d:\\00.works\\mycore\\bms_2024\\myweberp\\myweberp.model\\items\\menuitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A7B78B4E-D393-4E2A-18D4-04886700A81A}|..\\MyWebERP.Base\\MyWebERP.Base.csproj|d:\\00.works\\mycore\\bms_2024\\myweberp\\myweberp.base\\components\\lookup\\districtlookupdropdown.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{A7B78B4E-D393-4E2A-18D4-04886700A81A}|..\\MyWebERP.Base\\MyWebERP.Base.csproj|d:\\00.works\\mycore\\bms_2024\\myweberp\\myweberp.base\\components\\pages\\myactionmenu.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A7B78B4E-D393-4E2A-18D4-04886700A81A}|..\\MyWebERP.Base\\MyWebERP.Base.csproj|d:\\00.works\\mycore\\bms_2024\\myweberp\\myweberp.base\\components\\baseclasses\\lookupbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{ADF8C718-8034-65B0-AEB8-F0E771729505}|..\\MyWebERP.Customer\\MyWebERP.Customer.csproj|d:\\00.works\\mycore\\bms_2024\\myweberp\\myweberp.customer\\components\\pages\\custcategoryedit.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A7B78B4E-D393-4E2A-18D4-04886700A81A}|..\\MyWebERP.Base\\MyWebERP.Base.csproj|d:\\00.works\\mycore\\bms_2024\\myweberp\\myweberp.base\\components\\baseclasses\\provincelookup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{ADF8C718-8034-65B0-AEB8-F0E771729505}|..\\MyWebERP.Customer\\MyWebERP.Customer.csproj|d:\\00.works\\mycore\\bms_2024\\myweberp\\myweberp.customer\\components\\pages\\custcategorylistlarge.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{52BA382F-9FC9-8488-6AA2-6B78A92F4927}|MyWebERP.Main.csproj|d:\\00.works\\mycore\\bms_2024\\myweberp\\myweberp.main\\wwwroot\\js\\site.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{52BA382F-9FC9-8488-6AA2-6B78A92F4927}|MyWebERP.Main.csproj|solutionrelative:wwwroot\\js\\site.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A7B78B4E-D393-4E2A-18D4-04886700A81A}|..\\MyWebERP.Base\\MyWebERP.Base.csproj|d:\\00.works\\mycore\\bms_2024\\myweberp\\myweberp.base\\components\\baseclasses\\districtlookup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A7B78B4E-D393-4E2A-18D4-04886700A81A}|..\\MyWebERP.Base\\MyWebERP.Base.csproj|d:\\00.works\\mycore\\bms_2024\\myweberp\\myweberp.base\\components\\baseclasses\\custcategorylookup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{ADF8C718-8034-65B0-AEB8-F0E771729505}|..\\MyWebERP.Customer\\MyWebERP.Customer.csproj|d:\\00.works\\mycore\\bms_2024\\myweberp\\myweberp.customer\\components\\pages\\custlistlarge.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -44,147 +37,122 @@
       "DocumentGroups": [
         {
           "DockedHeight": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "MyEditFormBase0.razor",
-              "DocumentMoniker": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Base\\Components\\Pages\\MyEditFormBase0.razor",
-              "RelativeDocumentMoniker": "..\\MyWebERP.Base\\Components\\Pages\\MyEditFormBase0.razor",
-              "ToolTip": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Base\\Components\\Pages\\MyEditFormBase0.razor",
-              "RelativeToolTip": "..\\MyWebERP.Base\\Components\\Pages\\MyEditFormBase0.razor",
-              "ViewState": "AgIAABMAAAAAAAAAAAAQwB8AAAA4AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-08T09:37:21.537Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "MyEditFormBase.razor",
-              "DocumentMoniker": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Base\\Components\\Pages\\MyEditFormBase.razor",
-              "RelativeDocumentMoniker": "..\\MyWebERP.Base\\Components\\Pages\\MyEditFormBase.razor",
-              "ToolTip": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Base\\Components\\Pages\\MyEditFormBase.razor",
-              "RelativeToolTip": "..\\MyWebERP.Base\\Components\\Pages\\MyEditFormBase.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-08T09:37:16.531Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "DistrictLookupDropdown.razor",
-              "DocumentMoniker": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Base\\Components\\Lookup\\DistrictLookupDropdown.razor",
-              "RelativeDocumentMoniker": "..\\MyWebERP.Base\\Components\\Lookup\\DistrictLookupDropdown.razor",
-              "ToolTip": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Base\\Components\\Lookup\\DistrictLookupDropdown.razor",
-              "RelativeToolTip": "..\\MyWebERP.Base\\Components\\Lookup\\DistrictLookupDropdown.razor",
-              "ViewState": "AgIAAFUAAAAAAAAAAAAAAHwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-08T07:56:36.846Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "site.js",
-              "DocumentMoniker": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Main\\wwwroot\\js\\site.js",
-              "RelativeDocumentMoniker": "wwwroot\\js\\site.js",
-              "ToolTip": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Main\\wwwroot\\js\\site.js",
-              "RelativeToolTip": "wwwroot\\js\\site.js",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAAABwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-10-08T04:15:32.154Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "CustEditLarge.razor",
-              "DocumentMoniker": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Customer\\Components\\Pages\\CustEditLarge.razor",
-              "RelativeDocumentMoniker": "..\\MyWebERP.Customer\\Components\\Pages\\CustEditLarge.razor",
-              "ToolTip": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Customer\\Components\\Pages\\CustEditLarge.razor",
-              "RelativeToolTip": "..\\MyWebERP.Customer\\Components\\Pages\\CustEditLarge.razor",
-              "ViewState": "AgIAABEBAAAAAAAAAAAAACIBAAAlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-08T04:11:17.949Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "CustCategoryLookupDropdown.razor",
-              "DocumentMoniker": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Base\\Components\\Lookup\\CustCategoryLookupDropdown.razor",
-              "RelativeDocumentMoniker": "..\\MyWebERP.Base\\Components\\Lookup\\CustCategoryLookupDropdown.razor",
-              "ToolTip": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Base\\Components\\Lookup\\CustCategoryLookupDropdown.razor",
-              "RelativeToolTip": "..\\MyWebERP.Base\\Components\\Lookup\\CustCategoryLookupDropdown.razor",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAgwBYAAAAmAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-08T04:10:29.394Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "CustCategoryLookup.cs",
-              "DocumentMoniker": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Base\\Components\\BaseClasses\\CustCategoryLookup.cs",
-              "RelativeDocumentMoniker": "..\\MyWebERP.Base\\Components\\BaseClasses\\CustCategoryLookup.cs",
-              "ToolTip": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Base\\Components\\BaseClasses\\CustCategoryLookup.cs",
-              "RelativeToolTip": "..\\MyWebERP.Base\\Components\\BaseClasses\\CustCategoryLookup.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-08T04:03:11.734Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "DistrictLookup.cs",
-              "DocumentMoniker": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Base\\Components\\BaseClasses\\DistrictLookup.cs",
-              "RelativeDocumentMoniker": "..\\MyWebERP.Base\\Components\\BaseClasses\\DistrictLookup.cs",
-              "ToolTip": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Base\\Components\\BaseClasses\\DistrictLookup.cs",
-              "RelativeToolTip": "..\\MyWebERP.Base\\Components\\BaseClasses\\DistrictLookup.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADoAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-08T03:59:24.427Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "ProvinceLookupDropdown.razor",
-              "DocumentMoniker": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Base\\Components\\Lookup\\ProvinceLookupDropdown.razor",
-              "RelativeDocumentMoniker": "..\\MyWebERP.Base\\Components\\Lookup\\ProvinceLookupDropdown.razor",
-              "ToolTip": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Base\\Components\\Lookup\\ProvinceLookupDropdown.razor",
-              "RelativeToolTip": "..\\MyWebERP.Base\\Components\\Lookup\\ProvinceLookupDropdown.razor",
-              "ViewState": "AgIAAHIAAAAAAAAAAAAkwHsAAAAEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-08T03:56:17.836Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "ProvinceLookup.cs",
-              "DocumentMoniker": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Base\\Components\\BaseClasses\\ProvinceLookup.cs",
-              "RelativeDocumentMoniker": "..\\MyWebERP.Base\\Components\\BaseClasses\\ProvinceLookup.cs",
-              "ToolTip": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Base\\Components\\BaseClasses\\ProvinceLookup.cs",
-              "RelativeToolTip": "..\\MyWebERP.Base\\Components\\BaseClasses\\ProvinceLookup.cs",
-              "ViewState": "AgIAABEAAAAAAAAAAAAQwD8AAAAMAAAAAAAAAA==",
+              "Title": "MenuItem.cs",
+              "DocumentMoniker": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Model\\Items\\MenuItem.cs",
+              "RelativeDocumentMoniker": "..\\MyWebERP.Model\\Items\\MenuItem.cs",
+              "ToolTip": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Model\\Items\\MenuItem.cs",
+              "RelativeToolTip": "..\\MyWebERP.Model\\Items\\MenuItem.cs",
+              "ViewState": "AgIAAI4AAAAAAAAAAAAAwIgAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-08T03:53:57.494Z",
+              "WhenOpened": "2025-10-13T01:09:16.202Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "LookupBase.cs",
-              "DocumentMoniker": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Base\\Components\\BaseClasses\\LookupBase.cs",
-              "RelativeDocumentMoniker": "..\\MyWebERP.Base\\Components\\BaseClasses\\LookupBase.cs",
-              "ToolTip": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Base\\Components\\BaseClasses\\LookupBase.cs",
-              "RelativeToolTip": "..\\MyWebERP.Base\\Components\\BaseClasses\\LookupBase.cs",
-              "ViewState": "AgIAACcAAAAAAAAAAAAIwDIAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-08T03:45:23.221Z",
+              "Title": "CustCategoryEdit.razor",
+              "DocumentMoniker": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Customer\\Components\\Pages\\CustCategoryEdit.razor",
+              "RelativeDocumentMoniker": "..\\MyWebERP.Customer\\Components\\Pages\\CustCategoryEdit.razor",
+              "ToolTip": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Customer\\Components\\Pages\\CustCategoryEdit.razor",
+              "RelativeToolTip": "..\\MyWebERP.Customer\\Components\\Pages\\CustCategoryEdit.razor",
+              "ViewState": "AgIAADEAAAAAAAAAAAAAAEIAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-12T14:02:29.503Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CustEditSmall.razor",
+              "DocumentMoniker": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Customer\\Components\\Pages\\CustEditSmall.razor",
+              "RelativeDocumentMoniker": "..\\MyWebERP.Customer\\Components\\Pages\\CustEditSmall.razor",
+              "ToolTip": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Customer\\Components\\Pages\\CustEditSmall.razor",
+              "RelativeToolTip": "..\\MyWebERP.Customer\\Components\\Pages\\CustEditSmall.razor",
+              "ViewState": "AgIAACkAAAAAAAAAAAAAANgAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-12T14:01:59.001Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "MyActionMenu.razor",
+              "DocumentMoniker": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Base\\Components\\Pages\\MyActionMenu.razor",
+              "RelativeDocumentMoniker": "..\\MyWebERP.Base\\Components\\Pages\\MyActionMenu.razor",
+              "ToolTip": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Base\\Components\\Pages\\MyActionMenu.razor",
+              "RelativeToolTip": "..\\MyWebERP.Base\\Components\\Pages\\MyActionMenu.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-12T13:36:57.743Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ComponentBase0.razor",
+              "DocumentMoniker": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Base\\Components\\Pages\\ComponentBase0.razor",
+              "RelativeDocumentMoniker": "..\\MyWebERP.Base\\Components\\Pages\\ComponentBase0.razor",
+              "ToolTip": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Base\\Components\\Pages\\ComponentBase0.razor",
+              "RelativeToolTip": "..\\MyWebERP.Base\\Components\\Pages\\ComponentBase0.razor",
+              "ViewState": "AgIAABYAAAAAAAAAAAAnwBwAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-12T13:32:04.887Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "CustCategoryListLarge.razor",
+              "DocumentMoniker": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Customer\\Components\\Pages\\CustCategoryListLarge.razor",
+              "RelativeDocumentMoniker": "..\\MyWebERP.Customer\\Components\\Pages\\CustCategoryListLarge.razor",
+              "ToolTip": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Customer\\Components\\Pages\\CustCategoryListLarge.razor",
+              "RelativeToolTip": "..\\MyWebERP.Customer\\Components\\Pages\\CustCategoryListLarge.razor",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAAABkAAACxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-12T13:29:39.54Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "CustListLarge.razor",
+              "DocumentMoniker": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Customer\\Components\\Pages\\CustListLarge.razor",
+              "RelativeDocumentMoniker": "..\\MyWebERP.Customer\\Components\\Pages\\CustListLarge.razor",
+              "ToolTip": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Customer\\Components\\Pages\\CustListLarge.razor",
+              "RelativeToolTip": "..\\MyWebERP.Customer\\Components\\Pages\\CustListLarge.razor",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABMAAACLAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-12T13:18:11.339Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CustCategoryListSmall.razor",
+              "DocumentMoniker": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Customer\\Components\\Pages\\CustCategoryListSmall.razor",
+              "RelativeDocumentMoniker": "..\\MyWebERP.Customer\\Components\\Pages\\CustCategoryListSmall.razor",
+              "ToolTip": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Customer\\Components\\Pages\\CustCategoryListSmall.razor",
+              "RelativeToolTip": "..\\MyWebERP.Customer\\Components\\Pages\\CustCategoryListSmall.razor",
+              "ViewState": "AgIAAC4AAAAAAAAAAAAAADYAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-12T13:15:27.59Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CustListSmall.razor",
+              "DocumentMoniker": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Customer\\Components\\Pages\\CustListSmall.razor",
+              "RelativeDocumentMoniker": "..\\MyWebERP.Customer\\Components\\Pages\\CustListSmall.razor",
+              "ToolTip": "D:\\00.Works\\MyCore\\BMS_2024\\MyWebERP\\MyWebERP.Customer\\Components\\Pages\\CustListSmall.razor",
+              "RelativeToolTip": "..\\MyWebERP.Customer\\Components\\Pages\\CustListSmall.razor",
+              "ViewState": "AgIAADgAAAAAAAAAAAAAADsAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-12T13:15:22.708Z",
               "EditorCaption": ""
             }
           ]

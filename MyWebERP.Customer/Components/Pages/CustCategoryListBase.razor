@@ -1,0 +1,75 @@
+﻿@using Blazored.LocalStorage;
+@using MyWebERP.Data;
+@using MyWebERP.Services;
+@using MyWebERP.Model;
+@using MyWebERP.Base.Components.Pages
+@using System.Dynamic;
+@using DevExpress.Blazor
+
+@inherits ComponentBaseGrid0
+
+@code {
+    protected List<CustCategoryModel> Data;
+    protected CustCategoryModel selectedModel;
+    protected String FilterText;
+
+    
+    protected override async Task DataAsync()
+    {
+        string _sParam = "{\"company_id\":\"" + CompanyId + "\",\"data_code\":\"" + menuItem.DataCode + "\"}";
+        APIResultDataModel resultData = await DataService.GetData(_sParam, menuItem.FetDataCode);
+
+        if (resultData != null)
+        {
+            Data = System.Text.Json.JsonSerializer.Deserialize<List<CustCategoryModel>>(resultData.data_details.ToString());
+        }
+    }
+
+    // async void Grid_CustomizeEditModel(GridCustomizeEditModelEventArgs e)
+    // {
+    //     MyHeaderErrorMessage = "";
+    //     MyErrorMessage = "";
+
+    //     var _editItem = (CustCategoryModel)e.EditModel;
+
+    //     if (e.IsNew)
+    //     {
+    //         _editItem.data_code = menuItem.DataCode;
+    //     }
+    //     else
+    //     {
+
+    //         // Lấy lại dữ liệu trước khi sửa.
+    //         string _sFetSingleParam = await MyLib.CreateFetSingleParam(LocalStorageService, Grid.KeyFieldName, _editItem.cust_category_id);
+    //         APIResultModel _resultFetSingle = await DataService.CallMyApi(_sFetSingleParam, menuItem.FetSingleDataCode);
+
+    //         if (_resultFetSingle.Status == 0)
+    //         {
+    //             string _sData = _resultFetSingle.Data.ToString();
+    //             CustCategoryModel _editItemTmp = System.Text.Json.JsonSerializer.Deserialize<CustCategoryModel>(_sData);
+    //             if (_editItemTmp != null)
+    //             {
+    //                 await MyLib.MapObject<CustCategoryModel>(_editItem, _editItemTmp);
+    //             }
+    //         }
+    //     }
+    // }
+
+    protected override async Task Grid_FocusedRowChanged(GridFocusedRowChangedEventArgs args)
+    {
+        await base.Grid_FocusedRowChanged(args);
+
+        if (FocusedRowVisibleIndex >= 0)
+        {
+            FocusedDataId = Data[FocusedRowVisibleIndex].cust_category_id;
+        }
+    }
+
+    protected async Task OnCustCategorySubmit(CustCategoryModel custCategory)
+    {
+        // Nạp lại
+        await DataAsync();
+        // ListCategory = await DataService.LookupCode<CustCategoryLookupModel>(CompanyId, 1, CompanyMenuId, "CUST_CATE_LOOKUP_W");
+        // EditItem.cust_category_id = custCategory.cust_category_id;
+    }
+}

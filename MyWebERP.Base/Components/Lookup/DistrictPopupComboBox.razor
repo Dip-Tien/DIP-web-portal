@@ -1,0 +1,69 @@
+﻿@using MyWebERP.Model
+
+
+@inherits DistrictComboBoxBase
+
+    @* Ở đây không gọi @bind-value vì nó bị chồng lấn. Phải gọi Value và ValueChanged -> Lưu ý*@
+<MyPopupComboBox Data="@Data"
+            TValue="string"
+            TItem="DistrictLookupModel"
+            NullText="Chọn xã/phường"
+                 Value="@Value"
+                 CssClass="@CssClass"
+            CustomFilter="CustomFilter ?? DefaultCustomFilter"
+                 ValueChanged="ValueChanged"
+                 OnSelectedItem="@OnSelectedItem"
+                 OnBackClicked="@HandleBackClicked"
+                 ShowByMyOwnChanged="@((bool v) => ShowByMyOwnX = v)"
+                 ItemTemplate="ItemTemplate ?? DefaultItemTemplate"
+            ValueFieldName="@nameof(DistrictLookupModel.district_id)"
+            TextFieldName="@nameof(DistrictLookupModel.district_name)"
+                 @ref="innerCombo">
+    <FooterTemplate>
+        @if (!ShowByMyOwnX)
+        {
+            <div class="d-flex justify-content-center border-top p-2 bg-light text-center small text-muted">
+                <button class="btn btn-link text-decoration-none" @onclick="SkipSelection">
+                    @Language["Bỏ qua"]
+                </button>
+            </div>
+        }
+    </FooterTemplate>
+</MyPopupComboBox>
+
+@code
+{
+    [Parameter] public EventCallback OnBack { get; set; }
+    private MyPopupComboBox<DistrictLookupModel, string>? innerCombo;
+    private bool ShowByMyOwnX = true;
+
+    private async Task HandleBackClicked()
+    {
+        // Nếu popup xã được mở bởi tỉnh (ShowByMyOwn == false)
+        if (!ShowByMyOwnX && OnBack.HasDelegate)
+            await OnBack.InvokeAsync();
+    }
+
+    // Khi bấm nút "Bỏ qua"
+    private async Task SkipSelection()
+    {
+        if (innerCombo != null)
+        {
+            // Đóng popup xã
+            await innerCombo.TogglePopup();
+
+            // Không gọi OnBack => tức là đóng hẳn, không quay về popup tỉnh
+        }
+    }
+
+    // Mở popup xã từ popup tỉnh
+    public async Task ShowPopup()
+    {
+        if (innerCombo != null)
+        {
+            await innerCombo.ShowPopupByParent();
+
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+}

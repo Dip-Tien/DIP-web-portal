@@ -1,0 +1,19 @@
+﻿@using MyWebERP.Model
+
+
+@inherits DistrictComboBoxBase
+
+    @* Ở đây không gọi @bind-value vì nó bị chồng lấn. Phải gọi Value và ValueChanged -> Lưu ý*@
+<MyComboBox Data="@Data"
+            TValue="string"
+            TItem="DistrictLookupModel"
+            NullText="Chọn xã/phường"
+            Value="@Value"
+            CssClass="@CssClass"
+            CustomFilter="CustomFilter ?? DefaultCustomFilter"
+            ValueChanged="ValueChanged"
+                        ItemTemplate="ItemTemplate ?? DefaultItemTemplate"
+            ValueFieldName="@nameof(DistrictLookupModel.district_id)"
+            TextFieldName="@nameof(DistrictLookupModel.district_name)">
+</MyComboBox>
+

@@ -1,0 +1,311 @@
+﻿@using Blazored.LocalStorage;
+@using MyWebERP.Data;
+@using MyWebERP.Services;
+@using MyWebERP.Model;
+@using MyWebERP.Base.Components.Pages
+@using System.Dynamic;
+@using DevExpress.Blazor
+
+@inherits CustCategoryListBase
+
+<div class="dock-header">
+    <div class="col">
+        <div class="d-flex align-items-center">
+            
+
+            <!-- Ô Search -->
+            <input type="text" class="form-control form-control-sm me-2"
+                   placeholder="@Language["Tìm kiếm..."]"
+                   @bind="@FilterText"
+                   @onblur="OnSearchBlur" />
+
+            <!-- Nút Nạp -->
+            <button class="btn btn-sm btn-outline-primary" @onclick="RefreshItem_Click">
+                <i class="bi bi-arrow-clockwise"></i>
+                <span class="d-none d-sm-inline"> @Language["Nạp"]</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="dock-body" style="padding-top:5px;position: relative;">
+
+    @if (IsLoading)
+    {
+        @* Làm mờ khi load dữ liệu*@
+        <div class="loading-overlay">
+            <div class="spinner-border text-primary"></div>
+            <span class="ms-2">@($"{Language["Đang tải dữ liệu"]}...")</span>
+        </div>
+    }
+
+    <DxListBox Data="@FilteredData"
+                SelectionMode="ListBoxSelectionMode.Single"
+                CssClass="default-small-card-listbox"
+                TextFieldName="@nameof(CustCategoryModel.cust_category_name)"
+               TData="CustCategoryModel"
+               TValue="CustCategoryModel"
+                @bind-Value="@selectedModel">
+
+        <ItemTemplate Context="item">
+            <div class="col">
+                <div class="card shadow-sm rounded-3">
+                    <div class="card-body p-2">
+                        <!-- Nút ⋮ menu góc phải -->
+                        @if (HasAnyMobilePopupAction)
+                        {
+                        <button class="btn btn-sm btn-light position-absolute top-0 end-0 m-1"
+                                @onclick="() => OpenMenu(item)">
+                            <i class="bi bi-three-dots-vertical"></i>
+                        </button>
+                        }
+
+                        <!-- Thông tin cơ bản -->
+                        <h6 class="card-title mb-2 text-primary">
+                            <i class="bi bi-person-badge icon-persion me-1"></i>@item.cust_category_name
+                        </h6>
+                        <div class="small mb-1 d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="text-muted me-1">@Language["Mã nhóm"]:</span>
+                                <i class="bi bi-upc icon-code me-1"></i>@item.cust_category_code
+                            </div>
+                            <div>
+                                <span class="stt-badge">
+                                    <i class="bi bi-hash me-1"></i>@(FilteredData.IndexOf(item) + 1)
+                                </span>
+
+                            </div>
+                        </div>
+
+                        <div class="small mb-2">
+                            <span class="text-muted me-1">@Language["Ghi chú"]:</span>
+                            <i class="bi bi-journal-text me-1"></i>@item.comment
+                        </div>
+
+                        <hr class="my-2" />
+                        <MyAuditInfo Inactive="@(item.inactive == 1)"
+                                     CreatedBy="@item.created_by_display_name"
+                                     CreatedOn="@item.created_on_date"
+                                     ModifiedBy="@item.last_modified_by_display_name"
+                                     ModifiedOn="@item.last_modified_on_date"
+                                     ShowInactive="true"
+                                     ShowCreatedDate="true"
+                                     ShowModifiedDate="true" />
+
+                        <!-- Quản lý -->
+                        @* <div class="small mb-1">
+                            <span class="text-muted me-1">@Language["Trạng thái"]:</span>
+                            @if (item.inactive == 1)
+                            {
+                                <span class="text-danger"><i class="bi bi-slash-circle me-1"></i>@Language["Không SD"]</span>
+                            }
+                            else
+                            {
+                                <span class="text-success"><i class="bi bi-check-circle me-1"></i>@Language["Đang SD"]</span>
+                            }
+                        </div>
+                        <div class="small mb-1">
+                            <span class="text-muted me-1">@Language["Người tạo"]:</span>
+                            <i class="bi bi-person-badge me-1"></i>@item.created_by_display_name
+                        </div>
+                        <div class="small">
+                            <span class="text-muted me-1">@Language["Người sửa"]:</span>
+                            <i class="bi bi-person-fill-gear me-1"></i>@item.last_modified_by_display_name
+                        </div> *@
+
+
+                    </div>
+                </div>
+            </div>
+        </ItemTemplate>
+
+
+
+</DxListBox>
+
+</div>
+
+@* @if (CheckMenuPermission("NEW"))
+{
+    <!-- FAB thêm mới -->
+    <button class="btn btn-primary rounded-circle position-fixed"
+            style="bottom:70px; right:20px; width:56px; height:56px;"
+            @onclick="async () => await NewItem_Click()">
+        <i class="bi bi-plus-lg fs-4"></i>
+    </button>
+} *@
+
+
+
+<!-- Offcanvas Action Menu -->
+@if (menuItem != null)
+{
+    <MyActionMenu SelectedModel="@selectedModel"
+                  OnNew="NewItem_Click"
+                  OnEdit="async () => await OnEdit(selectedModel)"
+                  OnDelete="async () => await OnDelete(selectedModel)"
+                  MenuItem="@menuItem" />
+}
+@* @if (CheckMenuPermission("EDIT") || CheckMenuPermission("DELETE"))
+{
+    <div class="offcanvas offcanvas-bottom" tabindex="-1" id="actionMenuOffcanvas">
+        <div class="offcanvas-body p-0">
+            <div class="list-group list-group-flush">
+                <button class="list-group-item list-group-item-action py-3"
+                    data-bs-dismiss="offcanvas"
+                    @onclick="() => OnView(selectedModel)">
+                <i class="bi bi-eye me-2"></i>@Language["Xem chi tiết"]
+            </button>
+
+                @if (menuItem.CheckPerission("EDIT"))
+                {
+                    <button class="list-group-item list-group-item-action"
+                            data-bs-dismiss="offcanvas"
+                            @onclick="async () => await OnEdit(selectedModel)">
+                        <i class="bi bi-pencil-square me-2"></i>@Language["Sửa"]
+                    </button>
+                }
+
+                @if (menuItem.CheckPerission("DELETE"))
+                {
+                    <button class="list-group-item list-group-item-action text-danger"
+                            data-bs-dismiss="offcanvas"
+                            @onclick="async () => await OnDelete(selectedModel)">
+                        <i class="bi bi-trash me-2"></i>@Language["Xóa"]
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+} *@
+
+<DxWindow @ref=windowRef
+AllowResize="true"
+ShowCloseButton="true"
+CloseOnEscape="true"
+HeaderText="@MyHeaderErrorMessage"
+FooterText="Footer"
+ShowFooter="true"
+Width="max(25vw, 250px)"
+MinWidth="300"
+MinHeight="200"
+MaxWidth="800"
+MaxHeight="500">
+    <BodyContentTemplate>
+        <div style="color:red">@MyErrorMessage</div>
+    </BodyContentTemplate>
+    <FooterContentTemplate>
+        <DxButton CssClass="popup-button my-1 ms-2"
+        RenderStyle="ButtonRenderStyle.Primary" Text="OK" Click="@context.CloseCallback" />
+    </FooterContentTemplate>
+</DxWindow>
+
+@if (menuItem != null)
+{
+    <CustCategoryEditPopup @bind-Visible="@EditFormVisible"
+CompanyId="@CompanyId"
+EditDataId="@FocusedDataId"
+MenuItem="@menuItem"
+LocalStorageService="@LocalStorageService"
+DataService="@DataService"
+FormStatus="@EditFormStatus"
+PopupClosed="@OnCustCategorySubmit" />
+}
+
+@code
+{
+    bool isMenuVisible;
+    private List<CustCategoryModel> FilteredData = new();   // data hiển thị
+
+    protected override async Task DataAsync()
+    {
+        await base.DataAsync();
+        FilteredData = Data;
+    }
+
+    async Task OnEdit(CustCategoryModel? item)
+    {
+        isMenuVisible = false;
+        // xử lý sửa
+
+        selectedModel = item;
+        FocusedDataId = selectedModel.cust_category_id;
+        EditFormStatus = EditFormStatus.EDIT;
+        EditFormVisible = true;
+    }
+
+    async Task OnDelete(CustCategoryModel? item)
+    {
+        isMenuVisible = false;
+
+        if (item == null)
+        {
+            MyHeaderErrorMessage = Language["Chưa có khách nào được chọn"];
+            MyErrorMessage = Language["Chưa có khách nào được chọn"];
+
+            await windowRef.ShowAsync();
+            return;
+        }
+
+        // Tự xử lý để ra hộp thoại Tiếng Việt
+        bool _blnConfirm = await DialogService.ConfirmAsync(new MessageBoxOptions()
+        {
+            Title = Language["Xác nhận xóa dữ liệu"],
+            Text = Language["Quý khách có chắc chắn muốn xóa khách này không?"],
+            RenderStyle = MessageBoxRenderStyle.Danger,
+            OkButtonText = Language["Có"],
+            CancelButtonText = Language["Không"],
+        });
+
+        if (_blnConfirm)
+        {
+            // xử lý xóa
+            selectedModel = item;
+
+            string _sId = selectedModel.cust_category_id;
+            string _sParam = await MyLib.CreateDeleteDataParam(LocalStorageService, "cust_category_id", _sId);
+
+            APIResultModel _resultDel = await DataService.CallMyApiSimple(_sParam, DelAPICode);
+
+            if (_resultDel.Status != 0)
+            {
+                MyHeaderErrorMessage = Language["Lỗi xóa dữ liệu"];
+                MyErrorMessage = _resultDel.StatusDetails;
+
+                await windowRef.ShowAsync();
+
+                return;
+            }
+
+            await DataAsync();
+        }
+    }
+
+    private void OnSearchBlur(FocusEventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(FilterText))
+        {
+            // Nếu trống thì show toàn bộ
+            FilteredData = Data;
+        }
+        else
+        {
+            // Filter đơn giản theo tên hoặc mã
+            FilteredData = Data
+                .Where(c => c.cust_category_code.Contains(FilterText, StringComparison.OrdinalIgnoreCase)
+                         || c.cust_category_name.Contains(FilterText, StringComparison.OrdinalIgnoreCase)
+                         || c.comment.Contains(FilterText, StringComparison.OrdinalIgnoreCase)
+                ).ToList();
+        }
+    }
+
+    async Task OpenMenu(CustCategoryModel item)
+    {
+        selectedModel = item;
+        //isMenuVisible = true;
+
+        if (HasAnyMobilePopupAction)
+            await JS.InvokeVoidAsync("showOffcanvas", "#actionMenuOffcanvas");
+
+    }
+}

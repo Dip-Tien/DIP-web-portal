@@ -1,0 +1,114 @@
+﻿@typeparam TItem
+@typeparam TValue
+
+<div class="position-relative">
+    <div class="@CssClass">
+    <DxTextBox id="@InputId"
+               Text="@CurrentText"
+               NullText="@Language[NullText]"
+               ReadOnly="@ReadOnly"
+               ValidationEnabled="false"
+               TextChanged="OnSearchTextChanged"
+               CssClass="@CssClass"
+               InputDelay="300"
+               BindValueMode="BindValueMode.OnDelayedInput">
+        <Buttons>
+                @if (ExtraButtons is not null)
+                {
+                    @ExtraButtons
+                }
+            <DxEditorButton IconCssClass="bi bi-x-lg text-muted"
+                            Visible="!string.IsNullOrEmpty(SearchText)"
+                            Click="@(() => OnClearClick())" />
+            <DxEditorButton IconCssClass="bi bi-search"
+                            Click="() => TogglePopup()" />
+        </Buttons>
+    </DxTextBox>
+    </div>
+
+    <DxPopup @bind-Visible="IsPopupVisible"
+             Width="85vw"
+             Height="80dvh"
+             ShowHeader="false"
+             ShowFooter="false"
+             ShowCloseButton="false"
+             CloseOnOutsideClick="true"
+             CssClass="d-flex justify-content-center align-items-center">
+
+        <div class="d-flex flex-column bg-white rounded-0" style="height:80dvh; max-height:80dvh; overflow:hidden;">
+
+            <!-- Header với nút Quay lại -->
+            <div class="d-flex align-items-center justify-content-between border-bottom px-3 py-2 bg-light sticky-top">
+                <button class="btn btn-link text-decoration-none text-dark fw-semibold px-0"
+                        @onclick="() => HandleBackClicked()">
+                    <i class="bi bi-arrow-left me-2"></i> @Language["Quay lại"]
+                </button>
+                <span class="fw-semibold text-truncate">@Language[NullText]</span>
+                <div style="width: 30px;"></div>
+            </div>
+
+            <!-- Ô tìm kiếm sticky -->
+            <div class="p-2 border-bottom bg-light sticky-top">
+                <DxTextBox Text="@SearchText"
+                           TextChanged="OnSearchTextChanged"
+                           BindValueMode="BindValueMode.OnDelayedInput"
+                           ValidationEnabled="false"
+                           ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Never"
+                           InputDelay="300"
+                           NullText="@($"🔍 {@Language["Tìm kiếm"]}...")"
+                           CssClass="form-control-sm w-100">
+                    <Buttons>
+                        @if (!string.IsNullOrEmpty(SearchText))
+                        {
+                            <DxEditorButton IconCssClass="bi bi-x-lg text-muted"
+                                            Click="@(() => SearchText = string.Empty)" />
+                        }
+                    </Buttons>
+                </DxTextBox>
+            </div>
+
+            <!-- Danh sách item -->
+            <div class="list-group list-group-flush flex-grow-1 overflow-auto">
+                @if (Data == null)
+                {
+                    <div class="text-center text-muted py-3 small">@($"{Language["Đang tải dữ liệu"]}...")</div>
+                }
+                else if (!FilteredList.Any())
+                {
+                    <div class="text-center text-muted py-3 small">@Language[EmptyText]</div>
+                }
+                else
+                {
+                    @foreach (var item in FilteredList)
+                    {
+                        <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center border-0 border-bottom py-2 px-3"
+                             style="cursor:pointer;"
+                             @onclick="@(() => SelectItem(item))">
+                            <div class="flex-grow-1">
+                                <div class="fw-semibold text-truncate" style="max-width:280px;">
+                                    @if (ItemTemplate is not null)
+                                    {
+                                        @ItemTemplate(item)
+                                    }
+                                    else
+                                    {
+                                        @GetDisplayText(item)
+                                    }
+                                </div>
+                            </div>
+                            <i class="bi bi-chevron-right text-muted small ms-2"></i>
+                        </div>
+                    }
+                }
+            </div>
+
+            <!-- ✅ Thêm phần FooterTemplate -->
+            @if (FooterTemplate is not null)
+            {
+                <div class="border-top">
+                    @FooterTemplate
+                </div>
+            }
+        </div>
+    </DxPopup>
+</div>

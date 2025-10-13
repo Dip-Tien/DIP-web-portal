@@ -1,0 +1,19 @@
+﻿@using MyWebERP.Model
+
+
+@inherits CustCategoryComboBoxBase
+
+    @* Ở đây không gọi @bind-value vì nó bị chồng lấn. Phải gọi Value và ValueChanged -> Lưu ý*@
+<MyComboBox Data="@Data"
+            TValue="string"
+            TItem="CustCategoryLookupModel"
+            NullText="Chọn nhóm KH"
+            Value="@Value"
+            CssClass="@CssClass"
+            CustomFilter="CustomFilter ?? DefaultCustomFilter"
+            ValueChanged="ValueChanged"
+                        ItemTemplate="ItemTemplate ?? DefaultItemTemplate"
+            ValueFieldName="@nameof(CustCategoryLookupModel.cust_category_id)"
+            TextFieldName="@nameof(CustCategoryLookupModel.cust_category_name)"
+ExtraButtons="@ExtraButtons">
+</MyComboBox>

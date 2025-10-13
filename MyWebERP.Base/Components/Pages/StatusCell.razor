@@ -1,0 +1,18 @@
+﻿@using Microsoft.AspNetCore.Components
+
+<span class="@TextClass">
+    <i class="@IconClass me-1"></i>@DisplayText
+</span>
+
+@code {
+    [Parameter] public string? Value { get; set; }
+    [Inject] public Microsoft.Extensions.Localization.IStringLocalizer? Language { get; set; } // nếu anh dùng đa ngôn ngữ
+
+    private string IconClass => IsInactive ? "bi bi-slash-circle text-danger" : "bi bi-check-circle text-success";
+    private string TextClass => IsInactive ? "text-danger" : "text-success";
+    private string DisplayText => Language is null
+        ? (IsInactive ? "Không SD" : "Đang SD")
+        : (IsInactive ? Language["Không SD"] : Language["Đang SD"]);
+
+    private bool IsInactive => string.Equals(Value, "Không SD", StringComparison.OrdinalIgnoreCase);
+}

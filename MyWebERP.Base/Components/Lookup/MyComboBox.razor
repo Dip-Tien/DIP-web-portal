@@ -1,0 +1,79 @@
+﻿@typeparam TItem
+@typeparam TValue
+
+
+<div class="position-relative">
+    <div class="@CssClass" id="@DropdownId">
+
+        <DxTextBox id="@InputId"
+                   Text="@CurrentText"
+               NullText="@Language[NullText]"
+               ReadOnly="@ReadOnly"
+                   ValidationEnabled="false"
+                   TextChanged="OnSearchTextChanged"
+                   CssClass="@($"{CssClass} w-100")" 
+                   InputDelay="300"
+                   BindValueMode="BindValueMode.OnDelayedInput">
+            <Buttons>
+                @if(ExtraButtons is not null)
+                {
+                    @ExtraButtons
+                }
+                <DxEditorButton IconCssClass="bi bi-x-lg text-muted"
+                                Visible="!string.IsNullOrEmpty(SearchText)"
+                                Tooltip="@Language["Xóa nội dung"]"
+                                Click="@(() => OnClearClick())" />
+                <DxEditorButton IconCssClass="bi bi-chevron-down"
+                                Click="() => ToggleDropdown()" />
+            </Buttons>
+        </DxTextBox>
+    </div>
+
+    <DxDropDown @bind-IsOpen="@IsDropdownVisible" @key="@DropDownWidth"
+                PositionTarget="@($"#{DropdownId}")"
+                PositionMode="DropDownPositionMode.Bottom"
+                CloseOnOutsideClick="true"
+                CssClass="shadow-lg border-0 rounded-3 p-0 mt-1"
+                BodyCssClass="p-0"
+                AllowResize="true"
+                Width="@DropDownWidth">
+
+        <BodyContentTemplate>
+            <div style="max-height:300px; width:100%; overflow-y:auto;">
+                @if(FilteredList == null)
+                {
+                    <div class="text-center text-muted py-3 small">@($"{Language["Không có dữ liệu"]}")</div>
+                }
+                else if (!FilteredList.Any())
+                {
+                    <div class="text-center text-muted py-3 small">@Language[EmptyText]</div>
+                }
+                else
+                {
+                    @foreach (var item in FilteredList)
+                    {
+                        <div class="list-group-item list-group-item-action border-0 border-bottom py-2 px-3"
+                             style="cursor:pointer; width:100%; display:block;"
+                             @onclick="@(() => SelectItem(item))">
+                            <div style="display:block; width:100%; white-space:normal; word-break:break-word;">
+                                @if (ItemTemplate is not null)
+                                {
+                                    @ItemTemplate(item)
+                                }
+                                else
+                                {
+                                    @GetDisplayText(item)
+                                }
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </BodyContentTemplate>
+
+    </DxDropDown>
+</div>
+
+@code {
+    
+}

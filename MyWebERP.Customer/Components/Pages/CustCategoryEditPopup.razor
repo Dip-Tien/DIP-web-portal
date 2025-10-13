@@ -3,26 +3,10 @@
 
 @inherits MyEditPopupBase
 
-<DxPopup
-Visible="@Visible"
-ShowFooter="false"
-HeaderText="Thêm nhóm khách hàng"
-VisibleChanged="@VisibleChanged">
-    <HeaderContentTemplate>
-        <DxToolbar>
-            <DxToolbarItem RenderStyle="ButtonRenderStyle.Primary"
-                           Text="Lưu"
-                           Id="btnSubmit"
-                           SubmitFormOnClick="true"
-                           form="@FormId"
-                           Enabled="@(FormStatus!= EditFormStatus.VIEW)" />
-
-            <DxToolbarItem RenderStyle="ButtonRenderStyle.Secondary"
-                           Text="Hủy"
-                           Enabled="@(FormStatus != EditFormStatus.VIEW)"
-                           Click="@(async() => await VisibleChanged.InvokeAsync(false))" />
-        </DxToolbar>
-    </HeaderContentTemplate>
+<DxPopup Visible="@Visible" CloseOnOutsideClick="false"
+         ShowFooter="true"
+         HeaderText=@FormTitle
+         VisibleChanged="@VisibleChanged">
     <BodyContentTemplate>
         <CustCategoryEdit FormId="@FormId" 
         FormSubmitted="@OnFormSubmitted"
@@ -32,36 +16,46 @@ VisibleChanged="@VisibleChanged">
                           MenuItem="@MenuItem"
         LocalStorageService="@LocalStorageService"
         DataService="@DataService"
+        
         />
     </BodyContentTemplate>
-    @* <FooterContentTemplate>
+    <FooterContentTemplate>
         @if (String.IsNullOrEmpty(MyErrorMessage) == false)
         {
             <div style="color:red">@MyErrorMessage</div>
         }
         <DxButton CssClass="popup-button my-1 ms-2"
                   RenderStyle="ButtonRenderStyle.Primary"
-                  Text="Lưu (Ctrl + S)"
+                  Text="@(isXSmallScreen?Language["Lưu"]: $"{Language["lưu"]} (Ctrl + S)")"
                   Id="btnSubmit"
-        SubmitFormOnClick="true"
-        form="@FormId" />
+                  SubmitFormOnClick="true"
+                  form="@FormId" />
         <DxButton CssClass="popup-button my-1 ms-2"
-        RenderStyle="ButtonRenderStyle.Secondary"
-        Text="Hủy"
-        Click="@(async() => await VisibleChanged.InvokeAsync(false))" />
-    </FooterContentTemplate> *@
+                  RenderStyle="ButtonRenderStyle.Secondary"
+                  Text="@Language["Hủy"]"
+                  Click="@(async() => await VisibleChanged.InvokeAsync(false))" />
+    </FooterContentTemplate>
 </DxPopup>
 
 @code {
     readonly string FormId = "CustCategoryEditPopup";
     [Parameter] public EventCallback<Model.CustCategoryModel> PopupClosed { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    // protected override async Task OnInitializedAsync()
+    // {
+    //     if (FormStatus == Data.EditFormStatus.NEW)
+    //         FormTitle = Language["Thêm nhóm khách hàng"];
+    //     else
+    //         FormTitle = Language["Sửa nhóm khách hàng"];
+    // }
+
+    protected override async Task OnParametersSetAsync()
     {
+        await base.OnParametersSetAsync();
         if (FormStatus == Data.EditFormStatus.NEW)
-            FormTitle = "Thêm nhóm khách hàng";
+            FormTitle = Language["Thêm nhóm khách hàng"];
         else
-            FormTitle = "Sửa nhóm khách hàng";
+            FormTitle = Language["Sửa nhóm khách hàng"];
     }
 
     async Task OnFormSubmitted(EditContext editContext) {

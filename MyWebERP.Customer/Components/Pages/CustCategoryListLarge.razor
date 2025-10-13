@@ -1,0 +1,209 @@
+﻿
+@using Blazored.LocalStorage;
+@using MyWebERP.Data;
+@using MyWebERP.Services;
+@using MyWebERP.Model;
+@using MyWebERP.Base.Components.Pages
+@using System.Dynamic;
+@using DevExpress.Blazor
+
+@inherits CustCategoryListBase
+
+<style>
+    
+</style>
+
+<div class="dock-header toolbar-box-tight">
+    <DxToolbar ItemRenderStyleMode="ToolbarRenderStyleMode.Contained" CssClass="toolbar-inner">
+        <!-- Bên trái: nút chức năng -->
+        <DxToolbarItem Text="@Language["Nạp"]" IconCssClass="bi bi-arrow-clockwise"
+                       CssClass="tb-refresh" BeginGroup="true" Click="@RefreshItem_Click" />
+        <DxToolbarItem Text="@Language["Thêm"]" IconCssClass="bi bi-plus-lg" CssClass="tb-add" BeginGroup="true" Visible="@NewPermission" Click="@NewItem_Click" />
+
+        <DxToolbarItem Text="@Language["Sửa"]" IconCssClass="bi bi-pencil-square" CssClass="tb-edit" BeginGroup="true" Visible="@EditPermission" Click="@EditItem_Click" />
+        <DxToolbarItem Text="@Language["Xóa"]" IconCssClass="bi bi-trash" CssClass="tb-delete" BeginGroup="true" Visible="@DeletePermission" Click="@DeleteItem_Click" />
+
+        <DxToolbarItem Text="@Language["Nhập excel"]" IconCssClass="bi bi-file-earmark-arrow-up text-success me-1" CssClass="tb-import" BeginGroup="true" Visible="@NewPermission" Click="@Import_Click" />
+        <DxToolbarItem Text="@Language["Xuất dữ liệu"]" IconCssClass="bi bi-file-earmark-arrow-down text-success me-1" CssClass="tb-export" BeginGroup="true">
+            <Items>
+                <DxToolbarItem Text="To CSV" Click="ExportCsvItem_Click" />
+                <DxToolbarItem Text="To XLSX" Click="ExportXlsxItem_Click" />
+                <DxToolbarItem Text="To XLS" Click="ExportXlsItem_Click" />
+            </Items>
+        </DxToolbarItem>
+
+    </DxToolbar>
+</div>
+
+@* <div class="h-100 grid-wrapper"> *@
+<div class="dock-body">
+    <DxGrid @ref="Grid" 
+    Data="@Data"
+            CssClass="default-grid"
+    VirtualScrollingEnabled="true"
+    KeyFieldName="@nameof(CustCategoryModel.cust_category_id)"
+    ColumnResizeMode="GridColumnResizeMode.ColumnsContainer"
+    TextWrapEnabled="true"
+    FocusedRowEnabled="true"
+    HighlightRowOnHover="true"
+    FocusedRowChanged="Grid_FocusedRowChanged"
+    CustomizeElement="Grid_CustomizeElement"
+    ShowFilterRow="true"
+    FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Always"
+    ShowAllRows="true"
+    PopupEditFormCssClass="pw-800"
+    PopupEditFormHeaderText="@menuItem?.Title"
+    EditMode="GridEditMode.PopupEditForm"
+    ValidationEnabled="true"
+            DetailRowDisplayMode="@(isXSmallScreen?GridDetailRowDisplayMode.Always:GridDetailRowDisplayMode.Never)"
+    EditModelSaving="Grid_EditModelSaving"
+    
+    SearchText="@GridSearchText">
+        <Columns>            
+            <!-- Số thứ tự -->
+            <DxGridDataColumn Width="40"
+                              TextAlignment="GridTextAlignment.Center"
+                              AllowSort="false"
+                              FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never">
+                <HeaderCaptionTemplate>
+                    <div style="text-align:center">#</div>
+                </HeaderCaptionTemplate>
+                <CellDisplayTemplate>@(context.VisibleIndex + 1)</CellDisplayTemplate>
+            </DxGridDataColumn>
+
+            <DxGridDataColumn FieldName="@nameof(CustCategoryModel.cust_category_code)"Width="140" Caption="@Language["Mã nhóm"]">
+                <HeaderCaptionTemplate>
+                    <i class="bi bi-upc icon-code me-1" title="@Language["Mã nhóm"]"></i>
+                    <span class="d-none d-sm-inline">@Language["Mã nhóm"]</span>
+                </HeaderCaptionTemplate>
+                <CellDisplayTemplate Context="cell">
+                    <div class="text-dark fw-semibold d-flex align-items-center gap-1">
+                        <span>@cell.DisplayText</span>
+                    </div>
+                </CellDisplayTemplate>
+                </DxGridDataColumn>
+            <DxGridDataColumn FieldName=@nameof(CustCategoryModel.cust_category_name) Width="300" Caption="@Language["Tên nhóm"]">
+                <HeaderCaptionTemplate>
+                    <i class="bi bi-person-badge me-1" title="@Language["Tên nhóm"]"></i>
+                    <span class="d-none d-sm-inline">@Language["Tên nhóm"]</span>
+                </HeaderCaptionTemplate>
+                <CellDisplayTemplate Context="cell">
+                    @* <div class="fw-semibold text-primary-emphasis d-flex align-items-center gap-1">
+                        <span>@cell.DisplayText</span>
+                    </div> *@
+
+                    <div class="fw-semibold text-primary d-flex align-items-center gap-1">
+                        <span>@cell.DisplayText</span>
+                    </div>
+                </CellDisplayTemplate>
+            </DxGridDataColumn>
+            
+            <DxGridDataColumn FieldName="comment" MinWidth="150" Visible=@(!isXSmallScreen)
+                              FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never">
+                <HeaderCaptionTemplate>
+                    <i class="bi bi-journal-text icon-note" title="@Language["Ghi chú"]"></i>
+                    <span class="d-none d-sm-inline">@Language["Ghi chú"]</span>
+                </HeaderCaptionTemplate>
+                <CellDisplayTemplate Context="cell">
+                    @if (!string.IsNullOrEmpty(cell.DisplayText))
+                    {
+                        <div class="text-body-secondary small d-flex align-items-start gap-1">
+                            <i class="bi bi-journal-text icon-note small opacity-75"></i>
+                            <span>@cell.DisplayText</span>
+                        </div>
+                    }
+                </CellDisplayTemplate>
+            </DxGridDataColumn>
+
+            <DxGridDataColumn FieldName="inactive_status" Width="100px"
+                              FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never">
+                <HeaderCaptionTemplate>
+                    <i class="bi bi-power" title="@Language["Trạng thái sử dụng"]"></i>
+                    <span class="d-none d-sm-inline">@Language["Trạng thái"]</span>
+                </HeaderCaptionTemplate>
+                <CellDisplayTemplate Context="cell">
+                    <StatusCell Value="@(Convert.ToString(cell.Value))" />
+                </CellDisplayTemplate>
+            </DxGridDataColumn>
+
+            <!-- Người tạo / Ngày tạo -->
+            <DxGridDataColumn FieldName="created_by_display_name" Width="160"
+                              FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never">
+                <HeaderCaptionTemplate>
+                    <i class="bi bi-person-badge" title="@($"{Language["Người tạo"]} / {Language["Ngày tạo"]}")"></i>
+                    <span class="d-none d-sm-inline">@Language["Tạo"]</span>
+                </HeaderCaptionTemplate>
+                <CellDisplayTemplate Context="cell">
+                    <CreatedInfoCell Creator="@cell.Value" CreatedOn="@cell.Grid.GetRowValue(cell.VisibleIndex, "created_on_date")"></CreatedInfoCell>
+                </CellDisplayTemplate>
+            </DxGridDataColumn>
+
+            <!-- Người sửa / Ngày sửa -->
+            <DxGridDataColumn FieldName="last_modified_by_display_name" Width="160"
+                              FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Never">
+                <HeaderCaptionTemplate>
+                    <i class="bi bi-person-fill-gear" title="@($"{Language["Người sửa"]} / {Language["Ngày sửa"]}")"></i>
+                    <span class="d-none d-sm-inline">@Language["Cập nhật"]</span>
+                </HeaderCaptionTemplate>
+                <CellDisplayTemplate Context="cell">
+                    <ModifiedInfoCell Modifier="@cell.Value" ModifiedOn="@cell.Grid.GetRowValue(cell.VisibleIndex, "last_modified_on_date")"></ModifiedInfoCell>
+                </CellDisplayTemplate>
+            </DxGridDataColumn>
+        </Columns>
+    </DxGrid>
+</div>
+
+<DxWindow @ref=windowRef
+AllowResize="true"
+ShowCloseButton="true"
+CloseOnEscape="true"
+HeaderText="@MyHeaderErrorMessage"
+FooterText="Footer"
+ShowFooter="true"
+Width="max(25vw, 250px)"
+MinWidth="300"
+MinHeight="200"
+MaxWidth="800"
+MaxHeight="500">
+    <BodyContentTemplate>
+        <div style="color:red">@MyErrorMessage</div>
+    </BodyContentTemplate>
+    <FooterContentTemplate>
+        <DxButton CssClass="popup-button my-1 ms-2"
+        RenderStyle="ButtonRenderStyle.Primary" Text="OK" Click="@context.CloseCallback" />
+    </FooterContentTemplate>
+</DxWindow>
+
+@if (menuItem != null)
+{
+    <CustCategoryEditPopup @bind-Visible="@EditFormVisible"
+CompanyId="@CompanyId"
+EditDataId="@FocusedDataId"
+MenuItem="@menuItem"
+LocalStorageService="@LocalStorageService"
+DataService="@DataService"
+FormStatus="@EditFormStatus"
+PopupClosed="@OnCustCategorySubmit" />
+}
+
+    @code
+    {
+    private async Task Import_Click()
+    {
+        @* // 1️⃣ Set các tham số filter vào dParam
+        dynamic dParam = new System.Dynamic.ExpandoObject();
+        dParam.company_id = CompanyId;
+        dParam.data_code = menuItem.DataCode;
+        dParam.page_size = pageSize;
+        dParam.page_number = pageNo;
+        dParam.filter = FilterText;
+        dParam.province_ids = string.Join(",", ListProvinceSelected?.Select(x => x.province_id) ?? Enumerable.Empty<string>());
+        dParam.district_ids = string.Join(",", ListDistrictSelected?.Select(x => x.district_id) ?? Enumerable.Empty<string>());
+
+        // 2️⃣ Lưu dParam vào LocalStorage
+        await LocalStorageService.SetItemAsync(FILTER_PARAM_IN_LOCAL_STORAGE, dParam);
+
+        // 3️⃣ Điều hướng sang page import
+        NavigationManager.NavigateTo($"/listcustomer/import/{CompanyMenuId}"); *@
+    }
+    }

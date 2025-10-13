@@ -1,0 +1,18 @@
+﻿@using Microsoft.AspNetCore.Components
+
+<div>
+    <i class="bi bi-person-fill-gear me-1"></i>@Modifier
+</div>
+<div class="small text-muted">
+    <i class="bi bi-calendar-event me-1"></i>@ModifiedDateText
+</div>
+
+@code {
+    [Parameter] public object? Modifier { get; set; }
+    [Parameter] public object? ModifiedOn { get; set; }
+
+    private string ModifiedDateText =>
+        ModifiedOn is DateTime dt
+            ? dt.ToString("g")
+            : Convert.ToString(ModifiedOn) ?? "";
+}

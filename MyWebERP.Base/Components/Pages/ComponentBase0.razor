@@ -24,6 +24,17 @@
     [Parameter]
     public string CompanyMenuId { get; set; }
 
+    /// <summary>
+    /// Kiểm tra có những command để show popup action menu cho mobile hay không
+    /// </summary>
+    protected bool HasAnyMobilePopupAction
+    {
+        get
+        {
+            return menuItem?.Permissions?.Any(x => x.PermissionKey != "NEW" & x.PermissionKey != "VIEW") ?? false;
+        }
+    }
+
     protected bool isXSmallScreen;
 
     protected string CompanyId;
@@ -199,6 +210,9 @@
             AppState.CurrentMenuItem = menuItem;
             await AppState.CurrentMenuItemChange();
         }
+
+        StateHasChanged(); // 🔥 ép render lại
+
     }
 
     //protected async Task InitToolbar()
@@ -232,6 +246,7 @@
     {
 
         await InitCfg();
+
         //await InitToolbar();
         await DataAsync();
     }
@@ -253,6 +268,8 @@
 
     protected Boolean CheckMenuPermission(string permissionKey)
     {
+        if (menuItem is null) return false;
+
         switch (permissionKey)
         {
             case "NEW":

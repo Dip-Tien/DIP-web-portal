@@ -1,0 +1,48 @@
+﻿@using MyWebERP.Model
+@using MyWebERP.Services
+
+
+@inherits MyPopupComboBox2<ProvinceLookupModel, string>
+
+@code {
+    // [Inject] protected IDataService DataService { get; set; } = default!;
+    // [Parameter] public string CompanyId { get; set; } = string.Empty;
+    // [Parameter] public string CompanyMenuId { get; set; } = string.Empty;
+    // [Parameter] public Int16 ActiveOnly { get; set; } = 1;
+
+    // [Parameter] public string? Value { get; set; }
+    // [Parameter] public EventCallback<string?> ValueChanged { get; set; }
+
+    // [Parameter] public Func<ProvinceLookupModel, string, bool>? CustomFilter { get; set; }
+    // [Parameter] public RenderFragment<ProvinceLookupModel>? ItemTemplate { get; set; }
+
+    // protected override async Task OnInitializedAsync()
+    // {
+    //     await LoadDataAsync();
+    // }
+
+    protected override async Task LoadDataAsync()
+    {
+        if (DataService == null || string.IsNullOrEmpty(CompanyId) || string.IsNullOrEmpty(CompanyMenuId))
+            return;
+
+        Data = await DataService.LookupCode<ProvinceLookupModel>(CompanyId, ActiveOnly, CompanyMenuId, "PROVINCE_LOOKUP");
+    }
+
+    protected bool DefaultCustomFilter(ProvinceLookupModel item, string searchText)
+    {
+        if (string.IsNullOrWhiteSpace(searchText))
+            return true;
+
+        return (item.province_name?.Contains(searchText, StringComparison.OrdinalIgnoreCase) ?? false)
+               || (item.comment?.Contains(searchText, StringComparison.OrdinalIgnoreCase) ?? false);
+    }
+
+    protected RenderFragment<ProvinceLookupModel> DefaultItemTemplate => item => @<div class="flex-grow-1">
+    <div class="fw-semibold text-truncate" style="max-width: 280px;">@item.province_name</div>
+@if (!string.IsNullOrWhiteSpace(item.comment))
+    {
+    <div class="text-muted small">@item.comment</div>
+    }
+</div>;
+}

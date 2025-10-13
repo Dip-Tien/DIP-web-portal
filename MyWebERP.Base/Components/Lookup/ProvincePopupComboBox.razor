@@ -1,0 +1,37 @@
+﻿@using MyWebERP.Model
+
+
+@* @inherits MyPopupComboBox2<ProvinceLookupModel, string> *@
+@inherits ProvinceComboBoxBase//<ProvinceLookupModel, string>
+
+    @* Ở đây không gọi @bind-value vì nó bị chồng lấn. Phải gọi Value và ValueChanged -> Lưu ý*@
+<MyPopupComboBox Data="@Data"
+            TValue="string"
+            TItem="ProvinceLookupModel"
+            NullText="Chọn tỉnh/TP"
+                     Value="@Value"
+                     CssClass="@CssClass"
+            CustomFilter="CustomFilter ?? DefaultCustomFilter"
+                     ValueChanged="ValueChanged"
+                     OnSelectedItem="@OnSelectedItem"
+                        ItemTemplate="ItemTemplate ?? DefaultItemTemplate"
+            ValueFieldName="@nameof(ProvinceLookupModel.province_id)"
+                     TextFieldName="@nameof(ProvinceLookupModel.province_name)"
+                     @ref="innerCombo">
+</MyPopupComboBox>
+
+@code {
+
+    private MyPopupComboBox<ProvinceLookupModel, string>? innerCombo;
+
+
+    public async Task ShowPopup()
+    {
+        if (innerCombo != null)
+        {
+            await innerCombo.TogglePopup();
+
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+}

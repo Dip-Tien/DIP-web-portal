@@ -19,11 +19,11 @@
     protected List<VocativeLookupModel> ListVocative;
     protected List<ProvinceLookupModel> ListProvince;
     protected List<DistrictLookupModel> ListDistrict;
-    protected List<CustCategoryLookupModel> ListCategory;
+    // protected List<CustCategoryLookupModel> ListCategory;
 
     protected async Task InitCfg()
     {
-        ListCategory = await DataService.LookupCode<CustCategoryLookupModel>(CompanyId, 1, MenuItem.CompanyMenuId, "CUST_CATE_LOOKUP_W");
+        // ListCategory = await DataService.LookupCode<CustCategoryLookupModel>(CompanyId, 1, MenuItem.CompanyMenuId, "CUST_CATE_LOOKUP_W");
         ListGender = await DataService.LookupCode<GenderLookupModel>(CompanyId, 1, MenuItem.CompanyMenuId, "GENDER_LOOKUP");
         ListVocative = await DataService.LookupCode<VocativeLookupModel>(CompanyId, 1, MenuItem.CompanyMenuId, "VOCATIVE_LOOKUP");
         ListProvince = await DataService.LookupCode<ProvinceLookupModel>(CompanyId, 1, MenuItem.CompanyMenuId, "PROVINCE_LOOKUP");
@@ -96,9 +96,12 @@
     {
         if (IsLoading == false)
         {
-            ListDistrict = await DataService.LookupCode<DistrictLookupModel>(CompanyId, 1, province.province_id, 0, MenuItem.CompanyMenuId, "DISTRICT_LOOKUP");
+            //ListDistrict = await DataService.LookupCode<DistrictLookupModel>(CompanyId, 1, province.province_id, 0, MenuItem.CompanyMenuId, "DISTRICT_LOOKUP");
             editItem.district_id = "";
             editItem.ward_id = "";
+            //StateHasChanged(); // đảm bảo component con render lại
+            await InvokeAsync(StateHasChanged); // ép render trước khi await
+
         }
     }
 
@@ -149,7 +152,7 @@
     protected async Task OnCustCategorySubmit(CustCategoryModel custCategory)
     {
         // Nạp lại
-        ListCategory = await DataService.LookupCode<CustCategoryLookupModel>(CompanyId, 1, MenuItem.CompanyMenuId, "CUST_CATE_LOOKUP_W");
+        //ListCategory = await DataService.LookupCode<CustCategoryLookupModel>(CompanyId, 1, MenuItem.CompanyMenuId, "CUST_CATE_LOOKUP_W");
         editItem.cust_category_id = custCategory.cust_category_id;
     }
 

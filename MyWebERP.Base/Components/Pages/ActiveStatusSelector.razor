@@ -1,0 +1,46 @@
+﻿@using DevExpress.Blazor
+@using MyWebERP.Model
+@inject Microsoft.Extensions.Localization.IStringLocalizer Language
+
+@* <DxRadioGroup TData="ActiveStatusModel" TValue="short"
+              @bind-Value="Value"
+              TextFieldName="@nameof(ActiveStatusModel.active_status_name)"
+              ValueFieldName="@nameof(ActiveStatusModel.active_status_id)"
+              Layout="RadioGroupLayout.Horizontal"
+              Items="@ActiveStatusModel.GetDefaultList()">
+    <ItemTemplate Context="activeStatus">
+        <span class="@(activeStatus.active_status_id == 1 ? "text-danger" : "text-success")">
+            @Language[activeStatus.active_status_name]
+        </span>
+    </ItemTemplate>
+</DxRadioGroup> *@
+
+<DxRadioGroup TData="ActiveStatusModel" TValue="Int16"
+              Value="Value"
+              ValueChanged="OnValueChanged" ValidationEnabled="false"
+              
+              TextFieldName="@nameof(ActiveStatusModel.active_status_name)"
+              ValueFieldName="@nameof(ActiveStatusModel.active_status_id)"
+              Layout="@(Horizontal ? RadioGroupLayout.Horizontal : RadioGroupLayout.Vertical)"
+              CssClass="@CssClass"
+              Items="@ActiveStatusModel.GetDefaultList()">
+    <ItemTemplate Context="activeStatus">
+        <span class="@(activeStatus.active_status_id == 1 ? "text-danger" : "text-success")">
+            @Language[activeStatus.active_status_name]
+        </span>
+    </ItemTemplate>
+</DxRadioGroup>
+
+@code {
+    [Parameter] public short Value { get; set; }
+    [Parameter] public EventCallback<short> ValueChanged { get; set; }
+    [Parameter] public string CssClass { get; set; }
+    [Parameter] public bool Horizontal { get; set; } = true;
+
+
+    private async Task OnValueChanged(short newValue)
+    {
+        Value = newValue;
+        await ValueChanged.InvokeAsync(newValue);
+    }
+}

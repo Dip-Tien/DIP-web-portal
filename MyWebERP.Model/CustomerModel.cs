@@ -213,6 +213,7 @@ namespace MyWebERP.Model
         //public System.String partner_secret_key { get; set; }
         //public System.String app_mobile_pass { get; set; }
         public System.Int16 inactive { get; set; }
+        public string inactive_status => inactive == 0 ? "Đang SD" : "Không SD";
         //public System.Int32 extend_id { get; set; }
         public System.Decimal member_card_amount { get; set; }
         public System.String member_card_id { get; set; }

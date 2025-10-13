@@ -1,0 +1,43 @@
+﻿@using MyWebERP.Model
+@using MyWebERP.Services
+
+
+@inherits MyPopupComboBox2<DistrictLookupModel, string>
+
+@code {
+
+    protected override async Task LoadDataAsync()
+    {
+        if (DataService == null || string.IsNullOrEmpty(CompanyId) || string.IsNullOrEmpty(CompanyMenuId))
+            return;
+
+        Data = await DataService.LookupCode<DistrictLookupModel>(CompanyId, ActiveOnly, Parent, 0, CompanyMenuId, "DISTRICT_LOOKUP");
+    }
+
+    protected bool DefaultCustomFilter(DistrictLookupModel item, string searchText)
+    {
+        if (string.IsNullOrWhiteSpace(searchText))
+            return true;
+
+        return (item.district_name?.Contains(searchText, StringComparison.OrdinalIgnoreCase) ?? false)
+                || (item.province_name?.Contains(searchText, StringComparison.OrdinalIgnoreCase) ?? false)
+               || (item.comment?.Contains(searchText, StringComparison.OrdinalIgnoreCase) ?? false);
+    }
+
+    protected RenderFragment<DistrictLookupModel> DefaultItemTemplate => item => @<div class="flex-grow-1" style="max-width: 280px;">
+    <div class="d-flex align-items-center text-truncate">
+        <!-- District name ưu tiên -->
+        <div class="fw-semibold text-truncate" style="flex: 1 1 auto; min-width: 0;">@item.district_name</div>
+
+        <!-- Province name hiển thị nếu còn chỗ, nếu không thì ... -->
+        <div class="text-muted small ms-2 flex-shrink-0" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100px;">
+            @item.province_name
+        </div>
+    </div>
+
+@if (!string.IsNullOrWhiteSpace(item.comment))
+    {
+    <div class="text-muted small">@item.comment</div>
+    }
+</div>;
+}

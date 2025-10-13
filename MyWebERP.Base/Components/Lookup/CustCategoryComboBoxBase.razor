@@ -1,0 +1,43 @@
+﻿@using MyWebERP.Model
+
+
+@inherits MyPopupComboBox2<CustCategoryLookupModel, string>
+
+
+@code {
+
+    protected override async Task LoadDataAsync()
+    {
+        if (DataService == null || string.IsNullOrEmpty(CompanyId) || string.IsNullOrEmpty(CompanyMenuId))
+        {
+            return;
+        }
+
+        string apiCode = "CUST_CATE_LOOKUP_W";
+
+        Data = await DataService.LookupCode<CustCategoryLookupModel>(CompanyId, ActiveOnly, CompanyMenuId, apiCode);
+
+    }
+
+    protected bool DefaultCustomFilter(CustCategoryLookupModel item, string searchText)
+    {
+        if (string.IsNullOrWhiteSpace(searchText))
+            return true;
+
+        return (item.cust_category_name?.Contains(searchText, StringComparison.OrdinalIgnoreCase) ?? false)
+               || (item.comment?.Contains(searchText, StringComparison.OrdinalIgnoreCase) ?? false);
+    }
+
+    /// <summary>
+    /// Default template hiển thị item nếu không có ItemTemplate được truyền vào
+    /// </summary>
+    protected RenderFragment<CustCategoryLookupModel> DefaultItemTemplate => cate => @<div class="flex-grow-1">
+    <div class="fw-semibold text-truncate" style="max-width: 280px;">@cate.cust_category_name</div>
+    @if (!string.IsNullOrWhiteSpace(cate.comment))
+        {
+        <div class="text-muted small">@cate.comment</div>
+        }
+    </div>
+    ;
+
+}
