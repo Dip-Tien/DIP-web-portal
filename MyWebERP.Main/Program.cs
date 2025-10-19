@@ -71,6 +71,10 @@ builder.Services.AddScoped<AuthenticationStateProvider, MyAuthenticationStatePro
 // Lưu thông tin đăng nhập, năm làm việc, thông tin chi nhánh làm việc
 builder.Services.AddScoped<AppStateManager>();
 
+// Popup service
+builder.Services.AddScoped<PopupService>();
+
+
 builder.Services.AddDevExpressServerSideBlazorReportViewer();
 builder.Services.AddDevExpressBlazor();
 builder.Services.Configure<DevExpress.Blazor.Configuration.GlobalOptions>(options => {

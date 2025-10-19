@@ -78,7 +78,7 @@
         @* Làm mờ khi load dữ liệu*@
         <div class="loading-overlay">
             <div class="spinner-border text-primary"></div>
-            <span class="ms-2">Đang tải dữ liệu...</span>
+            <span class="ms-2">@($"{Language["Đang tải dữ liệu"]}...")</span>
         </div>
     }
 
@@ -391,9 +391,11 @@ MaxHeight="500">
     EditDataId="@FocusedDataId"
                    MenuItem="@menuItem"
                    PopupWidth="70vw"
+                   Language="@Language"
                    LocalStorageService="@LocalStorageService"
     DataService="@DataService"
     FormStatus="@EditFormStatus"
+    
     PopupClosed="@OnCustomerSubmit" />
 }
 

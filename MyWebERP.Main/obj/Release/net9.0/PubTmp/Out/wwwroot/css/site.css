@@ -1480,3 +1480,22 @@ html, body {
 }
 /* Kết thúc mấy nút đóng mở nhóm */
 
+/* Đổi màu background thành vàng nhạt và màu chữ thành tối của DxGrid khi row được chọn */
+tr[aria-selected="true"] {
+    background-color: #fff3cd !important; /* màu vàng sáng nhạt */
+    color: var(--selected-row-color, #212529) !important; /* text tối để đọc rõ */
+}
+
+/* Nếu DxGrid dùng class focused-row */
+tr.dxbl-grid-focused-row {
+    background-color: #fff3cd !important;
+    color: var(--selected-row-color, #212529) !important; /* text tối để đọc rõ */
+}
+
+    /* Nếu muốn đổi cả cell trong row được chọn */
+    tr[aria-selected="true"] td[role="gridcell"],
+    tr.dxbl-grid-focused-row td[role="gridcell"] {
+        background-color: #fff3cd !important;
+        color: var(--selected-row-color, #212529) !important; /* text tối để đọc rõ */
+    }
+/* Kết thúc đổi màu background thành vàng nhạt và màu chữ thành tối của DxGrid khi row được chọn */

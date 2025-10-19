@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using DevExpress.Blazor;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using MyWebERP.Data;
 
 
 namespace MyWebERP.Base.Components.Lookup
@@ -21,7 +23,8 @@ namespace MyWebERP.Base.Components.Lookup
         [Parameter] public string EmptyText { get; set; } = "Không tìm thấy dữ liệu";
         [Parameter] public string CssClass { get; set; } = "";
 
-        [Inject] protected Microsoft.Extensions.Localization.IStringLocalizer Language { get; set; } = default!;
+        [Parameter] public Microsoft.Extensions.Localization.IStringLocalizer Language { get; set; }
+        [Parameter] public Blazored.LocalStorage.ILocalStorageService LocalStorageService { get; set; } = default!;
         [Inject] IJSRuntime JS { get; set; } = default!;
         [Parameter]
         public bool ShowByMyOwn{ get; set; } = true;
@@ -30,6 +33,11 @@ namespace MyWebERP.Base.Components.Lookup
 
         protected bool IsPopupVisible = false;
         private string InputId = $"input_{Guid.NewGuid():N}";
+        // Dùng để scroll đến item đã chọn khi mở popup
+        ElementReference _scrollContainer;
+        private string ScrollContainerId = $"list_{Guid.NewGuid():N}";
+        private ElementReference _popupContainer;
+
         public TItem? SelectedItem { get; private set; }
 
         [Parameter] public EventCallback<TItem> OnSelectedItem { get; set; }
@@ -70,14 +78,25 @@ namespace MyWebERP.Base.Components.Lookup
 
             if (IsPopupVisible)
             {
+                // 💾 Lưu scroll cha trước khi hiện popup
+                await JS.InvokeVoidAsync("MyScrollHelper.saveParentScroll", _popupContainer);
+
                 ShowByMyOwn = true;
                 await ShowByMyOwnChanged.InvokeAsync(ShowByMyOwn); // 👈 Thêm dòng này
                 _searchText = string.Empty;// cứ mở thì clear (SelectedItem == null ? string.Empty : GetDisplayText(SelectedItem));
                 SkipFirstFilter = true;
+
+                //await Task.Delay(50);
+                //await JS.InvokeVoidAsync("DataContainer_ScrollToSelected", _scrollContainer);
+                await MyLib.ScrollToRow(JS, ScrollContainerId);
+
             }
             else
             {
                 SkipFirstFilter = false;
+                // 🔁 Khôi phục scroll cha sau khi đóng popup
+                await JS.InvokeVoidAsync("MyScrollHelper.restoreParentScroll", _popupContainer);
+
             }
 
             await InvokeAsync(StateHasChanged);
@@ -112,7 +131,7 @@ namespace MyWebERP.Base.Components.Lookup
                     (CustomFilter != null && CustomFilter(x, SearchText))
                     || (DisplayText != null && DisplayText(x).Contains(SearchText, StringComparison.OrdinalIgnoreCase)));
 
-        private async Task SelectItem(TItem item)
+        protected async Task SelectItem(TItem item)
         {
             SelectedItem = item;
             SearchText = GetDisplayText(item);

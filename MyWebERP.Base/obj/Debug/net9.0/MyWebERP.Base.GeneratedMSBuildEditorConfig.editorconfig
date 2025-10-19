@@ -56,6 +56,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMb29rdXBcTXlDb21ib0JveC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.Base/Components/Lookup/MyComboBox2.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMb29rdXBcTXlDb21ib0JveDIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/00.Works/MyCore/BMS_2024/MyWebERP/MyWebERP.Base/Components/Lookup/MyPopupComboBox.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMb29rdXBcTXlQb3B1cENvbWJvQm94LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 

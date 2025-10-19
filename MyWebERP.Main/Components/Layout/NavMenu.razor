@@ -24,45 +24,6 @@
                                                Enabled="Enabled" />
                         </DataMappings>
                     </DxMenu>
-
-                @* Tạm thời chưa dùng tree view vì chưa tối ưu, bên PĐ bị lỗi khi bấm 1 menu chi tiết thì các node cha tự collap*@
-                @* @if (isXSmallScreenX)
-                {
-                    <DxMenu Data="@MyMenuItems" Orientation="@Orientation.Vertical"
-                            CssClass="menu" ItemsPosition="ItemPosition.Start">
-                        <DataMappings>
-                            <DxMenuDataMapping Text="MenuName"
-                                               Children="Children"
-                                               BeginGroup="BeginGroup"
-                                               Target="Target"
-                                               IconUrl="IconUrl"
-                                               IconCssClass="IconCss"
-                                               CssClass="CssClass"
-                                               NavigateUrl="@MenuUrlFieldName()"
-                                               Enabled="Enabled" />
-                        </DataMappings>
-                    </DxMenu>
-                }
-                else
-                {
-                    <DxTreeView Data="@MyMenuItems" @ref="treeView"
-                                AllowSelectNodes="true"
-                                ShowExpandButtons="@(!ToggledSidebar)"
-                                NodeClick="OnNodeClick"
-                                AnimationType="LayoutAnimationType.Slide">
-
-                        <DataMappings>
-                            <DxTreeViewDataMapping Text="MenuName"
-                                                   NavigateUrl="@MenuUrlFieldName()"
-                                                   IconCssClass="IconCss"
-                                                   IconUrl="IconUrl"
-                                                   CssClass="CssClass"
-                                                   Target="Target"
-                                                   Enabled="Enabled"
-                                                   Children="Children" />
-                        </DataMappings>
-                    </DxTreeView>
-                } *@
             </Authorized>
             <NotAuthorized>
                 <DxMenu Orientation="@Orientation.Vertical" CssClass="menu">

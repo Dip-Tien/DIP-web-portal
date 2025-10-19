@@ -24,20 +24,44 @@
                || (item.comment?.Contains(searchText, StringComparison.OrdinalIgnoreCase) ?? false);
     }
 
-    protected RenderFragment<DistrictLookupModel> DefaultItemTemplate => item => @<div class="flex-grow-1" style="max-width: 280px;">
+//     protected RenderFragment<DistrictLookupModel> DefaultItemTemplate => item => @<div class="flex-grow-1" style="max-width: 280px;">
+//     <div class="d-flex align-items-center text-truncate">
+//         <!-- District name ưu tiên -->
+//         <div class="fw-semibold text-truncate" style="flex: 1 1 auto; min-width: 0;">@item.district_name</div>
+
+//         <!-- Province name hiển thị nếu còn chỗ, nếu không thì ... -->
+//         <div class="text-muted small ms-2 flex-shrink-0" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100px;">
+//             @item.province_name
+//         </div>
+//     </div>
+
+// @if (!string.IsNullOrWhiteSpace(item.comment))
+//     {
+//     <div class="text-muted small">@item.comment</div>
+//     }
+// </div>;
+
+   
+protected RenderFragment<DistrictLookupModel> DefaultItemTemplate => item => @<div class="flex-grow-1" style="max-width: 280px;">
     <div class="d-flex align-items-center text-truncate">
         <!-- District name ưu tiên -->
-        <div class="fw-semibold text-truncate" style="flex: 1 1 auto; min-width: 0;">@item.district_name</div>
+        <div class="fw-semibold text-truncate flex-grow-1" style="min-width: 0;">
+            @item.district_name
+        </div>
 
-        <!-- Province name hiển thị nếu còn chỗ, nếu không thì ... -->
-        <div class="text-muted small ms-2 flex-shrink-0" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100px;">
+        <!-- Province name: hiện ... ở bên trái -->
+        <div class="text-muted small ms-2 flex-shrink-0 text-nowrap text-truncate"
+             style="max-width: 100px; direction: rtl; text-align: left;"
+             title="@item.province_name">
             @item.province_name
         </div>
     </div>
 
-@if (!string.IsNullOrWhiteSpace(item.comment))
+    @if (!string.IsNullOrWhiteSpace(item.comment))
     {
-    <div class="text-muted small">@item.comment</div>
+        <div class="text-muted small">@item.comment</div>
     }
 </div>;
+
+
 }

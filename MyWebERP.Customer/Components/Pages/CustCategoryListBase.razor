@@ -13,7 +13,7 @@
     protected CustCategoryModel selectedModel;
     protected String FilterText;
 
-    
+
     protected override async Task DataAsync()
     {
         string _sParam = "{\"company_id\":\"" + CompanyId + "\",\"data_code\":\"" + menuItem.DataCode + "\"}";
@@ -65,11 +65,16 @@
         }
     }
 
-    protected async Task OnCustCategorySubmit(CustCategoryModel custCategory)
+    // protected async Task OnCustCategorySubmit(CustCategoryModel custCategory)
+    // {
+    //     // Nạp lại
+    //     await DataAsync();
+    //     // ListCategory = await DataService.LookupCode<CustCategoryLookupModel>(CompanyId, 1, CompanyMenuId, "CUST_CATE_LOOKUP_W");
+    //     // EditItem.cust_category_id = custCategory.cust_category_id;
+    // }
+
+    protected async Task OnCustCategoryPopupClose(object? result)
     {
-        // Nạp lại
         await DataAsync();
-        // ListCategory = await DataService.LookupCode<CustCategoryLookupModel>(CompanyId, 1, CompanyMenuId, "CUST_CATE_LOOKUP_W");
-        // EditItem.cust_category_id = custCategory.cust_category_id;
     }
 }

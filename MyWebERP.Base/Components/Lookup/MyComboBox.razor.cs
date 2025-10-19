@@ -1,12 +1,21 @@
-﻿using DevExpress.Office.NumberConverters;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using MyWebERP.Data;
 using MyWebERP.Model;
 
 namespace MyWebERP.Base.Components.Lookup
 {
     public partial class MyComboBox<TItem, TValue> : ComponentBase
     {
+        /// <summary>
+        /// Không cần dùng đến, chỉ để Blazor không báo lỗi.
+        /// DynamicComponent luôn cố gắng truyền thêm ChildContent (mặc định nếu đang nằm trong RenderFragment nào đó), 
+        /// hoặc Blazor engine kỳ vọng ChildContent tồn tại trong component được render.
+        /// → Kết quả: nếu component(ví dụ MyComboBox) không có[Parameter] public RenderFragment ChildContent { get; set; }, 
+        /// thì lỗi “does not have a property matching the name 'ChildContent'” sẽ xảy ra.
+        /// </summary>
+        [Parameter] public RenderFragment? ChildContent { get; set; }
+
         [Parameter] public RenderFragment? ExtraButtons { get; set; }
         [Parameter] public List<TItem>? Data { get; set; }
         [Parameter] public string? ValueFieldName { get; set; }
@@ -21,13 +30,19 @@ namespace MyWebERP.Base.Components.Lookup
         [Parameter] public string EmptyText { get; set; } = "Không tìm thấy dữ liệu";
         [Parameter] public string CssClass { get; set; } = "";
 
-        [Inject] protected Microsoft.Extensions.Localization.IStringLocalizer Language{ get; set; }
+        [Parameter] public Microsoft.Extensions.Localization.IStringLocalizer Language{ get; set; }
+        [Parameter] public Blazored.LocalStorage.ILocalStorageService LocalStorageService { get; set; } = default!;
 
         [Inject] IJSRuntime JS { get; set; } = default!;
         private bool IsDropdownVisible = false;
         private string DropDownWidth { get; set; } = "350px";
         private string InputId = $"input_{Guid.NewGuid():N}";
         private string DropdownId = $"dropdown_{Guid.NewGuid():N}";
+
+        // Dùng để scroll đến item đã chọn khi mở dropdown
+        bool _prevDropdownVisible;
+        ElementReference _scrollContainer;
+        private string ScrollContainerId = $"list_{Guid.NewGuid():N}";
 
         //private TItem? SelectedItem;
         public TItem? SelectedItem { get; private set; }
@@ -102,7 +117,7 @@ namespace MyWebERP.Base.Components.Lookup
                     .Contains(SearchText, StringComparison.OrdinalIgnoreCase)));
 
 
-        private async Task SelectItem(TItem item)
+        protected async Task SelectItem(TItem item)
         {
             SelectedItem = item;
             SearchText = GetDisplayText(item);
@@ -123,6 +138,31 @@ namespace MyWebERP.Base.Components.Lookup
                 //DropDownWidth = $"{width}px";
                 DropDownWidth = $"{(int)Math.Round(width)}px"; // 👈 làm tròn và ép int luôn
                 StateHasChanged();
+            }
+
+            // khi dropdown vừa chuyển từ false -> true thì scroll đến item đã chọn
+            if (IsDropdownVisible && !_prevDropdownVisible)
+            {
+                _prevDropdownVisible = true;
+
+                await MyLib.ScrollToRow(JS, ScrollContainerId);
+
+                // optional small delay để đảm bảo DOM đã render hết (tránh trường hợp virtualization / render async)
+                //await Task.Delay(50);
+                //try
+                //{
+                //    await JS.InvokeVoidAsync("MyComboBox_ScrollToSelected", _scrollContainer);
+                //}
+                //catch(Exception ex)
+                //{
+                //    await JS.InvokeVoidAsync("console.log", ex.Message);
+
+                //    Console.WriteLine("⚠️ JS function not found: " + ex.Message);
+                //}
+            }
+            else if (!IsDropdownVisible && _prevDropdownVisible)
+            {
+                _prevDropdownVisible = false;
             }
         }
 

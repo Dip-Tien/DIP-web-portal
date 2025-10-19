@@ -1,0 +1,66 @@
+﻿@using MyWebERP.Services;
+
+@typeparam TItem
+@typeparam TValue
+
+@inherits MyComboBox<TItem, TValue>
+
+@* Chưa dùng *@
+
+@code {
+    [Inject]
+    protected IDataService DataService { get; set; } = default!;
+
+    [Parameter] public string CompanyId { get; set; }
+    [Parameter] public string CompanyMenuId { get; set; }
+    [Parameter] public Int16 ActiveOnly { get; set; }
+    [Parameter] public string Parent { get; set; }
+    [Parameter] public bool AutoLoad { get; set; } = true;
+
+    protected bool IsLoaded { get; set; } = false;
+    protected bool IsLoading { get; set; } = false;
+
+    protected virtual async Task LoadDataAsync()
+    {
+        // Base ảo: các combo con sẽ override
+        await Task.CompletedTask;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await TryLoadAsync();
+        StateHasChanged();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (AutoLoad)
+        {
+            await TryLoadAsync();
+        }
+        await TryLoadAsync();
+        await base.OnParametersSetAsync();
+    }
+
+    protected async Task TryLoadAsync()
+    {
+        // if (IsLoaded || IsLoading) return;
+        if (IsLoading) return;
+
+        IsLoading = true;
+
+        try
+        {
+            await LoadDataAsync();
+            IsLoaded = true;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[MyComboBox2] LoadDataAsync error: {ex.Message}");
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+}

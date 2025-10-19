@@ -1,10 +1,75 @@
 ﻿@using MyWebERP.Model
-
+@using System.Linq
+@using MyWebERP.Data
 
 @inherits MyPopupComboBox2<CustCategoryLookupModel, string>
 
+@* <MyComboBox Data="@Data"
+            TValue="string"
+            TItem="CustCategoryLookupModel"
+            NullText="Chọn nhóm KH"
+            Value="@Value"
+            CssClass="@CssClass"
+            CustomFilter="CustomFilter ?? DefaultCustomFilter"
+            ValueChanged="ValueChanged"
+            ItemTemplate="ItemTemplate ?? DefaultItemTemplate"
+            Language="@Language"
+            LocalStorageService="@LocalStorageService"
+            ValueFieldName="@nameof(CustCategoryLookupModel.cust_category_id)"
+            TextFieldName="@nameof(CustCategoryLookupModel.cust_category_name)"
+            ExtraButtons="@ExtraButtons">
+</MyComboBox> *@
 
 @code {
+    [Inject] PopupService PopupService { get; set; } = default!;
+
+    [Parameter] public bool ShowAddNewButton { get; set; } = false;
+    [Parameter] public bool ShowEditButton { get; set; } = false;
+
+    protected bool AllowAddNew { get; set; }
+    protected bool AllowEdit { get; set; }
+    protected bool EnableEdit { get; set; }
+    protected MenuItem CustCategoryMenuItem { get; set; }
+    protected LookupItem LookupInfo{ get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // nếu muốn gán giá trị mặc định cho ValueFieldName và TextFieldName thì phải gán ở OnInitializedAsync
+        // chắc do thừa kế nhiều lớp nên phải gán cả ở đây và gán cả ở CustCategoryComboBox.razor
+        ValueFieldName = nameof(CustCategoryLookupModel.cust_category_id);
+        TextFieldName = nameof(CustCategoryLookupModel.cust_category_name);
+        await base.OnInitializedAsync();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+
+        // if ((LookupInfo != null && !string.IsNullOrEmpty(LookupInfo.upd_data_code)) & ShowEditButton)
+        // {
+        //     // Đang là true
+        //     AllowEdit = !string.IsNullOrEmpty(Value);
+        // }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if(firstRender && (ShowAddNewButton || ShowEditButton))
+        {
+            string apiCode = "CUST_CATE_LOOKUP_W";
+            AllowAddNew = false;
+            AllowEdit = false;
+
+            LookupInfo = (await DataService.GetLookup(apiCode))?.FirstOrDefault();
+            if (LookupInfo != null)
+            {
+                CustCategoryMenuItem = new MenuItem(LookupInfo);
+                AllowAddNew = !string.IsNullOrEmpty(LookupInfo.ins_data_code);
+                AllowEdit = !string.IsNullOrEmpty(LookupInfo.upd_data_code);
+            }
+        }
+    }
 
     protected override async Task LoadDataAsync()
     {
@@ -16,7 +81,6 @@
         string apiCode = "CUST_CATE_LOOKUP_W";
 
         Data = await DataService.LookupCode<CustCategoryLookupModel>(CompanyId, ActiveOnly, CompanyMenuId, apiCode);
-
     }
 
     protected bool DefaultCustomFilter(CustCategoryLookupModel item, string searchText)
@@ -40,4 +104,68 @@
     </div>
     ;
 
+    protected async Task AddNewCategory()
+    {
+        if (CustCategoryMenuItem == null) return;
+
+        await PopupService.ShowAsync("CustCategoryEditPopup", 
+            extraParameters: new Dictionary<string, object?>
+            {
+                ["MenuItem"] = CustCategoryMenuItem,
+                ["CompanyId"] = CompanyId,
+                ["FormStatus"] = EditFormStatus.NEW,
+                ["DataService"] = DataService,
+                ["LocalStorageService"] = LocalStorageService,
+                ["Language"] = Language
+            });
+
+        PopupService.OnPopupClosed("CustCategoryEditPopup", async (result) =>
+        {
+            if (result != null)
+            {
+                await TryLoadAsync(); // reload lại dữ liệu sau khi thêm
+                var val = ((CustCategoryModel)result).cust_category_id;
+                var item = Data?.FirstOrDefault(x => x.cust_category_id == val);
+                await SelectItem(item);
+                
+                // SelectedItem = item;
+                // SearchText = GetDisplayText(item);
+
+                // var val = GetValue(item);
+                // Value = val;
+                // await ValueChanged.InvokeAsync(val);
+                // await OnSelectedItem.InvokeAsync(SelectedItem);
+
+                StateHasChanged();
+            }
+        });
+    }
+
+    protected async Task EditCategory()
+    {
+        if (CustCategoryMenuItem == null) return;
+
+        if (string.IsNullOrEmpty(Value)) return;
+
+        var item = Data?.FirstOrDefault(x => x.cust_category_id == Value);
+        if (item == null) return;
+
+        await PopupService.ShowAsync("CustCategoryEditPopup",
+            extraParameters: new Dictionary<string, object?>
+            {
+                ["MenuItem"] = CustCategoryMenuItem,
+                ["CompanyId"] = CompanyId,
+                ["FormStatus"] = EditFormStatus.EDIT,
+                ["DataService"] = DataService,
+                ["LocalStorageService"] = LocalStorageService,
+                ["EditDataId"] = Value,
+                ["Language"] = Language
+            });
+
+        PopupService.OnPopupClosed("CustCategoryEditPopup", async (result) =>
+        {
+            await TryLoadAsync(); // reload lại dữ liệu sau khi sửa
+            StateHasChanged();
+        });
+    }
 }

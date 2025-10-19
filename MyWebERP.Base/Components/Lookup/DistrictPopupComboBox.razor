@@ -16,6 +16,8 @@
                  OnBackClicked="@HandleBackClicked"
                  ShowByMyOwnChanged="@((bool v) => ShowByMyOwnX = v)"
                  ItemTemplate="ItemTemplate ?? DefaultItemTemplate"
+                 Language="@Language"
+                 LocalStorageService="@LocalStorageService"
             ValueFieldName="@nameof(DistrictLookupModel.district_id)"
             TextFieldName="@nameof(DistrictLookupModel.district_name)"
                  @ref="innerCombo">

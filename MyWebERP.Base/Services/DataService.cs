@@ -711,7 +711,7 @@ namespace MyWebERP.Services
 
             APIResultDataModel _resultData = JsonConvert.DeserializeObject<APIResultDataModel>(_result.Data.ToString(), jsonSerializerSettings);
 
-            if (_resultData.data_details != null)
+            if (_resultData?.data_details != null)
             {
                 List<MenuItem> _lstResult = JsonConvert.DeserializeObject<List<MenuItem>>(_resultData.data_details.ToString(), jsonSerializerSettings);
 

@@ -7,8 +7,7 @@
 @code {
     // Có thêm xử lý phím tắt, enter.....
     [Inject] protected IJSRuntime JS { get; set; } = default!;
-    [Inject] protected Microsoft.Extensions.Localization.IStringLocalizer Language { get; set; }
-
+    
     protected bool isXSmallScreenX;
 
     protected DotNetObjectReference<MyEditFormBase> dotNetRef;

@@ -1,15 +1,17 @@
 ﻿using Blazored.LocalStorage;
-using System.Reflection;
+using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
+using MyWebERP.Model;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.ComponentModel;
 //using System.Runtime.CompilerServices;
 //using System.Text.Json;
 //using System.Text.Json.Nodes;
 //using System.Xml.Linq;
 using System.Dynamic;
-using Newtonsoft.Json.Linq;
-using MyWebERP.Model;
-using System.ComponentModel;
-using Newtonsoft.Json;
 using System.Globalization;
+using System.Reflection;
 using System.Text;
 
 namespace MyWebERP.Data
@@ -794,6 +796,27 @@ namespace MyWebERP.Data
             }
 
             return _assemblies.ToArray();
+        }
+
+        /// <summary>
+        /// Cuộn tới dòng được chọn trong 1 div (chứa trong popup/dropdown)
+        /// </summary>
+        /// <param name="js"></param>
+        /// <param name="containerId">div</param>
+        /// <param name="selector">thẻ class. nếu trống thì sẽ lấy mặc định trong function: data-selected-row</param>
+        /// <returns></returns>
+        public static async Task ScrollToRow(IJSRuntime js, string containerId, string? selector = null)
+        {
+            await Task.Delay(50);
+            try
+            {
+                await js.InvokeVoidAsync("DataContainer_ScrollToSelected", containerId, selector);
+            }
+            catch (Exception ex)
+            {
+                await js.InvokeVoidAsync("console.log", ex.Message);
+                Console.WriteLine("⚠️ JS function not found: " + ex.Message);
+            }
         }
     }
 }

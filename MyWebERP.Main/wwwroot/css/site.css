@@ -1480,22 +1480,83 @@ html, body {
 }
 /* Kết thúc mấy nút đóng mở nhóm */
 
-/* Đổi màu background thành vàng nhạt và màu chữ thành tối của DxGrid khi row được chọn */
-tr[aria-selected="true"] {
-    background-color: #fff3cd !important; /* màu vàng sáng nhạt */
-    color: var(--selected-row-color, #212529) !important; /* text tối để đọc rõ */
+/* Đổi màu background thành vàng nhạt và màu chữ thành tối của DxGrid, combo... khi row được chọn */
+
+/* chung cho hàng được chọn trong Grid và item trong Combo */
+:root {
+    /* anh có thể override --data-selected-bg ở layout nếu muốn theme khác */
+    --data-selected-bg: #fff3cd;
+    --data-selected-color: #212529;
 }
 
-/* Nếu DxGrid dùng class focused-row */
+/* class dùng chung */
+.data-selected-row {
+    background-color: var(--data-selected-bg) !important;
+    color: var(--data-selected-color) !important;
+}
+
+/* áp dụng cho DxGrid (hai selector phổ biến) */
+tr[aria-selected="true"],
 tr.dxbl-grid-focused-row {
-    background-color: #fff3cd !important;
-    color: var(--selected-row-color, #212529) !important; /* text tối để đọc rõ */
+    background-color: var(--data-selected-bg) !important;
+    color: var(--data-selected-color) !important;
 }
 
-    /* Nếu muốn đổi cả cell trong row được chọn */
+    /* đổi cả cell trong row được chọn (Grid) */
     tr[aria-selected="true"] td[role="gridcell"],
     tr.dxbl-grid-focused-row td[role="gridcell"] {
-        background-color: #fff3cd !important;
-        color: var(--selected-row-color, #212529) !important; /* text tối để đọc rõ */
+        background-color: var(--data-selected-bg) !important;
+        color: var(--data-selected-color) !important;
     }
-/* Kết thúc đổi màu background thành vàng nhạt và màu chữ thành tối của DxGrid khi row được chọn */
+
+/* danh sách (MyComboBox) - list-group item */
+.list-group-item.data-selected-row,
+.list-group-item.data-selected-row .d-flex,
+.list-group-item-action.data-selected-row {
+    background-color: var(--data-selected-bg) !important;
+    color: var(--data-selected-color) !important;
+}
+
+    /* giữ các icon/text bên trong không đổi màu phụ */
+    .list-group-item.data-selected-row i,
+    .list-group-item.data-selected-row .bi {
+        color: inherit !important;
+    }
+
+    /* tránh chế độ hover che mất highlight: nếu hover thì vẫn giữ màu selected */
+    .list-group-item.data-selected-row:hover {
+        background-color: var(--data-selected-bg) !important;
+        color: var(--data-selected-color) !important;
+    }
+
+/* Kết thúc đổi màu background thành vàng nhạt và màu chữ thành tối của DxGrid, combo... khi row được chọn */
+
+/* Css để xử lý làm mờ khi chờ đợi mở popup từ 1 popup khác - kiểu mở thêm nhóm khách từ popup thêm khách */
+.popup-loading-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255,255,255,0.4);
+    z-index: 9999;
+}
+
+/* Popup layer base */
+.popup-layer-1500 .dx-overlay-wrapper {
+    z-index: 1500;
+}
+
+.popup-layer-1600 .dx-overlay-wrapper {
+    z-index: 1600;
+}
+
+.popup-layer-1700 .dx-overlay-wrapper {
+    z-index: 1700;
+}
+
+.popup-layer-1800 .dx-overlay-wrapper {
+    z-index: 1800;
+}
+/* Kết thúc Css để xử lý làm mờ khi chờ đợi mở popup từ 1 popup khác - kiểu mở thêm nhóm khách từ popup thêm khách */
+

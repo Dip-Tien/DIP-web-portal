@@ -539,6 +539,6 @@ D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Main\obj\Release\net9.0\compressed
 D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Main\obj\Release\net9.0\compressed\nlod4gkyds-e3kle0g2i5.gz
 D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Main\obj\Release\net9.0\compressed\ce6l4crstm-ly9cq8mvpw.gz
 D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Main\obj\Release\net9.0\compressed\ipv80en52k-oajhbhgs9a.gz
-D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Main\obj\Release\net9.0\compressed\gvs7v5bey0-ee2hfvgdzd.gz
-D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Main\obj\Release\net9.0\compressed\qqgkal6o1v-f81vu2gbxh.gz
 D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Main\obj\Release\net9.0\compressed\wo15k6ny92-68zvjb9lxh.gz
+D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Main\obj\Release\net9.0\compressed\qqgkal6o1v-gnbz1attts.gz
+D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Main\obj\Release\net9.0\compressed\gvs7v5bey0-jmfrvppg3r.gz

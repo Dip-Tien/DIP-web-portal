@@ -13,6 +13,8 @@
             CustomFilter="CustomFilter ?? DefaultCustomFilter"
             ValueChanged="ValueChanged"
                         ItemTemplate="ItemTemplate ?? DefaultItemTemplate"
+                        Language="@Language"
+                        LocalStorageService="@LocalStorageService"
             ValueFieldName="@nameof(ProvinceLookupModel.province_id)"
             TextFieldName="@nameof(ProvinceLookupModel.province_name)">
 </MyComboBox>

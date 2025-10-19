@@ -5,7 +5,7 @@ wwwroot\css\dx-demo-pages.css
 wwwroot\css\dx-demo-reporting-pages.css
 wwwroot\css\dx-demo-richedit-pages.css
 wwwroot\css\dx-demo.css
-wwwroot\css\site.css
+wwwroot\js\site.js
 wwwroot\css\open.iconic\FONT-LICENSE.txt
 wwwroot\css\open.iconic\font\css\open-iconic-bootstrap.min.css
 wwwroot\css\open.iconic\font\fonts\open-iconic.eot
@@ -356,7 +356,7 @@ wwwroot\images\filter.svg
 wwwroot\images\us.svg
 wwwroot\images\vn.svg
 wwwroot\css\custom.css
-wwwroot\js\site.js
+wwwroot\css\site.css
 wwwroot\css\site - Copy.css
 wwwroot\css\Grid.css
 wwwroot\js\theme-v4.js
@@ -365,7 +365,7 @@ wwwroot\css\tmp.css
 wwwroot\css\toolbar.css
 wwwroot\js\sipinterop.js
 wwwroot\js\focus-helper.js
-D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Main\wwwroot\js\site.js
+D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Main\wwwroot\css\site.css
 D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Main\wwwroot\js\focus-helper.js
 D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Main\wwwroot\css\bootstrap\bootstrap.css
 D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Main\wwwroot\css\bootstrap\bootstrap.min.css
@@ -374,7 +374,7 @@ D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Main\wwwroot\css\dx-demo-pages.css
 D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Main\wwwroot\css\dx-demo-reporting-pages.css
 D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Main\wwwroot\css\dx-demo-richedit-pages.css
 D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Main\wwwroot\css\dx-demo.css
-D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Main\wwwroot\css\site.css
+D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Main\wwwroot\js\site.js
 D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Main\wwwroot\css\open.iconic\FONT-LICENSE.txt
 D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Main\wwwroot\css\open.iconic\font\css\open-iconic-bootstrap.min.css
 D:\00.Works\MyCore\BMS_2024\MyWebERP\MyWebERP.Main\wwwroot\css\open.iconic\font\fonts\open-iconic.otf

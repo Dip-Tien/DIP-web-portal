@@ -89,6 +89,7 @@ PopupClosed="@OnCategoryAdded" /> *@
             // CustCategory = new Model.CustCategoryModel();
             editItem.data_code = MenuItem.DataCode;
             editItem.company_id = CompanyId;
+            //editItem.cust_category_id = await DataService.GetRowId(CompanyId, MenuItem.CompanyMenuId);
         }
         else
         {

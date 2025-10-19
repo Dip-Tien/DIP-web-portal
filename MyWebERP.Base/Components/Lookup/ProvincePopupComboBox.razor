@@ -14,7 +14,9 @@
             CustomFilter="CustomFilter ?? DefaultCustomFilter"
                      ValueChanged="ValueChanged"
                      OnSelectedItem="@OnSelectedItem"
-                        ItemTemplate="ItemTemplate ?? DefaultItemTemplate"
+                     ItemTemplate="ItemTemplate ?? DefaultItemTemplate"
+                     Language="@Language"
+                     LocalStorageService="@LocalStorageService"
             ValueFieldName="@nameof(ProvinceLookupModel.province_id)"
                      TextFieldName="@nameof(ProvinceLookupModel.province_name)"
                      @ref="innerCombo">

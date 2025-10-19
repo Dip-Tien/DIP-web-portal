@@ -13,10 +13,10 @@
 <div class="toolbar-box-tight">
     <DxToolbar ItemRenderStyleMode="ToolbarRenderStyleMode.Contained" CssClass="toolbar-inner">
 
-        <DxToolbarItem Text="@Language["Nạp"]" IconCssClass="bi bi-arrow-clockwise" Click="RefreshItem_Click" CssClass="tb-refresh" BeginGroup="true" />
-        <DxToolbarItem Text="@Language["Thêm"]" IconCssClass="bi bi-plus-lg" Click="NewItem_Click" CssClass="tb-add" BeginGroup="true" />
-        <DxToolbarItem Text="@Language["Sửa"]" IconCssClass="bi bi-pencil-square" Click="EditItem_Click" CssClass="tb-edit" BeginGroup="true" />
-        <DxToolbarItem Text="@Language["Xóa"]" IconCssClass="bi bi-trash" Click="DeleteItem_Click" CssClass="tb-delete" BeginGroup="true" />
+        <DxToolbarItem Text="@Language["Nạp"]" IconCssClass="bi bi-arrow-clockwise" Click="RefreshItem_Click" CssClass="tb-refresh" BeginGroup="true"/>
+        <DxToolbarItem Text="@Language["Thêm"]" IconCssClass="bi bi-plus-lg" Click="NewItem_Click" CssClass="tb-add" BeginGroup="true" Visible="@NewPermission" />
+        <DxToolbarItem Text="@Language["Sửa"]" IconCssClass="bi bi-pencil-square" Click="EditItem_Click" CssClass="tb-edit" BeginGroup="true" Visible="@EditPermission" />
+        <DxToolbarItem Text="@Language["Xóa"]" IconCssClass="bi bi-trash" Click="DeleteItem_Click" CssClass="tb-delete" BeginGroup="true" Visible="@DeletePermission"/>
 
         <DxToolbarItem Text="Column Chooser" BeginGroup="true" CssClass="tb-column-chooser" Click="ShowColumnChooser" IconCssClass="grid-toolbar-column-chooser" />
         <DxToolbarItem Text="@Language["Xuất dữ liệu"]" CssClass="tb-export" IconCssClass="grid-toolbar-export" BeginGroup="true">

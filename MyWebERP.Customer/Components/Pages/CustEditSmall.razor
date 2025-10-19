@@ -66,46 +66,13 @@
                         <i class="bi bi-geo-alt icon-province me-1 align-middle"></i>
                         <label class="form-label fw-semibold">@Language["Tỉnh/TP"]</label>
 
-                        @* <ProvinceLookupPopup @ref="provinceLookupPopup" CompanyId="@CompanyId" 
-                            CompanyMenuId="@MenuItem.CompanyMenuId"
-                            ActiveOnly="1"
-                            TValue="string"
-                            @bind-Value="@editItem.province_id"
-                            SelectedItemChanged="@(async (ProvinceLookupModel p)=> await OnProvinceLookupSelected(p))" 
-                            
-                            CssClass="form-control">
-                        </ProvinceLookupPopup> *@
-
-                        @* <MyPopupComboBox
-                            Data="ListProvince"
-                            TItem="ProvinceLookupModel"
-                            TValue="string"
-                                         TextFieldName="@nameof(ProvinceLookupModel.province_name)"
-                                         ValueFieldName="@nameof(ProvinceLookupModel.province_id)"
-                            NullText="Chọn tỉnh/TP"
-                            CssClass="dx-form-control"
-                                         CustomFilter="@( (item, text) =>
-                                                              (item.province_name?.Contains(text, StringComparison.OrdinalIgnoreCase) ?? false)
-                                                              || (item.comment?.Contains(text, StringComparison.OrdinalIgnoreCase) ?? false) )"
-                                         @bind-Value="@editItem.province_id">
-                                         
-                            <ItemTemplate Context="item">
-                                <div class="flex-grow-1">
-                            <div class="fw-semibold text-truncate" style="max-width: 280px;">@item.province_name</div>
-                            @if (!string.IsNullOrWhiteSpace(item.comment))
-                            {
-                                <div class="text-muted small">@item.comment</div>
-                            }
-                        </div>
-                            </ItemTemplate>
-                            
-                        </MyPopupComboBox> *@
-
                         <ProvincePopupComboBox TextFieldName="@nameof(ProvinceLookupModel.province_name)"
                                                ValueFieldName="@nameof(ProvinceLookupModel.province_id)"
                                                @bind-Value="@editItem.province_id"
                                                CompanyId="@CompanyId"
                                                CompanyMenuId="@MenuItem.CompanyMenuId"
+                                               Language="@Language"
+                                               LocalStorageService="@LocalStorageService"
                                                ActiveOnly="1"
                                                CssClass="dx-form-control"
                                                @ref="provinceLookupPopup"
@@ -123,7 +90,9 @@
                                              @bind-Value="@editItem.district_id"
                                              Parent="@editItem.province_id"
                                              CompanyId="@CompanyId"
-                                             CompanyMenuId="@MenuItem.CompanyMenuId"
+                                               CompanyMenuId="@MenuItem.CompanyMenuId"
+                                               Language="@Language"
+                                               LocalStorageService="@LocalStorageService"
                                              ActiveOnly="1"
                                                AutoLoad="true"
                                              CssClass="dx-form-control"
@@ -181,6 +150,8 @@
                                     @bind-Value="@editItem.gender_id"
                                     ValueFieldName="@nameof(GenderLookupModel.gender_id)"
                                     TextFieldName="@nameof(GenderLookupModel.gender)"
+                                    Language="@Language"
+                                    LocalStorageService="@LocalStorageService"
                                     CssClass="dx-form-control">
                             <ItemTemplate Context="gender">
                                 @if (gender.gender == "Nam" | gender.gender == "Male")
@@ -210,7 +181,9 @@
                                     TItem="VocativeLookupModel"
                                     CssClass="dx-form-control"
                                     NullText="@Language["Chọn xưng hô"]"
-                                    @bind-Value="@editItem.vocative_id"                                    
+                                    @bind-Value="@editItem.vocative_id"
+                                    Language="@Language"
+                                    LocalStorageService="@LocalStorageService"
                                     ValueFieldName="@nameof(VocativeLookupModel.vocative_id)"
                                     TextFieldName="@nameof(VocativeLookupModel.vocative)">
 
@@ -225,21 +198,16 @@
                         <i class="bi bi-people icon-group me-1 align-middle"></i>
                         <label class="form-label fw-semibold">@Language["Nhóm khách"]</label>
 
-                        @* <CustCategoryLookupPopup CompanyId="@CompanyId"
-                                                    CompanyMenuId="@MenuItem.CompanyMenuId"
-                                                    ActiveOnly="1"
-                                                    TValue="string"
-                                                    CssClass="dx-form-control"
-                                                    @bind-Value="@editItem.cust_category_id">
-
-                        </CustCategoryLookupPopup> *@
-
                         <CustCategoryPopupComboBox CompanyId="@CompanyId"
-                                              CompanyMenuId="@MenuItem.CompanyMenuId"
-                                              ActiveOnly="1"
+                                                   CompanyMenuId="@MenuItem.CompanyMenuId"
+                                                   Language="@Language"
+                                                   LocalStorageService="@LocalStorageService"
+                                                   ActiveOnly="1"
+                                                   ShowAddNewButton="true"
+                                                   ShowEditButton="true"
                                               CssClass="dx-form-control"
                                               @bind-Value="@editItem.cust_category_id">
-                            <ExtraButtons>
+                            @* <ExtraButtons>
                                 <DxEditorButton IconCssClass="bi bi-plus-lg"
                                                 tabindex="-1"
                                                 Visible="@(CheckLookupAddNew("CUST_CATE_LOOKUP_W") == true)"
@@ -251,43 +219,9 @@
                                                 Visible="@(CheckLookupEdit("CUST_CATE_LOOKUP_W") == true)"
                                                 Tooltip="@Language["Sửa nhóm khách hàng"]"
                                                 Click="@(_ => OnCustCategoryEditButtonClick())" />
-                            </ExtraButtons>
+                            </ExtraButtons> *@
                         </CustCategoryPopupComboBox>
 
-                        @* <DxComboBox Data="@ListCategory"
-                                    @bind-Value="@editItem.cust_category_id"
-                                    SearchMode="@ListSearchMode.AutoSearch"
-                                    SearchFilterCondition="@ListSearchFilterCondition.Contains"
-                                    NullText="@Language["Chọn nhóm"]"
-                                    TextFieldName="@nameof(CustCategoryLookupModel.cust_category_name)"
-                                    ValueFieldName="@nameof(CustCategoryLookupModel.cust_category_id)"
-                                    SelectedDataItemChanged="@((SelectedDataItemChangedEventArgs<CustCategoryLookupModel> arg) => SelectCategoryChanged(arg))"
-                                    CssClass="dx-form-control">
-                            <Columns>
-                                <DxListEditorColumn FieldName="@nameof(CustCategoryLookupModel.cust_category_name)" Caption="Tên nhóm" Width="200" />
-                            </Columns>
-                            <ItemTemplate Context="cate">
-                                <div class="d-flex flex-column">
-                                    <small class="text-muted">@cate.comment</small>
-                                </div>
-                            </ItemTemplate>
-                            <Buttons>
-                                @if (CheckLookupAddNew("CUST_CATE_LOOKUP_W"))
-                                {
-                                    <DxEditorButton IconCssClass="toolbar-new"
-                                                    tabindex="-1"
-                                                    Tooltip="@Language["Thêm nhóm khách hàng"]"
-                                                    Click="@(_ => OnCustCategoryAddButtonClick())" />
-                                }
-                                @if (CheckLookupEdit("CUST_CATE_LOOKUP_W"))
-                                {
-                                    <DxEditorButton IconCssClass="toolbar-edit"
-                                                    tabindex="-1"
-                                                    Tooltip="@Language["Sửa nhóm khách hàng"]"
-                                                    Click="@(_ => OnCustCategoryEditButtonClick())" />
-                                }
-                            </Buttons>
-                        </DxComboBox> *@
                     </div>
 
                     <!-- Ghi chú -->
@@ -321,10 +255,11 @@
     CompanyId="@CompanyId"
     EditDataId="@editItem?.cust_category_id"
                            MenuItem="@menuItemCustCate"
+                           Language="@Language"
     LocalStorageService="@LocalStorageService"
     DataService="@DataService"
     FormStatus="@CustCategoryEditFormStatus"
-    PopupClosed="@OnCustCategorySubmit" />
+    OnClose="@OnCustCategoryPopupClose" />
 }
 
 @code {

@@ -1,0 +1,45 @@
+﻿@inject PopupService PopupService
+
+@if (isLoading)
+{
+    @* Làm mờ khi load dữ liệu*@
+    @* <div class="loading-overlay">
+        <div class="spinner-border text-primary" role="status"></div>
+        <span class="visually-hidden">@Language["Đang tải dữ liệu"]...</span>
+    </div> *@
+
+    <div class="popup-loading-overlay">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">@Language["Đang tải dữ liệu"]...</span>
+        </div>
+    </div>
+}
+
+@foreach (var popup in PopupService.ActivePopups)
+{
+    <DynamicComponent Type="@popup.ComponentType"
+                      Parameters="@popup.Parameters" />
+}
+
+@code {
+
+    [Parameter] public Microsoft.Extensions.Localization.IStringLocalizer Language{ get; set; }
+
+    private bool isLoading;
+
+    protected override void OnInitialized()
+    {
+        PopupService.OnChange += StateHasChanged; // 👈 Lắng nghe sự kiện
+
+        PopupService.OnLoadingChanged += val =>
+        {
+            isLoading = val;
+            InvokeAsync(StateHasChanged);
+        };
+    }
+
+    public void Dispose()
+    {
+        PopupService.OnChange -= StateHasChanged;
+    }
+}

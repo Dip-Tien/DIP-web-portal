@@ -86,16 +86,12 @@
                     <span class="align-middle me-2">@Language["Tỉnh/TP"]</span>
                 </CaptionTemplate>
                 <Template>
-                            @* <ProvinceLookupDropdown CompanyId="@CompanyId" 
-                                                    CompanyMenuId="@MenuItem.CompanyMenuId"
-                                                    ActiveOnly="1"
-                                                    TValue="string" @bind-Value="@editItem.province_id" CssClass="enter-nav" 
-                                            SelectedItemChanged="@(async (ProvinceLookupModel p)=> await OnProvinceLookupSelected(p))">
-                    </ProvinceLookupDropdown> *@
                     <ProvinceComboBox CompanyId="@CompanyId"
                                     CompanyMenuId="@MenuItem.CompanyMenuId"
                                     ActiveOnly="1"
                                     CssClass="enter-nav"
+                                    Language="@Language"
+                                    LocalStorageService="@LocalStorageService"
                                     @bind-Value="@editItem.province_id"
                                               OnSelectedItem="@(async (ProvinceLookupModel p)=> await OnProvinceLookupSelected(p))"/>
                 </Template>
@@ -106,17 +102,11 @@
                     <span class="align-middle me-2">@Language["Xã/phường"]</span>
                 </CaptionTemplate>
                 <Template>
-                            @* <DistrictLookupDropdown CompanyId="@CompanyId" 
-                                CompanyMenuId="@MenuItem.CompanyMenuId" 
-                                ActiveOnly="1"
-                                                    CssClass="enter-nav"
-                                                 TValue="string" 
-                                                 @bind-Value="@editItem.district_id" 
-                                                 Parent="@editItem.province_id">
-                            </DistrictLookupDropdown> *@
                             <DistrictComboBox CompanyId="@CompanyId"
                                 CompanyMenuId="@MenuItem.CompanyMenuId"
-                                ActiveOnly="1"
+                                              ActiveOnly="1"
+                                              Language="@Language"
+                                              LocalStorageService="@LocalStorageService"
                                               AutoLoad="true"
                                 CssClass="enter-nav"
                                                  @bind-Value="@editItem.district_id"
@@ -171,40 +161,13 @@
                             <span class="align-middle me-2">@Language["Giới tính"]</span>
                         </CaptionTemplate>
                         <Template>
-                            @* <DxComboBox Data="@ListGender"
-                                        @bind-Value=@editItem.gender_id
-                                        SearchMode="@ListSearchMode.AutoSearch"
-                                        SearchFilterCondition="@ListSearchFilterCondition.Contains"
-                                        NullText="@Language["Chọn giới tính"]"
-                                        TextFieldName="@nameof(GenderLookupModel.gender)"
-                                        ValueFieldName="@nameof(GenderLookupModel.gender_id)"
-                                        AllowUserInput="false"
-                                        CssClass="enter-nav my-combobox">
-                                        
-                                <ItemTemplate Context = "gender">
-                                    @if (gender.gender == "Nam" | gender.gender == "Male")
-                                    {
-                                        <i class="bi bi-gender-male text-primary me-1"></i>
-                                    }
-                                    else if (gender.gender == "Nữ" | gender.gender == "Female")
-                                    {
-                                        <i class="bi bi-gender-female text-danger me-1"></i>
-                                    }
-                                    else
-                                    {
-                                        <i class="bi bi-gender-ambiguous me-1"></i>
-                                    }
-
-                                    @(Language[gender.gender])
-                                </ItemTemplate>
-                                
-                            </DxComboBox> *@
-
                             <MyComboBox Data="@ListGender"
                                         TValue="string"
                                         TItem="GenderLookupModel"
                                         NullText="@Language["Chọn giới tính"]"
                                         @bind-Value="@editItem.gender_id"
+                                        Language="@Language"
+                                        LocalStorageService="@LocalStorageService"
                                         ValueFieldName="@nameof(GenderLookupModel.gender_id)"
                                         TextFieldName="@nameof(GenderLookupModel.gender)"
                                         CssClass="enter-nav"
@@ -239,24 +202,15 @@
                             <MyComboBox Data="@ListVocative"
                                 TValue="string"
                                 TItem="VocativeLookupModel"
-                                CssClass="enter-nav"
+                                        CssClass="enter-nav"
+                                        Language="@Language"
+                                        LocalStorageService="@LocalStorageService"
                                 NullText="@Language["Chọn xưng hô"]"
                                         @bind-Value="@editItem.vocative_id"
                                         ValueFieldName="@nameof(VocativeLookupModel.vocative_id)"
                                         TextFieldName="@nameof(VocativeLookupModel.vocative)">
 
                             </MyComboBox>
-
-                            @* <MyComboBox2 Data="@ListVocative"
-                                        TValue="string"
-                                        TItem="VocativeLookupModel"
-                                        CssClass="enter-nav"
-                                        NullText="@Language["Chọn xưng hô"]"
-                                        @bind-Value="@editItem.vocative_id"
-                                        ValueFieldName="@nameof(VocativeLookupModel.vocative_id)"
-                                        TextFieldName="@nameof(VocativeLookupModel.vocative)">
-
-                            </MyComboBox2> *@
                         </Template>
                     </DxFormLayoutItem>
 
@@ -266,106 +220,18 @@
                             <span class="align-middle me-2">@Language["Nhóm khách"]</span>
                         </CaptionTemplate>
                         <Template>
-                            @* <CustCategoryLookupDropdown CompanyId="@CompanyId"
-                                CompanyMenuId="@MenuItem.CompanyMenuId"
-                                ActiveOnly="1"
-                                TValue="string"
-                                CssClass="enter-nav"
-                                                        @bind-Value="@editItem.cust_category_id"
-                            >
-
-                            </CustCategoryLookupDropdown> *@
-
                             <CustCategoryComboBox CompanyId="@CompanyId"
                                                         CompanyMenuId="@MenuItem.CompanyMenuId"
                                                         ActiveOnly="1"
                                                         CssClass="enter-nav"
+                                                        Language="@Language"
+                                                        LocalStorageService="@LocalStorageService"
+                                                  ShowAddNewButton="true"
+                                                  ShowEditButton="true"
                                                         @bind-Value="@editItem.cust_category_id">
-                                @* <ItemTemplate Context="cate">
-                                    <div class="flex-grow-1">
-                                        <div class="fw-semibold text-truncate" style="max-width: 280px;">@cate.cust_category_name</div>
-                                        @if (!string.IsNullOrWhiteSpace(cate.comment))
-                                        {
-                                            <div class="text-muted small">@cate.comment</div>
-                                        }
-                                    </div>
-                                </ItemTemplate> *@
-
-                                <ExtraButtons>
-                                    <DxEditorButton IconCssClass="bi bi-plus-lg"
-                                                    tabindex="-1"
-                                                    Visible="@(CheckLookupAddNew("CUST_CATE_LOOKUP_W") == true)"
-                                                    Tooltip="@Language["Thêm nhóm khách hàng"]"
-                                                    Click="@(_ => OnCustCategoryAddButtonClick())" />
-
-                                    <DxEditorButton IconCssClass="bi bi-pencil-square"
-                                                    tabindex="-1"
-                                                    Visible="@(CheckLookupEdit("CUST_CATE_LOOKUP_W") == true)"
-                                                    Tooltip="@Language["Sửa nhóm khách hàng"]"
-                                                    Click="@(_ => OnCustCategoryEditButtonClick())" />
-                                </ExtraButtons>
 
                             </CustCategoryComboBox>
 
-                            
-
-
-                            @* Để đây để tham khảo về sau *@
-                            @* <MyComboBox TItem="CustCategoryLookupModel"
-                                        Data="@ListCategory"
-                                        TValue="string"
-                                        ValueFieldName="@nameof(CustCategoryLookupModel.cust_category_id)"
-                                        TextFieldName="@nameof(CustCategoryLookupModel.cust_category_name)"
-                                        CustomFilter="@( (item, text) =>
-                                                        item.cust_category_name.Contains(text, StringComparison.OrdinalIgnoreCase) ||
-                                                        item.comment.Contains(text, StringComparison.OrdinalIgnoreCase))"
-                                        @bind-Value="@editItem.cust_category_id"
-                                        NullText="Chọn nhóm" >
-                                <ItemTemplate Context="cate">
-                                    <div class="flex-grow-1">
-                                        <div class="fw-semibold text-truncate" style="max-width: 280px;">@cate.cust_category_name</div>
-                                        @if (!string.IsNullOrWhiteSpace(cate.comment))
-                                        {
-                                            <div class="text-muted small">@cate.comment</div>
-                                        }
-                                    </div>
-                                        </ItemTemplate>
-                                        </MyComboBox> *@
-
-                            @* <DxComboBox Data="@ListCategory"
-                                        @bind-Value=@editItem.cust_category_id
-                                        SearchMode="@ListSearchMode.AutoSearch"
-                                        SearchFilterCondition="@ListSearchFilterCondition.Contains"
-                                        NullText="@Language["Chọn nhóm"]"
-                                        TextFieldName="@nameof(CustCategoryLookupModel.cust_category_name)"
-                                        ValueFieldName="@nameof(CustCategoryLookupModel.cust_category_id)"
-                                        SelectedDataItemChanged="@((SelectedDataItemChangedEventArgs<CustCategoryLookupModel> arg) => SelectCategoryChanged(arg))"
-                                        CssClass="enter-nav my-combobox">
-                                <Columns>
-                                    <DxListEditorColumn FieldName="@nameof(CustCategoryLookupModel.cust_category_name)" Caption="Tên nhóm" Width="200" />
-                                </Columns>
-                                <ItemTemplate Context="cate">
-                                    <div class="d-flex flex-column">
-                                        <small class="text-muted">@cate.comment</small>
-                                    </div>
-                                </ItemTemplate>
-                                <Buttons>
-                                    @if (CheckLookupAddNew("CUST_CATE_LOOKUP_W") == true)
-                                    {
-                                        <DxEditorButton IconCssClass="toolbar-new"
-                                                        tabindex="-1"
-                                                        Tooltip="@Language["Thêm nhóm khách hàng"]"
-                                                        Click="@(_ => OnCustCategoryAddButtonClick())" />
-                                    }
-                                    @if (CheckLookupEdit("CUST_CATE_LOOKUP_W") == true)
-                                    {
-                                        <DxEditorButton IconCssClass="toolbar-edit"
-                                                        tabindex="-1"
-                                                        Tooltip="@Language["Sửa nhóm khách hàng"]"
-                                                        Click="@(_ => OnCustCategoryEditButtonClick())" />
-                                    }
-                                </Buttons>
-                            </DxComboBox> *@
                         </Template>           
                     </DxFormLayoutItem>
 
@@ -418,7 +284,8 @@
     EditDataId="@editItem?.cust_category_id"
                            MenuItem="@menuItemCustCate"
     LocalStorageService="@LocalStorageService"
+    Language="@Language"
     DataService="@DataService"
     FormStatus="@CustCategoryEditFormStatus"
-    PopupClosed="@OnCustCategorySubmit" />
+                           OnClose="@OnCustCategoryPopupClose" />
 }

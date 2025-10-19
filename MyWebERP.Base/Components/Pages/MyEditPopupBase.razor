@@ -1,25 +1,21 @@
 ﻿@using MyWebERP.Data;
+
+@implements IMyPopup
+
 @code {
 
     protected string FormTitle = "Thêm dữ liệu";
 
-    [Inject] protected Microsoft.Extensions.Localization.IStringLocalizer Language { get; set; }
-
+    [Parameter] public Microsoft.Extensions.Localization.IStringLocalizer Language { get; set; }
+    [Parameter] public int PopupLayerIndex { get; set; } = 1500;
     [Parameter] public bool Visible { get; set; }
     [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
     [Parameter] public SizeMode? SizeMode { get; set; }
     
-
     [Parameter] public string CompanyId { get; set; }
     [Parameter] public string EditDataId { get; set; }
     [Parameter] public EditFormStatus FormStatus { get; set; }
 
-    // [Parameter] public string CompanyMenuId { get; set; }
-    // [Parameter] public string DataCode { get; set; }
-    // [Parameter] public string IdColumnName { get; set; }
-    // [Parameter] public string FetSingleAPICode { get; set; }
-    // [Parameter] public string InsAPICode { get; set; }
-    // [Parameter] public string UpdAPICode { get; set; }
     [Parameter] public MyWebERP.Model.MenuItem MenuItem { get; set; }
 
     [Parameter] public Blazored.LocalStorage.ILocalStorageService LocalStorageService { get; set; }
@@ -28,12 +24,6 @@
     [Parameter] public EventCallback<string> CompanyIdChanged { get; set; }
     [Parameter] public EventCallback<EditFormStatus> FormStatusChanged { get; set; }
 
-    // [Parameter] public EventCallback<string> CompanyMenuIdChanged { get; set; }
-    // [Parameter] public EventCallback<string> FetSingleAPICodeChanged { get; set; }
-    // [Parameter] public EventCallback<string> InsAPICodeChanged { get; set; }
-    // [Parameter] public EventCallback<string> UpdAPICodeChanged { get; set; }
-    // [Parameter] public EventCallback<string> DataCodeChanged { get; set; }
-    // [Parameter] public EventCallback<string> IdColumnNameChanged { get; set; }
     [Parameter] public EventCallback<string> EditDataIdChanged { get; set; }
     [Parameter] public EventCallback<MyWebERP.Model.MenuItem> MenuItemChanged { get; set; }
 
@@ -56,4 +46,43 @@
     protected virtual async Task DeleteItem_Click()
     {
     }
+
+    #region Implement IMyPopup
+    [Parameter] public EventCallback<object?> OnClose { get; set; }
+    public virtual bool IsVisible => Visible;
+    public virtual string Title => FormTitle;
+    public virtual event Func<object?, Task>? PopupClosed;
+
+    public virtual async Task ShowAsync(object? parameter = null)
+    {
+        Visible = true;
+        await VisibleChanged.InvokeAsync(true);
+        await InvokeAsync(StateHasChanged);
+    }
+
+    // Chỉnh CloseAsync để accept result và gọi OnClose + PopupClosed
+    public virtual async Task CloseAsync(object? result = null)
+    {
+        Visible = false;
+        await VisibleChanged.InvokeAsync(false);
+
+        // gọi EventCallback được gán từ PopupService (nếu có)
+        if (OnClose.HasDelegate)
+            await OnClose.InvokeAsync(result);
+
+        // gọi event nội bộ để component khác lắng nghe
+        if (PopupClosed != null)
+            await PopupClosed.Invoke(result);
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    // method này con có thể gọi sau khi lưu thành công
+    protected async Task OnPopupClosed(object? result = null)
+    {
+        if (PopupClosed != null)
+            await PopupClosed.Invoke(result);
+    }
+
+    #endregion Implement IMyPopup
 }

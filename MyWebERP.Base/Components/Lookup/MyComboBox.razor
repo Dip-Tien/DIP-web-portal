@@ -39,7 +39,7 @@
                 Width="@DropDownWidth">
 
         <BodyContentTemplate>
-            <div style="max-height:300px; width:100%; overflow-y:auto;">
+            <div @ref="_scrollContainer" id="@ScrollContainerId" style="max-height:300px; width:100%; overflow-y:auto;">
                 @if(FilteredList == null)
                 {
                     <div class="text-center text-muted py-3 small">@($"{Language["Không có dữ liệu"]}")</div>
@@ -52,7 +52,7 @@
                 {
                     @foreach (var item in FilteredList)
                     {
-                        <div class="list-group-item list-group-item-action border-0 border-bottom py-2 px-3"
+                       @*  <div class="list-group-item list-group-item-action border-0 border-bottom py-2 px-3"
                              style="cursor:pointer; width:100%; display:block;"
                              @onclick="@(() => SelectItem(item))">
                             <div style="display:block; width:100%; white-space:normal; word-break:break-word;">
@@ -65,7 +65,26 @@
                                     @GetDisplayText(item)
                                 }
                             </div>
+                        </div> *@
+                        bool isSelected = EqualityComparer<TValue>.Default.Equals(GetValue(item), Value);
+
+                        <div class="list-group-item list-group-item-action border-0 border-bottom py-2 px-3
+                        @(isSelected ? "data-selected-row" : "")"
+                             style="cursor:pointer; width:100%; display:block;"
+                             @onclick="@(() => SelectItem(item))">
+
+                            <div style="display:block; width:100%; white-space:normal; word-break:break-word;">
+                                @if (ItemTemplate is not null)
+                                {
+                                    @ItemTemplate(item)
+                                }
+                                else
+                                {
+                                    @GetDisplayText(item)
+                                }
+                            </div>
                         </div>
+
                     }
                 }
             </div>
@@ -75,5 +94,4 @@
 </div>
 
 @code {
-    
 }

@@ -36,6 +36,7 @@
 //    });
 //};
 
+
 // Hàm này có truyền thêm dotNetHelper để focus vào ô đầu tiên của grid
 window.registerEnterKeyHandler = function (selector, dotNetHelper) {
     document.querySelectorAll(selector).forEach(function (el) {
@@ -222,4 +223,72 @@ window.focusElement = (id) => {
     // Nếu là div wrapper (như DxMemo), thì tìm input/textarea bên trong
     const inner = el.querySelector('input, textarea');
     if (inner) inner.focus();
+};
+
+//window.DataContainer_ScrollToSelected = (container) => {
+//    try {
+//        if (!container) return;
+//        // if container is a reference object (Blazor), get the actual element
+//        const el = (container instanceof Element) ? container : container && container instanceof Object ? container : null;
+//        const root = el || container;
+//        if (!root) return;
+
+//        const selected = root.querySelector(".data-selected-row");
+//        if (selected) {
+//            selected.scrollIntoView({ block: "center", behavior: "smooth" });
+//        }
+//    } catch (e) {
+//        // fail silently (no crash)
+//        console.warn("DataContainer_ScrollToSelected error", e);
+//    }
+//};
+
+window.DataContainer_ScrollToSelected = (element, selector) => {
+    try {
+        // nếu element là string => id
+        let root = null;
+        if (typeof element === "string") {
+            root = document.getElementById(element);
+        } else if (element instanceof Element) {
+            root = element;
+        } else if (element && element.id) {
+            root = document.getElementById(element.id);
+        } else if (element && element.element instanceof Element) {
+            root = element.element;
+        }
+        if (!root) { console.warn("No root"); return; }
+        const target = selector || ".data-selected-row";
+        const selected = root.querySelector(target);
+        if (selected) selected.scrollIntoView({ block: "center", behavior: "smooth" });
+    } catch (e) { console.warn(e); }
+};
+
+window.MyScrollHelper = {
+    _resolveElement: function (element) {
+        if (!element) return null;
+        if (element instanceof Element) return element;
+        if (element.element instanceof Element) return element.element;
+        if (typeof element === "string") return document.getElementById(element);
+        if (element.id) return document.getElementById(element.id);
+        return null;
+    },
+
+    saveParentScroll: function (element) {
+        try {
+            const el = this._resolveElement(element);
+            if (!el) return;
+            const parent = el.closest('.dxbl-modal-body, .dx-popup-content, .dx-scrollable-container, .dx-scrollview-content, [style*="overflow"]');
+            if (parent) parent.dataset.scrollTop = parent.scrollTop;
+        } catch (e) { console.warn("saveParentScroll:", e); }
+    },
+
+    restoreParentScroll: function (element) {
+        try {
+            const el = this._resolveElement(element);
+            if (!el) return;
+            const parent = el.closest('.dxbl-modal-body, .dx-popup-content, .dx-scrollable-container, .dx-scrollview-content, [style*="overflow"]');
+            if (parent && parent.dataset.scrollTop)
+                parent.scrollTop = parent.dataset.scrollTop;
+        } catch (e) { console.warn("restoreParentScroll:", e); }
+    }
 };

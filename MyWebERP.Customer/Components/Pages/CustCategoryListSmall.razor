@@ -206,10 +206,11 @@ MaxHeight="500">
 CompanyId="@CompanyId"
 EditDataId="@FocusedDataId"
 MenuItem="@menuItem"
+                           Language="@Language"
 LocalStorageService="@LocalStorageService"
 DataService="@DataService"
 FormStatus="@EditFormStatus"
-PopupClosed="@OnCustCategorySubmit" />
+                           OnClose="@OnCustCategoryPopupClose" />
 }
 
 @code

@@ -120,7 +120,7 @@
             // }
 
             await Task.Delay(100); // đợi popup đóng hẳn
-                                   //await txtAddress.FocusAsync();
+            //await txtAddress.FocusAsync();
             await JS.InvokeVoidAsync("focusElement", "txtAddress");
         }
     }
@@ -149,11 +149,19 @@
         }
     }
 
-    protected async Task OnCustCategorySubmit(CustCategoryModel custCategory)
+    // protected async Task OnCustCategorySubmit(CustCategoryModel custCategory)
+    // {
+    //     // Nạp lại
+    //     //ListCategory = await DataService.LookupCode<CustCategoryLookupModel>(CompanyId, 1, MenuItem.CompanyMenuId, "CUST_CATE_LOOKUP_W");
+    //     editItem.cust_category_id = custCategory.cust_category_id;
+    // }
+
+    protected async Task OnCustCategoryPopupClose(object? result)
     {
-        // Nạp lại
-        //ListCategory = await DataService.LookupCode<CustCategoryLookupModel>(CompanyId, 1, MenuItem.CompanyMenuId, "CUST_CATE_LOOKUP_W");
-        editItem.cust_category_id = custCategory.cust_category_id;
+        if (result != null)
+        {
+            editItem.cust_category_id = ((CustCategoryModel)result).cust_category_id;
+        }
     }
 
     protected void KeyDownHandler(KeyboardEventArgs args)

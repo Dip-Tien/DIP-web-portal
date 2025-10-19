@@ -3,15 +3,11 @@
 @inject IConfiguration Config;
 @inject AuthenticationStateProvider AuthProvider
 @inject NavigationManager NavigationManager
+@inject Microsoft.Extensions.Localization.IStringLocalizer Language
 
 
 <Router AppAssembly="@typeof(Program).Assembly"
         AdditionalAssemblies="AdditionalAssemblies">
-    @* <Found Context="routeData">
-        <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
-        </AuthorizeRouteView>
-    </Found> *@
-
     <Found Context="routeData">
         <!-- 1. Xác định breakpoint -->
         <DxLayoutBreakpoint DeviceSize="DeviceSize.XSmall"
@@ -31,6 +27,8 @@
     </NotFound>
 </Router>
 
+<!-- 🔹 3. Thêm PopupHost ngay sau Router -->
+<PopupHost Language="@Language" />
 
 
 @code

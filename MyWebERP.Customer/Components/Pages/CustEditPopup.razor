@@ -8,6 +8,7 @@
     CloseOnOutsideClick="false"
     ShowFooter="true"
     HeaderText=@FormTitle
+         BodyCssClass="@($"popup-layer-{PopupLayerIndex}")"
     Width="@PopupWidth"
     VisibleChanged="@VisibleChanged">
     <BodyContentTemplate>
@@ -20,6 +21,7 @@
                              EditDataId="@EditDataId"
                              FormStatus="@FormStatus"
                              MenuItem="@MenuItem"
+                             Language="@Language"
                              LocalStorageService="@LocalStorageService"
                 DataService="@DataService" />
             }
@@ -30,27 +32,40 @@
                              CompanyId="@CompanyId"
                              EditDataId="@EditDataId"
                              FormStatus="@FormStatus"
-                             MenuItem="@MenuItem"
+                               MenuItem="@MenuItem"
+                               Language="@Language"
                              LocalStorageService="@LocalStorageService"
                              DataService="@DataService" />
             }
         </div>
     </BodyContentTemplate>
     <FooterContentTemplate>
-        @if (String.IsNullOrEmpty(MyErrorMessage) == false)
-        {
-            <div style="color:red">@MyErrorMessage</div>
-        }
-        <DxButton CssClass="popup-button my-1 ms-2"
-        RenderStyle="ButtonRenderStyle.Primary"
-        Text="@(isXSmallScreen?Language["Lưu"]: $"{Language["lưu"]} (Ctrl + S)")"
-                  Id="btnSubmit"
-        SubmitFormOnClick="true"
-        form="@FormId" />
-        <DxButton CssClass="popup-button my-1 ms-2"
-        RenderStyle="ButtonRenderStyle.Secondary"
-        Text="@Language["Hủy"]"
-        Click="@(async() => await VisibleChanged.InvokeAsync(false))" />
+        <div class="d-flex flex-column w-100">
+
+            @if (!string.IsNullOrEmpty(MyErrorMessage))
+            {
+                <div class="text-danger fw-semibold small text-center mb-2">
+                    @MyErrorMessage
+                </div>
+            }
+
+            <div class="d-flex w-100 gap-2">
+                <DxButton CssClass="flex-fill py-2 rounded-3 shadow-sm d-flex align-items-center justify-content-center"
+                          RenderStyle="ButtonRenderStyle.Primary"
+                          Text="@Language["Lưu"]"
+                          Id="btnSubmit"
+                          IconCssClass="bi bi-check-circle me-2"
+                          SubmitFormOnClick="true"
+                          form="@FormId" />
+
+                <DxButton CssClass="flex-fill py-2 rounded-3 shadow-sm d-flex align-items-center justify-content-center"
+                          RenderStyle="ButtonRenderStyle.Danger"
+                          RenderStyleMode="ButtonRenderStyleMode.Outline"
+                          Text="@Language["Hủy"]"
+                          IconCssClass="bi bi-x-circle me-2"
+                          Click="@(async () => await CloseAsync(null))" />
+            </div>
+        </div>
     </FooterContentTemplate>
 </DxPopup>
 
